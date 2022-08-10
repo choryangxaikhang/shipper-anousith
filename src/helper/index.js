@@ -6,8 +6,8 @@ import loadingImage from "../img/loading.gif";
 
 var start_year = new Date().getFullYear();
 export const ITEM_PER_PAGE = 50;
-export const aws_url_image =
-  "https://bithouse-bucket.s3.ap-southeast-1.amazonaws.com/images/";
+  export const aws_url_employee_Image =
+  "https://anousith-bucket.s3.ap-southeast-1.amazonaws.com/employesImage/";
 
 // export const TOKEN = "ANS_COD";
 export const FONT_SIZE = { fontSize: "15px" };

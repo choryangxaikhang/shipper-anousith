@@ -1,97 +1,43 @@
 import { gql } from "@apollo/client";
-
-export const QUERY_PROFILE = gql`
-  query Customers(
-    $where: CustomerWhereInput
-    $orderBy: OrderByInput
-    $skip: Int
-    $limit: Int
-    $noLimit: Boolean
-  ) {
-    customers(
-      where: $where
-      orderBy: $orderBy
-      skip: $skip
-      limit: $limit
-      noLimit: $noLimit
-    ) {
-      total
-      data {
-        _id
-        profileImage
-        fullName
-        gender
-        phoneNumber
-        province {
-          provinceName
-          _id
-        }
-        district {
-          _id
-          title
-        }
-        village
-        status
-        point
-        note
-        createdAt
-        createdBy {
-          _id
-          profileImage
-          firstName
-          lastName
-          phoneNumber
-        }
-      }
-    }
-  }
-`;
-export const UPDATE_CUSTOMER = gql`
-  mutation UpdateCustomer(
-    $data: CustomerInput!
-    $where: CustomerWhereInputOne!
-  ) {
-    updateCustomer(data: $data, where: $where) {
+export const EMPLOYEE_QUEY = gql`
+query Employees($limit: Int, $skip: Int, $orderBy: OrderByInput, $where: EmployeeWhereInput, $noLimit: Boolean) {
+  employees(limit: $limit, skip: $skip, orderBy: $orderBy, where: $where, noLimit: $noLimit) {
+    total
+    data {
       _id
-    }
-  }
-`;
-export const QUERY_CUSTOMER = gql`
-  query Customers(
-    $where: CustomerWhereInput
-    $orderBy: OrderByInput
-    $skip: Int
-    $limit: Int
-    $noLimit: Boolean
-  ) {
-    customers(
-      where: $where
-      orderBy: $orderBy
-      skip: $skip
-      limit: $limit
-      noLimit: $noLimit
-    ) {
-      total
-      data {
-        _id
-        profileImage
-        fullName
-        gender
-        phoneNumber
-        password
-        province {
-          _id
-          provinceName
-        }
-        district {
-          _id
-          title
-        }
-        village
-        status
-        note
-        createdAt
+      cvID
+      profileImage
+      firstName
+      lastName
+      gender
+      dateOfBirth
+      age
+      phoneNumber
+      workStartDate
+      workEndDate
+      position {
+        title_lao
       }
+      department {
+        title_lao
+      }
+      team {
+        title_lao
+      }
+      province {
+        provinceName
+      }
+      district {
+        title
+      }
+      village
+      taxIncome
+      basicSalary
+      positionSalary
+      status
+      role
+      createdAt
     }
   }
+}
 `;

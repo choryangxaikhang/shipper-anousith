@@ -1,24 +1,23 @@
-/* eslint-disable no-script-url */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useContext, useEffect, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import useReactRouter from "use-react-router";
 import "./index.css";
 import BottomNav from "../../layouts/BottomNav";
 import { QUERY_PAYROLL_SUMMARY } from "./apollo";
+import male from "../../img/male.png";
+import { Image } from "react-bootstrap";
 import {
+  aws_url_employee_Image,
   currency
 } from "../../helper";
-import BookingNow from "../../components/BookingNow";
 import { AppContext } from "../../App";
 import QRCode from "react-qr-code";
 import OtherMoney from "./OtherMoney";
-import ListMoney from "./ListMonay";
-
 export default function Home() {
   const { history } = useReactRouter();
   const { userState, titleDispatch } = useContext(AppContext);
   const userData = userState?.data;
+  console.log("userData",userData)
   const [getPayrollSummary, setDataPayrollSummary] = useState([]);
   const [fetchAnsItem, { data: dataPayrollSummary, loading }]
     = useLazyQuery(QUERY_PAYROLL_SUMMARY, {
@@ -70,13 +69,40 @@ export default function Home() {
                 <div className="add-card-inner">
                   <div className="add-card-item add-card-info">
                     <p>ເງິນເດືອນພື້ນຖານ</p>
-                    <h3>{getPayrollSummary ? currency(getPayrollSummary?.basicSalary): 0}{" "}ກີບ</h3>
+                    <h3>{getPayrollSummary ? currency(getPayrollSummary?.basicSalary) : 0}{" "}ກີບ</h3>
                   </div>
                   <div
                     className="add-card-item add-balance"
                   >
                     <a href="javascript:void(0)" className="p-1">
-                      <QRCode value="54655464889" size={50} />
+                      {/* <QRCode value="54655464889" size={50} /> */}
+                      {getPayrollSummary?.profileImage ? (
+                        <Image
+                          className="img-zoom-hover"
+                          src={
+                            `${aws_url_employee_Image}${getPayrollSummary?.profileImage}`
+                          }
+                          style={{
+                            height: 40,
+                            width: 40,
+                            cursor: "pointer",
+                          }}
+                        />
+                      ) : (
+                        <>
+                          <Image
+                            className="img-zoom-hover"
+                            src={
+                              male
+                            }
+                            style={{
+                              height: 40,
+                              width: 40,
+                              cursor: "pointer",
+                            }}
+                          />
+                        </>)
+                      }
                     </a>
                   </div>
                 </div>
@@ -124,7 +150,6 @@ export default function Home() {
                 </div>
               </div>
               <OtherMoney />
-              <ListMoney />
             </div>
           </div>
           <BottomNav />
