@@ -48,9 +48,11 @@ export default function DetailItem({ _id, onHide }) {
                 dataPayrollSummary?.payrollSummaries?.data?.map((data, index) => (
                   <>
                     <tr>
-                      <td>ເດືອນ </td>
+                      <td>ປີ/ເດືອນ </td>
                       <td className="text-end">
+                        {data?.forYear ? data?.forYear : "-"}/
                         {data?.forMonth ? data?.forMonth : "-"}
+
                       </td>
                     </tr>
                     <tr>

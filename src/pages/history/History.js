@@ -7,6 +7,7 @@ import { currency, formatDate, getStaffLogin, loadingData, messageError, message
 import BottomNav from "../../layouts/BottomNav";
 import DetailItem from "./DetailItem";
 import { HOME_PAGE } from "../../routes/app";
+import NoData from "../../helper/components/NoData";
 export default function History() {
   const { match, history, location } = useReactRouter();
   const userState = getStaffLogin();
@@ -39,7 +40,7 @@ export default function History() {
     setSearchValue(value);
   };
   const _conFirm = async (_id) => {
-    console.log({_id})
+    console.log({ _id })
     notiflixConfirm("ຕ້ອງການຢືນຢັນຖືກຕ້ອງແທ້ ຫຼື ບໍ່?", async () => {
       try {
         const { data: updateData } = await upDateConfirm({
@@ -100,34 +101,38 @@ export default function History() {
           </div>
           <div className="section  mb-2">
             <div className="transactions">
-              <div className="listView">
-                {dataPayrollSummary &&
-                  dataPayrollSummary?.payrollSummaries?.data?.map((data, index) => (
-                    <>
-                      <a href="javascript:void(0)"
-                        className="item pr-0">
-                        <div className="detail col-md-10"
-                          onClick={() => setGetDataDetail(data?._id)}
-                        >
-                          <i class="fa-solid fa-circle-dollar-to-slot"></i>
-                          <div className="ml-2">
-                            <strong>ເດືອນ:{" "}{data?.forMonth ? data?.forMonth : "-"} </strong>
-                            <b className="text-black">ລວມເງິນ:{" "}
-                              {data?.finalIncome ? currency(data?.finalIncome) : 0} </b>
-                          </div>
-                        </div>
-                        <div className="right">
-                          <button
-                            className="btn btn-primary btn-sm action-button"
-                           onClick={(e) =>{_conFirm(data?._id)}}
+              {dataPayrollSummary?.payrollSummaries?.total > 0 ? (
+                <div className="listView">
+                  {dataPayrollSummary &&
+                    dataPayrollSummary?.payrollSummaries?.data?.map((data, index) => (
+                      <>
+                        <a href="javascript:void(0)"
+                          className="item pr-0">
+                          <div className="detail col-md-10"
+                            onClick={() => setGetDataDetail(data?._id)}
                           >
-                            <i className="icon-check-circle mr-1 fa-2x" /> ຢືນຢັນ
-                          </button>
-                        </div>
-                      </a>
-                    </>
-                  ))}
-              </div>
+                            <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                            <div className="ml-2">
+                              <strong>ປີຝເດືອນ:{" "}{data?.forYear ? data?.forYear : "-"}/{data?.forMonth ? data?.forMonth : "-"}</strong>
+                              <b className="text-black">ລວມເງິນ:{" "}
+                                {data?.finalIncome ? currency(data?.finalIncome) : 0} </b>
+                            </div>
+                          </div>
+                          <div className="right">
+                            <button
+                              className="btn btn-primary btn-sm action-button"
+                              onClick={(e) => { _conFirm(data?._id) }}
+                            >
+                              <i className="icon-check-circle mr-1 fa-2x" /> ຢືນຢັນ
+                            </button>
+                          </div>
+                        </a>
+                      </>
+                    ))}
+                </div>
+              ) : (
+                <NoData loading={loading} />
+              )}
             </div>
             <DetailItem _id={getDataDetail} onHide={() => setGetDataDetail()} />
           </div>

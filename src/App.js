@@ -14,6 +14,7 @@ import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import Routes from "./routes";
 import { pageTitleReducer, userReducer, dateReducer } from "./store";
+import { LOGIN } from "./routes/app";
 // const api = "https://api.services.anousith.express/graphql";
 const api = "https://api.dev.services.anousith.express/graphql";
 const AppContext = React.createContext();
@@ -49,7 +50,7 @@ export default function App() {
     });
     let message = "";
     if (isError1) {
-      window.location.replace("/login");
+      window.location.replace(LOGIN);
     }
     if (isError2) {
       message = "ຂໍອະໄພ ມີຂໍ້ຜິດພາດ ກະລຸນາເຂົ້າລະບົບໃໝ່ອີກຄັ້ງ";
@@ -59,7 +60,7 @@ export default function App() {
     }
 
     if (isError1) {
-        window.location.replace("/login");
+        window.location.replace(LOGIN);
     }
   });
 

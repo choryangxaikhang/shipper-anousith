@@ -9,7 +9,7 @@ import { currency, formatDate, getStaffLogin, loadingData } from "../../helper";
 import BottomNav from "../../layouts/BottomNav";
 import DetailItem from "./DetailItem";
 import { HOME_PAGE } from "../../routes/app";
-
+import NoData from "../../helper/components/NoData";
 export default function CompleteConfirm() {
   const { match, history, location } = useReactRouter();
   const userState = getStaffLogin();
@@ -25,7 +25,7 @@ export default function CompleteConfirm() {
       fetchPolicy: "cache-and-network",
     });
 
-    console.log({userData})
+  console.log({ userData })
 
   useEffect(() => {
     fetchAnsItem({
@@ -33,7 +33,7 @@ export default function CompleteConfirm() {
         where: {
           empID: parseInt(userData?._id),
           // approveStatus:"TRUE",
-          confirmStatus:"CONFIRMED"
+          confirmStatus: "CONFIRMED"
         },
         orderBy: "createdAt_DESC",
       },
@@ -58,7 +58,7 @@ export default function CompleteConfirm() {
                 <i className="icon-x fs-4" />
               </button>
             </div>
-            ການເຄື່ອນໄຫວ
+            ລາຍການຢືນຢັນສຳເລັດແລ້ວ
             <div
               className="text-white pageTitle text-right text-nowrap pr-0"
               style={{ flex: 1 }}
@@ -84,24 +84,29 @@ export default function CompleteConfirm() {
           </div>
           <div className="section  mb-2">
             <div className="transactions">
-              <div className="listView">
-                {dataPayrollSummary &&
-                  dataPayrollSummary?.payrollSummaries?.data?.map((data, index) => (
-                    <>
-                      <a href="javascript:void(0)" className="item pr-0"
-                        onClick={() => setGetDataDetail(data?._id)}
-                      >
-                        <div className="detail col-md-6 text-start">
-                          <strong>ເດືອນ:{" "}{data?.forMonth ? data?.forMonth : "-"} </strong>
-                        </div>
-                        <div className="right col-md-2 text-success text-end me-1">
-                          <i className="icon-check-circle mr-1 " />
-                          {data?.finalIncome ? currency(data?.finalIncome) : 0}{" "} KIP
-                        </div>
-                      </a>
-                    </>
-                  ))}
-              </div>
+              {dataPayrollSummary?.payrollSummaries?.total > 0 ? (
+                <div className="listView">
+                  {dataPayrollSummary &&
+                    dataPayrollSummary?.payrollSummaries?.data?.map((data, index) => (
+                      <>
+                        <a href="javascript:void(0)" className="item pr-0"
+                          onClick={() => setGetDataDetail(data?._id)}
+                        >
+                          <div className="detail col-md-6 text-start">
+                            <strong>ປີຝເດືອນ:{" "}{data?.forYear ? data?.forYear : "-"}/{data?.forMonth ? data?.forMonth : "-"}
+                            </strong>
+                          </div>
+                          <div className="right col-md-2 text-success text-end me-1">
+                            <i className="icon-check-circle mr-1 " />
+                            {data?.finalIncome ? currency(data?.finalIncome) : 0}{" "} KIP
+                          </div>
+                        </a>
+                      </>
+                    ))}
+                </div>
+              ) : (
+                <NoData loading={loading} />
+              )}
             </div>
             <DetailItem _id={getDataDetail} onHide={() => setGetDataDetail()} />
           </div>

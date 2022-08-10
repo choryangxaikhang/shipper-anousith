@@ -33,11 +33,11 @@ export default function Routes() {
             {!_local ? (
               <>
                 <Route exact path="/">
-                  <Redirect to="/login" />
+                  <Redirect to={ROUTES.LOGIN} />
                 </Route>
                 <Route
                   exact
-                  path="/login"
+                  path={ROUTES.LOGIN}
                   component={(props) => <Login {...props} />}
                 />
                 <Route

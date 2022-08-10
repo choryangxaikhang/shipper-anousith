@@ -2,8 +2,6 @@ import Notiflix, { Loading } from "notiflix";
 import React from "react";
 import moment from "moment";
 import loadingImage from "../img/loading.gif";
-
-
 var start_year = new Date().getFullYear();
 export const ITEM_PER_PAGE = 50;
   export const aws_url_employee_Image =
@@ -25,17 +23,6 @@ export const clearLocalStorage = () => {
   localStorage.removeItem(TOKEN);
 };
 
-//get local province
-export const getLocalProvince = () => {
-  let local = localStorage.getItem("PROVINCE");
-  if (local) {
-    local = JSON.parse(local);
-    return local;
-  }
-  return null;
-};
-
-
 // year
 export const getYeear = () => {
   let getYeear = [];
@@ -44,9 +31,6 @@ export const getYeear = () => {
   }
   return getYeear;
 };
-
-
-
 //  paystatus
 export const payStatus = (item) => {
   if (item === "ORIGIN") {
@@ -70,32 +54,6 @@ export const getEducationLevel = () => {
   return getYear;
 };
 
-// ກຳນົດ role
-export const setRole = (SetRole) => {
-  let res = "";
-  switch (SetRole) {
-    case "ADMIN":
-      res = "ຜູ້ບໍລິຫານ";
-      break;
-    case "ACCOUNTANT":
-      res = "ບັນຊີ ແລະ ການເງິນ";
-      break;
-  }
-  return res;
-};
-
-export const ROLES = [
-  { id: 1, roleName: "ADMIN" },
-  { id: 2, roleName: "ACCOUNTANT" },
-  { id: 3, roleName: "HR" },
-  { id: 4, roleName: "CUSTOMER_SERVICE" },
-  { id: 5, roleName: "SHIPPER" },
-  { id: 6, roleName: "CALL_CENTER" },
-  { id: 7, roleName: "RIDER" },
-  { id: 8, roleName: "CUSTOMER" },
-  { id: 9, roleName: "STAFF" },
-];
-
 // ກຳນົດ ເພດ
 export const setGender = (SetGender) => {
   let res = "";
@@ -108,20 +66,6 @@ export const setGender = (SetGender) => {
       break;
     case "OTHER":
       res = "ບໍ່ລະບຸ";
-      break;
-  }
-  return res;
-};
-
-// ກຳນົດ ສະຖານະປິດເປີດ
-export const setSwich = (string) => {
-  let res = "";
-  switch (string) {
-    case true:
-      res = "ເປີດ";
-      break;
-    case false:
-      res = "ປິດ";
       break;
   }
   return res;
@@ -281,11 +225,6 @@ export const reconvertDay = (day) => {
   return result;
 };
 
-// ກຳນົດ ເຄື່ອງໝາຍ ບັງຄັບໃຫ້ປ້ອນຂໍ້ມູນ
-export const valiDate = () => {
-  return <font style={{ color: "red" }}> * </font>;
-};
-
 // ກຳນົດ ການຈັດລຽງຕາມຄ່າຕ່າງໆ
 export const SortBy = ({ sort }) => {
   return (
@@ -356,15 +295,6 @@ export const _month = [
   //   month:"ສິງຫາ"
   // },
 ];
-export const paymentMethodFinance = (item) => {
-  if (item === "PAY_ONLINE") {
-    return "ອອນລາຍ";
-  } else if (item === "PAY_CASH") {
-    return "ເງິນສົດ";
-  } else {
-    return "-";
-  }
-};
 
 export const startLoading = () => {
   return Notiflix.Loading.standard("Loading...");
@@ -395,19 +325,6 @@ export const startSpriner = (color) => {
   );
 };
 
-export const sprinerLoading = (color, content) => {
-  return (
-    <span>
-      <span
-        style={{ position: "relative", marginBottom: "5%" }}
-        className={`text-${color} spinner-border spinner-grow-sm mr-2`}
-      ></span>
-      <span style={{ position: "absolute", verticalAlign: "middle" }}>
-        {content}
-      </span>
-    </span>
-  );
-};
 
 export const loadingData = (size, content) => {
   return (
@@ -475,4 +392,39 @@ export const numberOnlyInput = (event) => {
   }
 };
 
+export const getStatus = (item) => {
+  if (item === "SUPER_ADMIN") {
+    return "ບໍລິຫານສູງສຸດ";
+  } else if (item === "IT") {
+    return "ໄອທີ";
+  } else if (item === "HR") {
+    return "ບຸກຄາລະກອນ";
+  } else if (item === "ACCOUNTANT") {
+    return "ບັນຊີ";
+  } else if (item === "FINANCE") {
+    return "ການເງິນ";
+  } else if (item === "LAW") {
+    return "ກົດໝາຍ";
+  } else if (item === "STATE_DIRECTOR") {
+    return "ຫົວໜ້າບໍລິຫານສາຂາ";
+  } else if (item === "BRANCH_DIRECTOR") {
+    return "ຫົວໜ້າສາຂາ";
+  } else if (item === "ADMIN") {
+    return "ເອັດມິນ";
+  } else if (item === "CALL_CENTER") {
+    return "ພ/ງ ຕ້ອນຮັບ";
+  } else if (item === "DRIVER_DIRECTOR") {
+    return "ຫົົວໜ້າໂຊເເຟີ";
+  } else if (item === "CUSTOMER_SERVICE") {
+    return "ພ/ງ ບໍລິການລູກຄ້າ";
+  } else if (item === "DRIVER") {
+    return "ໄລເດີ້";
+  } else if (item === "AUDITION_DIRECTOR") {
+    return "ຫົວໜ້າສູນຄັດແຍກ";
+  } else if (item === "AUDITION_STAFF") {
+    return "ພ/ງ ສູນຄັດແຍກ";
+  } else {
+    return "-";
+  }
+};
 

@@ -15,9 +15,6 @@ query Employees($limit: Int, $skip: Int, $orderBy: OrderByInput, $where: Employe
       phoneNumber
       workStartDate
       workEndDate
-      position {
-        title_lao
-      }
       department {
         title_lao
       }

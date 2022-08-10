@@ -8,18 +8,26 @@ import male from "../../img/male.png";
 import { Image } from "react-bootstrap";
 import {
   aws_url_employee_Image,
-  currency
+  currency,
+  loadingData
 } from "../../helper";
 import { AppContext } from "../../App";
 import QRCode from "react-qr-code";
 import OtherMoney from "./OtherMoney";
+import { HISTORY } from "../../routes/app";
 export default function Home() {
   const { history } = useReactRouter();
   const { userState, titleDispatch } = useContext(AppContext);
   const userData = userState?.data;
-  console.log("userData",userData)
+  const [total, setTotal] = useState(0);
   const [getPayrollSummary, setDataPayrollSummary] = useState([]);
-  const [fetchAnsItem, { data: dataPayrollSummary, loading }]
+  const [
+    fetchItem,
+    { data: setNoticeConfirm, loading: loadingTotal },
+  ] = useLazyQuery(QUERY_PAYROLL_SUMMARY, {
+    fetchPolicy: "cache-and-network",
+  });
+  const [fetchAnsItem, { data: dataPayrollSummary, loading: loading }]
     = useLazyQuery(QUERY_PAYROLL_SUMMARY, {
       fetchPolicy: "cache-and-network",
     });
@@ -33,9 +41,28 @@ export default function Home() {
       },
     });
   }, []);
+
+  useEffect(() => {
+    fetchItem({
+      variables: {
+        where: {
+          empID: parseInt(userData?._id),
+          confirmStatus: "UNCONFIRMED"
+        },
+        orderBy: "createdAt_DESC",
+      },
+    });
+  }, [userData]);
+
   useEffect(() => {
     setDataPayrollSummary(dataPayrollSummary?.payrollSummaries?.data[0]);
   }, [dataPayrollSummary]);
+
+  useEffect(() => {
+    if (setNoticeConfirm) {
+      setTotal(setNoticeConfirm?.payrollSummaries?.data?.length);
+    }
+  }, [setNoticeConfirm]);
   return (
     <>
       <body>
@@ -49,17 +76,25 @@ export default function Home() {
         >
           <div className="appHeader text-light border-0 text-right">
             <div style={{ flex: 1 }} className="text-left">
-              {/* <a className="ml-3">
-                <i className="icon-search1" style={{ fontSize: 20 }} />
-              </a> */}
             </div>
             ໜ້າຫຼັກ
             <div
               className="text-white pageTitle text-center text-nowrap pr-0"
               style={{ flex: 1 }}
             >
-              <a className="mr-3 float-right">
+              <a className="mr-3 float-right"
+                  onClick={(e)=>history.push(`${HISTORY}/confirm`)}
+              >
                 <i className="icon-bell" style={{ fontSize: 20 }} />
+                {loadingTotal ? (
+                  <span style={{ position: "absolute", right: 10, top: 10 }}>
+                    {loadingData(10)}
+                  </span>
+                ) : total > 0 ? (
+                  <span className="badge badge-success mr-1 p-2">
+                    <small>{total ? total : 0}</small>
+                  </span>
+                ) : null}
               </a>
             </div>
           </div>
@@ -69,7 +104,12 @@ export default function Home() {
                 <div className="add-card-inner">
                   <div className="add-card-item add-card-info">
                     <p>ເງິນເດືອນພື້ນຖານ</p>
-                    <h3>{getPayrollSummary ? currency(getPayrollSummary?.basicSalary) : 0}{" "}ກີບ</h3>
+                    {loading ? loadingData(25) :
+                      (<>
+                        <h3> {getPayrollSummary ?
+                          currency(getPayrollSummary?.basicSalary) : 0}{" "}ກີບ</h3>
+                      </>)
+                    }
                   </div>
                   <div
                     className="add-card-item add-balance"
@@ -102,7 +142,7 @@ export default function Home() {
                             }}
                           />
                         </>)
-                      }
+                      }<br />
                     </a>
                   </div>
                 </div>
@@ -117,7 +157,11 @@ export default function Home() {
                         data-bs-target="#withdraw"
                       >
                         <div className="option-card-icon">
-                          <h3>{getPayrollSummary ? currency(getPayrollSummary?.extraIncome) : 0}{" "}ກີບ</h3>
+                          {loading ? loadingData(25) :
+                            (<>
+                              <h3>{getPayrollSummary ? currency(getPayrollSummary?.extraIncome) : 0}{" "}ກີບ</h3>
+                            </>)
+                          }
                         </div>
                         <p>ເງິນເພີ່ມ</p>
                       </a>
@@ -127,7 +171,12 @@ export default function Home() {
                     <div className="option-card option-card-blue">
                       <a href="javascript:void(0)">
                         <div className="option-card-icon">
-                          <h3>{getPayrollSummary ? currency(getPayrollSummary?.deductionExpense) : 0}{" "}ກີບ</h3>
+                          {loading ? loadingData(25) :
+                            (<>
+                              <h3>{getPayrollSummary ? currency(getPayrollSummary?.deductionExpense) : 0}{" "}ກີບ</h3>
+
+                            </>)
+                          }
                         </div>
                         <p>ເງິນຫັກ</p>
                       </a>
@@ -141,7 +190,11 @@ export default function Home() {
                         data-bs-target="#exchange"
                       >
                         <div className="option-card-icon">
-                          <h3>{getPayrollSummary ? currency(getPayrollSummary?.finalIncome) : 0} {" "}ກີບ</h3>
+                          {loading ? loadingData(25) :
+                            (<>
+                              <h3>{getPayrollSummary ? currency(getPayrollSummary?.finalIncome) : 0} {" "}ກີບ</h3>
+                            </>)
+                          }
                         </div>
                         <p>ເງິນໄດ້ຮັບສຸດທິ</p>
                       </a>

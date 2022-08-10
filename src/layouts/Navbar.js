@@ -4,8 +4,9 @@ import { AppContext } from "../App";
 import "./navbar.css";
 import Sidebar from "./Sidebar";
 import ModalDate from "../helper/components/ModalDate";
-import { loadingData, loadingScreen, TOKEN } from "../helper";
+import {loadingScreen, TOKEN } from "../helper";
 import useReactRouter from "use-react-router";
+import { LOGIN } from "../routes/app";
 export default function Navbar() {
   const { history, location } = useReactRouter();
   const { userState, titleState } = useContext(AppContext);
@@ -22,7 +23,7 @@ export default function Navbar() {
         setTimeout(() => {
           Loading.remove();
           localStorage.clear();
-          window.location.replace("/login");
+          window.location.replace(LOGIN);
           localStorage.removeItem(TOKEN);
         }, 2000);
       },
@@ -39,8 +40,6 @@ export default function Navbar() {
           {titleState === "ໜ້າຫຼັກ" ? (
             <button
               className="btn text-white"
-              // onClick={() => history.push(`/notification`)}
-              onClick={() => history.push(`/management_cod?tab=accept_cod`)}
               style={{ flex: 1 }}
             >
             <i className="fas fa-qrcode"/>

@@ -14,7 +14,6 @@ import {
   formatDateTime,
   loadingData,
 } from "../../helper";
-import BookingNow from "../../components/BookingNow";
 import { AppContext } from "../../App";
 import QRCode from "react-qr-code";
 export default function OtherMoney() {
@@ -22,7 +21,7 @@ export default function OtherMoney() {
   const { userState, titleDispatch } = useContext(AppContext);
   const userData = userState?.data;
   const [getPayrollSummary, setDataPayrollSummary] = useState([]);
-  const [fetchAnsItem, { data: dataPayrollSummary, loading }]
+  const [fetchAnsItem, { data: dataPayrollSummary, loading:loading }]
     = useLazyQuery(QUERY_PAYROLL_SUMMARY, {
       fetchPolicy: "cache-and-network",
     });
@@ -41,96 +40,109 @@ export default function OtherMoney() {
   }, [dataPayrollSummary]);
   return (
     <>
-        <div className="saving-goals-section pb-15">
-          <div className="progress-card progress-card-red mb-15">
-            <div className="progress-card-info">
-              <div className="circular-progress" data-note="50.85">
-                <svg width={55} height={55} className="circle-svg">
-                  <circle
-                    cx={28}
-                    cy={27}
-                    r={25}
-                    className="circle-progress circle-progress-path"
-                  />
-                  <circle
-                    cx={28}
-                    cy={27}
-                    r={25}
-                    className="circle-progress circle-progress-fill"
-                  />
-                </svg>
-                <div className="percent">
-                  <span className="percent-int">0</span>%
-                </div>
-              </div>
-              <div className="progress-info-text">
-                <h3>ເງິນຕຳແຫນ່ງ</h3>
+      <div className="saving-goals-section pb-15">
+        <div className="progress-card progress-card-red mb-15">
+          <div className="progress-card-info">
+            <div className="circular-progress" data-note="50.85">
+              <svg width={55} height={55} className="circle-svg">
+                <circle
+                  cx={28}
+                  cy={27}
+                  r={25}
+                  className="circle-progress circle-progress-path"
+                />
+                <circle
+                  cx={28}
+                  cy={27}
+                  r={25}
+                  className="circle-progress circle-progress-fill"
+                />
+              </svg>
+              <div className="percent">
+                <span className="percent-int">0</span>%
               </div>
             </div>
-            <div className="progress-card-amount">
-              {getPayrollSummary ? currency(getPayrollSummary?.positionSalary) : 0}{" "}ກີບ
+            <div className="progress-info-text">
+              <h3>ເງິນຕຳແຫນ່ງ</h3>
             </div>
           </div>
-          <div className="progress-card progress-card-blue mb-15">
-            <div className="progress-card-info">
-              <div className="circular-progress" data-note={25}>
-                <svg width={55} height={55} className="circle-svg">
-                  <circle
-                    cx={28}
-                    cy={27}
-                    r={25}
-                    className="circle-progress circle-progress-path"
-                  />
-                  <circle
-                    cx={28}
-                    cy={27}
-                    r={25}
-                    className="circle-progress circle-progress-fill"
-                  />
-                </svg>
-                <div className="percent">
-                  <span className="percent-int">0</span>%
-                </div>
-              </div>
-              <div className="progress-info-text">
-                <h3>ເງິນອາກອນ</h3>
-                <p>Living</p>
+          <div className="progress-card-amount">
+            {loading ? loadingData(25) :
+              (<>
+                {getPayrollSummary ? currency(getPayrollSummary?.positionSalary) : 0}{" "}ກີບ
+
+              </>)
+            }
+          </div>
+        </div>
+        <div className="progress-card progress-card-blue mb-15">
+          <div className="progress-card-info">
+            <div className="circular-progress" data-note={25}>
+              <svg width={55} height={55} className="circle-svg">
+                <circle
+                  cx={28}
+                  cy={27}
+                  r={25}
+                  className="circle-progress circle-progress-path"
+                />
+                <circle
+                  cx={28}
+                  cy={27}
+                  r={25}
+                  className="circle-progress circle-progress-fill"
+                />
+              </svg>
+              <div className="percent">
+                <span className="percent-int">0</span>%
               </div>
             </div>
-            <div className="progress-card-amount">
-              {getPayrollSummary ? currency(getPayrollSummary?.taxIncome) : 0}{" "}ກີບ
+            <div className="progress-info-text">
+              <h3>ເງິນອາກອນ</h3>
             </div>
           </div>
-          <div className="progress-card progress-card-green mb-15">
-            <div className="progress-card-info">
-              <div className="circular-progress" data-note={75}>
-                <svg width={55} height={55} className="circle-svg">
-                  <circle
-                    cx={28}
-                    cy={27}
-                    r={25}
-                    className="circle-progress circle-progress-path"
-                  />
-                  <circle
-                    cx={28}
-                    cy={27}
-                    r={25}
-                    className="circle-progress circle-progress-fill"
-                  />
-                </svg>
-                <div className="percent">
-                  <span className="percent-int">0</span>%
-                </div>
-              </div>
-              <div className="progress-info-text">
-                <h3>ເງິນປະກັນສັງຄົມ</h3>
-                <p>Lifestyle</p>
+          <div className="progress-card-amount">
+            {loading ? loadingData(25) :
+              (<>
+                {getPayrollSummary ? currency(getPayrollSummary?.taxIncome) : 0}{" "}ກີບ
+
+              </>)
+            }
+          </div>
+        </div>
+        <div className="progress-card progress-card-green mb-15">
+          <div className="progress-card-info">
+            <div className="circular-progress" data-note={75}>
+              <svg width={55} height={55} className="circle-svg">
+                <circle
+                  cx={28}
+                  cy={27}
+                  r={25}
+                  className="circle-progress circle-progress-path"
+                />
+                <circle
+                  cx={28}
+                  cy={27}
+                  r={25}
+                  className="circle-progress circle-progress-fill"
+                />
+              </svg>
+              <div className="percent">
+                <span className="percent-int">0</span>%
               </div>
             </div>
-            <div className="progress-card-amount">
-              {getPayrollSummary ? currency(getPayrollSummary?.InsuranceExpense) : 0}{" "}ກີບ
+            <div className="progress-info-text">
+              <h3>ເງິນປະກັນສັງຄົມ</h3>
             </div>
           </div>
+          <div className="progress-card-amount">
+            {loading ? loadingData(25) :
+              (<>
+                {getPayrollSummary ? currency(getPayrollSummary?.InsuranceExpense) : 0}{" "}ກີບ
+
+              </>)
+            }
+          </div>
+        </div>
       </div>
     </>
   );

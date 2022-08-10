@@ -6,15 +6,15 @@ import {
   aws_url_employee_Image,
   currency,
   formatDate,
-  formatDateTime,
+  getStatus,
   loadingScreen,
-  setGender,
   TOKEN,
 } from "../../helper";
 import Notiflix, { Loading } from "notiflix";
 import BottomNav from "../../layouts/BottomNav";
 import { useLazyQuery } from "@apollo/client";
 import { EMPLOYEE_QUEY } from "./apollo";
+import { LOGIN } from "../../routes/app";
 export default function Profile({ history }) {
   const [getUser, setGetUser] = useState("");
   const { userState } = useContext(AppContext);
@@ -34,10 +34,6 @@ export default function Profile({ history }) {
   useEffect(() => {
     setGetUser(dataStaff?.employees?.data[0]);
   }, [dataStaff])
-
-  console.log("dataStaff", getUser)
-
-
   const onLogout = () => {
     Notiflix.Confirm.show(
       "ແຈ້ງເຕືອນ",
@@ -49,7 +45,7 @@ export default function Profile({ history }) {
         setTimeout(() => {
           Loading.remove();
           localStorage.clear();
-          window.location.replace("/landing");
+          window.location.replace(LOGIN);
           localStorage.removeItem(TOKEN);
         }, 2000);
       },
@@ -123,9 +119,51 @@ export default function Profile({ history }) {
                 <li>
                   <div className="item">
                     <div className="in">
-                      <div>ເມືອງ</div>
+                      <div>ຊື່ ແລະ ນາມສະກຸມ</div>
                       <div className="custom-control custom-switch user-select-all">
-                        {getUser?.firstName ? getUser?.firstName : "-"}
+                        {getUser?.firstName ? getUser?.firstName : "-"}{" "}
+                        {getUser?.lastName ? getUser?.lastName : "-"}
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div className="item">
+                    <div className="in">
+                      <div>ເພດ</div>
+                      <div className="custom-control custom-switch user-select-all">
+                        {getUser?.firstName ? getUser?.firstName : "-"}{" "}
+                        {getUser?.lastName ? getUser?.lastName : "-"}
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div className="item">
+                    <div className="in">
+                      <div>ວັນເດືອນປີເກີດ</div>
+                      <div className="custom-control custom-switch user-select-all">
+                       {formatDate(getUser?.dateOfBirth ? getUser?.dateOfBirth : "-")}
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div className="item">
+                    <div className="in">
+                      <div>ອາຍຸ</div>
+                      <div className="custom-control custom-switch user-select-all">
+                        {getUser?.age ? getUser?.age : "-"}
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                 <li>
+                  <div className="item">
+                    <div className="in">
+                      <div>ວັນທີ່ເລີ່ມວຽກ</div>
+                      <div className="custom-control custom-switch user-select-all">
+                        {formatDate(getUser?.workStartDate ? getUser?.workStartDate : "-")}
                       </div>
                     </div>
                   </div>
@@ -135,17 +173,52 @@ export default function Profile({ history }) {
                     <div className="in">
                       <div>ເບີໂທ</div>
                       <div className="custom-control custom-switch user-select-all">
-                      {getUser?.phoneNumber ? getUser?.phoneNumber  : "-"}<br/>
+                        {getUser?.phoneNumber ? getUser?.phoneNumber : "-"}<br />
                       </div>
                     </div>
                   </div>
-                </li> <li>
+                </li>
+                <li>
+                  <div className="item">
+                    <div className="in">
+                      <div>ພະແນກ</div>
+                      <div className="custom-control custom-switch user-select-all">
+                        {getUser?.department?.title_lao
+                          ? getUser?.department?.title_lao
+                          : "-"}
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div className="item">
+                    <div className="in">
+                      <div>ຕຳແຫນ່ງ</div>
+                      <div className="custom-control custom-switch user-select-all">
+                        {getStatus(getUser?.role ? getUser?.role: "-")}
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div className="item">
+                    <div className="in">
+                      <div>ຫນ່ວຍງານ</div>
+                      <div className="custom-control custom-switch user-select-all">
+                        {getUser?.team?.title_lao
+                          ? getUser?.team?.title_lao
+                          : "-"}
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li>
                   <div className="item">
                     <div className="in">
                       <div>ເງິນເດືອນພື້ນຖານ</div>
                       <div className="custom-control custom-switch user-select-all">
                         {currency(getUser?.basicSalary
-                          ? getUser?.district?.title
+                          ? getUser?.basicSalary
                           : 0)}
                       </div>
                     </div>
@@ -154,23 +227,33 @@ export default function Profile({ history }) {
                  <li>
                   <div className="item">
                     <div className="in">
-                      <div>ເງິນຕຳແຫນ່ງ</div>
+                      <div>ເງິນເດືອນພື້ນຖານ</div>
                       <div className="custom-control custom-switch user-select-all">
-                        {getUser?.positionSalary
-                          ? getUser?.positionSalary
-                          : 0}
+                        {currency(getUser?.basicSalary
+                          ? getUser?.basicSalary
+                          : 0)}
                       </div>
                     </div>
                   </div>
                 </li>
                 <li>
-                <div className="item">
+                  <div className="item">
+                    <div className="in">
+                      <div>ເງິນຕຳແຫນ່ງ</div>
+                      <div className="custom-control custom-switch user-select-all">
+                        {getUser?.positionSalary
+                          ? currency(getUser?.positionSalary):0}
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div className="item">
                     <div className="in">
                       <div>ເງິນອາກອນ</div>
                       <div className="custom-control custom-switch user-select-all">
                         {getUser?.taxIncome
-                          ? getUser?.taxIncome
-                          : "-"}
+                          ? currency(getUser?.taxIncome): 0}
                       </div>
                     </div>
                   </div>
@@ -214,26 +297,18 @@ export default function Profile({ history }) {
                 <li>
                   <div className="item">
                     <div className="in">
-                      {getUser?.note ? getUser?.note : "-"}
+                      <div>ອື່ນໆ</div>
+                      <div className="custom-control custom-switch">
+                        {getUser?.note
+                          ? getUser?.note
+                          : "-"}
+                      </div>
                     </div>
                   </div>
                 </li>
               </ul>
             </>
           </div>
-          {/* <div>
-            <a
-              href="javaScript:void(0)"
-              hidden={getUser[0]?false:true}
-              className="btn btn-block btn-primary btn-lg rounded mt-5"
-              onClick={() => {
-                _sendDataUpdate(getUser[0]);
-                history.push(`/profile/updateprofile`);
-              }}
-            >
-              <i className="icon-edit mr-1"></i> ແກ້ໄຂໂປຣໄຟລ໌
-            </a>
-          </div> */}
         </div>
         <BottomNav />
       </div>

@@ -35,7 +35,7 @@ export default function TabMenuBarHistory() {
             <i className="fa fa-chevron-left fs-4" />
           </button>
         </div>
-        ຈັດການພັດສະດຸ
+        ການເຄື່ອນໄຫວ
         <div
           className="text-white pageTitle text-right text-nowrap pr-0"
           style={{ flex: 1 }}
