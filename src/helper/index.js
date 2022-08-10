@@ -12,7 +12,7 @@ export const aws_url_image =
 // export const TOKEN = "ANS_COD";
 export const FONT_SIZE = { fontSize: "15px" };
 export const PRIMARY_COLOR = "#eb6572";
-export const TOKEN = "BH_CLUB";
+export const TOKEN = "ANS_STAFF";
 
 //get staff login
 export const getStaffLogin = () => {

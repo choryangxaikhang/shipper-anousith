@@ -1,7 +1,7 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useReducer, useState } from "react";
 import "moment/locale/lo";
 import "./index.css";
-import { clearLocalStorage, startOfMonth, TOKEN } from "./helper";
+import { TOKEN } from "./helper";
 import _ from "lodash";
 import {
   ApolloClient,
