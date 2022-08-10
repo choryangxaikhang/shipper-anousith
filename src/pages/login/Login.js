@@ -65,31 +65,11 @@ export default function Login({ history }) {
           handleBlur,
           handleSubmit,
           isSubmitting,
-          /* and other goodies */
         }) => (
           <>
-            <div className="header-bg header-bg-1" />
-            <div className="fixed-top">
-              <div className="appbar-area sticky-black">
-                <div className="container">
-                  <div className="appbar-container">
-                    <div className="appbar-item appbar-actions">
-                      <div className="appbar-action-item">
-                        <a href="#" className="back-page">
-                          <i className="icon-x fs-2" />
-                        </a>
-                      </div>
-                    </div>
-                    <div className="appbar-item appbar-page-title mx-auto">
-                      <h3>AT-APP</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div className="header-bg header-bg-1 text-white" />
             <div
-              className="body-content"
-              style={{ height: "100vh", marginTop: 120 }}
+              className="body-content bg-white"
             >
               <center>
                 <img
@@ -105,7 +85,7 @@ export default function Login({ history }) {
                   }}
                 />
               </center>
-              <div className="container pt-3">
+              <div className="container">
                 <center>
                   <h2>ເຂົ້າສູ່ລະບົບ</h2>
                 </center>
@@ -117,14 +97,15 @@ export default function Login({ history }) {
                         <input
                           type="number"
                           name="phoneNumber"
-                          className="form-control form-control-lg"
-                          placeholder="ປ້ອນເບີໂທ"
+                          className="form-control form-control-lg card"
+                          placeholder="7678XXXX"
                           onChange={handleChange}
                         />
                         <span className="input-group-text btn btn-lg">
                           <i className="icon-phone ml-1 fs-3" />
                         </span>
                       </div>
+                      <div className="invalid fs-5">{errors?.phoneNumber}</div>
                     </div>
                     <div className="form-group pb-15">
                       <label>ລະຫັດຜ່ານ</label>
@@ -132,7 +113,7 @@ export default function Login({ history }) {
                         <input
                           type="password"
                           name="password"
-                          className="form-control form-control-lg password auto-complete"
+                          className="form-control form-control-lg password auto-complete card"
                           placeholder="**********"
                           onChange={handleChange}
                         />
@@ -140,12 +121,14 @@ export default function Login({ history }) {
                           <i className="icon-lock ml-1 fs-3" />
                         </span>
                       </div>
+                      <div className="invalid fs-5">{errors?.password}</div>
+
                     </div>
                     <div className="row">
                       <div className="col-5">
                         <hr />
                       </div>
-                      <div className="col-2">
+                      <div className="col-2 text-center">
                         <i className="icon-lock fs-2" />
                       </div>
                       <div className="col-5">
@@ -155,6 +138,7 @@ export default function Login({ history }) {
                     <button
                       type="button"
                       onClick={handleSubmit}
+                      disabled={isSubmitting}
                       className="btn main-btn main-btn-lg main-btn-red rounded full-width mb-10 p-3"
                     >
                       ເຂົ້າສູ່ລະບົບ

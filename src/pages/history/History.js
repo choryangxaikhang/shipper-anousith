@@ -111,9 +111,9 @@ export default function History() {
                           <div className="detail col-md-10"
                             onClick={() => setGetDataDetail(data?._id)}
                           >
-                            <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                            <i className="fa-solid fa-hand-holding-dollar fa-2x"/>
                             <div className="ml-2">
-                              <strong>ປີຝເດືອນ:{" "}{data?.forYear ? data?.forYear : "-"}/{data?.forMonth ? data?.forMonth : "-"}</strong>
+                              <strong>ປີ/ເດືອນ:{" "}{data?.forYear ? data?.forYear : "-"}/{data?.forMonth ? data?.forMonth : "-"}</strong>
                               <b className="text-black">ລວມເງິນ:{" "}
                                 {data?.finalIncome ? currency(data?.finalIncome) : 0} </b>
                             </div>

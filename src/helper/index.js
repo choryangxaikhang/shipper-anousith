@@ -112,6 +112,7 @@ export const endOfMonth = () => {
   return moment().clone().endOf("month").format("YYYY-MM-DD");
 };
 
+
 //  ກຳນົດ ອາຍຸ
 export const age = (age) => {
   let today = new Date();
@@ -361,14 +362,10 @@ export const updatedAt_gte = (date) => {
   const _date = date ? date : new Date();
   return moment(_date).format("YYYY-MM-DD");
 };
-
 export const updatedAt_lt = (date) => {
   const _date = date ? date : new Date();
   return moment(_date).add(1, "days").format("YYYY-MM-DD");
 };
-
-
-
 //confirm
 export const notiflixConfirm = (title, cb) => {
   Notiflix.Confirm.show(

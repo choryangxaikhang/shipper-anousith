@@ -93,7 +93,7 @@ export default function CompleteConfirm() {
                           onClick={() => setGetDataDetail(data?._id)}
                         >
                           <div className="detail col-md-6 text-start">
-                            <strong>ປີຝເດືອນ:{" "}{data?.forYear ? data?.forYear : "-"}/{data?.forMonth ? data?.forMonth : "-"}
+                            <strong>ປີ/ເດືອນ:{" "}{data?.forYear ? data?.forYear : "-"}/{data?.forMonth ? data?.forMonth : "-"}
                             </strong>
                           </div>
                           <div className="right col-md-2 text-success text-end me-1">
