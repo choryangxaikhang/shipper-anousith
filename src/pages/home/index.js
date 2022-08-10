@@ -16,6 +16,7 @@ import {
 } from "../../helper";
 import BookingNow from "../../components/BookingNow";
 import { AppContext } from "../../App";
+import QRCode from "react-qr-code";
 
 export default function Home() {
   const { history } = useReactRouter();
@@ -83,13 +84,10 @@ export default function Home() {
                   </div>
                   <div
                     className="add-card-item add-balance"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addBalance"
                   >
-                    <a href="#">
-                      <i className="icon-user" />
+                    <a href="#" className="p-1">
+                    <QRCode value="54655464889" size={50}/>
                     </a>
-                    <p>ID: 001</p>
                   </div>
                 </div>
               </div>
@@ -103,9 +101,9 @@ export default function Home() {
                         data-bs-target="#withdraw"
                       >
                         <div className="option-card-icon">
-                          <i className="flaticon-down-arrow" />
+                        <h3>$1,450.50</h3>
                         </div>
-                        <p>Withdraw</p>
+                        <p>ເງິນເພີ່ມ</p>
                       </a>
                     </div>
                   </div>
@@ -113,9 +111,9 @@ export default function Home() {
                     <div className="option-card option-card-blue">
                       <a href="my-cards.html">
                         <div className="option-card-icon">
-                          <i className="flaticon-credit-card" />
+                        <h3>$1,450.50</h3>
                         </div>
-                        <p>Cards</p>
+                        <p>ເງິນຫັກ</p>
                       </a>
                     </div>
                   </div>
@@ -127,45 +125,19 @@ export default function Home() {
                         data-bs-target="#exchange"
                       >
                         <div className="option-card-icon">
-                          <i className="flaticon-exchange-arrows" />
+                        <h3>$1,450.50</h3>
                         </div>
-                        <p>Exchange</p>
+                        <p>ເງິນໄດ້ຮັບສຸດທິ</p>
                       </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="feature-section mb-15">
-                <div className="row gx-3">
-                  <div className="col col-sm-6 pb-15">
-                    <div className="feature-card feature-card-red">
-                      <div className="feature-card-thumb">
-                        <i className="flaticon-income" />
-                      </div>
-                      <div className="feature-card-details">
-                        <p>Income</p>
-                        <h3>$485.50</h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col col-sm-6 pb-15">
-                    <div className="feature-card feature-card-blue">
-                      <div className="feature-card-thumb">
-                        <i className="flaticon-expenses" />
-                      </div>
-                      <div className="feature-card-details">
-                        <p>Expenses</p>
-                        <h3>$95.50</h3>
-                      </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="saving-goals-section pb-15">
                 <div className="section-header">
-                  <h2>Saving Goals</h2>
+                  <h2>ລາຍລະອຽດ</h2>
                   <div className="view-all">
-                    <a href="my-savings.html">View All</a>
+                    <a href="my-savings.html">ເບິ່ງທັງໝົດ</a>
                   </div>
                 </div>
                 <div className="progress-card progress-card-red mb-15">
