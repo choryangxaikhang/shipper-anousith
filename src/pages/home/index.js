@@ -5,48 +5,38 @@ import { useLazyQuery } from "@apollo/client";
 import useReactRouter from "use-react-router";
 import "./index.css";
 import BottomNav from "../../layouts/BottomNav";
-import Imglogo from "../../img/logo-bg.png";
-import cover1 from "../../img/cover.jpeg";
-import { QUERY_ROOMS } from "./apollo";
+import { QUERY_PAYROLL_SUMMARY } from "./apollo";
 import {
-  aws_url_image,
-  currency,
-  formatDateTime,
-  loadingData,
+  currency
 } from "../../helper";
 import BookingNow from "../../components/BookingNow";
 import { AppContext } from "../../App";
 import QRCode from "react-qr-code";
+import OtherMoney from "./OtherMoney";
+import ListMoney from "./ListMonay";
 
 export default function Home() {
   const { history } = useReactRouter();
   const { userState, titleDispatch } = useContext(AppContext);
   const userData = userState?.data;
-  const [listRoom, setListRoom] = useState([]);
-  const [queryRoom, { data, loading, error }] = useLazyQuery(QUERY_ROOMS, {
-    fetchPolicy: "cache-and-network",
-  });
-
+  const [getPayrollSummary, setDataPayrollSummary] = useState([]);
+  const [fetchAnsItem, { data: dataPayrollSummary, loading }]
+    = useLazyQuery(QUERY_PAYROLL_SUMMARY, {
+      fetchPolicy: "cache-and-network",
+    });
   useEffect(() => {
-    queryRoom({
+    fetchAnsItem({
       variables: {
         where: {
-          status: "FEE",
-          province: parseInt(userData?.province?._id),
-          district: parseInt(userData?.district?._id),
+          empID: parseInt(userData?._id),
         },
         orderBy: "createdAt_DESC",
-        limit: 20,
       },
     });
   }, []);
-
   useEffect(() => {
-    if (data) {
-      setListRoom(data?.rooms?.data);
-    }
-  }, [data]);
-
+    setDataPayrollSummary(dataPayrollSummary?.payrollSummaries?.data[0]);
+  }, [dataPayrollSummary]);
   return (
     <>
       <body>
@@ -58,7 +48,7 @@ export default function Home() {
             paddingBottom: 0,
           }}
         >
-          <div className="appHeader text-light border-0 mb-3 text-right">
+          <div className="appHeader text-light border-0 text-right">
             <div style={{ flex: 1 }} className="text-left">
               {/* <a className="ml-3">
                 <i className="icon-search1" style={{ fontSize: 20 }} />
@@ -73,20 +63,20 @@ export default function Home() {
                 <i className="icon-bell" style={{ fontSize: 20 }} />
               </a>
             </div>
-          </div> 
+          </div>
           <div className="body-content body-content-lg mt-5">
             <div className="container">
               <div className="add-card section-to-header mb-30">
                 <div className="add-card-inner">
                   <div className="add-card-item add-card-info">
                     <p>ເງິນເດືອນພື້ນຖານ</p>
-                    <h3>$1,450.50</h3>
+                    <h3>{getPayrollSummary ? currency(getPayrollSummary?.basicSalary): 0}{" "}ກີບ</h3>
                   </div>
                   <div
                     className="add-card-item add-balance"
                   >
-                    <a href="#" className="p-1">
-                    <QRCode value="54655464889" size={50}/>
+                    <a href="javascript:void(0)" className="p-1">
+                      <QRCode value="54655464889" size={50} />
                     </a>
                   </div>
                 </div>
@@ -96,12 +86,12 @@ export default function Home() {
                   <div className="col-6 pb-15">
                     <div className="option-card option-card-violet">
                       <a
-                        href="#"
+                        href="javascript:void(0)"
                         data-bs-toggle="modal"
                         data-bs-target="#withdraw"
                       >
                         <div className="option-card-icon">
-                        <h3>$1,450.50</h3>
+                          <h3>{getPayrollSummary ? currency(getPayrollSummary?.extraIncome) : 0}{" "}ກີບ</h3>
                         </div>
                         <p>ເງິນເພີ່ມ</p>
                       </a>
@@ -109,9 +99,9 @@ export default function Home() {
                   </div>
                   <div className="col-6 pb-15">
                     <div className="option-card option-card-blue">
-                      <a href="my-cards.html">
+                      <a href="javascript:void(0)">
                         <div className="option-card-icon">
-                        <h3>$1,450.50</h3>
+                          <h3>{getPayrollSummary ? currency(getPayrollSummary?.deductionExpense) : 0}{" "}ກີບ</h3>
                         </div>
                         <p>ເງິນຫັກ</p>
                       </a>
@@ -120,12 +110,12 @@ export default function Home() {
                   <div className="col-12 pb-15">
                     <div className="option-card option-card-red">
                       <a
-                        href="#"
+                        href="javascript:void(0)"
                         data-bs-toggle="modal"
                         data-bs-target="#exchange"
                       >
                         <div className="option-card-icon">
-                        <h3>$1,450.50</h3>
+                          <h3>{getPayrollSummary ? currency(getPayrollSummary?.finalIncome) : 0} {" "}ກີບ</h3>
                         </div>
                         <p>ເງິນໄດ້ຮັບສຸດທິ</p>
                       </a>
@@ -133,184 +123,8 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="saving-goals-section pb-15">
-                <div className="section-header">
-                  <h2>ລາຍລະອຽດ</h2>
-                  <div className="view-all">
-                    <a href="my-savings.html">ເບິ່ງທັງໝົດ</a>
-                  </div>
-                </div>
-                <div className="progress-card progress-card-red mb-15">
-                  <div className="progress-card-info">
-                    <div className="circular-progress" data-note="50.85">
-                      <svg width={55} height={55} className="circle-svg">
-                        <circle
-                          cx={28}
-                          cy={27}
-                          r={25}
-                          className="circle-progress circle-progress-path"
-                        />
-                        <circle
-                          cx={28}
-                          cy={27}
-                          r={25}
-                          className="circle-progress circle-progress-fill"
-                        />
-                      </svg>
-                      <div className="percent">
-                        <span className="percent-int">0</span>%
-                      </div>
-                    </div>
-                    <div className="progress-info-text">
-                      <h3>New Gadget</h3>
-                      <p>Lifestyle</p>
-                    </div>
-                  </div>
-                  <div className="progress-card-amount">$250.00</div>
-                </div>
-                <div className="progress-card progress-card-blue mb-15">
-                  <div className="progress-card-info">
-                    <div className="circular-progress" data-note={25}>
-                      <svg width={55} height={55} className="circle-svg">
-                        <circle
-                          cx={28}
-                          cy={27}
-                          r={25}
-                          className="circle-progress circle-progress-path"
-                        />
-                        <circle
-                          cx={28}
-                          cy={27}
-                          r={25}
-                          className="circle-progress circle-progress-fill"
-                        />
-                      </svg>
-                      <div className="percent">
-                        <span className="percent-int">0</span>%
-                      </div>
-                    </div>
-                    <div className="progress-info-text">
-                      <h3>New Apartment</h3>
-                      <p>Living</p>
-                    </div>
-                  </div>
-                  <div className="progress-card-amount">$5000.00</div>
-                </div>
-                <div className="progress-card progress-card-green mb-15">
-                  <div className="progress-card-info">
-                    <div className="circular-progress" data-note={75}>
-                      <svg width={55} height={55} className="circle-svg">
-                        <circle
-                          cx={28}
-                          cy={27}
-                          r={25}
-                          className="circle-progress circle-progress-path"
-                        />
-                        <circle
-                          cx={28}
-                          cy={27}
-                          r={25}
-                          className="circle-progress circle-progress-fill"
-                        />
-                      </svg>
-                      <div className="percent">
-                        <span className="percent-int">0</span>%
-                      </div>
-                    </div>
-                    <div className="progress-info-text">
-                      <h3>Education</h3>
-                      <p>Lifestyle</p>
-                    </div>
-                  </div>
-                  <div className="progress-card-amount">$1250.00</div>
-                </div>
-              </div>
-              <div className="monthly-bill-section pb-15">
-                <div className="section-header">
-                  <h2>Monthly Bills</h2>
-                  <div className="view-all">
-                    <a href="monthly-bills.html">View All</a>
-                  </div>
-                </div>
-                <div className="row gx-3">
-                  <div className="col-6 pb-15">
-                    <div className="monthly-bill-card monthly-bill-card-green">
-                      <div className="monthly-bill-thumb">
-                        <img src="assets/images/cm-logo-1.png" alt="logo" />
-                      </div>
-                      <div className="monthly-bill-body">
-                        <h3>
-                          <a href="#">Envato.com</a>
-                        </h3>
-                        <p>Debit Services Subscribtion</p>
-                      </div>
-                      <div className="monthly-bill-footer monthly-bill-action">
-                        <a href="#" className="btn main-btn">
-                          Pay Now
-                        </a>
-                        <p className="monthly-bill-price">$99.99</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-6 pb-15">
-                    <div className="monthly-bill-card monthly-bill-card-green">
-                      <div className="monthly-bill-thumb">
-                        <img src="assets/images/cm-logo-2.png" alt="logo" />
-                      </div>
-                      <div className="monthly-bill-body">
-                        <h3>
-                          <a href="#">Oban.com</a>
-                        </h3>
-                        <p>Credit Services Subscribtion</p>
-                      </div>
-                      <div className="monthly-bill-footer monthly-bill-action">
-                        <a href="#" className="btn main-btn">
-                          Pay Now
-                        </a>
-                        <p className="monthly-bill-price">$75.00</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-6 pb-15">
-                    <div className="monthly-bill-card monthly-bill-card-green">
-                      <div className="monthly-bill-thumb">
-                        <img src="assets/images/cm-logo-3.png" alt="logo" />
-                      </div>
-                      <div className="monthly-bill-body">
-                        <h3>
-                          <a href="#">Nezox.com</a>
-                        </h3>
-                        <p>Internet Monthly Subscribtion</p>
-                      </div>
-                      <div className="monthly-bill-footer monthly-bill-action">
-                        <a href="#" className="btn main-btn">
-                          Pay Now
-                        </a>
-                        <p className="monthly-bill-price">$50.50</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-6 pb-15">
-                    <div className="monthly-bill-card monthly-bill-card-green">
-                      <div className="monthly-bill-thumb">
-                        <img src="assets/images/cm-logo-4.png" alt="logo" />
-                      </div>
-                      <div className="monthly-bill-body">
-                        <h3>
-                          <a href="#">Depan.com</a>
-                        </h3>
-                        <p>Depan Monthly Subscribtion</p>
-                      </div>
-                      <div className="monthly-bill-footer monthly-bill-action">
-                        <a href="#" className="btn main-btn">
-                          Pay Now
-                        </a>
-                        <p className="monthly-bill-price">$100.99</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <OtherMoney />
+              <ListMoney />
             </div>
           </div>
           <BottomNav />

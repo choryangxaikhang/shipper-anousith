@@ -44,25 +44,8 @@ export const getYeear = () => {
   }
   return getYeear;
 };
-//  category_financetype
-export const financetype = (item) => {
-  if (item === "INCOME") {
-    return "ລາຍຮັບ";
-  } else {
-    return "ລາຍຈ່າຍ";
-  }
-};
 
-//  unitCurrency
-export const unitCurrency = (item) => {
-  if (item === "COD") {
-    return "ເງິນສົດ";
-  } else if (item === "TRANSFER") {
-    return "ເງິນໂອນ";
-  } else {
-    return "-";
-  }
-};
+
 
 //  paystatus
 export const payStatus = (item) => {
@@ -491,4 +474,5 @@ export const numberOnlyInput = (event) => {
     event.preventDefault();
   }
 };
+
 

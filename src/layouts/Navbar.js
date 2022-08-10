@@ -22,7 +22,7 @@ export default function Navbar() {
         setTimeout(() => {
           Loading.remove();
           localStorage.clear();
-          window.location.replace("/landing");
+          window.location.replace("/login");
           localStorage.removeItem(TOKEN);
         }, 2000);
       },

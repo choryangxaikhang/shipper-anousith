@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { HISTORY, PROFILES } from "../routes/app";
 import "./bottomNav.css";
 
 export default function BottomNav() {
@@ -16,7 +17,7 @@ export default function BottomNav() {
     >
       <NavLink
         className="item"
-        to="/history"
+        to={`${HISTORY}/confirm`}
         style={{borderTopLeftRadius: 25,marginLeft:-10 }}
       >
         <div className="col pt-1"  style={{borderTopLeftRadius: 20 }}>
@@ -36,7 +37,7 @@ export default function BottomNav() {
       </NavLink>
       <NavLink
         className="item"
-        to="/profile"
+        to={`${PROFILES}`}
         style={{borderTopRightRadius: 25,marginRight:-10, borderTop:'none!important' }}
       >
         <div className="col pt-1" style={{borderTopRightRadius: 20,borderTop:'none' }}>

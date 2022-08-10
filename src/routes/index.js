@@ -10,6 +10,9 @@ import HomePage from "../pages/home/index";
 import Login from "../pages/login/Login";
 import { AppContext } from "../App";
 import { TOKEN } from "../helper";
+import * as ROUTES from "./app";
+import TabMenuBarHistory from "../pages/history/TabMenuBarHistory";
+import Profile from "../pages/profile/Profile";
 
 export default function Routes() {
   const { userDispatch } = useContext(AppContext);
@@ -48,6 +51,16 @@ export default function Routes() {
                 <Route exact path="/">
                   <Redirect to="/home" />
                 </Route>
+                <Route
+                  exact
+                  path={`${ROUTES.HISTORY}/:confirm`}
+                  component={(props) => <TabMenuBarHistory {...props} />}
+                />
+                <Route
+                  exact
+                  path={`${ROUTES.PROFILES}`}
+                  component={(props) => <Profile {...props} />}
+                />
                 <Route
                   render={({ location, history }) => (
                     <>
