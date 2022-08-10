@@ -1,0 +1,16 @@
+.appBottomMenu a {
+  font-size: 0.8em !important;
+  background-color: #fafafa !important;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+.appBottomMenu .item .col i {
+  color: #585858;
+}
+.appBottomMenu .item.active:before .col i {
+  background: #eb6572;
+  color: #eb6572;
+}
+.appBottomMenu .active .col i {
+  color: #eb6572 !important;
+}

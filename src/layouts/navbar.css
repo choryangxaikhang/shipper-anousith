@@ -1,0 +1,142 @@
+.appHeader {
+  background-color: #eb6572;
+}
+.appHeader button {
+  color: #fff;
+}
+
+.navbar-menu {
+  width: 270px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  padding: 0;
+  z-index: 1000;
+  transform: translateX(-100%);
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto auto 1fr auto;
+}
+@media (max-width: 576px) {
+  .navbar-menu {
+    width: 85%;
+  }
+}
+.toggle-menu {
+  transform: translateX(0);
+  transition: 0.3s;
+}
+
+.person-info {
+  display: flex;
+  gap: 1em;
+  color: #000000;
+  padding: 1em;
+}
+.person-info .img {
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  padding: 0;
+}
+
+.cv_id_branch {
+  background-color: #eb6572;
+  color: #fff;
+  padding: 1em;
+  font-weight: bold;
+}
+.cv_id_branch h3 {
+  color: #fff;
+}
+
+.pageTitle {
+  font-size: 1.2em !important;
+}
+.list-menu {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding: 1em;
+  color: #000;
+}
+.list-menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 1em;
+}
+.list-menu .item-link {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-top: 1em;
+  color: #000;
+}
+.list-menu li .material-icons,
+.logout .material-icons {
+  background-color: #eb6572;
+  color: #fff;
+  padding: 0.5em;
+  border-radius: 50%;
+  widows: 50px;
+  height: 50px;
+}
+
+.logout button {
+  font-size: 1em;
+  width: 100%;
+  height: 50px;
+  background: #eb6572;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 0em;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 0;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+/* sidebar menu */
+.sidebar-menu {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(5, 5, 5, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  padding: 0;
+  transform: translateX(-100%);
+  transition: 0.5s;
+}
+
+.slide-show-sidebar {
+  transition: 0.5s;
+  transform: translateX(0);
+}
+
+.sidebar-container {
+  width: 300px;
+  height: 100% !important;
+  background-color: #ffffff !important;
+  position: relative;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 400px) {
+  .sidebar-container {
+    width: 80%;
+  }
+}
+
+
+/* active link */
+.list-menu-sidebar .active {
+  color: #eb6572 !important;
+}
