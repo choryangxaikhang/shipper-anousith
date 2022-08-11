@@ -45,16 +45,26 @@ export default function DetailIBonus({ _id, onHide }) {
         <Modal.Body className="p-2  mr-4">
           <div className="text-center">{loading && loadingData(25)}</div>
 
-          {dataBonus &&
-            dataBonus?.bonusIncomes?.data?.map((data, index) => (
-              <>
-                <p className="border-bottom">
-                  <b>{index+1}.</b>{" "}
-                  {data?.note ? data?.note : "-"}
-                </p>
-              </>
-            )
-            )}
+          {dataBonus?.bonusIncomes?.total > 0 ? (<>
+            {dataBonus &&
+              dataBonus?.bonusIncomes?.data?.map((data, index) => (
+                <>
+                  <p className="border-bottom">
+                    <b>{index + 1}.</b>{" "}
+                    {data?.note ? data?.note : "-"}
+                  </p>
+                </>
+              )
+              )}
+          </>) : (
+            <>
+              <p className="text-danger">
+                ບໍມີເງິນໂບນັດ!
+              </p>
+            </>
+          )}
+
+
         </Modal.Body>
         <button
           className="btn text-black me-1 border-top"

@@ -69,103 +69,110 @@ export default function DetailItemMoney() {
         </div>
         <div className="p-2  mr-4">
           <div className="text-center">{loading && loadingData(25)}</div>
-          <table className="table  table-sm text-black">
-            <tbody>
-              {dataPayrollSummary &&
-                dataPayrollSummary?.payrollSummaries?.data?.map((data, index) => (
-                  <>
-                    <tr>
-                      <td>ປີ/ເດືອນ </td>
-                      <td className="text-end p-1">
-                        {data?.forYear ? data?.forYear : "-"}/
-                        {data?.forMonth ? data?.forMonth : "-"}
-
-                      </td>
-                    </tr>
-                    <tr>
-                      <td> ເງິນເດືອນພື້ນຖານ </td>
-                      <td className="text-end p-1">
-                        {data?.basicSalary ? currency(data?.basicSalary) : 0}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>ເງິນຕຳແຫນ່ງ </td>
-                      <td className="text-end p-1">
-                        {data?.positionSalary ? currency(data?.positionSalary) : 0}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>ເງິນອາກອນ </td>
-                      <td className="text-end p-1">
-                        {data?.taxIncome ? currency(data?.taxIncome) : 0}
-                      </td>
-                    </tr>
-                    <tr
-                      onClick={() => setGetDataDetailExtra(data?._id)}
-                    >
-                      <td> ເງິນເພີ່ມ</td>
-                      <td className="text-end p-1">
-                        {data?.extraIncome ? currency(data?.extraIncome) : 0}
-                      </td>
-                    </tr>
-                    <tr
-                      onClick={() => setDetailOt(data?._id)}
-                    >
-                      <td>ເງິນໂອທີ </td>
-                      <td className="text-end p-1">
-                        {data?.otIncome ? currency(data?.otIncome) : 0}
-
-                      </td>
-                    </tr>
-                    <tr
-                      onClick={() => setDetailIBonus(data?._id)}
-                    >
-                      <td>ເງິນໂບນັດ </td>
-                      <td className="text-end p-1">
-                        {data?.bonusIncome ? currency(data?.bonusIncome) : 0}
-                      </td>
-                    </tr>
-                    <tr
-                      onClick={() => setDetailDiLigent(data?._id)}
-                    >
-                      <td> ເງິນຂະຫຍັນ </td>
-                      <td className="text-end p-1">
-                        {data?.diligentIncome ? currency(data?.diligentIncome) : 0}
-                      </td>
-                    </tr>
-                    <tr
-                      onClick={() => setDetailDeduction(data?._id)}
-                    >
-                      <td> ເງິນຫັກ </td>
-                      <td className="text-end p-1">
-                        {data?.deductionExpense ? currency(data?.deductionExpense) : 0}
-                      </td>
-                    </tr>
-                    <tr
-                      onClick={() => setDetailBorrow(data?._id)}
-                    >
-                      <td>ເງິນເບິກລ່ວງຫນ້າ </td>
-                      <td className="text-end p-1">
-                        {data?.borrowExpense ? currency(data?.borrowExpense) : 0}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td> ເງິນປະກັນສັງຄົມ </td>
-                      <td className="text-end p-1">
-                        {data?.InsuranceExpense ? currency(data?.InsuranceExpense) : 0}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><b>ຍອດເງິນທີ່ຈະໄດ້ຮັບ</b></td>
-                      <td className="text-end p-1 fs-5">
-                        {data?.finalIncome ? currency(data?.finalIncome) : 0}
-                      </td>
-                    </tr>
-                  </>
-                )
-                )}
-            </tbody>
-          </table>
+          {dataPayrollSummary &&
+            dataPayrollSummary?.payrollSummaries?.data?.map((data, index) => (
+              <>
+                <div className="container-fluid ml-1 mr-5">
+                  <div className="table-responsive">
+                    <div className="border-bottom mb-3">
+                      <div className=" bill-item-list pt-2" id="border">
+                        <span>ປີ/ເດືອນ</span>
+                        <span className="text-black text-right user-select-all">
+                          {data?.forYear ? data?.forYear : "-"}/
+                          {data?.forMonth ? data?.forMonth : "-"}
+                        </span>
+                      </div>
+                      <div className=" bill-item-list pt-2" id="border">
+                        <span>ເງິນເດືອນພື້ນຖານ</span>
+                        <span className="text-black">
+                          {data?.basicSalary ? currency(data?.basicSalary) : 0}
+                        </span>
+                      </div>
+                      <div className=" bill-item-list pt-2" id="border">
+                        <span>ເງິນຕຳແຫນ່ງ</span>
+                        <span className="text-black">
+                          {data?.positionSalary ? currency(data?.positionSalary) : 0}
+                        </span>
+                      </div>
+                      <div className=" bill-item-list pt-2" id="border">
+                        <span>ເງິນອາກອນ</span>
+                        <span className="text-black">
+                          {data?.taxIncome ? currency(data?.taxIncome) : 0}
+                        </span>
+                      </div>
+                      <div className=" bill-item-list pt-2" id="border"
+                        onClick={() => setGetDataDetailExtra(data?._id)}
+                      >
+                        <span>ເງິນເພີ່ມ</span>
+                        <span className="text-black">
+                          {data?.extraIncome ? currency(data?.extraIncome) : 0}
+                          <i className="fa-solid fa-angle-right ms-1 text-secondary" />
+                        </span>
+                      </div>
+                      <div className=" bill-item-list pt-2" id="border"
+                        onClick={() => setDetailOt(data?._id)}
+                      >
+                        <span>ເງິນໂອທີ </span>
+                        <span className="text-black">
+                          {data?.otIncome ? currency(data?.otIncome) : 0}
+                          <i className="fa-solid fa-angle-right ms-1 text-secondary" />
+                        </span>
+                      </div>
+                      <div className=" bill-item-list pt-2" id="border"
+                        onClick={() => setDetailIBonus(data?._id)}
+                      >
+                        <span>ເງິນໂບນັດ</span>
+                        <span className="text-black">
+                          {data?.bonusIncome ? currency(data?.bonusIncome) : 0}
+                          <i className="fa-solid fa-angle-right ms-1 text-secondary" />
+                        </span>
+                      </div>
+                      <div className=" bill-item-list pt-2" id="border"
+                        onClick={() => setDetailDiLigent(data?._id)}
+                      >
+                        <span>ເງິນຂະຫຍັນ </span>
+                        <span className="text-black">
+                          {data?.diligentIncome ? currency(data?.diligentIncome) : 0}
+                          <i className="fa-solid fa-angle-right ms-1 text-secondary" />
+                        </span>
+                      </div>
+                      <div className=" bill-item-list pt-2" id="border"
+                        onClick={() => setDetailDeduction(data?._id)}
+                      >
+                        <span>ເງິນຫັກ</span>
+                        <span className="text-black">
+                          {data?.deductionExpense ? currency(data?.deductionExpense) : 0}
+                          <i className="fa-solid fa-angle-right ms-1 text-secondary" />
+                        </span>
+                      </div>
+                      <div className=" bill-item-list pt-2" id="border"
+                        onClick={() => setDetailBorrow(data?._id)} s
+                      >
+                        <span>
+                          ເງິນເບິກລ່ວງຫນ້າ </span>
+                        <span className="text-black">
+                          {data?.borrowExpense ? currency(data?.borrowExpense) : 0}
+                          <i className="fa-solid fa-angle-right ms-1 text-secondary" />
+                        </span>
+                      </div>
+                      <div className=" bill-item-list pt-2" id="border">
+                        <span>ເງິນປະກັນສັງຄົມ</span>
+                        <span className="text-black">
+                          {data?.InsuranceExpense ? currency(data?.InsuranceExpense) : 0}
+                        </span>
+                      </div>
+                      <div className=" bill-item-list pt-2" id="border">
+                        <span>ຍອດເງິນທີ່ຈະໄດ້ຮັບ</span>
+                        <span className="text-success fs-5">
+                          {data?.finalIncome ? currency(data?.finalIncome) : 0}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )
+            )}
         </div>
         <DetailExtra _id={getDataDetailExtra} onHide={() => setGetDataDetailExtra()} />
         <DetailOt _id={detailOt} onHide={() => setDetailOt()} />

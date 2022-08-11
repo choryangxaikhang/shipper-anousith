@@ -24,7 +24,6 @@ export default function DetailExtra({ _id, onHide }) {
       setShow(true);
     }
   }, [_id]);
-  console.log({ dataExtraIncomes })
   return (
     <>
       <Modal
@@ -42,17 +41,26 @@ export default function DetailExtra({ _id, onHide }) {
         </Modal.Header>
         <Modal.Body className="p-2  mr-4">
           <div className="text-center">{loading && loadingData(25)}</div>
+          {dataExtraIncomes?.extraIncomes.total > 0 ? (<>
+            {dataExtraIncomes &&
+              dataExtraIncomes?.extraIncomes?.data?.map((data, index) => (
+                <>
+                  <p className="border-bottom">
+                    <b>{index + 1}.</b>{" "}
+                    {data?.note ? data?.note : "-"}
+                  </p>
+                </>
+              )
+              )}
+          </>) : (
+            <>
+              <p className="text-danger">
+                ບໍມີເງິນເພີ່ມ!
+              </p>
+            </>
+          )}
 
-          {dataExtraIncomes &&
-            dataExtraIncomes?.extraIncomes?.data?.map((data, index) => (
-              <>
-                <p className="border-bottom">
-                  <b>{index+1}.</b>{" "}
-                  {data?.note ? data?.note : "-"}
-                </p>
-              </>
-            )
-            )}
+
         </Modal.Body>
         <button
           className="btn text-black me-1 border-top"

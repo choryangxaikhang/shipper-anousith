@@ -24,7 +24,6 @@ export default function DetailDeduction({ _id, onHide }) {
       setShow(true);
     }
   }, [_id]);
-  console.log({ dataDeduction })
   return (
     <>
       <Modal
@@ -42,16 +41,25 @@ export default function DetailDeduction({ _id, onHide }) {
         </Modal.Header>
         <Modal.Body className="p-2  mr-4">
           <div className="text-center">{loading && loadingData(25)}</div>
-          {dataDeduction &&
-            dataDeduction?.deductions?.data?.map((data, index) => (
-              <>
-                <p className="border-bottom" key={index}>
-                  <b>{index+1}.</b>{" "}
-                  {data?.note ? data?.note : "-"}
-                </p>
-              </>
-            )
-            )}
+          {dataDeduction?.deductions.total > 0 ? (<>
+            {dataDeduction &&
+              dataDeduction?.deductions?.data?.map((data, index) => (
+                <>
+                  <p className="border-bottom" key={index}>
+                    <b>{index + 1}.</b>{" "}
+                    {data?.note ? data?.note : "-"}
+                  </p>
+                </>
+              )
+              )}
+          </>) : (
+            <>
+              <p className="text-danger">
+                ບໍມີເງິນຫັກ!
+              </p>
+            </>
+          )}
+
         </Modal.Body>
         <button
           className="btn text-black me-1 border-top"

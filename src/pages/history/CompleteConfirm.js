@@ -8,8 +8,8 @@ import { QUERY_PAYROLL_SUMMARY } from "./apollo";
 import { currency, formatDate, getStaffLogin, loadingData } from "../../helper";
 import BottomNav from "../../layouts/BottomNav";
 import DetailItem from "./DetailItem";
-import { HOME_PAGE } from "../../routes/app";
 import NoData from "../../helper/components/NoData";
+import { DETAIL_MONEY } from "../../routes/app";
 export default function CompleteConfirm() {
   const { match, history, location } = useReactRouter();
   const userState = getStaffLogin();
@@ -50,13 +50,7 @@ export default function CompleteConfirm() {
       <div id="appCapsule">
         <div className="justify-content-md-center">
           <div className="appHeader text-light border-0">
-            <div style={{ flex: 1 }} className="text-left">
-              <button
-                className="btn text-white mr-2"
-                onClick={() => history.push(HOME_PAGE)}
-              >
-                <i className="icon-x fs-4" />
-              </button>
+            <div style={{ flex: 1 }} className="text-center">
             </div>
             ລາຍການຢືນຢັນສຳເລັດແລ້ວ
             <div
@@ -90,7 +84,7 @@ export default function CompleteConfirm() {
                     dataPayrollSummary?.payrollSummaries?.data?.map((data, index) => (
                       <>
                         <a href="javascript:void(0)" className="item pr-0"
-                          onClick={() => setGetDataDetail(data?._id)}
+                          onClick={() => history.push(`${DETAIL_MONEY}/${data?._id}`)}
                         >
                           <div className="detail col-md-6 text-start">
                             <strong>ປີ/ເດືອນ:{" "}{data?.forYear ? data?.forYear : "-"}/{data?.forMonth ? data?.forMonth : "-"}

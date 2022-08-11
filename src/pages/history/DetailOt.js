@@ -41,16 +41,24 @@ export default function DetailOt({ _id, onHide }) {
         </Modal.Header>
         <Modal.Body className="p-2  mr-4">
           <div className="text-center">{loading && loadingData(25)}</div>
-          {dataOt &&
-            dataOt?.otIncomes?.data?.map((data, index) => (
-              <>
-                <p className="border-bottom">
-                  <b>{index+1}.</b>{" "}
-                  {data?.note ? data?.note : "-"}
-                </p>
-              </>
-            )
-            )}
+          {dataOt?.otIncomes?.total > 0 ? (<>
+            {dataOt &&
+              dataOt?.otIncomes?.data?.map((data, index) => (
+                <>
+                  <p className="border-bottom">
+                    <b>{index + 1}.</b>{" "}
+                    {data?.note ? data?.note : "-"}
+                  </p>
+                </>
+              )
+              )}
+          </>) : (
+            <>
+              <p className="text-danger">
+                ບໍມີເງິນ OT!
+              </p>
+            </>
+          )}
         </Modal.Body>
         <button
           className="btn text-black me-1 border-top"

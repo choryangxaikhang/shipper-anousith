@@ -68,13 +68,7 @@ export default function History() {
       <div id="appCapsule">
         <div className="justify-content-md-center">
           <div className="appHeader text-light border-0">
-            <div style={{ flex: 1 }} className="text-left">
-              <button
-                className="btn text-white mr-2"
-                onClick={() => history.push(HOME_PAGE)}
-              >
-                <i className="icon-x fs-4" />
-              </button>
+            <div style={{ flex: 1 }} className="text-center">
             </div>
             ການເຄື່ອນໄຫວ
             <div
@@ -111,7 +105,7 @@ export default function History() {
                           className="item pr-0 ">
                           <div className="detail col-md-10"
                             // onClick={() => setGetDataDetail(data?._id)}
-                            onClick={(e) => history.push(`${DETAIL_MONEY}/${data?._id}`)}
+                            onClick={() => history.push(`${DETAIL_MONEY}/${data?._id}`)}
                           >
                             <i className="fa-solid fa-hand-holding-dollar fa-2x"/>
                             <div className="ml-2">
