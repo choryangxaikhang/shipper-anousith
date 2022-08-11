@@ -4,7 +4,7 @@ import { Modal, Button } from "react-bootstrap";
 import { currency, loadingData } from "../../helper";
 import { QUERY_EXTRA } from "./apollo";
 import "./utils/index.css";
-export default function DetailExtra({ _id, onHide }) {
+export default function DetailBorrow({ _id, onHide }) {
   const [show, setShow] = useState(false);
   const [fetchData, { data: dataExtraIncomes, loading }] = useLazyQuery(
     QUERY_EXTRA,
@@ -38,7 +38,7 @@ export default function DetailExtra({ _id, onHide }) {
         role="dialog"
       >
         <Modal.Header>
-          <Modal.Title>ລາຍລະອຽດເງິນເພີ່ມ</Modal.Title>
+          <Modal.Title>ລາຍລະອຽດເງິນເບິກລ່ວງຫນ້າ</Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-2  mr-4">
           <div className="text-center">{loading && loadingData(25)}</div>

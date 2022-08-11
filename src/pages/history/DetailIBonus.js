@@ -2,12 +2,12 @@ import { useLazyQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { currency, loadingData } from "../../helper";
-import { QUERY_EXTRA } from "./apollo";
+import { QUERY_BONUS } from "./apollo";
 import "./utils/index.css";
-export default function DetailExtra({ _id, onHide }) {
+export default function DetailIBonus({ _id, onHide }) {
   const [show, setShow] = useState(false);
-  const [fetchData, { data: dataExtraIncomes, loading }] = useLazyQuery(
-    QUERY_EXTRA,
+  const [fetchData, { data: dataBonus, loading }] = useLazyQuery(
+    QUERY_BONUS,
     {
       fetchPolicy: "network-only",
     }
@@ -17,14 +17,16 @@ export default function DetailExtra({ _id, onHide }) {
       fetchData({
         variables: {
           where: {
-            summaryID: _id,
+            summaryID: String(_id)
           },
         },
       });
       setShow(true);
     }
   }, [_id]);
-  console.log({ dataExtraIncomes })
+
+  console.log({ dataBonus })
+
   return (
     <>
       <Modal
@@ -38,13 +40,13 @@ export default function DetailExtra({ _id, onHide }) {
         role="dialog"
       >
         <Modal.Header>
-          <Modal.Title>ລາຍລະອຽດເງິນເພີ່ມ</Modal.Title>
+          <Modal.Title>ລາຍລະອຽດເງິນໂບນັດ</Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-2  mr-4">
           <div className="text-center">{loading && loadingData(25)}</div>
 
-          {dataExtraIncomes &&
-            dataExtraIncomes?.extraIncomes?.data?.map((data, index) => (
+          {dataBonus &&
+            dataBonus?.bonusIncomes?.data?.map((data, index) => (
               <>
                 <p className="border-bottom">
                   <b>{index+1}.</b>{" "}

@@ -2,12 +2,12 @@ import { useLazyQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { currency, loadingData } from "../../helper";
-import { QUERY_EXTRA } from "./apollo";
+import { QUERY_DEDUCTION } from "./apollo";
 import "./utils/index.css";
-export default function DetailExtra({ _id, onHide }) {
+export default function DetailDeduction({ _id, onHide }) {
   const [show, setShow] = useState(false);
-  const [fetchData, { data: dataExtraIncomes, loading }] = useLazyQuery(
-    QUERY_EXTRA,
+  const [fetchData, { data: dataDeduction, loading }] = useLazyQuery(
+    QUERY_DEDUCTION,
     {
       fetchPolicy: "network-only",
     }
@@ -24,7 +24,7 @@ export default function DetailExtra({ _id, onHide }) {
       setShow(true);
     }
   }, [_id]);
-  console.log({ dataExtraIncomes })
+  console.log({ dataDeduction })
   return (
     <>
       <Modal
@@ -38,15 +38,14 @@ export default function DetailExtra({ _id, onHide }) {
         role="dialog"
       >
         <Modal.Header>
-          <Modal.Title>ລາຍລະອຽດເງິນເພີ່ມ</Modal.Title>
+          <Modal.Title>ລາຍລະອຽດເງິນຫັກ</Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-2  mr-4">
           <div className="text-center">{loading && loadingData(25)}</div>
-
-          {dataExtraIncomes &&
-            dataExtraIncomes?.extraIncomes?.data?.map((data, index) => (
+          {dataDeduction &&
+            dataDeduction?.deductions?.data?.map((data, index) => (
               <>
-                <p className="border-bottom">
+                <p className="border-bottom" key={index}>
                   <b>{index+1}.</b>{" "}
                   {data?.note ? data?.note : "-"}
                 </p>
