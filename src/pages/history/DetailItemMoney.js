@@ -5,13 +5,15 @@ import { Modal, Button } from "react-bootstrap";
 import { currency, getStaffLogin, loadingData } from "../../helper";
 import { QUERY_PAYROLL_SUMMARY } from "./apollo";
 import "./utils/index.css";
-import {HISTORY } from "../../routes/app";
+import { HISTORY } from "../../routes/app";
+import DetailExtra from "./DetaileExtra";
 export default function DetailItemMoney() {
   const { match, history, location } = useReactRouter();
   const userState = getStaffLogin();
   const userData = userState?.data;
   const _id = match?.params?._id;
   const [reloadData, setReloadData] = useState(false);
+  const [getDataDetailExtra, setGetDataDetailExtra] = useState();
   const [fetchData, { data: dataPayrollSummary, loading }] = useLazyQuery(
     QUERY_PAYROLL_SUMMARY,
     {
@@ -28,7 +30,7 @@ export default function DetailItemMoney() {
         },
       });
     }
-  }, [_id,reloadData]);
+  }, [_id, reloadData]);
   return (
     <>
       <div id="appCapsule">
@@ -88,8 +90,10 @@ export default function DetailItemMoney() {
                         {data?.taxIncome ? currency(data?.taxIncome) : 0}
                       </td>
                     </tr>
-                    <tr>
-                      <td> ເງິນເພີ່ມ </td>
+                    <tr
+                      onClick={() => setGetDataDetailExtra(data?._id)}
+                    >
+                      <td> ເງິນເພີ່ມ ===</td>
                       <td className="text-end">
                         {data?.extraIncome ? currency(data?.extraIncome) : 0}
                       </td>
@@ -143,6 +147,7 @@ export default function DetailItemMoney() {
             </tbody>
           </table>
         </div>
+        <DetailExtra _id={getDataDetailExtra} onHide={() => setGetDataDetailExtra()} />
       </div>
     </>
   );

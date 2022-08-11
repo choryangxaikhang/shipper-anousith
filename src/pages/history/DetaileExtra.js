@@ -6,7 +6,7 @@ import { QUERY_EXTRA } from "./apollo";
 import "./utils/index.css";
 export default function DetailExtra({ _id, onHide }) {
   const [show, setShow] = useState(false);
-  const [fetchData, { data: dataPayrollSummary, loading }] = useLazyQuery(
+  const [fetchData, { data: dataExtraIncomes, loading }] = useLazyQuery(
     QUERY_EXTRA,
     {
       fetchPolicy: "network-only",
@@ -17,14 +17,14 @@ export default function DetailExtra({ _id, onHide }) {
       fetchData({
         variables: {
           where: {
-            _id: _id,
+            summaryID: _id,
           },
         },
       });
-
       setShow(true);
     }
   }, [_id]);
+  console.log({ dataExtraIncomes })
   return (
     <>
       <Modal
@@ -42,21 +42,17 @@ export default function DetailExtra({ _id, onHide }) {
         </Modal.Header>
         <Modal.Body className="p-2  mr-4">
           <div className="text-center">{loading && loadingData(25)}</div>
-          <table className="table  table-sm text-black">
-            <tbody>
-              {dataPayrollSummary &&
-                dataPayrollSummary?.extraIncomes?.data?.map((data, index) => (
-                  <>
-                    <tr>
-                      <td className="text-end">
-                        {data?.forYear ? data?.forYear : "-"}
-                      </td>
-                    </tr>
-                  </>
-                )
-                )}
-            </tbody>
-          </table>
+
+          {dataExtraIncomes &&
+            dataExtraIncomes?.extraIncomes?.data?.map((data, index) => (
+              <>
+                <p className="border-bottom">
+                  <b>{index+1}.</b>{" "}
+                  {data?.note ? data?.note : "-"}
+                </p>
+              </>
+            )
+            )}
         </Modal.Body>
         <button
           className="btn text-black me-1 border-top"
