@@ -40,7 +40,6 @@ export default function History() {
     setSearchValue(value);
   };
   const _conFirm = async (_id) => {
-    console.log({ _id })
     notiflixConfirm("ຕ້ອງການຢືນຢັນຖືກຕ້ອງແທ້ ຫຼື ບໍ່?", async () => {
       try {
         const { data: updateData } = await upDateConfirm({
@@ -101,10 +100,8 @@ export default function History() {
                     dataPayrollSummary?.payrollSummaries?.data?.map((data, index) => (
                       <>
                         <a href="javascript:void(0)"
-                        // style={{backgroundColor: "#ebece6" }}
                           className="item pr-0 ">
                           <div className="detail col-md-10"
-                            // onClick={() => setGetDataDetail(data?._id)}
                             onClick={() => history.push(`${DETAIL_MONEY}/${data?._id}`)}
                           >
                             <i className="fa-solid fa-hand-holding-dollar fa-2x"/>

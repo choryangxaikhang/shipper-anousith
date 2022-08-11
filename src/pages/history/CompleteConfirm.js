@@ -24,9 +24,6 @@ export default function CompleteConfirm() {
     useLazyQuery(QUERY_PAYROLL_SUMMARY, {
       fetchPolicy: "cache-and-network",
     });
-
-  console.log({ userData })
-
   useEffect(() => {
     fetchAnsItem({
       variables: {

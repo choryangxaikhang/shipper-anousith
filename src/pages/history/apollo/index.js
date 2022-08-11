@@ -48,7 +48,6 @@ mutation UpdatePayrollSummary($data: PayrollSummaryInput!, $where: PayrollSummar
   }
 }
 `;
-
 export const QUERY_OT = gql`
 query OtIncomes($limit: Int, $skip: Int, $orderBy: OrderByInput, $where: OtIncomeWhereInput) {
   otIncomes(limit: $limit, skip: $skip, orderBy: $orderBy, where: $where) {

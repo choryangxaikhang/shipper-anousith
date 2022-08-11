@@ -4,7 +4,7 @@ import { Modal, Button } from "react-bootstrap";
 import { currency, loadingData } from "../../helper";
 import { QUERY_BONUS } from "./apollo";
 import "./utils/index.css";
-export default function DetailIBonus({ _id, onHide }) {
+export default function DetailIBonusMoney({ _id, onHide }) {
   const [show, setShow] = useState(false);
   const [fetchData, { data: dataBonus, loading }] = useLazyQuery(
     QUERY_BONUS,
@@ -17,16 +17,13 @@ export default function DetailIBonus({ _id, onHide }) {
       fetchData({
         variables: {
           where: {
-            summaryID: String(_id)
+            summaryID: parseInt(_id),
           },
         },
       });
       setShow(true);
     }
   }, [_id]);
-
-  console.log({ dataBonus })
-
   return (
     <>
       <Modal
@@ -49,7 +46,7 @@ export default function DetailIBonus({ _id, onHide }) {
             {dataBonus &&
               dataBonus?.bonusIncomes?.data?.map((data, index) => (
                 <>
-                  <p className="border-bottom">
+                  <p className="border-bottom" key={index}>
                     <b>{index + 1}.</b>{" "}
                     {data?.note ? data?.note : "-"}
                   </p>

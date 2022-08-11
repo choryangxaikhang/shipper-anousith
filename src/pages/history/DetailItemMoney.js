@@ -8,10 +8,10 @@ import "./utils/index.css";
 import { HISTORY } from "../../routes/app";
 import DetailExtra from "./DetaileExtra";
 import DetailOt from "./DetailOt";
-import DetailIBonus from "./DetailIBonus";
 import DetailDiLigent from "./DetailDiLigent";
 import DetailDeduction from "./DetailDeduction";
 import DetailBorrow from "./DetailBorrow";
+import DetailIBonusMoney from "./DetailIBonusMoney";
 export default function DetailItemMoney() {
   const { match, history, location } = useReactRouter();
   const userState = getStaffLogin();
@@ -176,7 +176,7 @@ export default function DetailItemMoney() {
         </div>
         <DetailExtra _id={getDataDetailExtra} onHide={() => setGetDataDetailExtra()} />
         <DetailOt _id={detailOt} onHide={() => setDetailOt()} />
-        <DetailIBonus _id={detailIBonus} onHide={() => setDetailIBonus()} />
+        <DetailIBonusMoney _id={detailIBonus} onHide={() => setDetailIBonus()} />
         <DetailDiLigent _id={detailDiLigent} onHide={() => setDetailDiLigent()} />
         <DetailDeduction _id={detailDeduction} onHide={() => setDetailDeduction()} />
         <DetailBorrow _id={detailBorrow} onHide={() => setDetailBorrow()} />
