@@ -27,6 +27,7 @@
     "react-aws-s3": "^1.5.0",
     "react-bootstrap": "^2.1.0",
     "react-bootstrap4-modal": "^2.0.0",
+    "react-circular-progressbar": "^2.1.0",
     "react-device-detect": "^2.2.2",
     "react-dom": "^17.0.2",
     "react-floating-action-button": "^1.0.5",

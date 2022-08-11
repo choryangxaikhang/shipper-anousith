@@ -3,22 +3,38 @@ import React, { useEffect, useState } from "react";
 import { useMutation, useLazyQuery } from "@apollo/client";
 import useReactRouter from "use-react-router";
 import { QUERY_PAYROLL_SUMMARY, UPDATE } from "./apollo";
-import { currency, formatDate, getStaffLogin, loadingData, messageError, messageSuccess, messageWarning, notiflixConfirm } from "../../helper";
+import {
+  currency,
+  getStaffLogin,
+  getYearCustom,
+  loadingData,
+  messageError,
+  messageSuccess,
+  messageWarning,
+  notiflixConfirm, _month
+} from "../../helper";
 import BottomNav from "../../layouts/BottomNav";
 import DetailItem from "./DetailItem";
 import { DETAIL_MONEY, HOME_PAGE } from "../../routes/app";
 import NoData from "../../helper/components/NoData";
+import moment from "moment";
 export default function History() {
   const { match, history, location } = useReactRouter();
   const userState = getStaffLogin();
   const userData = userState?.data;
   const queryParams = new URLSearchParams(location?.search);
-  const data = localStorage.getItem("data");
-  const datas = JSON.parse(data);
   const [reloadData, setReloadData] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
   const [getDataDetail, setGetDataDetail] = useState();
+//state month adn year
+  const [getYearLook] = useState(getYearCustom());
+  const currentMonth = moment(new Date()).format("MM");
+  const currentYear = moment(new Date()).format("YYYY");
+  const [getYear, setGetYear] = useState(currentYear);
+  const [getMoth, setGetMonth] = useState(currentMonth);
+  const [_pushMoth, setMoth] = useState();
+  const [_pushYear, setYear] = useState();
   const [upDateConfirm] = useMutation(UPDATE);
+// call Data
   const [fetchAnsItem, { data: dataPayrollSummary, loading }]
     = useLazyQuery(QUERY_PAYROLL_SUMMARY, {
       fetchPolicy: "cache-and-network",
@@ -28,17 +44,15 @@ export default function History() {
       variables: {
         where: {
           empID: parseInt(userData?._id),
-          confirmStatus: "UNCONFIRMED"
+          confirmStatus: "UNCONFIRMED",
+          forMonth: parseInt(_pushMoth) ? parseInt(_pushMoth) : undefined,
+          forYear: parseInt(_pushYear) ? parseInt(_pushYear) : undefined,
         },
         orderBy: "createdAt_DESC",
       },
     });
-  }, [reloadData]);
-  const _onSearch = (e) => {
-    let value = e?.target?.value;
-    if (!value) value = undefined;
-    setSearchValue(value);
-  };
+  }, [reloadData,_pushMoth,_pushYear]);
+  
   const _conFirm = async (_id) => {
     notiflixConfirm("ຕ້ອງການຢືນຢັນຖືກຕ້ອງແທ້ ຫຼື ບໍ່?", async () => {
       try {
@@ -62,8 +76,13 @@ export default function History() {
       }
     });
   };
+  function _pushMothAndYear() {
+    setYear(getYear);
+    setMoth(getMoth);
+  }
+
   return (
-    <div style={{ marginTop: -80}}>
+    <div style={{ marginTop: -80 }}>
       <div id="appCapsule">
         <div className="justify-content-md-center">
           <div className="appHeader text-light border-0">
@@ -83,16 +102,41 @@ export default function History() {
             </div>
           </div>
           <div className="section mt-4" style={{ marginTop: -100 }}>
-            <div className="form-group basic">
-              <input
-                type="search"
-                className="form-control form-control-lg mb-2"
-                onChange={(e) => _onSearch(e)}
-                placeholder="ຄົ້ນຫາ"
-              />
+            <div className="input-group">
+              <select
+                className="form-control bg-white"
+                onChange={(e) => setGetMonth(e.target.value)}
+              >
+                {_month?.map((item, index) => (
+                  <option
+                    key={index}
+                    selected={item.id === currentMonth ? true : false}
+                    value={item?.id}
+                  >
+                    {item?.month}
+                  </option>
+                ))}
+              </select>
+              <select
+                className="form-control bg-white"
+                onChange={(e) => setGetYear(e.target.value)}
+              >
+                {getYearLook?.map((item, index) => (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                className="btn btn-lg btn-primary"
+                onClick={() => _pushMothAndYear()}
+              >
+                <i className="icon-search1 me-1" /> ຄົ້ນຫາ
+              </button>
             </div>
           </div>
-          <div className="section  mb-2">
+          <div className="section  mb-2 mt-5">
             <div className="transactions">
               {dataPayrollSummary?.payrollSummaries?.total > 0 ? (
                 <div className="listView">
@@ -104,7 +148,7 @@ export default function History() {
                           <div className="detail col-md-10"
                             onClick={() => history.push(`${DETAIL_MONEY}/${data?._id}`)}
                           >
-                            <i className="fa-solid fa-hand-holding-dollar fa-2x"/>
+                            <i className="fa-solid fa-hand-holding-dollar fa-2x" />
                             <div className="ml-2">
                               <strong>ປີ/ເດືອນ:{" "}{data?.forYear ? data?.forYear : "-"}/{data?.forMonth ? data?.forMonth : "-"}</strong>
                               <b className="text-black">ລວມເງິນ:{" "}

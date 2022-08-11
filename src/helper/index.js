@@ -24,12 +24,12 @@ export const clearLocalStorage = () => {
 };
 
 // year
-export const getYeear = () => {
-  let getYeear = [];
-  for (let date = 1990; date < start_year + 1; date++) {
-    getYeear.push(date);
+export const getYearCustom = () => {
+  let getYearCustom = [];
+  for (let date = start_year; date > 2020; date--) {
+    getYearCustom.push(date);
   }
-  return getYeear;
+  return getYearCustom;
 };
 //  paystatus
 export const payStatus = (item) => {
@@ -248,22 +248,6 @@ export const SortBy = ({ sort }) => {
 
 export const _month = [
   {
-    id: "09",
-    month: "ກັນຍາ",
-  },
-  {
-    id: "10",
-    month: "ຕຸລາ",
-  },
-  {
-    id: "11",
-    month: "ພະຈິກ",
-  },
-  {
-    id: "12",
-    month: "ທັນວາ",
-  },
-  {
     id: "01",
     month: "ມັງກອນ",
   },
@@ -283,18 +267,34 @@ export const _month = [
     id: "05",
     month: "ພຶດສະພາ",
   },
-  // {
-  //   id: "6",
-  //   month:"ມິຖຸນາ"
-  // },
-  // {
-  //   id: "7",
-  //   month:"ກໍລະກົດ"
-  // },
-  // {
-  //   id: "8",
-  //   month:"ສິງຫາ"
-  // },
+  {
+    id: "06",
+    month: "ມີຖຸນາ",
+  },
+  {
+    id: "07",
+    month: "ກໍລະກົດ",
+  },
+  {
+    id: "08",
+    month: "ສິງຫາ",
+  },
+  {
+    id: "09",
+    month: "ກັນຍາ",
+  },
+  {
+    id: "10",
+    month: "ຕຸລາ",
+  },
+  {
+    id: "11",
+    month: "ພະຈິກ",
+  },
+  {
+    id: "12",
+    month: "ທັນວາ",
+  },
 ];
 
 export const startLoading = () => {

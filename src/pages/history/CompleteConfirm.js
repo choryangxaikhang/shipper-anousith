@@ -5,21 +5,28 @@ import React, { useEffect, useState } from "react";
 import { useMutation, useLazyQuery } from "@apollo/client";
 import useReactRouter from "use-react-router";
 import { QUERY_PAYROLL_SUMMARY } from "./apollo";
-import { currency, formatDate, getStaffLogin, loadingData } from "../../helper";
+import { currency, formatDate, getStaffLogin, getYearCustom, loadingData, _month } from "../../helper";
 import BottomNav from "../../layouts/BottomNav";
 import DetailItem from "./DetailItem";
 import NoData from "../../helper/components/NoData";
 import { DETAIL_MONEY } from "../../routes/app";
+import moment from "moment";
 export default function CompleteConfirm() {
   const { match, history, location } = useReactRouter();
   const userState = getStaffLogin();
   const userData = userState?.data;
   const queryParams = new URLSearchParams(location?.search);
   const [getDataDetail, setGetDataDetail] = useState();
-  const data = localStorage.getItem("data");
-  const datas = JSON.parse(data);
   const [reloadData, setReloadData] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+//state month adn year
+  const [getYearLook] = useState(getYearCustom());
+  const currentMonth = moment(new Date()).format("MM");
+  const currentYear = moment(new Date()).format("YYYY");
+  const [getYear, setGetYear] = useState(currentYear);
+  const [getMoth, setGetMonth] = useState(currentMonth);
+  const [_pushMoth, setMoth] = useState();
+  const [_pushYear, setYear] = useState();
+// callData
   const [fetchAnsItem, { data: dataPayrollSummary, loading }] =
     useLazyQuery(QUERY_PAYROLL_SUMMARY, {
       fetchPolicy: "cache-and-network",
@@ -30,18 +37,20 @@ export default function CompleteConfirm() {
         where: {
           empID: parseInt(userData?._id),
           // approveStatus:"TRUE",
+          forMonth: parseInt(_pushMoth) ? parseInt(_pushMoth) : undefined,
+          forYear: parseInt(_pushYear) ? parseInt(_pushYear) : undefined,
           confirmStatus: "CONFIRMED"
         },
         orderBy: "createdAt_DESC",
       },
     });
-  }, [reloadData]);
+  }, [reloadData,_pushMoth,_pushYear]);
 
-  const _onSearch = (e) => {
-    let value = e?.target?.value;
-    if (!value) value = undefined;
-    setSearchValue(value);
-  };
+  function _pushMothAndYear() {
+    setYear(getYear);
+    setMoth(getMoth);
+  }
+
   return (
     <div style={{ marginTop: -80, backgroundColor: "white" }}>
       <div id="appCapsule">
@@ -64,16 +73,41 @@ export default function CompleteConfirm() {
           </div>
 
           <div className="section mt-4" style={{ marginTop: -100 }}>
-            <div className="form-group basic">
-              <input
-                type="search"
-                className="form-control form-control-lg mb-2"
-                onChange={(e) => _onSearch(e)}
-                placeholder="ຄົ້ນຫາ"
-              />
+            <div className="input-group">
+              <select
+                className="form-control bg-white"
+                onChange={(e) => setGetMonth(e.target.value)}
+              >
+                {_month?.map((selectMoth, index) => (
+                  <option
+                    key={index}
+                    selected={selectMoth.id === currentMonth ? true : false}
+                    value={selectMoth?.id}
+                  >
+                    {selectMoth?.month}
+                  </option>
+                ))}
+              </select>
+              <select
+                className="form-control bg-white"
+                onChange={(e) => setGetYear(e.target.value)}
+              >
+                {getYearLook?.map((selectYear, index) => (
+                  <option key={index} value={selectYear}>
+                    {selectYear}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                className="btn btn-primary btn-lg"
+                onClick={() => _pushMothAndYear()}
+              >
+                <i className="icon-search1" /> ຄົ້ນຫາ
+              </button>
             </div>
           </div>
-          <div className="section  mb-2">
+          <div className="section  mb-2 mt-3">
             <div className="transactions">
               {dataPayrollSummary?.payrollSummaries?.total > 0 ? (
                 <div className="listView">
