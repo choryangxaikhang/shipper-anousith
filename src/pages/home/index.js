@@ -68,7 +68,6 @@ export default function Home() {
   }, [setNoticeConfirm]);
   return (
     <>
-      <body>
         <div
           id="appCapsule"
           style={{
@@ -210,7 +209,6 @@ export default function Home() {
           </div>
           <BottomNav />
         </div>
-      </body>
     </>
   );
 }

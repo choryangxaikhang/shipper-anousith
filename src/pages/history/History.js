@@ -6,7 +6,7 @@ import { QUERY_PAYROLL_SUMMARY, UPDATE } from "./apollo";
 import { currency, formatDate, getStaffLogin, loadingData, messageError, messageSuccess, messageWarning, notiflixConfirm } from "../../helper";
 import BottomNav from "../../layouts/BottomNav";
 import DetailItem from "./DetailItem";
-import { HOME_PAGE } from "../../routes/app";
+import { DETAIL_MONEY, HOME_PAGE } from "../../routes/app";
 import NoData from "../../helper/components/NoData";
 export default function History() {
   const { match, history, location } = useReactRouter();
@@ -64,7 +64,7 @@ export default function History() {
     });
   };
   return (
-    <div style={{ marginTop: -80, backgroundColor: "white" }}>
+    <div style={{ marginTop: -80}}>
       <div id="appCapsule">
         <div className="justify-content-md-center">
           <div className="appHeader text-light border-0">
@@ -107,9 +107,11 @@ export default function History() {
                     dataPayrollSummary?.payrollSummaries?.data?.map((data, index) => (
                       <>
                         <a href="javascript:void(0)"
-                          className="item pr-0">
+                        // style={{backgroundColor: "#ebece6" }}
+                          className="item pr-0 ">
                           <div className="detail col-md-10"
-                            onClick={() => setGetDataDetail(data?._id)}
+                            // onClick={() => setGetDataDetail(data?._id)}
+                            onClick={(e) => history.push(`${DETAIL_MONEY}/${data?._id}`)}
                           >
                             <i className="fa-solid fa-hand-holding-dollar fa-2x"/>
                             <div className="ml-2">

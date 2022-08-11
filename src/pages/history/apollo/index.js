@@ -48,3 +48,14 @@ mutation UpdatePayrollSummary($data: PayrollSummaryInput!, $where: PayrollSummar
   }
 }
 `;
+
+export const QUERY_EXTRA = gql`
+query ExtraIncomes($limit: Int, $skip: Int, $orderBy: OrderByInput, $where: ExtraIncomeWhereInput) {
+  extraIncomes(limit: $limit, skip: $skip, orderBy: $orderBy, where: $where) {
+    total
+    data {
+      note
+    }
+  }
+}
+`;
