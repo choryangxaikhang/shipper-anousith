@@ -48,3 +48,66 @@ mutation UpdatePayrollSummary($data: PayrollSummaryInput!, $where: PayrollSummar
   }
 }
 `;
+export const QUERY_OT = gql`
+query OtIncomes($limit: Int, $skip: Int, $orderBy: OrderByInput, $where: OtIncomeWhereInput) {
+  otIncomes(limit: $limit, skip: $skip, orderBy: $orderBy, where: $where) {
+    total
+    data {
+      note
+    }
+  }
+}
+`;
+export const QUERY_BONUS = gql`
+query BonusIncomes($where: BonusIncomeWhereInput, $skip: Int, $orderBy: OrderByInput, $limit: Int) {
+  bonusIncomes(where: $where, skip: $skip, orderBy: $orderBy, limit: $limit) {
+    total
+    data {
+      note
+    }
+  }
+}
+`;
+
+export const QUERY_DEDUCTION = gql`
+query Deductions($where: DeductionWhereInput, $orderBy: OrderByInput, $skip: Int, $limit: Int) {
+  deductions(where: $where, orderBy: $orderBy, skip: $skip, limit: $limit) {
+    total
+    data {
+      note
+    }
+  }
+}
+`;
+export const QUERY_BORROW = gql`
+query BorrowOfPayrolls($where: BorrowOfPayrollWhereInput, $orderBy: OrderByInput, $skip: Int, $limit: Int) {
+  BorrowOfPayrolls(where: $where, orderBy: $orderBy, skip: $skip, limit: $limit) {
+    total
+    data {
+      note
+    }
+  }
+}
+`;
+export const QUERY_DILiGENT = gql`
+query DiligentIncomes($limit: Int, $skip: Int, $orderBy: OrderByInput, $where: DiligentIncomeWhereInput) {
+  diligentIncomes(limit: $limit, skip: $skip, orderBy: $orderBy, where: $where) {
+    total
+    data {
+      amountOf
+      note
+    }
+  }
+}
+`;
+export const QUERY_EXTRA = gql`
+query ExtraIncomes($limit: Int, $skip: Int, $orderBy: OrderByInput, $where: ExtraIncomeWhereInput) {
+  extraIncomes(limit: $limit, skip: $skip, orderBy: $orderBy, where: $where) {
+    total
+    data {
+      note
+    }
+  }
+}
+`;
+

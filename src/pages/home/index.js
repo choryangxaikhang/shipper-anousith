@@ -36,8 +36,6 @@ export default function Home() {
       variables: {
         where: {
           empID: parseInt(userData?._id),
-          // forMonth:
-          // forYeara:
         },
         limit:1,
         orderBy: "createdAt_DESC",
@@ -68,7 +66,6 @@ export default function Home() {
   }, [setNoticeConfirm]);
   return (
     <>
-      <body>
         <div
           id="appCapsule"
           style={{
@@ -101,10 +98,10 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <div className="body-content body-content-lg mt-5">
+          <div className="body-content body-content-lg ">
             <div className="container">
-              <div className="add-card section-to-header mb-30">
-                <div className="add-card-inner">
+              <div className="add-card section-to-header mb-30" style={{marginTop:-140}}>
+                <div className="add-card-inner" >
                   <div className="add-card-item add-card-info">
                     <p>ເງິນເດືອນພື້ນຖານ</p>
                     {loading ? loadingData(25) :
@@ -126,8 +123,8 @@ export default function Home() {
                             `${aws_url_employee_Image}${getPayrollSummary?.profileImage}`
                           }
                           style={{
-                            height: 40,
-                            width: 40,
+                            height: 50,
+                            width: 50,
                             cursor: "pointer",
                           }}
                         />
@@ -139,13 +136,14 @@ export default function Home() {
                               male
                             }
                             style={{
-                              height: 40,
-                              width: 40,
+                              height: 50,
+                              width: 50,
                               cursor: "pointer",
                             }}
                           />
                         </>)
                       }<br />
+                     ID: {getPayrollSummary ? getPayrollSummary?.empID?.cvID : "-"}
                     </a>
                   </div>
                 </div>
@@ -162,7 +160,7 @@ export default function Home() {
                         <div className="option-card-icon">
                           {loading ? loadingData(25) :
                             (<>
-                              <h3>{getPayrollSummary ? currency(getPayrollSummary?.extraIncome) : 0}{" "}ກີບ</h3>
+                              <h3>{getPayrollSummary ? currency(getPayrollSummary?.extraIncome + getPayrollSummary?.positionSalary) : 0}{" "}ກີບ</h3>
                             </>)
                           }
                         </div>
@@ -176,7 +174,11 @@ export default function Home() {
                         <div className="option-card-icon">
                           {loading ? loadingData(25) :
                             (<>
-                              <h3>{getPayrollSummary ? currency(getPayrollSummary?.deductionExpense) : 0}{" "}ກີບ</h3>
+                              <h3>{getPayrollSummary ? currency(
+                                getPayrollSummary?.deductionExpense +
+                                getPayrollSummary?.InsuranceExpense +
+                                getPayrollSummary?.taxIncome
+                                ) : 0}{" "}ກີບ</h3>
 
                             </>)
                           }
@@ -185,6 +187,7 @@ export default function Home() {
                       </a>
                     </div>
                   </div>
+                  <OtherMoney />
                   <div className="col-12 pb-15">
                     <div className="option-card option-card-red">
                       <a
@@ -205,12 +208,11 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <OtherMoney />
+             
             </div>
           </div>
           <BottomNav />
         </div>
-      </body>
     </>
   );
 }

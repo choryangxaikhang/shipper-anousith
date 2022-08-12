@@ -41,7 +41,7 @@ export default function Profile({ history }) {
       "ຕົກລົງ",
       "ຍົກເລີກ",
       () => {
-        loadingScreen();
+        Loading.dots();
         setTimeout(() => {
           Loading.remove();
           localStorage.clear();

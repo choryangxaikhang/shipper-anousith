@@ -13,6 +13,7 @@ import { TOKEN } from "../helper";
 import * as ROUTES from "./app";
 import TabMenuBarHistory from "../pages/history/TabMenuBarHistory";
 import Profile from "../pages/profile/Profile";
+import DetailItemMoney from "../pages/history/DetailItemMoney";
 
 export default function Routes() {
   const { userDispatch } = useContext(AppContext);
@@ -55,6 +56,11 @@ export default function Routes() {
                   exact
                   path={`${ROUTES.HISTORY}/:confirm`}
                   component={(props) => <TabMenuBarHistory {...props} />}
+                />
+                <Route
+                  exact
+                  path={`${ROUTES.DETAIL_MONEY}/:_id`}
+                  component={(props) => <DetailItemMoney {...props} />}
                 />
                 <Route
                   exact

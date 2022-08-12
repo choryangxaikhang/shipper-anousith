@@ -44,7 +44,7 @@ export default function Login({ history }) {
                 TOKEN,
                 JSON.stringify(user?.data?.employeeLogin)
               );
-              loadingScreen();
+              Loading.dots();
               setTimeout(() => {
                 Loading.remove();
                 window.location.href = "/home";
