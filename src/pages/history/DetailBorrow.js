@@ -36,7 +36,7 @@ export default function DetailBorrow({ _id, onHide }) {
         tabindex="-1"
         role="dialog"
       >
-        <Modal.Header>
+         <Modal.Header style={{marginTop:-20}}  >
           <Modal.Title>ລາຍລະອຽດເງິນເບິກລ່ວງຫນ້າ</Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-2  mr-4">
@@ -57,7 +57,7 @@ export default function DetailBorrow({ _id, onHide }) {
 
           ) : (<>
             <p className="text-danger">
-              ບໍມີເງິນເບີກລ່ວງຫນ້າ!
+              ບໍ່ມີເງິນເບີກລ່ວງຫນ້າ!
             </p>
           </>)
           }

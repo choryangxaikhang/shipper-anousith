@@ -36,7 +36,7 @@ export default function DetailExtra({ _id, onHide }) {
         tabindex="-1"
         role="dialog"
       >
-        <Modal.Header>
+          <Modal.Header style={{marginTop:-20}}  >
           <Modal.Title>ລາຍລະອຽດເງິນເພີ່ມ</Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-2  mr-4">
@@ -55,7 +55,7 @@ export default function DetailExtra({ _id, onHide }) {
           </>) : (
             <>
               <p className="text-danger">
-                ບໍມີເງິນເພີ່ມ!
+                ບໍ່ມີເງິນເພີ່ມ!
               </p>
             </>
           )}

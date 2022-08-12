@@ -54,25 +54,21 @@ export default function Profile({ history }) {
       }
     );
   };
-  // const _sendDataUpdate = (data) => {
-  //   ;
-  //   localStorage.setItem("data", JSON.stringify(data));
-  // }
   return (
     <>
       <div id="appCapsule">
-        <div className="appHeader text-light border-0">
+        <div className="appHeader text-white border-0 ">
           <div style={{ flex: 1 }} className="text-left">
-            <button
+            {/* <button
               className="btn text-white mr-2"
               onClick={() => history.goBack()}
             >
               <i className="icon-x fs-4" />
-            </button>
+            </button> */}
           </div>
           ໂປຣໄຟລ໌
           <div
-            className="text-white pageTitle text-right text-nowrap pr-0"
+            className="text-white pageTitle text-right text-nowrap pr-0 "
             style={{ flex: 1 }}
           >
             <button
@@ -84,9 +80,9 @@ export default function Profile({ history }) {
             </button>
           </div>
         </div>
-        <div className="section wallet-card-section pt-2">
+        <div className="section wallet-card-section pt-3 ">
           <div
-            className="wallet-card pt-0 text-center mt-1"
+            className="wallet-card pt-0 text-center"
             style={{
               height: 180,
             }}
@@ -219,7 +215,7 @@ export default function Profile({ history }) {
                       <div className="custom-control custom-switch user-select-all">
                         {currency(getUser?.basicSalary
                           ? getUser?.basicSalary
-                          : 0)}
+                          : 0)}{" "}ກີບ
                       </div>
                     </div>
                   </div>
@@ -227,22 +223,11 @@ export default function Profile({ history }) {
                  <li>
                   <div className="item">
                     <div className="in">
-                      <div>ເງິນເດືອນພື້ນຖານ</div>
-                      <div className="custom-control custom-switch user-select-all">
-                        {currency(getUser?.basicSalary
-                          ? getUser?.basicSalary
-                          : 0)}
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="item">
-                    <div className="in">
                       <div>ເງິນຕຳແຫນ່ງ</div>
                       <div className="custom-control custom-switch user-select-all">
-                        {getUser?.positionSalary
-                          ? currency(getUser?.positionSalary):0}
+                        {currency(getUser?.positionSalary
+                          ? getUser?.positionSalary
+                          : 0)}{" "}ກີບ
                       </div>
                     </div>
                   </div>
@@ -253,7 +238,18 @@ export default function Profile({ history }) {
                       <div>ເງິນອາກອນ</div>
                       <div className="custom-control custom-switch user-select-all">
                         {getUser?.taxIncome
-                          ? currency(getUser?.taxIncome): 0}
+                          ? currency(getUser?.taxIncome):0}{" "}ກີບ
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div className="item">
+                    <div className="in">
+                      <div>ເງິນປະກັນສັງຄົມ</div>
+                      <div className="custom-control custom-switch user-select-all">
+                        {getUser?.InsuranceExpense
+                          ? currency(getUser?.InsuranceExpense): 0} {" "}ກີບ
                       </div>
                     </div>
                   </div>

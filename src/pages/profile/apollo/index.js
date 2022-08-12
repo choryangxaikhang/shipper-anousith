@@ -31,6 +31,7 @@ query Employees($limit: Int, $skip: Int, $orderBy: OrderByInput, $where: Employe
       taxIncome
       basicSalary
       positionSalary
+      InsuranceExpense
       status
       role
       createdAt

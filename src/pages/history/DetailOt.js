@@ -36,7 +36,7 @@ export default function DetailOt({ _id, onHide }) {
         tabindex="-1"
         role="dialog"
       >
-        <Modal.Header>
+        <Modal.Header style={{ marginTop: -20 }}  >
           <Modal.Title>ລາຍລະອຽດເງິນ OT</Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-2  mr-4">
@@ -55,7 +55,7 @@ export default function DetailOt({ _id, onHide }) {
           </>) : (
             <>
               <p className="text-danger">
-                ບໍມີເງິນ OT!
+                ບໍ່ມີເງິນ OT!
               </p>
             </>
           )}

@@ -36,7 +36,7 @@ export default function DetailDiLigent({ _id, onHide }) {
         tabindex="-1"
         role="dialog"
       >
-        <Modal.Header>
+        <Modal.Header style={{marginTop:-20}}  >
           <Modal.Title>ລາຍລະອຽດເງິນຂະຫຍັນ</Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-2  mr-4">
@@ -55,7 +55,7 @@ export default function DetailDiLigent({ _id, onHide }) {
           </>) : (
             <>
               <p className="text-danger">
-                ບໍມີເງິນຂະຫຍັນ!
+                ບໍ່ມີເງິນຂະຫຍັນ!
               </p>
             </>
           )}

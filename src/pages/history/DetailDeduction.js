@@ -36,7 +36,7 @@ export default function DetailDeduction({ _id, onHide }) {
         tabindex="-1"
         role="dialog"
       >
-        <Modal.Header>
+         <Modal.Header style={{marginTop:-20}}  >
           <Modal.Title>ລາຍລະອຽດເງິນຫັກ</Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-2  mr-4">
@@ -55,7 +55,7 @@ export default function DetailDeduction({ _id, onHide }) {
           </>) : (
             <>
               <p className="text-danger">
-                ບໍມີເງິນຫັກ!
+                ບໍ່ມີເງິນຫັກ!
               </p>
             </>
           )}

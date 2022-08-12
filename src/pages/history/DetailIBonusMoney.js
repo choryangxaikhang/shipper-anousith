@@ -36,7 +36,7 @@ export default function DetailIBonusMoney({ _id, onHide }) {
         tabindex="-1"
         role="dialog"
       >
-        <Modal.Header>
+         <Modal.Header style={{marginTop:-20}}  >
           <Modal.Title>ລາຍລະອຽດເງິນໂບນັດ</Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-2  mr-4">
@@ -56,7 +56,7 @@ export default function DetailIBonusMoney({ _id, onHide }) {
           </>) : (
             <>
               <p className="text-danger">
-                ບໍມີເງິນໂບນັດ!
+                ບໍ່ມີເງິນໂບນັດ!
               </p>
             </>
           )}
