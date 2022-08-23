@@ -31,11 +31,13 @@ query PayrollSummaries($noLimit: Boolean, $limit: Int, $skip: Int, $orderBy: Ord
       }
       paidStatus
       paidDate
-      ibankID
       forMonth
       forYear
       confirmStatus
       confirmedDate
+      ibankID {
+        _id
+      }
     }
   }
 }

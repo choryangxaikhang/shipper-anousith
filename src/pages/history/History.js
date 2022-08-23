@@ -104,7 +104,7 @@ export default function History() {
           <div className="section mt-4" style={{ marginTop: -100 }}>
             <div className="input-group">
               <select
-                className="form-control bg-white"
+                className="form-control bg-white text-center"
                 onChange={(e) => setGetMonth(e.target.value)}
               >
                 {_month?.map((item, index) => (
@@ -118,7 +118,7 @@ export default function History() {
                 ))}
               </select>
               <select
-                className="form-control bg-white"
+                className="form-control bg-white text-center"
                 onChange={(e) => setGetYear(e.target.value)}
               >
                 {getYearLook?.map((item, index) => (

@@ -31,7 +31,9 @@ query PayrollSummaries($noLimit: Boolean, $limit: Int, $skip: Int, $orderBy: Ord
       }
       paidStatus
       paidDate
-      ibankID
+      ibankID {
+      _id
+      }
       forMonth
       forYear
       confirmStatus

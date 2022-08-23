@@ -98,7 +98,7 @@ export default function Login({ history }) {
                           type="number"
                           name="phoneNumber"
                           className="form-control form-control-lg card"
-                          placeholder="7678XXXX"
+                          placeholder="ປ້ອນເບີໂທ"
                           onChange={handleChange}
                         />
                         <span className="input-group-text btn btn-lg">
@@ -139,7 +139,7 @@ export default function Login({ history }) {
                       type="button"
                       onClick={handleSubmit}
                       disabled={isSubmitting}
-                      className="btn main-btn main-btn-lg main-btn-red rounded full-width mb-10 p-3"
+                      className="btn main-btn main-btn-lg main-btn-red rounded full-width mb-10"
                     >
                       ເຂົ້າສູ່ລະບົບ
                     </button>

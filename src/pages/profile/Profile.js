@@ -19,6 +19,7 @@ export default function Profile({ history }) {
   const [getUser, setGetUser] = useState("");
   const { userState } = useContext(AppContext);
   const userData = userState?.data;
+  console.log(userData?._id)
   const [fetchData, { data: dataStaff, loading }] = useLazyQuery(
     EMPLOYEE_QUEY,
     { fetchPolicy: "cache-and-network" }
@@ -27,7 +28,9 @@ export default function Profile({ history }) {
   useEffect(() => {
     fetchData({
       variables: {
-        where: {},
+        where: {
+          _id:userData?._id
+        },
       },
     });
   }, []);
