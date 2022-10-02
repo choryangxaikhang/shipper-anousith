@@ -3,41 +3,37 @@ import { useLazyQuery } from "@apollo/client";
 import useReactRouter from "use-react-router";
 import "./index.css";
 import BottomNav from "../../layouts/BottomNav";
-import { QUERY_PAYROLL_SUMMARY } from "./apollo";
+import { QUERY_ROOM } from "./apollo";
 import male from "../../img/male.png";
 import { Image } from "react-bootstrap";
-import {
-  aws_url_employee_Image,
-  currency,
-  loadingData
-} from "../../helper";
+import { aws_url_employee_Image, currency, loadingData } from "../../helper";
 import { AppContext } from "../../App";
 import QRCode from "react-qr-code";
 import OtherMoney from "./OtherMoney";
-import { HISTORY } from "../../routes/app";
+import { OTHER } from "../../routes/app";
 export default function Home() {
   const { history } = useReactRouter();
   const { userState, titleDispatch } = useContext(AppContext);
   const userData = userState?.data;
   const [total, setTotal] = useState(0);
-  const [getPayrollSummary, setDataPayrollSummary] = useState([]);
-  const [
-    fetchItem,
-    { data: setNoticeConfirm, loading: loadingTotal },
-  ] = useLazyQuery(QUERY_PAYROLL_SUMMARY, {
-    fetchPolicy: "cache-and-network",
-  });
-  const [fetchAnsItem, { data: dataPayrollSummary, loading: loading }]
-    = useLazyQuery(QUERY_PAYROLL_SUMMARY, {
+  const [getPayrollSummary, setDataRoom] = useState([]);
+  const [fetchItem, { data: setNoticeConfirm, loading: loadingTotal }] =
+    useLazyQuery(QUERY_ROOM, {
       fetchPolicy: "cache-and-network",
     });
+  const [fetchAnsItem, { data: DataRoom, loading: loading }] = useLazyQuery(
+    QUERY_ROOM,
+    {
+      fetchPolicy: "cache-and-network",
+    }
+  );
   useEffect(() => {
     fetchAnsItem({
       variables: {
         where: {
           empID: parseInt(userData?._id),
         },
-        limit:1,
+        limit: 1,
         orderBy: "createdAt_DESC",
       },
     });
@@ -48,7 +44,7 @@ export default function Home() {
       variables: {
         where: {
           empID: parseInt(userData?._id),
-          confirmStatus: "UNCONFIRMED"
+          confirmStatus: "UNCONFIRMED",
         },
         orderBy: "createdAt_DESC",
       },
@@ -56,163 +52,139 @@ export default function Home() {
   }, [userData]);
 
   useEffect(() => {
-    setDataPayrollSummary(dataPayrollSummary?.payrollSummaries?.data[0]);
-  }, [dataPayrollSummary]);
+    setDataRoom(DataRoom?.rooms?.data[0]);
+  }, [DataRoom]);
 
   useEffect(() => {
     if (setNoticeConfirm) {
-      setTotal(setNoticeConfirm?.payrollSummaries?.data?.length);
+      setTotal(setNoticeConfirm?.rooms?.data?.length);
     }
   }, [setNoticeConfirm]);
   return (
     <>
-        <div
-          id="appCapsule"
-          style={{
-            backgroundColor: "#eb6572",
-            marginBottom: 0,
-            paddingBottom: 0,
-          }}
-        >
-          <div className="appHeader text-light border-0 text-right">
-            <div style={{ flex: 1 }} className="text-left">
-            </div>
-            ໜ້າຫຼັກ
-            <div
-              className="text-white pageTitle text-center text-nowrap pr-0"
-              style={{ flex: 1 }}
+      <div
+        id="appCapsule"
+        style={{
+          backgroundColor: "#f54f02",
+          marginBottom: 0,
+          paddingBottom: 0,
+        }}
+      >
+        <div className="appHeader text-light border-0 text-right">
+          <div style={{ flex: 1 }} className="text-left"></div>
+          ໜ້າຫຼັກ
+          <div
+            className="text-white pageTitle text-center text-nowrap pr-0"
+            style={{ flex: 1 }}
+          >
+            <a
+              className="mr-3 float-right"
+              onClick={(e) => history.push(`${OTHER}`)}
             >
-              <a className="mr-3 float-right"
-                  onClick={(e)=>history.push(`${HISTORY}/confirm`)}
-              >
-                <i className="icon-bell" style={{ fontSize: 20 }} />
-                {loadingTotal ? (
-                  <span style={{ position: "absolute", right: 10, top: 10 }}>
-                    {loadingData(10)}
-                  </span>
-                ) : total > 0 ? (
-                  <span className="badge badge-success mr-1 p-2">
-                    <small>{total ? total : 0}</small>
-                  </span>
-                ) : null}
-              </a>
-            </div>
+              <i className="icon-bell" style={{ fontSize: 20 }} />
+              {loadingTotal ? (
+                <span style={{ position: "absolute", right: 10, top: 10 }}>
+                  {loadingData(10)}
+                </span>
+              ) : total > 0 ? (
+                <span className="badge badge-success mr-1 p-2">
+                  <small>{total ? total : 0}</small>
+                </span>
+              ) : null}
+            </a>
           </div>
-          <div className="body-content body-content-lg ">
-            <div className="container">
-              <div className="add-card section-to-header mb-30" style={{marginTop:-140}}>
-                <div className="add-card-inner" >
-                  <div className="add-card-item add-card-info">
-                    <p>ເງິນເດືອນພື້ນຖານ</p>
-                    {loading ? loadingData(25) :
-                      (<>
-                        <h3> {getPayrollSummary ?
-                          currency(getPayrollSummary?.basicSalary) : 0}{" "}ກີບ</h3>
-                      </>)
-                    }
-                  </div>
-                  <div
-                    className="add-card-item add-balance"
-                  >
-                    <a href="javascript:void(0)" className="p-1">
-                      {/* <QRCode value="54655464889" size={50} /> */}
-                      {getPayrollSummary?.profileImage ? (
-                        <Image
-                          className="img-zoom-hover"
-                          src={
-                            `${aws_url_employee_Image}${getPayrollSummary?.profileImage}`
-                          }
-                          style={{
-                            height: 50,
-                            width: 50,
-                            cursor: "pointer",
-                          }}
-                        />
-                      ) : (
-                        <>
-                          <Image
-                            className="img-zoom-hover"
-                            src={
-                              male
-                            }
-                            style={{
-                              height: 50,
-                              width: 50,
-                              cursor: "pointer",
-                            }}
-                          />
-                        </>)
-                      }<br />
-                     ID: {getPayrollSummary ? getPayrollSummary?.empID?.cvID : "-"}
+        </div>
+        <div className="body-content body-content-lg ">
+          <div className="container">
+            <div
+              className="add-card section-to-header mb-30"
+              style={{ marginTop: -140 }}
+            >
+              <div className="add-card-inner">
+                <div className="add-card-item add-card-info">
+                  <p>ຍອດລວມທັງຫມົດ</p>
+                  {loading ? (
+                    loadingData(25)
+                  ) : (
+                    <>
+                      <h3>
+                        {" "}
+                        {getPayrollSummary
+                          ? currency(getPayrollSummary?.basicSalary)
+                          : 0}
+                      </h3>
+                    </>
+                  )}
+                </div>
+                <div className="add-card-item add-balance">
+                  <a href="javascript:void(0)" className="p-1">
+                    <i className="fa-solid fa-kip-sign fs-3" />
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="option-section mb-15">
+              <div className="row gx-2">
+                <div className="col-6 pb-15">
+                  <div className="option-card option-card-violet">
+                    <a
+                      href="javascript:void(0)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#withdraw"
+                    >
+                      <p>ລາຍຮັບແຂກເຂົ້າທັງຫມົດ</p>
+                      <div className="option-card-icon">
+                        {loading ? (
+                          loadingData(25)
+                        ) : (
+                          <>
+                            <h3>
+                              {getPayrollSummary
+                                ? currency(
+                                    getPayrollSummary?.extraIncome +
+                                      getPayrollSummary?.positionSalary
+                                  )
+                                : 0}{" "}
+                              ກີບ
+                            </h3>
+                          </>
+                        )}
+                      </div>
                     </a>
                   </div>
                 </div>
-              </div>
-              <div className="option-section mb-15">
-                <div className="row gx-2">
-                  <div className="col-6 pb-15">
-                    <div className="option-card option-card-violet">
-                      <a
-                        href="javascript:void(0)"
-                        data-bs-toggle="modal"
-                        data-bs-target="#withdraw"
-                      >
-                        <div className="option-card-icon">
-                          {loading ? loadingData(25) :
-                            (<>
-                              <h3>{getPayrollSummary ? currency(getPayrollSummary?.extraIncome + getPayrollSummary?.positionSalary) : 0}{" "}ກີບ</h3>
-                            </>)
-                          }
-                        </div>
-                        <p>ເງິນເພີ່ມ</p>
-                      </a>
-                    </div>
-                  </div>
-                  <div className="col-6 pb-15">
-                    <div className="option-card option-card-blue">
-                      <a href="javascript:void(0)">
-                        <div className="option-card-icon">
-                          {loading ? loadingData(25) :
-                            (<>
-                              <h3>{getPayrollSummary ? currency(
-                                getPayrollSummary?.deductionExpense +
-                                getPayrollSummary?.InsuranceExpense +
-                                getPayrollSummary?.taxIncome
-                                ) : 0}{" "}ກີບ</h3>
-
-                            </>)
-                          }
-                        </div>
-                        <p>ເງິນຫັກ</p>
-                      </a>
-                    </div>
-                  </div>
-                  <OtherMoney />
-                  <div className="col-12 pb-15">
-                    <div className="option-card option-card-red">
-                      <a
-                        href="javascript:void(0)"
-                        data-bs-toggle="modal"
-                        data-bs-target="#exchange"
-                      >
-                        <div className="option-card-icon">
-                          {loading ? loadingData(25) :
-                            (<>
-                              <h3>{getPayrollSummary ? currency(getPayrollSummary?.finalIncome) : 0} {" "}ກີບ</h3>
-                            </>)
-                          }
-                        </div>
-                        <p>ເງິນໄດ້ຮັບສຸດທິ</p>
-                      </a>
-                    </div>
+                <div className="col-6 pb-15">
+                  <div className="option-card option-card-blue">
+                    <a href="javascript:void(0)">
+                      <p>ລາຍຮັບການຈອງທັງຫມົດ</p>
+                      <div className="option-card-icon">
+                        {loading ? (
+                          loadingData(25)
+                        ) : (
+                          <>
+                            <h3>
+                              {getPayrollSummary
+                                ? currency(
+                                    getPayrollSummary?.deductionExpense +
+                                      getPayrollSummary?.InsuranceExpense +
+                                      getPayrollSummary?.taxIncome
+                                  )
+                                : 0}{" "}
+                              ກີບ
+                            </h3>
+                          </>
+                        )}
+                      </div>
+                    </a>
                   </div>
                 </div>
+                <OtherMoney />
               </div>
-             
             </div>
           </div>
-          <BottomNav />
         </div>
+        <BottomNav />
+      </div>
     </>
   );
 }

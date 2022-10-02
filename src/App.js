@@ -15,8 +15,7 @@ import { onError } from "@apollo/client/link/error";
 import Routes from "./routes";
 import { pageTitleReducer, userReducer, dateReducer } from "./store";
 import { LOGIN } from "./routes/app";
-// const api = "https://api.services.anousith.express/graphql";
-const api = "https://api.dev.services.anousith.express/graphql";
+const api = "https://api.bit-houses.com/graphql";
 const AppContext = React.createContext();
 export default function App() {
   const [userState, userDispatch] = useReducer(userReducer, null);

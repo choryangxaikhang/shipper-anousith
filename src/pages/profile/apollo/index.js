@@ -1,41 +1,37 @@
 import { gql } from "@apollo/client";
-export const EMPLOYEE_QUEY = gql`
-query Employees($limit: Int, $skip: Int, $orderBy: OrderByInput, $where: EmployeeWhereInput, $noLimit: Boolean) {
-  employees(limit: $limit, skip: $skip, orderBy: $orderBy, where: $where, noLimit: $noLimit) {
-    total
-    data {
-      _id
-      cvID
-      profileImage
-      firstName
-      lastName
-      gender
-      dateOfBirth
-      age
-      phoneNumber
-      workStartDate
-      workEndDate
-      department {
-        title_lao
+export const USERS = gql`
+  query Users(
+    $orderBy: OrderByInput
+    $skip: Int
+    $limit: Int
+    $where: UserWhereInput
+  ) {
+    users(orderBy: $orderBy, skip: $skip, limit: $limit, where: $where) {
+      data {
+        _id
+        profileImage
+        firstName
+        lastName
+        gender
+        province {
+          provinceName
+        }
+        district {
+          _id
+          title
+        }
+        village {
+          _id
+          title
+        }
+        phoneNumber
+        status
+        carSign
+        basicSalary
+        role
+        startWorkTime
+        endWorkTime
       }
-      team {
-        title_lao
-      }
-      province {
-        provinceName
-      }
-      district {
-        title
-      }
-      village
-      taxIncome
-      basicSalary
-      positionSalary
-      InsuranceExpense
-      status
-      role
-      createdAt
     }
   }
-}
 `;

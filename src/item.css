@@ -40,7 +40,7 @@
 }
 
 .items-group .btn-delete {
-  background-color: #eb6572;
+  background-color: f54f02;
   color: #fff;
   height: 100%;
   padding: 0;
@@ -51,6 +51,6 @@
 }
 
 .nav-link .active {
-  background-color: #eb6572 !important;
+  background-color: f54f02 !important;
   color: #fff;
 }

@@ -35,7 +35,7 @@ export default function TabMenuBarHistory() {
             <i className="fa fa-chevron-left fs-4" />
           </button>
         </div>
-        ການເຄື່ອນໄຫວ
+        ຈັດການຂໍ້ມູນອື່ນໆ
         <div
           className="text-white pageTitle text-right text-nowrap pr-0"
           style={{ flex: 1 }}
@@ -49,7 +49,7 @@ export default function TabMenuBarHistory() {
           onClick={() => history.push({ search: "?tab=confirm" })}
         >
           <i class="fa-solid fa-check me-1" />
-          ຢືນຢັນເງິນເດືອນ
+          ຫ້ອງເອ
         </Button>
         <Button
           className={`item-tab btn-block mb-2 ${tabActive === "complete_confirm" ? "active" : ""}`}
@@ -57,7 +57,15 @@ export default function TabMenuBarHistory() {
           onClick={() => history.push({ search: "?tab=complete_confirm" })}
         >
           <i class="icon-check-circle me-1" />
-          ລາຍການຢືນຢັນແລ້ວ
+          ຫ້ອງພັດລົມ
+        </Button>
+        <Button
+          className={`item-tab btn-block mb-2 ${tabActive === "complete_confirm" ? "active" : ""}`}
+          variant=""
+          onClick={() => history.push({ search: "?tab=complete_confirm" })}
+        >
+          <i class="icon-check-circle me-1" />
+          ໂຮມແຮມ
         </Button>
       </div>
       <div id="appCapsule" className="extra-header-active">

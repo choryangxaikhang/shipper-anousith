@@ -1,4 +1,6 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useContext, useEffect, useState } from "react";
+import Notiflix, { Loading } from "notiflix";
 
 import male from "../../img/male.png";
 import { AppContext } from "../../App";
@@ -6,37 +8,42 @@ import {
   aws_url_employee_Image,
   currency,
   formatDate,
+  getStaffLogin,
   getStatus,
   loadingScreen,
+  setGender,
   TOKEN,
 } from "../../helper";
-import Notiflix, { Loading } from "notiflix";
 import BottomNav from "../../layouts/BottomNav";
 import { useLazyQuery } from "@apollo/client";
-import { EMPLOYEE_QUEY } from "./apollo";
+import Imglogo from "../../img/app-icon.png";
 import { LOGIN } from "../../routes/app";
+import { USERS } from "./apollo";
+import { LocalConvenienceStoreOutlined } from "@material-ui/icons";
 export default function Profile({ history }) {
-  const [getUser, setGetUser] = useState("");
-  const { userState } = useContext(AppContext);
+  const [getUser, setGetUser] = useState({});
+  const [listData, setListData] = useState({});
+  const userState = getStaffLogin();
   const userData = userState?.data;
-  console.log(userData?._id)
-  const [fetchData, { data: dataStaff, loading }] = useLazyQuery(
-    EMPLOYEE_QUEY,
-    { fetchPolicy: "cache-and-network" }
-  );
+
+  console.log(userData);
+
+  const [fetchData, { data: dataStaff, loading }] = useLazyQuery(USERS, {
+    fetchPolicy: "cache-and-network",
+  });
 
   useEffect(() => {
     fetchData({
       variables: {
         where: {
-          _id:userData?._id
+          _id: parseInt(userData?._id),
         },
       },
     });
   }, []);
   useEffect(() => {
-    setGetUser(dataStaff?.employees?.data[0]);
-  }, [dataStaff])
+    setListData(dataStaff?.users?.data[0]);
+  }, [dataStaff]);
   const onLogout = () => {
     Notiflix.Confirm.show(
       "ແຈ້ງເຕືອນ",
@@ -83,230 +90,133 @@ export default function Profile({ history }) {
             </button>
           </div>
         </div>
-        <div className="section wallet-card-section pt-3 ">
-          <div
-            className="wallet-card pt-0 text-center"
-            style={{
-              height: 180,
-            }}
-          >
-            {" "}
+        <div className="body-content bg-white" style={{ marginTop: -30 }}>
+          <center>
             <img
-              src={
-                getUser?.profileImage
-                  ? aws_url_employee_Image + getUser?.profileImage
-                  : male
-              }
+              src={Imglogo}
               alt="logo"
-              className="logo mb-2"
+              className="logo p-2"
               style={{
-                width: 70,
-                height: 75,
-                borderRadius: 4,
-                marginLeft: -10,
+                width: 120,
+                height: 120,
+                borderRadius: "40%",
+                border: "2px solid f54f02",
               }}
-            /> <br />
-            <b className="text-start">
-              ID: {getUser?.cvID ? getUser?.cvID : "-"}<br />
-            </b>
-          </div>
-
-          <div className="session-list mt-3">
-            <div className="listview-title ml-0">ລາຍລະອຽດ</div>
-            <>
-              <ul className="listview image-listview text">
-                <li>
-                  <div className="item">
-                    <div className="in">
-                      <div>ຊື່ ແລະ ນາມສະກຸມ</div>
-                      <div className="custom-control custom-switch user-select-all">
-                        {getUser?.firstName ? getUser?.firstName : "-"}{" "}
-                        {getUser?.lastName ? getUser?.lastName : "-"}
+            />
+          </center>
+          <div style={{ marginTop: -20 }}>
+            <div className="session-list">
+              <div className="listview-title ml-0">ລາຍລະອຽດ</div>
+              <>
+                <ul className="listview image-listview text">
+                  <li>
+                    <div className="item">
+                      <div className="in">
+                        <div>ຊື່ ແລະ ນາມສະກຸມ</div>
+                        <div className="custom-control custom-switch user-select-all">
+                          {listData?.firstName ? listData?.firstName : "-"}{" "}
+                          {listData?.lastName ? listData?.lastName : "-"}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="item">
-                    <div className="in">
-                      <div>ເພດ</div>
-                      <div className="custom-control custom-switch user-select-all">
-                        {getUser?.firstName ? getUser?.firstName : "-"}{" "}
-                        {getUser?.lastName ? getUser?.lastName : "-"}
+                  </li>
+                  <li>
+                    <div className="item">
+                      <div className="in">
+                        <div>ເພດ</div>
+                        <div className="custom-control custom-switch user-select-all">
+                          {setGender(listData?.gender ? listData?.gender : "-")}{" "}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="item">
-                    <div className="in">
-                      <div>ວັນເດືອນປີເກີດ</div>
-                      <div className="custom-control custom-switch user-select-all">
-                       {formatDate(getUser?.dateOfBirth ? getUser?.dateOfBirth : "-")}
+                  </li>
+                  <li>
+                    <div className="item">
+                      <div className="in">
+                        <div>ວັນທີ່ເລີ່ມວຽກ</div>
+                        <div className="custom-control custom-switch user-select-all">
+                          {formatDate(
+                            listData?.startWorkTime
+                              ? listData?.startWorkTime
+                              : "-"
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="item">
-                    <div className="in">
-                      <div>ອາຍຸ</div>
-                      <div className="custom-control custom-switch user-select-all">
-                        {getUser?.age ? getUser?.age : "-"}
+                  </li>
+                  <li>
+                    <div className="item">
+                      <div className="in">
+                        <div>ເບີໂທ</div>
+                        <div className="custom-control custom-switch user-select-all">
+                          {listData?.phoneNumber ? listData?.phoneNumber : "-"}
+                          <br />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-                 <li>
-                  <div className="item">
-                    <div className="in">
-                      <div>ວັນທີ່ເລີ່ມວຽກ</div>
-                      <div className="custom-control custom-switch user-select-all">
-                        {formatDate(getUser?.workStartDate ? getUser?.workStartDate : "-")}
+                  </li>
+                  <li>
+                    <div className="item">
+                      <div className="in">
+                        <div>ຕຳແຫນ່ງ</div>
+                        <div className="custom-control custom-switch user-select-all">
+                          {getStatus(listData?.role ? listData?.role : "-")}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="item">
-                    <div className="in">
-                      <div>ເບີໂທ</div>
-                      <div className="custom-control custom-switch user-select-all">
-                        {getUser?.phoneNumber ? getUser?.phoneNumber : "-"}<br />
+                  </li>
+                  <li>
+                    <div className="item">
+                      <div className="in">
+                        <div>ເງິນເດືອນພື້ນຖານ</div>
+                        <div className="custom-control custom-switch user-select-all">
+                          {currency(
+                            listData?.basicSalary ? listData?.basicSalary : 0
+                          )}{" "}
+                          ກີບ
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="item">
-                    <div className="in">
-                      <div>ພະແນກ</div>
-                      <div className="custom-control custom-switch user-select-all">
-                        {getUser?.department?.title_lao
-                          ? getUser?.department?.title_lao
-                          : "-"}
+                  </li>
+                  <li>
+                    <div className="item">
+                      <div className="in">
+                        <div>ບ້ານ</div>
+                        <div className="custom-control custom-switch">
+                          {listData?.village?.title
+                            ? listData?.village?.title
+                            : "-"}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="item">
-                    <div className="in">
-                      <div>ຕຳແຫນ່ງ</div>
-                      <div className="custom-control custom-switch user-select-all">
-                        {getStatus(getUser?.role ? getUser?.role: "-")}
+                  </li>
+                  <li>
+                    <div className="item">
+                      <div className="in">
+                        <div>ເມືອງ</div>
+                        <div className="custom-control custom-switch user-select-all">
+                          {listData?.district?.title
+                            ? listData?.district?.title
+                            : "-"}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="item">
-                    <div className="in">
-                      <div>ຫນ່ວຍງານ</div>
-                      <div className="custom-control custom-switch user-select-all">
-                        {getUser?.team?.title_lao
-                          ? getUser?.team?.title_lao
-                          : "-"}
+                  </li>
+                  <li>
+                    <div className="item">
+                      <div className="in">
+                        <div>ແຂວງ</div>
+                        <div className="custom-control custom-switch">
+                          {listData?.province?.provinceName
+                            ? listData?.province?.provinceName
+                            : "-"}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="item">
-                    <div className="in">
-                      <div>ເງິນເດືອນພື້ນຖານ</div>
-                      <div className="custom-control custom-switch user-select-all">
-                        {currency(getUser?.basicSalary
-                          ? getUser?.basicSalary
-                          : 0)}{" "}ກີບ
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                 <li>
-                  <div className="item">
-                    <div className="in">
-                      <div>ເງິນຕຳແຫນ່ງ</div>
-                      <div className="custom-control custom-switch user-select-all">
-                        {currency(getUser?.positionSalary
-                          ? getUser?.positionSalary
-                          : 0)}{" "}ກີບ
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="item">
-                    <div className="in">
-                      <div>ເງິນອາກອນ</div>
-                      <div className="custom-control custom-switch user-select-all">
-                        {getUser?.taxIncome
-                          ? currency(getUser?.taxIncome):0}{" "}ກີບ
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="item">
-                    <div className="in">
-                      <div>ເງິນປະກັນສັງຄົມ</div>
-                      <div className="custom-control custom-switch user-select-all">
-                        {getUser?.InsuranceExpense
-                          ? currency(getUser?.InsuranceExpense): 0} {" "}ກີບ
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="item">
-                    <div className="in">
-                      <div>ບ້ານ</div>
-                      <div className="custom-control custom-switch">
-                        {getUser?.village
-                          ? getUser?.village
-                          : "-"}
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="item">
-                    <div className="in">
-                      <div>ເມືອງ</div>
-                      <div className="custom-control custom-switch user-select-all">
-                        {getUser?.district?.title
-                          ? getUser?.district?.title
-                          : "-"}
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="item">
-                    <div className="in">
-                      <div>ແຂວງ</div>
-                      <div className="custom-control custom-switch">
-                        {getUser?.province?.provinceName
-                          ? getUser?.province?.provinceName
-                          : "-"}
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="item">
-                    <div className="in">
-                      <div>ອື່ນໆ</div>
-                      <div className="custom-control custom-switch">
-                        {getUser?.note
-                          ? getUser?.note
-                          : "-"}
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </>
+                  </li>
+                </ul>
+              </>
+            </div>
           </div>
         </div>
         <BottomNav />

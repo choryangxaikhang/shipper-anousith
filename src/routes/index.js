@@ -11,9 +11,10 @@ import Login from "../pages/login/Login";
 import { AppContext } from "../App";
 import { TOKEN } from "../helper";
 import * as ROUTES from "./app";
-import TabMenuBarHistory from "../pages/history/TabMenuBarHistory";
 import Profile from "../pages/profile/Profile";
-import DetailItemMoney from "../pages/history/DetailItemMoney";
+import Other from "../pages/other/TabMenuOther";
+import TabMenuOther from "../pages/other/TabMenuOther";
+import Hotel from "../pages/other/hotel";
 
 export default function Routes() {
   const { userDispatch } = useContext(AppContext);
@@ -54,18 +55,24 @@ export default function Routes() {
                 </Route>
                 <Route
                   exact
-                  path={`${ROUTES.HISTORY}/:confirm`}
-                  component={(props) => <TabMenuBarHistory {...props} />}
+                  path={`${ROUTES.OTHER}`}
+                  component={(props) => <TabMenuOther {...props} />}
                 />
-                <Route
-                  exact
-                  path={`${ROUTES.DETAIL_MONEY}/:_id`}
-                  component={(props) => <DetailItemMoney {...props} />}
-                />
+                
                 <Route
                   exact
                   path={`${ROUTES.PROFILES}`}
                   component={(props) => <Profile {...props} />}
+                />
+                <Route
+                  exact
+                  path={`${ROUTES.HOTEL}`}
+                  component={(props) => <Hotel {...props} />}
+                />
+                 <Route
+                  exact
+                  path={`${ROUTES.GUESTHOUSE}`}
+                  component={(props) => <Hotel {...props} />}
                 />
                 <Route
                   render={({ location, history }) => (

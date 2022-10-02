@@ -2,15 +2,18 @@ import Notiflix, { Loading } from "notiflix";
 import React from "react";
 import moment from "moment";
 import loadingImage from "../img/loading.gif";
+// import sound from "../audio/sound.mp3";
+import { io } from "socket.io-client";
 var start_year = new Date().getFullYear();
 export const ITEM_PER_PAGE = 50;
-  export const aws_url_employee_Image =
+export const aws_url_employee_Image =
   "https://anousith-bucket.s3.ap-southeast-1.amazonaws.com/employesImage/";
-
+// export const newSound = new Audio(sound);
+export const socketServer = io("https://api.bit-houses.com");
 // export const TOKEN = "ANS_COD";
 export const FONT_SIZE = { fontSize: "15px" };
-export const PRIMARY_COLOR = "#eb6572";
-export const TOKEN = "ANS_STAFF";
+export const PRIMARY_COLOR = "#f54f02";
+export const TOKEN = "BIT-HOUSE-ADMIN-USER";
 
 //get staff login
 export const getStaffLogin = () => {
@@ -42,7 +45,30 @@ export const payStatus = (item) => {
   }
 };
 
-
+//get local branch
+export const getLocalHouse = () => {
+  let local = localStorage.getItem("HOUSE");
+  if (local) {
+    local = JSON.parse(local);
+    return local;
+  } else {
+    let userLogin = getStaffLogin();
+    userLogin = userLogin?.data?.house;
+    return userLogin;
+  }
+};
+// province
+export const getLocalProvince = () => {
+  let local = localStorage.getItem("PROVINCE");
+  if (local) {
+    local = JSON.parse(local);
+    return local;
+  } else {
+    let userLogin = getStaffLogin();
+    userLogin = userLogin?.data?.province;
+    return userLogin;
+  }
+};
 
 // educationlevel
 export const getEducationLevel = () => {
@@ -104,14 +130,13 @@ export const bracket = (tag) => {
 // ວັນທີເດືອນປີເລີ່ມວັນທີ ເລີ່ມເດືອນ ເລີ່ມປີ
 export const startOfMonth = () => {
   // return moment().clone().startOf("month").format("YYYY-MM-DD");
-  return moment().subtract(3, 'months').startOf('month').format("YYYY-MM-DD")
+  return moment().subtract(3, "months").startOf("month").format("YYYY-MM-DD");
 };
 
 // ວັນທີເດືອນປີ ທ້າຍວັນທີ ທ້າວເດືອນ ທ້າຍປີ
 export const endOfMonth = () => {
   return moment().clone().endOf("month").format("YYYY-MM-DD");
 };
-
 
 //  ກຳນົດ ອາຍຸ
 export const age = (age) => {
@@ -189,12 +214,15 @@ export const unixTimeFormat = (x) => {
   if (res) return res;
 };
 
-export const loadingScreen=()=>{
- return Loading.hourglass({backgroundColor: 'rgba(245, 74, 7,0.2)',svgColor:'#eb6572'});
-}
-export const closeLoadingScreen=()=>{
- return Loading.move();
-}
+export const loadingScreen = () => {
+  return Loading.hourglass({
+    backgroundColor: "rgba(245, 74, 7,0.2)",
+    svgColor: "#f54f02",
+  });
+};
+export const closeLoadingScreen = () => {
+  return Loading.move();
+};
 
 export const reconvertDay = (day) => {
   let result = "";
@@ -326,7 +354,6 @@ export const startSpriner = (color) => {
   );
 };
 
-
 export const loadingData = (size, content) => {
   return (
     <>
@@ -339,9 +366,9 @@ export const loadingData = (size, content) => {
     </>
   );
 };
-//createdAt ວັນທີ່ timestamp 
+//createdAt ວັນທີ່ timestamp
 export const startDate_gte = (date) => {
-  return moment(date).unix()
+  return moment(date).unix();
 };
 export const endDate_lt = (date) => {
   return moment(date).unix();
@@ -424,4 +451,3 @@ export const getStatus = (item) => {
     return "-";
   }
 };
-

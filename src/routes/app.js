@@ -1,5 +1,9 @@
 export const HOME_PAGE = "/home";
 export const LOGIN = "/login";
-export const HISTORY = "/history";
+export const OTHER = "/other";
 export const PROFILES = "/profile";
-export const DETAIL_MONEY = "/detail_money";
+
+// guesthouse
+export const GUESTHOUSE = "/guesthouse";
+// Hotel
+export const HOTEL = "/hotel";

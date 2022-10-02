@@ -8,9 +8,9 @@
   color: #585858;
 }
 .appBottomMenu .item.active:before .col i {
-  background: #eb6572;
-  color: #eb6572;
+  background: f54f02;
+  color: f54f02;
 }
 .appBottomMenu .active .col i {
-  color: #eb6572 !important;
+  color: f54f02 !important;
 }

@@ -25,7 +25,7 @@ export default function Navbar() {
           localStorage.clear();
           window.location.replace(LOGIN);
           localStorage.removeItem(TOKEN);
-        }, 2000);
+        }, 1000);
       },
       () => {
         return false;

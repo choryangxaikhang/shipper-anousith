@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { HISTORY, PROFILES } from "../routes/app";
-import "./bottomNav.css";
+import { OTHER, PROFILES } from "../routes/app";
+// import "./bottomNav.css";
 
 export default function BottomNav() {
   return (
@@ -17,20 +17,20 @@ export default function BottomNav() {
     >
       <NavLink
         className="item"
-        to={`${HISTORY}/confirm`}
+        to={`${OTHER}`}
         style={{borderTopLeftRadius: 25,marginLeft:-10 }}
       >
         <div className="col pt-1"  style={{borderTopLeftRadius: 20 }}>
         <i className="icon-sort text-secondary" style={{ fontSize: 25 }}/>
           <strong className="text-secondary" style={{ fontSize: 15 }}>
-          ການເຄື່ອນໄຫວ
+          ອື່ນໆ 
           </strong>
         </div>
       </NavLink>
       <NavLink className="item" to="/home">
         <div className="col pt-1">
-          <i className="icon-home" style={{ fontSize: 25 }} />
-          <strong className="text-secondary" style={{ fontSize: 15 }}>
+          <i className="icon-home text-secondary" style={{ fontSize: 25 }} />
+          <strong className="text-secondary " style={{ fontSize: 15 }}>
             ໜ້າຫຼັກ
           </strong>
         </div>

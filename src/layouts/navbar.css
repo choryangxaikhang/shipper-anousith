@@ -1,5 +1,5 @@
 .appHeader {
-  background-color: #eb6572;
+  background-color: #f54f02;
 }
 .appHeader button {
   color: #fff;
@@ -43,7 +43,7 @@
 }
 
 .cv_id_branch {
-  background-color: #eb6572;
+  background-color: #f54f02;
   color: #fff;
   padding: 1em;
   font-weight: bold;
@@ -76,7 +76,7 @@
 }
 .list-menu li .material-icons,
 .logout .material-icons {
-  background-color: #eb6572;
+  background-color: #f54f02;
   color: #fff;
   padding: 0.5em;
   border-radius: 50%;
@@ -88,7 +88,7 @@
   font-size: 1em;
   width: 100%;
   height: 50px;
-  background: #eb6572;
+  background: #f54f02;
   color: #fff;
   font-weight: bold;
   border-radius: 0em;
@@ -138,5 +138,5 @@
 
 /* active link */
 .list-menu-sidebar .active {
-  color: #eb6572 !important;
+  color: #f54f02 !important;
 }
