@@ -43,7 +43,7 @@ export default function Home() {
       fetchPolicy: "cache-and-network",
     });
 
-  // data HouseLocal
+  // data HouseLoca
   useEffect(() => {
     const _local = getStaffLogin();
     setUserData(_local?.data || {});
@@ -67,7 +67,7 @@ export default function Home() {
     queryBooking({
       variables: {
         where: {
-          house: parseInt(localHouse),
+          // house: parseInt(localHouse),
           status: "BOOKING",
         },
         orderBy: "createdAt_DESC",
@@ -171,12 +171,7 @@ export default function Home() {
                     loadingData(25)
                   ) : (
                     <>
-                      <h3>
-                        {" "}
-                        {getPayrollSummary
-                          ? currency(getPayrollSummary?.basicSalary)
-                          : 0}
-                      </h3>
+                      <h3>.0</h3>
                     </>
                   )}
                 </div>
@@ -190,7 +185,10 @@ export default function Home() {
             <div className="option-section mb-15">
               <div className="row gx-2">
                 <div className="col-6 pb-15">
-                  <div className="option-card option-card-violet">
+                  <div
+                    className="option-card card"
+                    style={{ borderTop: "1px solid #f54f02" }}
+                  >
                     <a
                       href="javascript:void(0)"
                       data-bs-toggle="modal"
@@ -202,23 +200,19 @@ export default function Home() {
                           loadingData(25)
                         ) : (
                           <>
-                            <h3>
-                              {getPayrollSummary
-                                ? currency(
-                                    getPayrollSummary?.extraIncome +
-                                      getPayrollSummary?.positionSalary
-                                  )
-                                : 0}{" "}
-                              ກີບ
-                            </h3>
+                            <h3>0 ກີບ</h3>
                           </>
                         )}
                       </div>
                     </a>
                   </div>
                 </div>
+
                 <div className="col-6 pb-15">
-                  <div className="option-card option-card-blue">
+                  <div
+                    className="option-card  card "
+                    style={{ borderTop: "1px solid #f54f02" }}
+                  >
                     <a href="javascript:void(0)">
                       <p>ລາຍຮັບການຈອງທັງຫມົດ</p>
                       <div className="option-card-icon">
@@ -226,16 +220,7 @@ export default function Home() {
                           loadingData(25)
                         ) : (
                           <>
-                            <h3>
-                              {getPayrollSummary
-                                ? currency(
-                                    getPayrollSummary?.deductionExpense +
-                                      getPayrollSummary?.InsuranceExpense +
-                                      getPayrollSummary?.taxIncome
-                                  )
-                                : 0}{" "}
-                              ກີບ
-                            </h3>
+                            <h3>0 ກີບ</h3>
                           </>
                         )}
                       </div>

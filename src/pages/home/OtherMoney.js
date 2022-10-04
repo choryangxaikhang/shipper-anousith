@@ -1,49 +1,35 @@
-/* eslint-disable no-script-url */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import useReactRouter from "use-react-router";
-import "./index.css";
-import BottomNav from "../../layouts/BottomNav";
-import Imglogo from "../../img/logo-bg.png";
-import cover1 from "../../img/cover.jpeg";
-import { QUERY_ROOM, QUERY_SUMMARY_BOOKING } from "./apollo";
+import { QUERY_SUMMARY_BOOKING } from "./apollo";
 import {
-  aws_url_image,
   createdAt_gte,
   createdAt_lt,
   currency,
   formatDateTime,
   loadingData,
-  toDay,
+  toDayDash,
 } from "../../helper";
-import { AppContext } from "../../App";
-import QRCode from "react-qr-code";
 import userEvent from "@testing-library/user-event";
-export default function OtherMoney() {
-  const [data, setDataPayrollSummary] = useState([]);
-  const [listBooking, setBookingList] = useState(0);
-  const [listCheckIn, setCheckIn] = useState(0);
-  const [listCheckOut, setCheckOut] = useState(0);
-
-  const [startDate, setStartDate] = useState(toDay());
-  const [endDate, setEndDate] = useState(toDay());
-  const [newLoadData, setNewLoadData] = useState(false);
-
-  const [fetchData, { data: setData, loading }] = useLazyQuery(
+export default function SummaryMoney() {
+  const [startDate, setStartDate] = useState(toDayDash());
+  const [endDate, setEndDate] = useState(toDayDash());
+  const [fetchData, { data: bookingToday, loading }] = useLazyQuery(
     QUERY_SUMMARY_BOOKING,
     {
       fetchPolicy: "cache-and-network",
     }
   );
-  const [fetchDataCheckOut, { data: setDataCheckout, loadingCheckout }] =
-    useLazyQuery(QUERY_SUMMARY_BOOKING, {
+
+  const [outHouseData, { data: outHouse, loadingCheckout }] = useLazyQuery(
+    QUERY_SUMMARY_BOOKING,
+    {
       fetchPolicy: "cache-and-network",
-    });
-  const [fetchDataCheckIn, { data: setDataCheckIn, loadingCheckIn }] =
+    }
+  );
+  const [fetchDataCheckIn, { data: CheckInHouse, loadingCheckIn }] =
     useLazyQuery(QUERY_SUMMARY_BOOKING, {
       fetchPolicy: "cache-and-network",
     });
@@ -61,7 +47,7 @@ export default function OtherMoney() {
     });
   }, [startDate, endDate]);
   useEffect(() => {
-    fetchDataCheckOut({
+    outHouseData({
       variables: {
         where: {
           checkOutAt_gte: createdAt_gte(startDate),
@@ -72,6 +58,7 @@ export default function OtherMoney() {
       },
     });
   }, [startDate, endDate]);
+
   useEffect(() => {
     fetchDataCheckIn({
       variables: {
@@ -84,40 +71,26 @@ export default function OtherMoney() {
       },
     });
   }, [startDate, endDate]);
-  useEffect(() => {
-    fetchData({
-      variables: {},
-    });
-  }, [startDate, endDate]);
-
-  useEffect(() => {
-    setBookingList(setData?.summaryBookingTotal?.feeBookingAmount);
-    setCheckIn(setDataCheckIn?.summaryBookingTotal?.feeBookingAmount);
-    setCheckOut(setDataCheckout?.summaryBookingTotal?.feeBookingAmount);
-  }, [setData, setDataCheckIn, setDataCheckout]);
-
-  const getFinalBooking = listBooking / 100;
-  const getFinalCheckIn = listCheckIn / 100;
-  const getFinalCheckout = listCheckOut / 100;
 
   return (
     <>
-      <div className="saving-goals-section pb-15">
+      <div className="saving-goals-section pb-15 card">
         <div className="progress-card progress-card-red mb-15">
           <div className="progress-card-info">
             <div style={{ width: 50, height: 50 }}>
-              Booking
+              <i className="fa-solid fa-circle-down fa-2x" />
             </div>
             <div className="progress-primary-text ms-2">
-              <h3>ການຈອງມື້ນີ້</h3>
+              <h4>ຍອດລວມການຈອງມື້ນີ້</h4>
             </div>
           </div>
-          <div className="progress-card-amount">
+          <div className="progress-card-amount fs-4">
             {loading
               ? loadingData(25)
-              : setData?.summaryBookingTotal?.feeBookingAmount > 0
-              ? currency(setData?.summaryBookingTotal?.feeBookingAmount)
-              : 0}
+              : bookingToday?.summaryBookingTotal?.feeBookingAmount
+              ? currency(bookingToday?.summaryBookingTotal?.feeBookingAmount)
+              : 0}{" "}
+            ກີບ
           </div>
         </div>
 
@@ -125,38 +98,38 @@ export default function OtherMoney() {
           <div className="progress-card-info">
             <div className="circular-progress" data-note={25}>
               <div style={{ width: 50, height: 50 }}>
-                CheckIn
+              <i class="fa-solid fa-circle-left fa-2x"></i>
               </div>
             </div>
             <div className="progress-info-text">
-              <h3>ແຂກເຂົ້າມື້ນີ້</h3>
+              <h4>ຍອດລວມການເປີດຫ້ອງມື້ນີ້</h4>
             </div>
           </div>
-          <div className="progress-card-amount">
+          <div className="progress-card-amount fs-4 text-primary">
             {loadingCheckIn
               ? loadingData(25)
-              : setDataCheckIn?.summaryBookingTotal?.feeBookingAmount > 0
-              ? currency(setDataCheckIn?.summaryBookingTotal?.feeBookingAmount)
-              : 0}
+              : CheckInHouse?.summaryBookingTotal?.feeBookingAmount > 0
+              ? currency(CheckInHouse?.summaryBookingTotal?.feeBookingAmount)
+              : 0}{" "}
+            ກີບ
           </div>
         </div>
         <div className="progress-card progress-card-green mb-15">
           <div className="progress-card-info">
             <div className="circular-progress" data-note={75}>
               <div style={{ width: 50, height: 50 }}>
-                <i className="fa-solid fa-door-open fs-3 mt-1" />
+              <i className="fa-solid fa-circle-right fa-2x"/>
               </div>
             </div>
-            <div className="progress-info-text">
-              <h3>ແຂກອອກມື້ນີ້</h3>
+            <div className="progress-info-text ">
+              <h4>ຍອດລວມແຂກອອກມື້ນີ້</h4>
             </div>
           </div>
-          <div className="progress-card-amount">
+          <div className="progress-card-amount fs-4 text-primary">
             {loadingCheckout
               ? loadingData(25)
-              : currency(
-                  setDataCheckout?.summaryBookingTotal?.feeBookingAmount
-                )}
+              : currency(outHouse?.summaryBookingTotal?.feeBookingAmount)}{" "}
+            ກີບ
           </div>
         </div>
       </div>

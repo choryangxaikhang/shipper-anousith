@@ -20,7 +20,6 @@ export default function SelectLocalHouse({
   className,
   style,
   onChange,
-  disabled,
   value,
   ownerId,
 }) {
@@ -48,7 +47,7 @@ export default function SelectLocalHouse({
         },
       },
     });
-  }, [ownerId,userData]);
+  }, [ownerId]);
 
 
   useEffect(() => {
@@ -82,7 +81,6 @@ export default function SelectLocalHouse({
       <Select
         styles={style}
         className={className}
-        isDisabled={disabled}
         value={selectedOption}
         placeholder={loading ? "ກຳລັງໂຫຼດ..." : "ເລືອກຊື່ກິດຈະການ"}
         onChange={(res) => {

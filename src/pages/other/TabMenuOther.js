@@ -292,7 +292,7 @@ export default function TabMenuOther() {
                   <h5>ຍົກເລີກ</h5>
                 </a>
               </div>
-              <div className="me-2">
+              <div className="me-3">
                 <a
                   onClick={(e) => {
                     history.push(`${ROUTES.SETTING}/1`);
