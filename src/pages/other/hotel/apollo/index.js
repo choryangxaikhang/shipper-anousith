@@ -1,59 +1,77 @@
 import { gql } from "@apollo/client";
 export const QUERY_ROOM = gql`
- query Data($limit: Int, $skip: Int, $orderBy: OrderByInput, $where: RoomWhereInput) {
-  rooms(limit: $limit, skip: $skip, orderBy: $orderBy, where: $where) {
-    data {
-      _id
-      typeRoom {
-        title_lao
-      }
-      title_lao
-      title_eng
-      priceHalf
-      priceFull
-      status
-      detail
-      createdAt
-      isPublic
-      house {
+  query Data(
+    $limit: Int
+    $skip: Int
+    $orderBy: OrderByInput
+    $where: RoomWhereInput
+  ) {
+    rooms(limit: $limit, skip: $skip, orderBy: $orderBy, where: $where) {
+      data {
         _id
-        houseName
-        type{
+        typeRoom {
+          title_lao
+          title_eng
+        }
         title_lao
         title_eng
+        priceHalf
+        priceFull
+        status
+        detail
+        createdAt
+        isPublic
+        house {
+          _id
+          houseName
         }
       }
+      total
     }
   }
-}
 `;
 
 export const QUERY_BOOKING = gql`
-query Bookings(
-  $where: BookingWhereInput
-  $orderBy: OrderByInput
-  $skip: Int
-  $limit: Int
-) {
-  bookings(where: $where, orderBy: $orderBy, skip: $skip, limit: $limit) {
-    total
-    data {
-      _id
-      status
-      bookDate
-      bookTime
-      bookingType
-      updatedAt
-      checkInAt
-      checkOutAt
-      room {
-        title_lao
-        priceHalf
-        priceFull
+  query Bookings(
+    $where: BookingWhereInput
+    $orderBy: OrderByInput
+    $skip: Int
+    $limit: Int
+  ) {
+    bookings(where: $where, orderBy: $orderBy, skip: $skip, limit: $limit) {
+      total
+      data {
+        _id
+        status
+        bookDate
+        bookTime
+        bookingType
+        updatedAt
+        checkInAt
+        checkOutAt
+        room {
+          _id
+          title_lao
+          title_eng
+          priceHalf
+          priceFull
+        }
+        house {
+          _id
+          houseName
+        }
+        inTime
+        fee
+        paidStatus
+        halfPriceTotal
+        fullPriceTotal
+        incomeKIP
+        incomeTHB
+        incomeUSD
+        exChange
       }
     }
   }
-}
 `;
 
 export const QUERY_CHECK_IN = gql`
@@ -70,16 +88,15 @@ export const QUERY_CHECK_IN = gql`
 `;
 
 export const ADD_CHECK_IN = gql`
-mutation CreateBooking($data: BookingInput!) {
-  createBooking(data: $data) {
-    _id
+  mutation CreateBooking($data: BookingInput!) {
+    createBooking(data: $data) {
+      _id
+    }
   }
-}
 `;
 
-
 export const QUERY_ROOMS = gql`
-query Rooms(
+  query Rooms(
     $limit: Int
     $skip: Int
     $orderBy: OrderByInput
@@ -104,9 +121,9 @@ query Rooms(
           _id
           houseName
           powerTime
-          type{
-          title_lao
-          title_eng
+          type {
+            title_lao
+            title_eng
           }
         }
         coverImage
@@ -122,8 +139,9 @@ query Rooms(
       }
     }
   }
-  `;
-export const EDIT_BOOKING = gql`
+`;
+
+export const UPDATE_BOOKING_STATUS = gql`
   mutation UpdateBooking($data: BookingInput!, $where: BookingWhereInputOne!) {
     updateBooking(data: $data, where: $where) {
       _id
@@ -132,11 +150,11 @@ export const EDIT_BOOKING = gql`
 `;
 
 export const UPDATE_ROOM = gql`
-mutation UpdateRoom($data: RoomInput!, $where: RoomWhereInputOne!) {
-  updateRoom(data: $data, where: $where) {
-    _id
+  mutation UpdateRoom($data: RoomInput!, $where: RoomWhereInputOne!) {
+    updateRoom(data: $data, where: $where) {
+      _id
+    }
   }
-}
 `;
 export const ADD_CUSTOMER = gql`
   mutation CreateCustomer($data: CustomerInput!) {
@@ -146,61 +164,84 @@ export const ADD_CUSTOMER = gql`
   }
 `;
 export const CHECKOUT_BOOKING = gql`
-query Bookings(
-  $where: BookingWhereInput
-  $orderBy: OrderByInput
-  $skip: Int
-  $limit: Int
-) {
-  bookings(where: $where, orderBy: $orderBy, skip: $skip, limit: $limit) {
-    total
-    data {
-      _id
-      bookingType
-      room {
+  query Bookings(
+    $where: BookingWhereInput
+    $orderBy: OrderByInput
+    $skip: Int
+    $limit: Int
+  ) {
+    bookings(where: $where, orderBy: $orderBy, skip: $skip, limit: $limit) {
+      total
+      data {
         _id
-        title_lao
+        bookingType
+        room {
+          _id
+          title_lao
+        }
+        customer {
+          fullName
+          _id
+          phoneNumber
+        }
+        paidStatus
       }
-      customer {
-        fullName
-        _id
-        phoneNumber
-      }
-      paidStatus
     }
   }
-}
 `;
 export const QUERY_RATE = gql`
-query RateExchanges($limit: Int, $skip: Int, $orderBy: OrderByInput, $where: RateExchangeWhereInput) {
-  rateExchanges(limit: $limit, skip: $skip, orderBy: $orderBy, where: $where) {
-    data {
-      laoKIP
-      laoTHB
-      laoUSD
-      house {
+  query RateExchanges(
+    $limit: Int
+    $skip: Int
+    $orderBy: OrderByInput
+    $where: RateExchangeWhereInput
+  ) {
+    rateExchanges(
+      limit: $limit
+      skip: $skip
+      orderBy: $orderBy
+      where: $where
+    ) {
+      data {
+        laoKIP
+        laoTHB
+        laoUSD
+        house {
+          _id
+          houseCode
+        }
         _id
-        houseCode
       }
-      _id
     }
   }
-}
 `;
 
 export const PROMOTIONS = gql`
-query Promotions($where: PromotionWhereInput) {
-  promotions(where: $where) {
-    data {
-      _id
-      title
-      status
-      house {
+  query Promotions($where: PromotionWhereInput) {
+    promotions(where: $where) {
+      data {
         _id
-        houseName
+        title
+        status
+        house {
+          _id
+          houseName
+        }
+        percent
       }
-      percent
     }
   }
-}
+`;
+
+export const TYPE_ROOM = gql`
+  query TypeRooms($where: TypeRoomWhereInput) {
+    typeRooms(where: $where) {
+      total
+      data {
+        _id
+        title_lao
+        title_eng
+      }
+    }
+  }
 `;

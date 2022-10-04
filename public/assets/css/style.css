@@ -864,7 +864,7 @@ select.form-control:valid {
 .body-content {
   margin-top: 80px;
   padding-top: 20px;
-  background-color: #f2f6ff;
+  background-color: white;
   position: relative;
   border-radius: 10px 10px 0 0;
 }

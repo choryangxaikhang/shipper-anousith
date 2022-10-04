@@ -79,6 +79,10 @@ export const getEducationLevel = () => {
   }
   return getYear;
 };
+// ກຳນົດ ເຄື່ອງໝາຍ ບັງຄັບໃຫ້ປ້ອນຂໍ້ມູນ
+export const valiDate = () => {
+  return <font style={{ color: "red" }}> * </font>;
+};
 
 // ກຳນົດ ເພດ
 export const setGender = (SetGender) => {
@@ -125,6 +129,48 @@ export const bracket = (tag) => {
   let en = ")";
   let i = st + tag + en;
   return i;
+};
+
+export const messageConfirm = (title, action) => {
+  Notiflix.Confirm.show(
+    "ເເຈ້ງເຕືອນ",
+    title,
+    "ຕົກລົງ",
+    "ຍົກເລີກ",
+    async function () {
+      action();
+    },
+    function () {
+      return false;
+    }
+  );
+};
+export const paiStatus = (status) => {
+  if (status === 1) {
+    return "ຈ່າຍແລ້ວ";
+  } else if (status === 0) {
+    return "ຍັງບໍ່ທັນຈ່າຍ";
+  } else {
+    return "-";
+  }
+};
+
+//set params
+export const setParams = (key, val) => {
+  const urlSearch = window.location.search;
+  if (urlSearch.search(key) === -1) {
+    const _symbol = urlSearch ? "&" : "";
+    const _search = `${urlSearch}${_symbol}${key}=${val ? val : ""}`;
+    return _search;
+  } else {
+    const params = new URLSearchParams(urlSearch);
+    const oldValue = params.get(key);
+    const newUrl = urlSearch.replace(
+      `${key}=${oldValue}`,
+      `${key}=${val ? val : ""}`
+    );
+    return newUrl;
+  }
 };
 
 // ວັນທີເດືອນປີເລີ່ມວັນທີ ເລີ່ມເດືອນ ເລີ່ມປີ

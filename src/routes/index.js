@@ -15,6 +15,11 @@ import Profile from "../pages/profile/Profile";
 import Other from "../pages/other/TabMenuOther";
 import TabMenuOther from "../pages/other/TabMenuOther";
 import Hotel from "../pages/other/hotel";
+import PeopleCheckout from "../pages/other/PeopleCheckout";
+import Booking from "../pages/other/booking";
+import BookingRequestScreen from "../pages/other/bookingRequest";
+import BookingCancel from "../pages/other/cancel";
+import SettingsScreen from "../pages/settings";
 
 export default function Routes() {
   const { userDispatch } = useContext(AppContext);
@@ -58,22 +63,46 @@ export default function Routes() {
                   path={`${ROUTES.OTHER}`}
                   component={(props) => <TabMenuOther {...props} />}
                 />
-                
+
                 <Route
                   exact
                   path={`${ROUTES.PROFILES}`}
                   component={(props) => <Profile {...props} />}
                 />
+                {/* hotel */}
                 <Route
                   exact
-                  path={`${ROUTES.HOTEL}`}
+                  path={`${ROUTES.HOTEL}/:_id`}
                   component={(props) => <Hotel {...props} />}
                 />
-                 <Route
+                <Route
                   exact
-                  path={`${ROUTES.GUESTHOUSE}`}
-                  component={(props) => <Hotel {...props} />}
+                  path={`${ROUTES.HOTEL_CHECKOUT}`}
+                  component={PeopleCheckout}
                 />
+                {/* booking */}
+                <Route
+                  exact
+                  path={`${ROUTES.BOOKING}/:_id`}
+                  component={(props) => <Booking {...props} />}
+                />
+                <PrivateRoute
+                  path={`${ROUTES.REQUEST_BOOKING_SCREEN}/:_id`}
+                  exact
+                  component={(props) => <BookingRequestScreen {...props} />}
+                />
+                <PrivateRoute
+                  path={`${ROUTES.BOOKING_CANCEL}/:_id`}
+                  exact
+                  component={(props) => <BookingCancel {...props} />}
+                />
+                {/* setting */}
+                <PrivateRoute
+                  path={`${ROUTES.SETTING}/:_id`}
+                  exact
+                  component={(props) => <SettingsScreen{...props} />}
+                />
+
                 <Route
                   render={({ location, history }) => (
                     <>

@@ -3,20 +3,26 @@ import { useLazyQuery } from "@apollo/client";
 import useReactRouter from "use-react-router";
 import "./index.css";
 import BottomNav from "../../layouts/BottomNav";
-import { QUERY_ROOM } from "./apollo";
+import { BOOKINGS, QUERY_ROOM } from "./apollo";
 import male from "../../img/male.png";
 import { Image } from "react-bootstrap";
-import { aws_url_employee_Image, currency, loadingData } from "../../helper";
+import {
+  aws_url_employee_Image,
+  currency,
+  getLocalHouse,
+  loadingData,
+} from "../../helper";
 import { AppContext } from "../../App";
 import QRCode from "react-qr-code";
 import OtherMoney from "./OtherMoney";
-import { OTHER } from "../../routes/app";
+import { BOOKING, OTHER } from "../../routes/app";
 export default function Home() {
   const { history } = useReactRouter();
   const { userState, titleDispatch } = useContext(AppContext);
   const userData = userState?.data;
   const [total, setTotal] = useState(0);
   const [getPayrollSummary, setDataRoom] = useState([]);
+  const [localHouse, setLocalHouse] = useState("");
   const [fetchItem, { data: setNoticeConfirm, loading: loadingTotal }] =
     useLazyQuery(QUERY_ROOM, {
       fetchPolicy: "cache-and-network",
@@ -27,13 +33,29 @@ export default function Home() {
       fetchPolicy: "cache-and-network",
     }
   );
+  // Bookigng
+  const [queryBooking, { data: setaBooking, loading: loadingBooking }] =
+    useLazyQuery(BOOKINGS, {
+      fetchPolicy: "cache-and-network",
+    });
+  useEffect(() => {
+    setLocalHouse(getLocalHouse()?._id);
+  }, []);
   useEffect(() => {
     fetchAnsItem({
       variables: {
-        where: {
-          empID: parseInt(userData?._id),
-        },
+        where: {},
         limit: 1,
+        orderBy: "createdAt_DESC",
+      },
+    });
+    // Booking
+    queryBooking({
+      variables: {
+        where: {
+          // house: parseInt(localHouse),
+          status: "BOOKING",
+        },
         orderBy: "createdAt_DESC",
       },
     });
@@ -42,10 +64,7 @@ export default function Home() {
   useEffect(() => {
     fetchItem({
       variables: {
-        where: {
-          empID: parseInt(userData?._id),
-          confirmStatus: "UNCONFIRMED",
-        },
+        where: {},
         orderBy: "createdAt_DESC",
       },
     });
@@ -60,6 +79,7 @@ export default function Home() {
       setTotal(setNoticeConfirm?.rooms?.data?.length);
     }
   }, [setNoticeConfirm]);
+
   return (
     <>
       <div
@@ -79,16 +99,20 @@ export default function Home() {
           >
             <a
               className="mr-3 float-right"
-              onClick={(e) => history.push(`${OTHER}`)}
+              onClick={() => history.push(`${BOOKING}/1`)}
             >
               <i className="icon-bell" style={{ fontSize: 20 }} />
-              {loadingTotal ? (
+              {loadingBooking ? (
                 <span style={{ position: "absolute", right: 10, top: 10 }}>
                   {loadingData(10)}
                 </span>
-              ) : total > 0 ? (
+              ) : setaBooking?.bookings?.total > 0 ? (
                 <span className="badge badge-success mr-1 p-2">
-                  <small>{total ? total : 0}</small>
+                  <small>
+                    {setaBooking?.bookings?.total
+                      ? setaBooking?.bookings?.total
+                      : 0}
+                  </small>
                 </span>
               ) : null}
             </a>

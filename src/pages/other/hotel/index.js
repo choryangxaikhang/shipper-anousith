@@ -8,49 +8,69 @@ import {
   currency,
   getLocalHouse,
   ITEM_PER_PAGE,
+  loadingData,
+  setParams,
   socketServer,
 } from "../../../helper";
 import TypeRoom from "../../../helper/components/typeRoom";
+import CheckIn from "./CheckIn";
+import SearchTypeRoom from "../../../helper/components/SearchTypeRoom";
+import NoData from "../../../helper/components/NoData";
+import SearchRoomFee from "../../../helper/components/SearchRoomFee";
+import Pagination from "../../../helper/controllers/Pagination";
 export default function Hotel() {
   const { history, location, match } = useReactRouter();
-  const numberPage = match?.params?.page;
   const query = new URLSearchParams(location.search);
   const rows = parseInt(query.get("rows"));
   const [loadData, setLoadData] = useState(false);
-  const [numberRows, setNumberRows] = useState(rows ? rows : ITEM_PER_PAGE);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [pageTotal, setPageTotal] = useState([1]);
+  const [numberPage, setNumberPage] = useState(1);
+  const [numberRow, setNumberRow] = useState(100);
   const [localHouse, setLocalHouse] = useState("");
   const [typeDataRoom, setTypeDataRoom] = useState({});
-  console.log("typeDataRoom",typeDataRoom)
-  const [listRoom, setListRoom] = useState();
+  const [searchValue, setSearchValue] = useState();
+  //!ໂມໂດເປີດຫ້ອງ
+  const [getData, setModal] = useState();
+  const [openModal, CloseModal] = useState(false);
+  const CloseModalChange = () => CloseModal(false);
   const [fetchDataRoom, { data: setDataRoom, loading: loadingDataRoom }] =
     useLazyQuery(QUERY_ROOM, { fetchPolicy: "cache-and-network" });
   useEffect(() => {
     setLocalHouse(getLocalHouse()?._id);
   }, []);
-  console.log("localHouse", localHouse);
-
-  console.log("setDataRoom", setDataRoom);
 
   useEffect(() => {
     fetchDataRoom({
       variables: {
         where: {
-          //   house: localHouse,
-          //   _id: listRoom?._id ? listRoom?._id : undefined,
-          //   status: "FEE"
+          // house: localHouse,
+          typeRoom: typeDataRoom?._id ? typeDataRoom?._id : undefined,
+          title_lao: searchValue ? searchValue : undefined,
+          status: "FEE",
         },
-        skip: listRoom ? 0 : numberRows * (numberPage - 1),
-        limit: listRoom ? 1000 : numberRows,
+        skip: numberRow * (numberPage - 1),
+        limit: numberRow,
         orderBy: "createdAt_DESC",
       },
     });
-  }, [localHouse, loadData, listRoom]);
-  //pageination
-  const countData = setDataRoom?.rooms?.total;
+  }, [localHouse, loadData, typeDataRoom, searchValue, numberRow, numberPage]);
+
+  //ຟັນຊັ່ນເປີດຫ້ອງ
+  const _onClick = (e) => {
+    setModal(e);
+    CloseModal(true);
+  };
+
+  // pagination
+  useEffect(() => {
+    const page = query.get("page");
+    if (page) {
+      setNumberPage(parseInt(page));
+    } else {
+      setNumberRow(100);
+    }
+  }, [query]);
   const countPage = [];
-  for (var i = 1; i <= Math.ceil(countData / numberRows); i++) {
+  for (var i = 1; i <= Math.ceil(setDataRoom?.rooms?.total / numberRow); i++) {
     countPage.push(i);
   }
 
@@ -78,59 +98,119 @@ export default function Hotel() {
             <i className="fa fa-chevron-left fs-4" />
           </button>
         </div>
-        ເປີດໂຮມແຮມ
+        ເປີດບ້ານພັກ
         <div
           className="text-white pageTitle text-right text-nowrap pr-0"
           style={{ flex: 1 }}
         ></div>
       </div>
-      <div className="container" style={{ marginTop: 60 }}>
+
+      <div className=" body-content-lg ms-1 me-1 " style={{ marginTop: 50 }}>
         <div className="option-section">
-          <div className="col-md-6 mt-2">
-            <div className="form-group mb-2">
-              <TypeRoom
-                size={"lg"}
-                getData={(data) => {
-                  setTypeDataRoom(data);
-                }}
-                defaultValue={typeDataRoom?.title_lao}
-              />
+          <br />
+          <div className="row col-md-12  ms-3 mt-4">
+            <div
+              className="col-6"
+              style={{
+                position: "fixed",
+                right: 0.1,
+                zIndex: 100,
+                top: 57,
+              }}
+            >
+              <div className="option-card">
+                <input
+                  type="search"
+                  className="form-control form-control-lg text-black"
+                  placeholder="ຄົ້ນຫາຫ້ອງ"
+                  value={searchValue}
+                  style={{ border: " 1px solid #cccfc8" }}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                />
+              </div>
+            </div>
+            <div
+              className="col-6 "
+              style={{
+                position: "fixed",
+                left: 0.1,
+                zIndex: 100,
+                top: 57,
+              }}
+            >
+              <div className="option-card">
+                <SearchTypeRoom
+                  style={{ height: "100%", backgroundColor: "red" }}
+                  value={typeDataRoom?._id}
+                  onChange={(obj) => {
+                    setTypeDataRoom(obj);
+                  }}
+                />
+              </div>
             </div>
           </div>
-          <div className="row col-md-12  ms-3">
-            {setDataRoom?.rooms?.data?.map((data, index) => (
+        </div>
+        <div className="option-section">
+          <div className="row gx-2">
+            {setDataRoom?.rooms?.total > 0 ? (
               <>
-                <div
-                  className="col-5 card mb-1 ms-1"
-                  style={{
-                    // marginLeft:0.1,
-                    backgroundColor:
-                      data?.status === "FULL" ? "#fcd98d" : "#fcd98d",
-                  }}
-                >
-                  <div className="option-card">
-                    <a
-                      href="javascript:void(0)"
-                      data-bs-toggle="modal"
-                      data-bs-target="#withdraw"
-                    >
-                      <p style={{ borderBottom: "1px solid #c7c2b9" }}>
-                        {data?.title_lao} / {data?.title_eng}
-                      </p>
-                      <div className="option-card-icon">
-                        <p>{data?.typeRoom?.title_lao}</p>
-                        {currency(data?.priceFull)} /{" "}
-                        {currency(data?.priceHalf)}
+                {setDataRoom?.rooms?.data?.map((data, index) => (
+                  <>
+                    <div className="col-6 mt-1">
+                      <div
+                        className="card border"
+                        style={{ backgroundColor: "#f0edeb" }}
+                        onClick={() => _onClick(data?._id)}
+                        key={index}
+                      >
+                        <div className="border-bottom text-black text-center">
+                          {data?.title_lao} / {data?.title_eng}
+                        </div>
+                        <div
+                          className="card-body text-black"
+                          style={{ marginTop: -10 }}
+                        >
+                          <b style={{ color: "#949492" }}>
+                            {data?.typeRoom?.title_lao}
+                          </b>
+                          <br />
+                          <b>
+                            {currency(data?.priceFull)} /{" "}
+                            {currency(data?.priceHalf)}
+                          </b>
+                        </div>
                       </div>
-                    </a>
-                  </div>
-                </div>
+                    </div>
+                  </>
+                ))}
               </>
-            ))}
+            ) : (
+              <NoData loading={loadingDataRoom} />
+            )}
+            {setDataRoom?.rooms?.total > 100 && (
+              <Pagination
+                className="mt-2"
+                pageTotal={countPage}
+                currentPage={numberPage}
+                onPageChange={(page) => {
+                  history.push({
+                    search: setParams(`page`, page),
+                  });
+                }}
+              />
+            )}
           </div>
         </div>
-        <BottomNav />
       </div>
+      <CheckIn
+        getId={getData}
+        OpenModalChange={openModal}
+        CloseModalChange={CloseModalChange}
+        onSuccess={(value) => {
+          CloseModalChange();
+          setLoadData(!loadData);
+        }}
+      />
     </>
   );
 }

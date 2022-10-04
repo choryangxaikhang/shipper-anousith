@@ -5180,8 +5180,8 @@ input[type="submit"].btn-block {
 .page-item.active .page-link {
   z-index: 1;
   color: #fff;
-  background-color: #ac0011;
-  border-color: #ac0011;
+  background-color: #f54f02;
+  border-color: #f54f02;
 }
 
 .page-item.disabled .page-link {
@@ -5266,13 +5266,13 @@ a.badge:hover {
 
 .badge-primary {
   color: #fff;
-  background-color: #ac0011;
+  background-color: #f54f02;
 }
 
 a.badge-primary:focus,
 a.badge-primary:hover {
   color: #fff;
-  background-color: #ac0011;
+  background-color: #f54f02;
 }
 
 a.badge-primary.focus,
@@ -5518,7 +5518,7 @@ a.badge-dark:focus {
 }
 
 .alert-danger {
-  color: #ac0011;
+  color: #f54f02;
   background-color: #d00011;
   border-color: #d30419;
 }
@@ -5923,20 +5923,20 @@ a.badge-dark:focus {
 }
 
 .list-group-item-danger {
-  color: #ac0011;
+  color: #f54f02;
   background-color: #c90014;
 }
 
 .list-group-item-danger.list-group-item-action:focus,
 .list-group-item-danger.list-group-item-action:hover {
-  color: #ac0011;
+  color: #f54f02;
   background-color: #c20013;
 }
 
 .list-group-item-danger.list-group-item-action.active {
   color: #fff;
-  background-color: #ac0011;
-  border-color: #ac0011;
+  background-color: #f54f02;
+  border-color: #f54f02;
 }
 
 .list-group-item-light {
@@ -6880,7 +6880,7 @@ a.close.disabled {
 }
 
 .bg-primary {
-  background-color: #ac0011 !important;
+  background-color: #f54f02 !important;
 }
 
 a.bg-primary:focus,

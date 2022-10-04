@@ -33,7 +33,7 @@ export default function NoData({ loading }) {
           }}
         >
         </div>
-          <h3 className="text-danger">ບໍ່ມີຂໍ້ມູນໃຫມ່ !</h3>
+          <h3 className="text-danger">ບໍ່ມີຂໍ້ມູນ !</h3>
           </>
       )}
     </div>

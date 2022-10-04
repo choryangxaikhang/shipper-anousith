@@ -34,10 +34,6 @@ mutation StaffLogin($where: StaffLoginInput!) {
         }
         powerTime
         createdAt
-        type {
-          title_lao
-          title_eng
-        }
       }
       carSign
       status

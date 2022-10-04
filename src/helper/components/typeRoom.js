@@ -1,4 +1,5 @@
 import { useLazyQuery } from "@apollo/client";
+import { IconButton, InputBase, Paper } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { loadingData } from "..";
@@ -53,37 +54,51 @@ export default function TypeRoom({
       <input
         type={"button"}
         className={`form-control text-left ${inputSize} ${className}`}
-        style={{ textAlign:'left' }}
+        style={{ textAlign: "left" }}
         value={defaultValue ? defaultValue : "ເລືອກປະເພດຫ້ອງ..."}
         onClick={() => setShow(true)}
       />
-      <Modal
-        show={show}
-        centered
-        style={style}
-        className={className}
-        onHide={() => setShow(false)}
-      >
+      <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title className="fs-5">ເລືອກປະເພດຫ້ອງ</Modal.Title>
         </Modal.Header>
-        <Modal.Body >
+        <Modal.Body>
           <div className="form-group mb-2">
-            <input
-              type={"search"}
-              className="form-control form-control-lg"
-              onChange={(e) => setSearchValue(e.target.value)}
-              onInput={(e) => {
-                if (!e.target.value && getData) getData();
+            <Paper
+              component="form"
+              sx={{
+                p: "2px 4px",
+                display: "flex",
+                alignItems: "center",
+                width: "100%",
               }}
-              placeholder="ຄົ້ນຫາ"
-            />
+            >
+              <IconButton
+                color="primary"
+                sx={{ p: "10px" }}
+                aria-label="directions"
+              >
+                <i className="fas fa-search text-secondary" />
+              </IconButton>
+              <InputBase
+                sx={{
+                  m: 0,
+                  width: "100%",
+                  height: "55px",
+                }}
+                type={"search"}
+                placeholder="ຄົ້ນຫາ"
+                onChange={(e) => setSearchValue(e.target.value)}
+                onInput={(e) => {
+                  if (!e.target.value && getData) getData();
+                }}
+              />
+            </Paper>
           </div>
           {loading ? (
             <center>{loadingData(25, "ກຳລັງໂຫຼດຂໍ້ມູນ...")}</center>
           ) : (
             <div className="mt-1 ">
-
               {data?.typeRooms?.data?.map((data, index) => (
                 <div
                   className="d-flex py-2 border-bottom"
@@ -92,7 +107,7 @@ export default function TypeRoom({
                 >
                   <span className="text-black">
                     {" "}
-                    <i class="fa-solid fa-hotel me-1"/>
+                    <i class="fa-solid fa-hotel me-1" />
                     {data?.title_lao}
                   </span>
                 </div>
@@ -100,12 +115,6 @@ export default function TypeRoom({
             </div>
           )}
         </Modal.Body>
-        <Modal.Footer>
-          <Button size="lg" variant="primary" onClick={() => setShow(false)}>
-            <i className="icon-close " />
-            ຍົກເລີກ
-          </Button>
-        </Modal.Footer>
       </Modal>
     </React.Fragment>
   );
