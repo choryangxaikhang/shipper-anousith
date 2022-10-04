@@ -30,41 +30,43 @@ export default function SettingsScreen() {
         ></div>
       </div>
       <div className="row" style={{ marginTop: 70 }}>
-        <div className="card-group mb-3 col-md-4">
+        <div className="col-md-4 mt-1">
           <div className="card border ms-1">
-            <div className="p-1 border-bottom text-black text-center">
+            <div
+              className="p-1 border-bottom text-black fs-5"
+              style={{ backgroundColor: "#f2eee4" }}
+            >
+              <i className="fa-sharp fa-solid fa-microchip me-2" />
               ຕັ້ງຄ່າກິດຈະການ
             </div>
             <TurnOffHouse />
             <InviteOwner />
           </div>
         </div>
-        <div className="card-group mb-3 col-md-4">
-          <div
-            className="card border ms-1"
-            style={{ backgroundColor: "#daffd6" }}
-          >
-            <div className="p-2  border-bottom fs-4 text-black text-center">
-              <i className="fa-solid fa-chevron-right me-2" />
+        <div className="col-md-4 mt-1">
+          <div className="card border ms-1">
+            <div
+              className="p-1  border-bottom  text-black fs-5"
+              style={{ backgroundColor: "#f2eee4" }}
+            >
+              <i className="fa-sharp fa-solid fa-microchip me-2" />
               ຕັ້ງຄ່າພະນັກງານ
             </div>
-            <div className="card-body text-black">
-              <span>ເງິນກີບ:</span>
-            </div>
+            <BlockUser />
+            <ChangeRole />
           </div>
         </div>
-        <div className="card-group mb-3 col-md-4">
-          <div
-            className="card border ms-1"
-            style={{ backgroundColor: "#daffd6" }}
-          >
-            <div className="p-2  border-bottom fs-4 text-black text-center">
-              <i className="fa-solid fa-chevron-right me-2" />
+        <div className="col-md-4 mt-1">
+          <div className="card border ms-1">
+            <div
+              className="p-1 border-bottom  text-black fs-5"
+              style={{ backgroundColor: "#f2eee4" }}
+            >
+              <i className="fa-sharp fa-solid fa-microchip me-2" />
               ຈັດການລະຫັດຜ່ານ
             </div>
-            <div className="card-body text-black">
-              <span>ເງິນກີບ:</span>
-            </div>
+            <ChangePasswordStaff />
+            <ChangePasswordCustomer />
           </div>
         </div>
       </div>

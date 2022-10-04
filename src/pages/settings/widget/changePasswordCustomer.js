@@ -98,7 +98,7 @@ export default function ChangePasswordCustomer() {
 
   return (
     <React.Fragment>
-      <div className="card-body text-black " onClick={() => setShow(true)}>
+      <div className="p-1 text-black " onClick={() => setShow(true)}>
         <i className="fa-solid fa-chevron-right me-2" />
         ປ່ຽນລະຫັດຜ່ານລູກຄ້າ
       </div>
@@ -110,10 +110,14 @@ export default function ChangePasswordCustomer() {
         backdrop="static"
         size="xl"
       >
-        <Modal.Header closeButton>
-          <Modal.Title className="fs-5">
-            <i className="icon-sliders" /> ປ່ຽນລະຫັດຜ່ານລູກຄ້າ
-          </Modal.Title>
+        <Modal.Header className="text-black">ປ່ຽນລະຫັດຜ່ານລູກຄ້າ
+          <a
+            className="pull-right ms-2 "
+            style={{ textDecoration: "none" }}
+            onClick={() => setShow(false)}
+          >
+            <i className="icon-x fa-2x text-danger" />
+          </a>
         </Modal.Header>
         <div className="input-group mb-3">
           <input
@@ -122,6 +126,7 @@ export default function ChangePasswordCustomer() {
             placeholder="ໄອດີ..."
             onChange={(e) => setSearchValueID(e.target.value)}
             onKeyPress={_handleKeypress}
+            style={{border:"1px solid #c2c1be"}}
           />
           <input
             type="number"
@@ -129,6 +134,7 @@ export default function ChangePasswordCustomer() {
             placeholder="ເບີໂທ..."
             onChange={(e) => setSearchValuePhone(e.target.value)}
             onKeyPress={_handleKeypress}
+            style={{border:"1px solid #c2c1be"}}
           />
           <button
             type="button"
@@ -142,7 +148,7 @@ export default function ChangePasswordCustomer() {
           loadingData(23, "ກຳລັງໂຫຼດຂໍ້ມູນ")
         ) : (
           <div className="table-responsive">
-            <table className="table table-bordered table-sm">
+            <table className="table table-bordered table-sm text-black">
               <thead>
                 <tr>
                   <th className="text-center">#</th>
@@ -209,15 +215,6 @@ export default function ChangePasswordCustomer() {
             </table>
           </div>
         )}
-        <Modal.Footer>
-          <button
-            className="btn btn-danger btn-block btn-lg"
-            onClick={() => handleClose()}
-          >
-            <i className="icon-x" style={{ marginRight: 3 }} />
-            ປິດ
-          </button>
-        </Modal.Footer>
       </Modal>
     </React.Fragment>
   );

@@ -82,7 +82,7 @@ export default function InviteOwner() {
   };
   return (
     <React.Fragment>
-      <div className="p-2 text-black border-top" onClick={() => setShow(true)}>
+      <div className="p-1 text-black border-bottom" onClick={() => setShow(true)}>
         <i className="fa-solid fa-chevron-right me-2" />
         ບັນຈຸເຈົ້າຂອງກິດຈະການ
       </div>
@@ -105,13 +105,14 @@ export default function InviteOwner() {
           </a>
         </Modal.Header>
         <Modal.Body>
-          <div className="input-group mb-3">
+          <div className="input-group mb-3 mt-1">
             <input
               type="text"
               className="form-control form-control-lg"
               placeholder="ຊື່ກິດຈະການ..."
               onChange={(e) => setSearchValue(e.target.value)}
               onKeyPress={_handleKeypress}
+              style={{border:"1px solid #c2c1be"}}
             />
             <button
               type="button"

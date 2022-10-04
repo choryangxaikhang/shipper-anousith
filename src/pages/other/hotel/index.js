@@ -42,7 +42,7 @@ export default function Hotel() {
     fetchDataRoom({
       variables: {
         where: {
-          // house: localHouse,
+          house: localHouse,
           typeRoom: typeDataRoom?._id ? typeDataRoom?._id : undefined,
           title_lao: searchValue ? searchValue : undefined,
           status: "FEE",

@@ -13,7 +13,7 @@ export default function ChangePasswordStaff() {
   const [editStatus, setEditStatus] = useState(false);
   const [getIndex, setGetIndex] = useState(0);
   const [text, setText] = useState("");
-
+  const [searchValuePhone, setSearchValuePhone] = useState("");
   const [queryUsers, { data: userData, loading }] = useLazyQuery(QUERY_USERS, {
     fetchPolicy: "cache-and-network",
   });
@@ -23,9 +23,13 @@ export default function ChangePasswordStaff() {
     queryUsers({
       variables: {
         where: {
-          firstName: searchValue?searchValue:undefined,
+          firstName: searchValue ? searchValue : undefined,
+          phoneNumber: searchValuePhone
+            ? parseInt(searchValuePhone)
+            : undefined,
         },
-        limit: searchValue ? 1000 : 10,
+        // limit: searchValue ? 1000 : 10,
+        limit: searchValue || searchValuePhone ? 1000 : 10,
         orderBy: "createdAt_DESC",
       },
     });
@@ -33,22 +37,32 @@ export default function ChangePasswordStaff() {
 
   useEffect(() => {
     if (userData) {
-      setUsers(userData?.users?.data)
+      setUsers(userData?.users?.data);
     }
     if (searchValue === "") {
-      setNewLoadData(!newLoadData)
+      setNewLoadData(!newLoadData);
     }
-  }, [userData, searchValue])
+  }, [userData, searchValue, searchValuePhone]);
 
+  useEffect(() => {
+    if (searchValuePhone === "") {
+      setNewLoadData(!newLoadData);
+    }
+  }, [searchValuePhone]);
   const _onSearch = () => {
     setSearchValue(searchValue);
+    setSearchValuePhone(searchValuePhone);
     setNewLoadData(!newLoadData);
   };
+  // const _onSearch = () => {
+  //   setSearchValue(searchValue);
+  //   setNewLoadData(!newLoadData);
+  // };
   const _handleKeypress = (e) => {
     if (e.key === "Enter") {
-      _onSearch()
+      _onSearch();
     }
-  }
+  };
 
   const _changeRole = (id) => {
     Notiflix.Confirm.show(
@@ -85,8 +99,11 @@ export default function ChangePasswordStaff() {
   };
 
   return (
-    <React.Fragment>\
-      <div className="card-body text-black " onClick={() => setShow(true)}>
+    <React.Fragment>
+      <div
+        className="p-1 text-black border-bottom"
+        onClick={() => setShow(true)}
+      >
         <i className="fa-solid fa-chevron-right me-2" />
         ປ່ຽນລະຫັດຜ່ານພະນັກງານ
       </div>
@@ -98,19 +115,33 @@ export default function ChangePasswordStaff() {
         backdrop="static"
         size="lg"
       >
-        <Modal.Header closeButton>
-          <Modal.Title className="fs-5">
-            <i className="icon-sliders" /> ປ່ຽນລະຫັດຜ່ານພະນັກງານ
-          </Modal.Title>
+        <Modal.Header className="text-black"> ປ່ຽນລະຫັດຜ່ານພະນັກງານ
+          <a
+            className="pull-right ms-2 "
+            style={{ textDecoration: "none" }}
+            onClick={() => setShow(false)}
+          >
+            <i className="icon-x fa-2x text-danger" />
+          </a>
         </Modal.Header>
         <Modal.Body>
           <div className="input-group mb-3">
             <input
-              type="text"
+              type="search"
               className="form-control form-control-lg"
-              placeholder="ຊື່ພະນັງານ..."
+              placeholder="ຊື່..."
               onChange={(e) => setSearchValue(e.target.value)}
               onKeyPress={_handleKeypress}
+              style={{ border: "1px solid #c2c1be" }}
+            />
+            <input
+              type="number"
+              className="form-control form-control-lg"
+              placeholder="ເບີໂທ..."
+              onChange={(e) => setSearchValuePhone(e.target.value)}
+              onKeyPress={_handleKeypress}
+              style={{ border: "1px solid #c2c1be" }}
+              onWheel={(e) => e.target.blur()}
             />
             <button
               type="button"
@@ -124,7 +155,7 @@ export default function ChangePasswordStaff() {
             loadingData(23, "ກຳລັງໂຫຼດຂໍ້ມູນ")
           ) : (
             <div className="table-responsive">
-              <table className="table table-bordered table-sm">
+              <table className="table table-bordered table-sm text-black">
                 <thead>
                   <tr>
                     <th className="text-center">#</th>
@@ -192,15 +223,6 @@ export default function ChangePasswordStaff() {
             </div>
           )}
         </Modal.Body>
-        <Modal.Footer>
-          <button
-            className="btn btn-danger btn-block btn-lg"
-            onClick={() => handleClose()}
-          >
-            <i className="icon-x" style={{ marginRight: 3 }} />
-            ປິດ
-          </button>
-        </Modal.Footer>
       </Modal>
     </React.Fragment>
   );

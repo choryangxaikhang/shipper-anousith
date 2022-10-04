@@ -62,7 +62,7 @@ export default function BookingRequestScreen() {
     queryBooking({
       variables: {
         where: {
-          // house: parseInt(localHouse),
+          house: parseInt(localHouse),
           status: "REQUESTED",
           bookDate_gte: createdAt_gte(startDate),
           bookDate_lte: createdAt_lt(endDate),

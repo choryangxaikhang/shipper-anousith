@@ -85,7 +85,7 @@ export default function BlockUser() {
 
   return (
     <React.Fragment>
-      <div className="card-body text-black " onClick={() => setShow(true)}>
+      <div className="p-1 text-black " onClick={() => setShow(true)}>
         <i className="fa-solid fa-chevron-right me-2" />
         ບລ໋ອກ User
       </div>
@@ -97,24 +97,30 @@ export default function BlockUser() {
         backdrop="static"
         size="lg"
       >
-        <Modal.Header closeButton>
-          <Modal.Title className="fs-5">
-            <i className="icon-sliders" /> ບລ໋ອກ User
-          </Modal.Title>
+        <Modal.Header className="text-black">
+          ບລ໋ອກ User
+          <a
+            className="pull-right ms-2 "
+            style={{ textDecoration: "none", marginTop: -10 }}
+            onClick={() => setShow(false)}
+          >
+            <i className="icon-x fa-2x text-danger" />
+          </a>
         </Modal.Header>
         <Modal.Body>
           <div className="input-group mb-3">
             <input
               type="text"
-              className="form-control"
+              className="form-control form-control-lg"
               placeholder="ຊື່ພະນັງານ..."
               onChange={(e) => setSearchValue(e.target.value)}
               onKeyPress={_handleKeypress}
+              style={{border:"1px solid #c2c1be"}}
             />
             <button
               type="button"
               onClick={() => _onSearch()}
-              className="btn btn-primary btn-sm"
+              className="btn btn-primary btn-lg"
             >
               <i className="icon-search1" />
             </button>
@@ -124,14 +130,44 @@ export default function BlockUser() {
           ) : (
             <div className="table-responsive">
               <table className="table table-bordered table-sm">
-                <thead>
+                <thead >
                   <tr>
-                    <th className="text-center">#</th>
+                    <th >#</th>
                     <th className="text-nowrap">ຊື່ ແລະ ນາມສະກຸນ</th>
                     <th className="text-nowrap">ບລ໋ອກ</th>
                   </tr>
                 </thead>
                 <tbody>
+                  {users &&
+                    users?.map((item, index) => (
+                      <tr key={index} >
+                        <td className="">{index + 1}</td>
+                        <td className="text-nowrap">
+                          {item?.firstName ? item?.firstName : "-"}{" "}
+                          {item?.lastName ? item?.lastName : "-"}
+                        </td>
+                        <td
+                          style={{ textAlign: "center" }}
+                          className="text-nowrap"
+                        >
+                          <div className="form-check form-switch">
+                            <input
+                              id="_dm-dbOfflineContact"
+                              className="form-check-input"
+                              type="checkbox"
+                              checked={
+                                item?.status === "ACTIVE" ? "ACTIVE" : ""
+                              }
+                              onChange={() =>
+                                _turnOnStatus(item?._id, item?.status)
+                              }
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+                {/* <tbody>
                   {users &&
                     users?.map((item, index) => (
                       <tr key={index}>
@@ -160,20 +196,11 @@ export default function BlockUser() {
                         </td>
                       </tr>
                     ))}
-                </tbody>
+                </tbody> */}
               </table>
             </div>
           )}
         </Modal.Body>
-        <Modal.Footer>
-          <button
-            className="btn btn-danger btn-block btn-lg"
-            onClick={() => handleClose()}
-          >
-            <i className="icon-x" style={{ marginRight: 3 }} />
-            ປິດ
-          </button>
-        </Modal.Footer>
       </Modal>
     </React.Fragment>
   );

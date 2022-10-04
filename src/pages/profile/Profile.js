@@ -25,9 +25,6 @@ export default function Profile({ history }) {
   const [listData, setListData] = useState({});
   const userState = getStaffLogin();
   const userData = userState?.data;
-
-  console.log(userData);
-
   const [fetchData, { data: dataStaff, loading }] = useLazyQuery(USERS, {
     fetchPolicy: "cache-and-network",
   });
@@ -102,7 +99,8 @@ export default function Profile({ history }) {
                 borderRadius: "40%",
                 border: "2px solid f54f02",
               }}
-            />
+            /><br/>
+            <b>{listData?._id}</b>
           </center>
           <div style={{ marginTop: -20 }}>
             <div className="session-list">

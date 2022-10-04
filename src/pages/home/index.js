@@ -10,19 +10,23 @@ import {
   aws_url_employee_Image,
   currency,
   getLocalHouse,
+  getStaffLogin,
   loadingData,
 } from "../../helper";
 import { AppContext } from "../../App";
 import QRCode from "react-qr-code";
 import OtherMoney from "./OtherMoney";
 import { BOOKING, OTHER } from "../../routes/app";
+import SelectLocalHouse from "../../helper/components/SelectLocalHouse";
 export default function Home() {
   const { history } = useReactRouter();
-  const { userState, titleDispatch } = useContext(AppContext);
-  const userData = userState?.data;
   const [total, setTotal] = useState(0);
   const [getPayrollSummary, setDataRoom] = useState([]);
   const [localHouse, setLocalHouse] = useState("");
+  const [house, setHouse] = useState("");
+  const [userData, setUserData] = useState({});
+  const [clickButton, setButton] = useState(false);
+
   const [fetchItem, { data: setNoticeConfirm, loading: loadingTotal }] =
     useLazyQuery(QUERY_ROOM, {
       fetchPolicy: "cache-and-network",
@@ -38,9 +42,19 @@ export default function Home() {
     useLazyQuery(BOOKINGS, {
       fetchPolicy: "cache-and-network",
     });
+
+  // data HouseLocal
   useEffect(() => {
-    setLocalHouse(getLocalHouse()?._id);
+    const _local = getStaffLogin();
+    setUserData(_local?.data || {});
+    setHouse(getLocalHouse());
+    //sidebar min
+    const localSideBarMini = localStorage.getItem("SIDEBAR_MINI");
+    if (localSideBarMini === "true") {
+      document.body.classList.add("sidebar-collapse");
+    }
   }, []);
+  // end
   useEffect(() => {
     fetchAnsItem({
       variables: {
@@ -53,7 +67,7 @@ export default function Home() {
     queryBooking({
       variables: {
         where: {
-          // house: parseInt(localHouse),
+          house: parseInt(localHouse),
           status: "BOOKING",
         },
         orderBy: "createdAt_DESC",
@@ -90,9 +104,35 @@ export default function Home() {
           paddingBottom: 0,
         }}
       >
-        <div className="appHeader text-light border-0 text-right">
-          <div style={{ flex: 1 }} className="text-left"></div>
-          ໜ້າຫຼັກ
+        <div className="appHeader  border-0 ">
+          <div style={{ flex: 1 }} className="text-left">
+            <button
+              className="btn text-white"
+              onClick={(e) => {
+                setButton(!clickButton);
+              }}
+            >
+              <i className="fa-solid fa-magnifying-glass fa-2 ms-2" />
+            </button>
+          </div>
+          {clickButton === true ? (
+            <>
+              <SelectLocalHouse
+                style={{ width: "100%" }}
+                value={house?._id}
+                onChange={(obj) => {
+                  if (obj?._id) {
+                    setHouse(obj);
+                    localStorage.setItem("HOUSE", JSON.stringify(obj));
+                    window.location.reload();
+                  }
+                }}
+                ownerId={userData?._id}
+              />
+            </>
+          ) : (
+            <b className="text-white">ໜ້າຫຼັກ</b>
+          )}
           <div
             className="text-white pageTitle text-center text-nowrap pr-0"
             style={{ flex: 1 }}

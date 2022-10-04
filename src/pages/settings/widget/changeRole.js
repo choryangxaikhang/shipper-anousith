@@ -13,7 +13,7 @@ export default function ChangeRole() {
   const [editStatus, setEditStatus] = useState(false);
   const [getIndex, setGetIndex] = useState(0);
   const [text, setText] = useState("");
- 
+
   const [queryUsers, { data: userData, loading }] = useLazyQuery(QUERY_USERS, {
     fetchPolicy: "cache-and-network",
   });
@@ -33,12 +33,12 @@ export default function ChangeRole() {
 
   useEffect(() => {
     if (userData) {
-      setUsers(userData?.users?.data)
+      setUsers(userData?.users?.data);
     }
     if (searchValue === "") {
-      setNewLoadData(!newLoadData)
+      setNewLoadData(!newLoadData);
     }
-  }, [userData, searchValue])
+  }, [userData, searchValue]);
 
   const _onSearch = () => {
     setSearchValue(searchValue);
@@ -46,9 +46,9 @@ export default function ChangeRole() {
   };
   const _handleKeypress = (e) => {
     if (e.key === "Enter") {
-      _onSearch()
+      _onSearch();
     }
-  }
+  };
 
   const _changeRole = (id) => {
     Notiflix.Confirm.show(
@@ -86,7 +86,10 @@ export default function ChangeRole() {
 
   return (
     <React.Fragment>
-      <div className="card-body text-black " onClick={() => setShow(true)}>
+      <div
+        className=" p-1 text-black border-top"
+        onClick={() => setShow(true)}
+      >
         <i className="fa-solid fa-chevron-right me-2" />
         ກຳນົດສິດການນຳໃຊ້ລະບົບ
       </div>
@@ -98,10 +101,15 @@ export default function ChangeRole() {
         backdrop="static"
         size="lg"
       >
-        <Modal.Header closeButton>
-          <Modal.Title className="fs-5">
-            <i className="icon-sliders" /> ກຳນົດສິດການນຳໃຊ້ລະບົບ
-          </Modal.Title>
+        <Modal.Header className="text-black">
+          ກຳນົດສິດການນຳໃຊ້ລະບົບ
+          <a
+            className="pull-right ms-2 "
+            style={{ textDecoration: "none" }}
+            onClick={() => setShow(false)}
+          >
+            <i className="icon-x fa-2x text-danger" />
+          </a>
         </Modal.Header>
         <Modal.Body>
           <div className="input-group mb-3">
@@ -111,6 +119,7 @@ export default function ChangeRole() {
               placeholder="ຊື່ພະນັກງານ..."
               onChange={(e) => setSearchValue(e.target.value)}
               onKeyPress={_handleKeypress}
+              style={{ border: "1px solid #c2c1be" }}
             />
             <button
               type="button"
@@ -124,7 +133,7 @@ export default function ChangeRole() {
             loadingData(23, "ກຳລັງໂຫຼດຂໍ້ມູນ")
           ) : (
             <div className="table-responsive">
-              <table className="table table-bordered table-sm">
+              <table className="table table-bordered table-sm text-black">
                 <thead>
                   <tr>
                     <th className="text-center">#</th>
@@ -136,7 +145,7 @@ export default function ChangeRole() {
                 <tbody>
                   {users &&
                     users?.map((item, index) => (
-                      <tr key={index}>
+                      <tr key={index} >
                         <td className="text-center">{index + 1}</td>
                         <td className="text-nowrap">
                           {item?.firstName ? item?.firstName : "-"}{" "}
@@ -173,7 +182,7 @@ export default function ChangeRole() {
                               >
                                 FINANCE
                               </option>
-                              
+
                               <option
                                 value="STATE_DIRECTOR"
                                 selected={
@@ -239,9 +248,9 @@ export default function ChangeRole() {
                             <a
                               href="javaScript:void(0)"
                               onClick={() => {
-                                setEditStatus(true)
-                                setGetIndex(item?._id)
-                                setText(item?.role)
+                                setEditStatus(true);
+                                setGetIndex(item?._id);
+                                setText(item?.role);
                               }}
                               style={{ textDecoration: "none" }}
                             >
@@ -256,16 +265,7 @@ export default function ChangeRole() {
             </div>
           )}
         </Modal.Body>
-        <Modal.Footer>
-          <button
-            className="btn btn-danger btn-block btn-lg"
-            onClick={() => handleClose()}
-          >
-            <i className="icon-x" style={{ marginRight: 3 }} />
-            ປິດ
-          </button>
-        </Modal.Footer>
       </Modal>
     </React.Fragment>
-  )
+  );
 }

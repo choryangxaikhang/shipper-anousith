@@ -71,7 +71,7 @@ export default function BookingCancel() {
     queryBooking({
       variables: {
         where: {
-          // house: parseInt(localHouse),
+          house: parseInt(localHouse),
           status: "CANCEL",
           bookDate_gte: createdAt_gte(startDate),
           bookDate_lte: createdAt_lt(endDate),
@@ -119,7 +119,6 @@ export default function BookingCancel() {
   // update status
   const updateStatus = async (_id, roomId, houseID) => {
     messageConfirm("ຕ້ອງການດືງຄືນແທ້ ຫຼື ບໍ່?", async () => {
-      loadingScreen();
       try {
         const { data: updateData } = await updateBookingStatus({
           variables: {

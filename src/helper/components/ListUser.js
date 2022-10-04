@@ -70,7 +70,7 @@ export default function ListUser({
         className={className}
         animation={false}
       >
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title className="fs-5">ເລືອກພະນັກງານ</Modal.Title>
         </Modal.Header>
         <Modal.Body className="custom-modal-body">
