@@ -15,6 +15,26 @@ export default function BottomNav() {
     >
       <NavLink
         className="item"
+        to={`${OTHER}`}
+        style={{ borderTopLeftRadius: 25, marginLeft: -10 }}
+      >
+        <div className="col pt-1" style={{ borderTopLeftRadius: 20 }}>
+          <i className="icon-sort text-secondary" style={{ fontSize: 25 }} />
+          <strong className="text-secondary" style={{ fontSize: 15 }}>
+            ບໍລິການອື່ນໆ
+          </strong>
+        </div>
+      </NavLink>
+      <NavLink className="item" to="/home">
+        <div className="col pt-1">
+          <i className="icon-home text-secondary" style={{ fontSize: 25 }} />
+          <strong className="text-secondary " style={{ fontSize: 15 }}>
+            ໜ້າຫຼັກ
+          </strong>
+        </div>
+      </NavLink>
+      <NavLink
+        className="item"
         to={`${PROFILES}`}
         style={{
           borderTopRightRadius: 25,
@@ -29,26 +49,6 @@ export default function BottomNav() {
           <i className="icon-user text-secondary" style={{ fontSize: 25 }} />
           <strong className="text-secondary" style={{ fontSize: 15 }}>
             ໂປຣໄຟລ໌
-          </strong>
-        </div>
-      </NavLink>
-      <NavLink className="item" to="/home">
-        <div className="col pt-1">
-          <i className="icon-home text-secondary" style={{ fontSize: 25 }} />
-          <strong className="text-secondary " style={{ fontSize: 15 }}>
-            ໜ້າຫຼັກ
-          </strong>
-        </div>
-      </NavLink>
-      <NavLink
-        className="item"
-        to={`${OTHER}`}
-        style={{ borderTopLeftRadius: 25, marginLeft: -10 }}
-      >
-        <div className="col pt-1" style={{ borderTopLeftRadius: 20 }}>
-          <i className="icon-sort text-secondary" style={{ fontSize: 25 }} />
-          <strong className="text-secondary" style={{ fontSize: 15 }}>
-            ບໍລິການອື່ນໆ
           </strong>
         </div>
       </NavLink>

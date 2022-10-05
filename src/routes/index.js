@@ -21,6 +21,9 @@ import BookingRequestScreen from "../pages/other/bookingRequest";
 import BookingCancel from "../pages/other/cancel";
 import SettingsScreen from "../pages/settings";
 import RateExChange from "../pages/rateExchange";
+import TabMenu from "../pages/management_house/TabMenu";
+// import Rooms from "../pages/management_house/rooms";
+// import Houses from "../pages/management_house/houses";
 
 export default function Routes() {
   const { userDispatch } = useContext(AppContext);
@@ -109,6 +112,22 @@ export default function Routes() {
                   exact
                   component={(props) => <RateExChange {...props} />}
                 />
+                {/* managementhouse*/}
+                <PrivateRoute
+                  path={`${ROUTES.TAB_MENU}/:page`}
+                  exact
+                  component={(props) => <TabMenu {...props} />}
+                />
+                {/* <PrivateRoute
+                  path={`${ROUTES.MANAGEMENT_ROOM}/:page`}
+                  exact
+                  component={(props) => <Rooms {...props} />}
+                />
+                <PrivateRoute
+                  path={`${ROUTES.MANAGEMENT_HOUSE}/:page`}
+                  exact
+                  component={(props) => <Houses {...props} />}
+                /> */}
 
                 <Route
                   render={({ location, history }) => (

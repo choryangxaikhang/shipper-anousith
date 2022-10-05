@@ -6,8 +6,9 @@ import loadingImage from "../img/loading.gif";
 import { io } from "socket.io-client";
 var start_year = new Date().getFullYear();
 export const ITEM_PER_PAGE = 50;
-export const aws_url_employee_Image =
-  "https://anousith-bucket.s3.ap-southeast-1.amazonaws.com/employesImage/";
+export const aws_url_image = "s3://bithose-bucket/image/";
+export const aws_url_images =
+  "https://bithouse-bucket.s3.ap-southeast-1.amazonaws.com/images/";
 // export const newSound = new Audio(sound);
 export const socketServer = io("https://api.bit-houses.com");
 // export const TOKEN = "ANS_COD";

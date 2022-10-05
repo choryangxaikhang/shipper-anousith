@@ -12,14 +12,13 @@ import {
   messageSuccess,
   currency,
   getLocalHouse,
+  getStaffLogin,
 } from "../../../helper";
-import PaginationController from "../../../helper/components/pagination/PaginationComponent";
-import LimitData from "../../../helper/components/pagination/LimitData";
 import { DELETE_ROOM, QUERY_ROOM } from "./apollo";
-import { USER_KEY } from "../../../Routes/app";
 import AddRooms from "./addRooms";
 import EditRooms from "./editRooms";
 import Notiflix, { Loading } from "notiflix";
+import Pagination from "../../../helper/controllers/Pagination";
 export default function Rooms() {
   const { history, location, match } = useReactRouter();
   const numberPage = match?.params?.page;
@@ -28,7 +27,7 @@ export default function Rooms() {
   const rows = parseInt(query.get("rows"));
   const [numberRows, setNumberRows] = useState(rows ? rows : ITEM_PER_PAGE);
   const [searchValue, setSearchValue] = useState("");
-  const jsonObj = JSON.parse(localStorage.getItem(USER_KEY));
+  const jsonObj = getStaffLogin();
   const userInfo = jsonObj?.data;
   const [localHouse, setLocalHouse] = useState("");
   const [loadData, setLoadData] = useState(false);
@@ -63,7 +62,15 @@ export default function Rooms() {
         orderBy: "createdAt_DESC",
       },
     });
-  }, [numberRows, searchValue, numberPage, loadData, provinceData, setData,localHouse]);
+  }, [
+    numberRows,
+    searchValue,
+    numberPage,
+    loadData,
+    provinceData,
+    setData,
+    localHouse,
+  ]);
 
   //pageination
   const countData = setData?.rooms?.total;
@@ -124,29 +131,12 @@ export default function Rooms() {
               <div className="card">
                 <div className="card-header">
                   <div className="row">
-                    <div className="col-md-2">
-                      <AddRooms
-                        loadData={loadData}
-                        onSuccess={(item) => {
-                          setLoadData(item);
-                        }}
-                      />
-                    </div>
                     <div className="col-md-10">
                       <div className="row">
                         <div className="col-md-1">
                           <span>{loading ? loadingData(25) : ""}</span>
                         </div>
-                        <LimitData
-                          numberRows={numberRows}
-                          onChangeRows={_onChangeRows}
-                          onSearch={(_onSearch) => {
-                            setSearchValue(_onSearch);
-                          }}
-                          numberPage={numberPage}
-                          total={countData}
-                          col={1}
-                        />
+                        dddd
                       </div>
                     </div>
                   </div>
@@ -213,7 +203,7 @@ export default function Rooms() {
                               </td>
                               <td className="text-nowrap text-end">
                                 {userInfo?.role === "IT" ||
-                                  userInfo?.role === "SUPER_ADMIN" ? (
+                                userInfo?.role === "SUPER_ADMIN" ? (
                                   <div className="btn-group">
                                     <EditRooms
                                       data={data}
@@ -239,7 +229,7 @@ export default function Rooms() {
                       </tbody>
                     </table>
                   </div>
-                  <PaginationController
+                  <Pagination
                     routes={`/managementhouse/rooms`}
                     numberRows={numberRows}
                     numberPage={numberPage}
@@ -249,6 +239,22 @@ export default function Rooms() {
               </div>
             </div>
           </div>
+        </div>
+        <div
+          style={{
+            position: "fixed",
+            // bottom: 1,
+            backgroundColor: "#f5f7f7",
+            zIndex: 99999,
+          }}
+          className="col-md-12 appBottomMenu"
+        >
+          <AddRooms
+            loadData={loadData}
+            onSuccess={(item) => {
+              setLoadData(item);
+            }}
+          />
         </div>
       </div>
     </>

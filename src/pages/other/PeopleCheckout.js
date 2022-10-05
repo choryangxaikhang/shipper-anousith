@@ -56,7 +56,7 @@ export default function PeopleCheckout() {
     fetchDataRoom({
       variables: {
         where: {
-          ...whereData,
+          // ...whereData,
           room: listRoom?._id ? listRoom?._id : undefined,
           status: "CHECK_IN",
           checkInAt_gte: createdAt_gte(startDate),

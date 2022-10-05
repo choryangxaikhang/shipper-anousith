@@ -22,7 +22,6 @@ export default function Home() {
   const { history } = useReactRouter();
   const [total, setTotal] = useState(0);
   const [getPayrollSummary, setDataRoom] = useState([]);
-  const [localHouse, setLocalHouse] = useState("");
   const [house, setHouse] = useState("");
   const [userData, setUserData] = useState({});
   const [clickButton, setButton] = useState(false);
@@ -56,13 +55,13 @@ export default function Home() {
   }, []);
   // end
   useEffect(() => {
-    let whereData = {};
-    whereData = {
-      house: parseInt(localHouse),
-    };
-    if (userData?.role === "SUPER_ADMIN") {
-      delete whereData.house;
-    }
+    // let whereData = {};
+    // whereData = {
+    //   // house: parseInt(localHouse),
+    // };
+    // if (userData?.role === "SUPER_ADMIN") {
+    //   delete whereData.house;
+    // }
     fetchData({
       variables: {
         where: {},
@@ -74,7 +73,7 @@ export default function Home() {
     queryBooking({
       variables: {
         where: {
-          ...whereData,
+          house: parseInt(house?._id),
           status: "BOOKING",
         },
         orderBy: "createdAt_DESC",

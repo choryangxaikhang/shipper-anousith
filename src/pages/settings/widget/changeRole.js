@@ -86,22 +86,11 @@ export default function ChangeRole() {
 
   return (
     <React.Fragment>
-      <div
-        className=" p-1 text-black border-top"
-        onClick={() => setShow(true)}
-      >
+      <div className=" p-1 text-black border-top" onClick={() => setShow(true)}>
         <i className="fa-solid fa-chevron-right me-2" />
         ກຳນົດສິດການນຳໃຊ້ລະບົບ
       </div>
-      <Modal
-        centered
-        show={show}
-        onHide={() => setShow(false)}
-        animation={false}
-        backdrop="static"
-        size="xl"
-        className="container-div"
-      >
+      <Modal show={show} animation={false} size="xl">
         <Modal.Header className="text-black">
           ກຳນົດສິດການນຳໃຊ້ລະບົບ
           <a
@@ -146,7 +135,7 @@ export default function ChangeRole() {
                 <tbody>
                   {users &&
                     users?.map((item, index) => (
-                      <tr key={index} >
+                      <tr key={index}>
                         <td className="text-center">{index + 1}</td>
                         <td className="text-nowrap">
                           {item?.firstName ? item?.firstName : "-"}{" "}

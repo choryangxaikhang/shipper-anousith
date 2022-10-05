@@ -101,7 +101,8 @@ export default function TabMenuOther() {
 
   return (
     <>
-      <div className="appHeader  border-0 mr-0">
+    <div  >
+    <div className="appHeader  border-0 mr-0">
         <div style={{ flex: 1 }} className="text-left">
           <button
             className="btn text-white"
@@ -245,7 +246,7 @@ export default function TabMenuOther() {
                   </a>
                 </div>
                 <div className="item">
-                  <a>
+                  <a onClick={(e) => history.push(`${ROUTES.TAB_MENU}/Type`)}>
                     <div className="icon-wrapper">
                       <i className="fa-solid fa-book fa-2x" />
                     </div>
@@ -336,6 +337,8 @@ export default function TabMenuOther() {
         </div>
         <BottomNav />
       </div>
+    </div>
+      
     </>
   );
 }

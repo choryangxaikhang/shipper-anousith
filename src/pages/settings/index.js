@@ -33,10 +33,13 @@ export default function SettingsScreen() {
         <div className="col-md-4 mt-1">
           <div className="card border ms-1">
             <div
-              className="p-1 border-bottom text-black fs-5"
-              style={{ backgroundColor: "#f2eee4" }}
+              className="p-1 border-bottom  fs-5"
+              style={{ backgroundColor: "#fcfcfc",color:"#9c9695" }}
             >
-              <i className="fa-sharp fa-solid fa-microchip me-2" />
+              <i
+                className="fa-sharp fa-solid fa-microchip me-2"
+                style={{ color: "#d9d1d0" }}
+              />
               ຕັ້ງຄ່າກິດຈະການ
             </div>
             <TurnOffHouse />
@@ -46,10 +49,13 @@ export default function SettingsScreen() {
         <div className="col-md-4 mt-1">
           <div className="card border ms-1">
             <div
-              className="p-1  border-bottom  text-black fs-5"
-              style={{ backgroundColor: "#f2eee4" }}
+              className="p-1  border-bottom  fs-5"
+              style={{ backgroundColor: "#fcfcfc",color:"#9c9695" }}
             >
-              <i className="fa-sharp fa-solid fa-microchip me-2" />
+              <i
+                className="fa-sharp fa-solid fa-microchip me-2"
+                style={{ color: "#d9d1d0" }}
+              />
               ຕັ້ງຄ່າພະນັກງານ
             </div>
             <BlockUser />
@@ -59,10 +65,13 @@ export default function SettingsScreen() {
         <div className="col-md-4 mt-1">
           <div className="card border ms-1">
             <div
-              className="p-1 border-bottom  text-black fs-5"
-              style={{ backgroundColor: "#f2eee4" }}
+              className="p-1 border-bottom  fs-5"
+              style={{ backgroundColor: "#fcfcfc", color:"#9c9695" }}
             >
-              <i className="fa-sharp fa-solid fa-microchip me-2" />
+              <i
+                className="fa-sharp fa-solid fa-microchip me-2"
+                style={{ color: "#d9d1d0" }}
+              />
               ຈັດການລະຫັດຜ່ານ
             </div>
             <ChangePasswordStaff />

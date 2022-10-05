@@ -10,41 +10,24 @@ import {
   formatDateDash,
   getLocalHouse,
   getStaffLogin,
-  getYearCustom,
-  ITEM_PER_PAGE,
   loadingData,
-  loadingScreen,
   messageConfirm,
-  messageError,
   messageSuccess,
-  messageWarning,
-  notiflixConfirm,
   setParams,
-  socketServer,
   startOfMonth,
-  _month,
-} from "../../../helper";
-import BottomNav from "../../../layouts/BottomNav";
-import { HOME_PAGE, OTHER } from "../../../routes/app";
-import NoData from "../../../helper/components/NoData";
-import moment from "moment";
-import { DELETE_BOOKING, QUERY_BOOKING, UPDATE_BOOKING_STATUS } from "./apollo";
-import SearchRoom from "../../../helper/components/SearchRoom";
-import DetailRoom from "./DetailRoom";
-import {
-  FormControl,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  TextField,
-} from "@mui/material";
-import Pagination from "../../../helper/controllers/Pagination";
-export default function BookingCancel() {
+} from "../../helper";
+import BottomNav from "../../layouts/BottomNav";
+import {OTHER } from "../../routes/app";
+import NoData from "../../helper/components/NoData";
+import { QUERY_BOOKING, UPDATE_BOOKING_STATUS } from "./hotel/apollo";
+import SearchRoom from "../../helper/components/SearchRoom";
+import { TextField } from "@mui/material";
+import Pagination from "../../helper/controllers/Pagination";
+export default function PeopleCheckout() {
   const { match, history, location } = useReactRouter();
   const userState = getStaffLogin();
   const userData = userState?.data;
   const query = new URLSearchParams(location?.search);
-  const rows = parseInt(query.get("rows"));
   const [numberPage, setNumberPage] = useState(1);
   const [numberRow, setNumberRow] = useState(100);
   const [reloadData, setReloadData] = useState(false);
@@ -53,52 +36,34 @@ export default function BookingCancel() {
   const [endDate, setEndDate] = useState(endOfMonth());
   const [localHouse, setLocalHouse] = useState("");
   const [listRoom, setListRoom] = useState();
-  const [detailRoom, setDetailRoom] = useState();
-  const [searchValue, setSearchValue] = useState("");
 
   const [updateBookingStatus] = useMutation(UPDATE_BOOKING_STATUS);
-  const [deleteData] = useMutation(DELETE_BOOKING);
   // call Data
-  const [queryBooking, { data: setData, loading: loading }] = useLazyQuery(
+  const [fetchDataRoom, { data: setData, loading: loading }] = useLazyQuery(
     QUERY_BOOKING,
     { fetchPolicy: "cache-and-network" }
   );
   useEffect(() => {
     setLocalHouse(getLocalHouse()?._id);
   }, []);
-
   useEffect(() => {
-    queryBooking({
+    fetchDataRoom({
       variables: {
         where: {
-          // house: parseInt(localHouse),
-          status: "CANCEL",
-          bookDate_gte: createdAt_gte(startDate),
-          bookDate_lte: createdAt_lt(endDate),
-          // _id: parseInt(searchValue ? searchValue : undefined),
+          // house: localHouse,
+          room: listRoom?._id ? listRoom?._id : undefined,
+          status: "CHECK_IN",
+          checkInAt_gte: createdAt_gte(startDate),
+          checkInAt_lte: createdAt_lt(endDate),
         },
-        skip: numberRow * (numberPage - 1),
-        limit: numberRow,
+        skip: listRoom ? 0 : numberRow * (numberPage - 1),
+        limit: listRoom ? 1000 : numberRow,
         orderBy: "createdAt_DESC",
       },
     });
-  }, [
-    numberPage,
-    numberRow,
-    searchValue,
-    reloadData,
-    localHouse,
-    listRoom,
-    startDate,
-    endDate,
-  ]);
-  socketServer.on("approveBooking", (res) => {
-    if (res === localHouse) {
-      // newSound.play();
-      setReloadData(!reloadData);
-    }
-  });
+  }, [localHouse, listRoom, reloadData, startDate, endDate]);
 
+  // pagination
   // pagination
   useEffect(() => {
     const page = query.get("page");
@@ -116,16 +81,16 @@ export default function BookingCancel() {
   for (var i = 1; i <= Math.ceil(setData?.bookings?.total / numberRow); i++) {
     countPage.push(i);
   }
+
   // update status
-  const updateStatus = async (_id, roomId, houseID) => {
-    messageConfirm("ຕ້ອງການດືງຄືນແທ້ ຫຼື ບໍ່?", async () => {
+  const updateStatus = async (_id, roomId) => {
+    messageConfirm("ຕ້ອງການຢືນຢັນແທ້ ຫຼື ບໍ່?", async () => {
       try {
         const { data: updateData } = await updateBookingStatus({
           variables: {
             data: {
-              status: "REQUESTED",
+              status: "CHECK_OUT",
               room: roomId,
-              house: houseID,
             },
             where: {
               _id: _id,
@@ -133,27 +98,7 @@ export default function BookingCancel() {
           },
         });
         if (updateData) {
-          messageSuccess("ດືງກັບຄືນສຳເລັດ");
-          setReloadData(!reloadData);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    });
-  };
-  // cancel
-  const _delete = async (_id) => {
-    messageConfirm("ຕ້ອງການລືບ ຫຼື ບໍ່?", async () => {
-      try {
-        const { data: _deleteData } = await deleteData({
-          variables: {
-            where: {
-              _id: _id,
-            },
-          },
-        });
-        if (_deleteData) {
-          messageSuccess("ລືບຂໍ້ມູນສຳເລັດ");
+          messageSuccess("ຢືນຢັນແຂກອອກສຳເລັດ");
           setReloadData(!reloadData);
         }
       } catch (error) {
@@ -175,7 +120,7 @@ export default function BookingCancel() {
                 <i className="fa fa-chevron-left fs-4" />
               </button>
             </div>
-            ຂໍ້ມູນການຍົກເລີກ
+            ຢືນຢັນແຂກອອກຫ້ອງ
             <div
               className="text-white pageTitle text-right text-nowrap pr-0"
               style={{ flex: 1 }}
@@ -195,20 +140,15 @@ export default function BookingCancel() {
             <div className="row col-md-12  mt-1">
               <div className="col-6">
                 <div className="option-card">
-                  <TextField
+                  <input
                     type="date"
-                    className="inputLabel"
-                    variant="outlined"
+                    className=" form-control form-control-lg"
+                    style={{ marginLeft: 6 }}
                     value={formatDateDash(startDate)}
                     onChange={(e) => {
                       history.push({
                         search: setParams(`startDate`, e.target.value),
                       });
-                    }}
-                    sx={{
-                      m: 0,
-                      width: "100%",
-                      backgroundColor: "#ffff",
                     }}
                   />
                 </div>
@@ -216,24 +156,18 @@ export default function BookingCancel() {
               <div
                 className="col-6"
                 style={{
-                  right: -15,
+                  right: -10,
                 }}
               >
                 <div className="option-card">
-                  <TextField
+                  <input
                     type="date"
-                    className="inputLabel"
-                    variant="outlined"
+                    className=" form-control form-control-lg"
                     value={formatDateDash(endDate)}
                     onChange={(e) => {
                       history.push({
                         search: setParams(`endDate`, e.target.value),
                       });
-                    }}
-                    sx={{
-                      m: 0,
-                      width: "100%",
-                      backgroundColor: "#ffff",
                     }}
                   />
                 </div>
@@ -243,53 +177,31 @@ export default function BookingCancel() {
           <div className="section  mb-2 mt-1">
             <div className="transactions">
               <div className="row">
-                <FormControl fullWidth sx={{ m: 0 }}>
-                  <OutlinedInput
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <i className="fa-solid fa-magnifying-glass" />
-                      </InputAdornment>
-                    }
-                    onWheel={(e) => e.target.blur()}
-                    type="number"
-                    placeholder="ປ້ອນລະຫັດຈອງ"
-                    onChange={(e) => setSearchValue(e.target.value)}
+                <div className="col-md-12 w-100">
+                  <SearchRoom
+                    style={{ with: "100%", heigh: "200px" }}
+                    value={listRoom?._id}
+                    onChange={(obj) => {
+                      setListRoom(obj);
+                    }}
                   />
-                </FormControl>
+                </div>
               </div>
               <div className="text-center">
                 {loading ? loadingData(25) : ""}
               </div>
               {setData?.bookings?.total > 0 ? (
-                <div className="listView mt-2">
+                <div className="listView mt-1">
                   {setData?.bookings?.data?.map((data, index) => (
                     <>
-                      <b
-                        className="float-end"
-                        style={{ marginTop: -8, marginRight: -10 }}
-                      >
-                        <i
-                          className="fa-solid fa-trash text-danger"
-                          onClick={(e) => {
-                            _delete(data?._id);
-                          }}
-                          style={{ fontSize: 20 }}
-                        ></i>
-                      </b>
                       <a
                         href="javascript:void(0)"
                         className="item pr-0 "
                         key={index}
-                        style={{
-                          borderTop: "1px solid #ed6b0e",
-                        }}
+                        style={{ borderTop: "1px solid #ed6b0e" }}
                       >
-                        <div
-                          className="detail col-md-10"
-                          onClick={() => setDetailRoom(data?._id)}
-                        >
+                        <div className="detail col-md-10">
                           <div>
-                            <strong>ລະຫັດຈອງ: BH-{data?._id}</strong>
                             <strong>ຫ້ອງ: {data?.room?.title_lao}</strong>
                             <b className="text-black">
                               ລາຄາ:{" "}
@@ -338,18 +250,15 @@ export default function BookingCancel() {
                         <div className="right">
                           <button
                             className="btn btn-primary btn-sm action-button"
+                            onClick={(e) => {
+                              updateStatus(data?._id, data?.room?._id);
+                            }}
                             onDoubleClick={() => {
                               return false;
                             }}
-                            onClick={(e) => {
-                              updateStatus(
-                                data?._id,
-                                data?.room?._id,
-                                data?.house?._id
-                              );
-                            }}
                           >
-                            <i className="fa-solid fa-rotate-left fa-1x" />
+                            <i className="icon-check-circle mr-1 fa-2x" />{" "}
+                            ຢືນຢັນອອກ
                           </button>
                         </div>
                       </a>
@@ -373,7 +282,7 @@ export default function BookingCancel() {
               )}
             </div>
           </div>
-          <DetailRoom _id={detailRoom} onHide={() => setDetailRoom()} />
+          <BottomNav />
         </div>
       </div>
     </div>

@@ -10,7 +10,6 @@ import {
   messageError,
   messageSuccess,
   messageWarning,
-  USER_KEY,
   valiDate,
 } from "../../helper";
 
@@ -97,13 +96,8 @@ export default function AddRateExchange({ onSuccess }) {
         <i className="icon-plus-circle me-1" /> ເພີ່ມ
       </button>
       <Modal
-        centered
         show={show}
-        onHide={() => setShow(false)}
-        animation={false}
-        backdrop="static"
-        size="xl"
-        className="container-div"
+        animation={false}size="xl"
       >
         <Modal.Header className="text-black">
           ເພີ່ມອັດຕາແລກປ່ຽນວັນນີ້

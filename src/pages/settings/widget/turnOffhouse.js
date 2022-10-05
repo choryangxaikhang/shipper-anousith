@@ -2,7 +2,7 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 import Notiflix from "notiflix";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import "./utils/index.css"
+import "./utils/index.css";
 import { loadingData, messageError, messageSuccess } from "../../../helper";
 import { QUERY_HOUSE, UPDATE_HOUSE } from "../apollo";
 export default function TurnOffHouse() {
@@ -113,19 +113,14 @@ export default function TurnOffHouse() {
 
   return (
     <React.Fragment>
-      <div className="p-1 text-black border-bottom" onClick={() => setShow(true)}>
+      <div
+        className="p-1 text-black border-bottom"
+        onClick={() => setShow(true)}
+      >
         <i className="fa-solid fa-chevron-right me-2" />
         ຕັ້ງຄ່າເປີດ ແລະ ປິດກິດຈະການ
       </div>
-      <Modal
-        centered
-        show={show}
-        onHide={() => setShow(false)}
-        animation={false}
-        backdrop="static"
-        size="xl"
-        className="container-div"
-      >
+      <Modal show={show} animation={false} size="xl">
         <Modal.Header>
           ຕັ້ງຄ່າເປີດ ແລະ ປິດກິດຈະກໍາ
           <a

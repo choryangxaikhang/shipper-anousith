@@ -15,7 +15,7 @@ import Provinces from "../../../helper/components/Province";
 import Village from "../../../helper/components/Village";
 import District from "../../../helper/components/District";
 import Notiflix, { Loading } from "notiflix";
-import male from "../../../img/males.png";
+import male from "../../../img/male.png";
 import { v4 as uuidv4 } from "uuid";
 import { s3Client } from "../../../helper/s3Client";
 import TypeHouses from "../../../helper/components/TypeHouse";

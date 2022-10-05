@@ -15,3 +15,9 @@ export const BOOKING_CANCEL = "/other/booking_cancel";
 export const SETTING = "/setting_screen";
 // rateExchange
 export const RATE_EXCHANGE_SCREEN = "/rate_exchange";
+
+// managementhouse
+export const TAB_MENU = "/management_house/tab_menu";
+export const MANAGEMENT_TYPE_ROOM = "/management_house/type_room";
+export const MANAGEMENT_ROOM = "/management_house/rooms";
+export const MANAGEMENT_HOUSE = "/management_house/houses";

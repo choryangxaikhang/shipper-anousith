@@ -107,16 +107,10 @@ export default function ChangePasswordStaff() {
         <i className="fa-solid fa-chevron-right me-2" />
         ປ່ຽນລະຫັດຜ່ານພະນັກງານ
       </div>
-      <Modal
-        centered
-        show={show}
-        onHide={() => setShow(false)}
-        animation={false}
-        backdrop="static"
-        size="xl"
-        className="container-div"
-      >
-        <Modal.Header className="text-black"> ປ່ຽນລະຫັດຜ່ານພະນັກງານ
+      <Modal show={show}  animation={false} size="xl">
+        <Modal.Header className="text-black">
+          {" "}
+          ປ່ຽນລະຫັດຜ່ານພະນັກງານ
           <a
             className="pull-right ms-2 "
             style={{ textDecoration: "none" }}

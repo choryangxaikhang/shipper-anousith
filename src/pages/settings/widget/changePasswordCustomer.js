@@ -102,16 +102,9 @@ export default function ChangePasswordCustomer() {
         <i className="fa-solid fa-chevron-right me-2" />
         ປ່ຽນລະຫັດຜ່ານລູກຄ້າ
       </div>
-      <Modal
-        centered
-        show={show}
-        onHide={() => setShow(false)}
-        animation={false}
-        backdrop="static"
-        size="xl"
-        className="container-div"
-      >
-        <Modal.Header className="text-black">ປ່ຽນລະຫັດຜ່ານລູກຄ້າ
+      <Modal show={show} animation={false} size="xl">
+        <Modal.Header className="text-black">
+          ປ່ຽນລະຫັດຜ່ານລູກຄ້າ
           <a
             className="pull-right ms-2 "
             style={{ textDecoration: "none" }}
@@ -127,7 +120,7 @@ export default function ChangePasswordCustomer() {
             placeholder="ໄອດີ..."
             onChange={(e) => setSearchValueID(e.target.value)}
             onKeyPress={_handleKeypress}
-            style={{border:"1px solid #c2c1be"}}
+            style={{ border: "1px solid #c2c1be" }}
           />
           <input
             type="number"
@@ -135,7 +128,7 @@ export default function ChangePasswordCustomer() {
             placeholder="ເບີໂທ..."
             onChange={(e) => setSearchValuePhone(e.target.value)}
             onKeyPress={_handleKeypress}
-            style={{border:"1px solid #c2c1be"}}
+            style={{ border: "1px solid #c2c1be" }}
           />
           <button
             type="button"

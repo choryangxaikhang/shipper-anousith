@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import useReactRouter from "use-react-router";
 import {
+  getStaffLogin,
   houseStatus,
   ITEM_PER_PAGE,
   loadingData,
@@ -15,7 +16,6 @@ import {
 import PaginationController from "../../../helper/components/pagination/PaginationComponent";
 import LimitData from "../../../helper/components/pagination/LimitData";
 import { DELETE_HOUSE, QUERY_HOUSE } from "./apollo";
-import { USER_KEY } from "../../../Routes/app";
 import AddHouses from "./addHouse";
 import EditHouse from "./editHouse";
 import Notiflix, { Loading } from "notiflix";
@@ -27,7 +27,7 @@ export default function Houses() {
   const rows = parseInt(query.get("rows"));
   const [numberRows, setNumberRows] = useState(rows ? rows : ITEM_PER_PAGE);
   const [searchValue, setSearchValue] = useState("");
-  const jsonObj = JSON.parse(localStorage.getItem(USER_KEY));
+  const jsonObj = getStaffLogin;
   const userInfo = jsonObj?.data;
   const [loadData, setLoadData] = useState(false);
   const [provinceData, setProvinceData] = useState("");

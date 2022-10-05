@@ -82,18 +82,11 @@ export default function EditRateExChange({ dataValue, onSuccess }) {
             type="button"
             className="btn btn-lg"
             onClick={() => setShow(true)}
+            size="xl"
           >
             <i className="fas fa-edit " />
           </button>
-          <Modal
-            centered
-            show={show}
-            onHide={() => setShow(false)}
-            animation={false}
-            backdrop="static"
-            size="xl"
-            className="container-div"
-          >
+          <Modal show={show}>
             <Modal.Header className="text-black">
               ແກ້ໄຂອັດຕາແລກປ່ຽນ
               <a

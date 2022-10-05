@@ -110,15 +110,7 @@ export default function ChangePasswordCustomer_User() {
       >
         ປ່ຽນລະຫັດຜ່ານລູກຄ້າ
       </a> */}
-      <Modal
-        centered
-        show={show}
-        onHide={() => setShow(false)}
-        animation={false}
-        backdrop="static"
-        size="xl"
-        className="container-div"
-      >
+      <Modal show={show} animation={false} size="xl">
         <Modal.Header closeButton>
           <Modal.Title className="fs-5">
             <i className="icon-sliders" /> ປ່ຽນລະຫັດຜ່ານລູກຄ້າດດ

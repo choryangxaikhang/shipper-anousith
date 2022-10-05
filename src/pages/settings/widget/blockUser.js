@@ -89,15 +89,7 @@ export default function BlockUser() {
         <i className="fa-solid fa-chevron-right me-2" />
         ບລ໋ອກ User
       </div>
-      <Modal
-        centered
-        show={show}
-        onHide={() => setShow(false)}
-        animation={false}
-        backdrop="static"
-        size="xl"
-        className="container-div"
-      >
+      <Modal show={show} animation={false} size="xl">
         <Modal.Header className="text-black">
           ບລ໋ອກ User
           <a
@@ -116,7 +108,7 @@ export default function BlockUser() {
               placeholder="ຊື່ພະນັງານ..."
               onChange={(e) => setSearchValue(e.target.value)}
               onKeyPress={_handleKeypress}
-              style={{border:"1px solid #c2c1be"}}
+              style={{ border: "1px solid #c2c1be" }}
             />
             <button
               type="button"
@@ -131,9 +123,9 @@ export default function BlockUser() {
           ) : (
             <div className="table-responsive">
               <table className="table table-bordered table-sm">
-                <thead >
+                <thead>
                   <tr>
-                    <th >#</th>
+                    <th>#</th>
                     <th className="text-nowrap">ຊື່ ແລະ ນາມສະກຸນ</th>
                     <th className="text-nowrap">ບລ໋ອກ</th>
                   </tr>
@@ -141,7 +133,7 @@ export default function BlockUser() {
                 <tbody>
                   {users &&
                     users?.map((item, index) => (
-                      <tr key={index} >
+                      <tr key={index}>
                         <td className="">{index + 1}</td>
                         <td className="text-nowrap">
                           {item?.firstName ? item?.firstName : "-"}{" "}

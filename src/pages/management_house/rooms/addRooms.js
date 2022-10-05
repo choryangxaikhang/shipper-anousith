@@ -1,39 +1,30 @@
-// import { useLazyQuery } from "@apollo/client";
 import { useMutation } from "@apollo/client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useFormik } from "formik";
 import { v4 as uuidv4 } from "uuid";
-import * as Yup from "yup";
+import Notiflix, { Loading } from "notiflix";
 import "./utils/index.css";
 import AddCircleOutlineTwoToneIcon from "@material-ui/icons/AddCircleOutlineTwoTone";
 import {
-  aws_url_image,
-  aws_url_images,
   loadingScreen,
   messageError,
   messageSuccess,
   messageWarning,
   valiDate,
 } from "../../../helper";
-import { EDIT_ROOM } from "./apollo";
+import { CREATE_ROOM } from "./apollo";
 import TypeRoom from "../../../helper/components/typeRoom";
-import Houses from "../../../helper/components/house";
 import { s3Client } from "../../../helper/s3Client";
-import Notiflix, { Loading } from "notiflix";
-import male from "../../../img/males.png";
-export default function EditRooms({ onSuccess, data, loadData }) {
-  console.log("data",data)
+import { FormControl, InputAdornment, OutlinedInput } from "@mui/material";
+export default function AddRooms({ onSuccess, loadData, className }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const [getValueStatus, setValueStatus] = useState();
-  const [typeDataRoom, setTypeDataRoom] = useState();
-  const [getHouse, setHouse] = useState();
+  const [typeDataRoom, setTypeDataRoom] = useState({});
+  const [getHouse, setHouse] = useState({});
   const [imageName, setImageName] = useState("");
   const [file, setFile] = useState(null);
-  const [createRoom] = useMutation(EDIT_ROOM);
-  const [getDocFiles, setGetDocFiles] = useState(data.coverImage);
-  const [getImages, setImages] = useState(data.images);
+  const [createRoom] = useMutation(CREATE_ROOM);
   const [getDocFiless, setDocFiless] = useState([]);
   const [getFileNames, setFileNames] = useState([]);
   const [status, setStatus] = useState(false);
@@ -78,10 +69,6 @@ export default function EditRooms({ onSuccess, data, loadData }) {
       console.log({ error });
     }
   };
-  const newArray = [];
-  for (let i = 0; i < getDocFiles?.split(',').length; i++) {
-    newArray.push(getDocFiles?.split(",")[i]);
-  }
   const removeArray = (index) => {
     getDocFiless.splice(index, 1);
     setDocFiless(getDocFiless);
@@ -90,11 +77,11 @@ export default function EditRooms({ onSuccess, data, loadData }) {
     setFileNames(getFileNames);
     setStatus(!status);
   };
-  const { handleChange, errors, values, handleSubmit, resetForm,setFieldValue } = useFormik({
+  const { handleChange, errors, values, handleSubmit, resetForm } = useFormik({
     initialValues: {
       title_lao: "",
-      title_eng:  "",
-      priceHalf: "",
+      title_eng: "",
+      priceHalf: 0,
       priceFull: "",
       detail: "",
     },
@@ -107,15 +94,18 @@ export default function EditRooms({ onSuccess, data, loadData }) {
       if (!values.priceFull) {
         errors.priceFull = "ກະລູນາປ້ອນລາຄາເຕັມ";
       }
-      if (getDocFiles === "" && getDocFiless.length < 1) {
+      if (getDocFiless.length < 1) {
         errors.docFile = "ກະລຸນາເລືອກຮູບກ່ອນ";
       }
       if (!getHouse?._id) errors.house = "error";
       if (!typeDataRoom?._id) errors.typeRoom = "error";
       return errors;
     },
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       loadingScreen();
+      console.log("values", values);
+      console.log("imageName", imageName);
+      // return
       try {
         const { data: updated } = await createRoom({
           variables: {
@@ -124,77 +114,55 @@ export default function EditRooms({ onSuccess, data, loadData }) {
               title_eng: String(values?.title_eng),
               priceHalf: parseInt(values?.priceHalf),
               priceFull: parseInt(values?.priceFull),
-              status: String(getValueStatus),
               detail: String(values?.detail),
               house: String(getHouse?._id),
               typeRoom: String(typeDataRoom?._id),
-              coverImage:
-                getDocFiless.length > 0
-                  ? String(getDocFiless.join(","))
-                  : getDocFiles,
-              images: String(imageName ? imageName : getImages),
-            },
-            where: {
-              _id: data?._id,
+              coverImage: getDocFiless ? String(getDocFiless.join(",")) : "",
+              images: String(imageName),
             },
           },
         });
-
         if (updated) {
           Notiflix.Loading.remove();
           messageSuccess("ການດຳເນີນງານສຳເລັດ");
-          onSuccess(loadData===true?false:true);
+          onSuccess(loadData === true ? false : true);
+          setFile("");
           setFileNames("");
           setDocFiless("");
+          resetForm();
           setShow(false);
         } else {
           Notiflix.Loading.remove();
           messageError("ການດຳເນີນງານບໍ່ສຳເລັດ");
         }
       } catch (error) {
-        console.log(error);
         Notiflix.Loading.remove();
         messageError("ການເພີ່ມຂໍ້ມູນຜິດພາດ");
       }
     },
   });
 
-  useEffect(() => {
-    if(!show){
-      return
-    }
-    setFieldValue("title_lao", data?.title_lao ? data?.title_lao : "",false);
-    setFieldValue("title_eng", data?.title_eng ? data?.title_eng : "",false);
-    setFieldValue("priceFull", data?.priceFull ? data?.priceFull : 0,false);
-    setFieldValue("priceHalf", data?.priceHalf ? data?.priceHalf : 0,false);
-    setFieldValue("detail", data?.detail ? data?.detail : "", false);
-    setValueStatus(data.status)
-    setTypeDataRoom(data?.typeRoom)
-    setHouse(data?.house) 
-  }, [data,show])
   return (
     <React.Fragment>
       <button
         type="button"
-        className="btn btn-success btn-sm"
+        className="btn  btn-lg btn-block"
         onClick={() => setShow(true)}
       >
-        <i className="icon-edit" />
+        <i className="icon-plus-circle me-1" /> ເພີ່ມຫ້ອງ
       </button>
-      <Modal
-        centered
-        show={show}
-        onHide={() => setShow(false)}
-        animation={false}
-        backdrop="static"
-        size="lg"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title className="fs-5">
-            <i className="icon-edit" /> ຟອມແກ້ໄຂຂໍ້ມູນຫ້ອງ
-          </Modal.Title>
+      <Modal show={show} size="xl">
+        <Modal.Header>
+          ເລືອກປະເພດຫ້ອງ
+          <a
+            className="pull-right ms-2 "
+            style={{ textDecoration: "none", marginTop: -10 }}
+            onClick={() => setShow(false)}
+          >
+            <i className="icon-x fa-2x text-danger" />
+          </a>
         </Modal.Header>
-        <Modal.Body className="container">
+        <Modal.Body>
           <div className="row">
             <div className="form-group">
               <label className="control-label">ອັບໂຫຼດຮູບໂປຣໄຟຣ໌ຫ້ອງ</label>
@@ -215,6 +183,7 @@ export default function EditRooms({ onSuccess, data, loadData }) {
                     <img
                       src={URL.createObjectURL(file)}
                       alt={file.name}
+                      // style={{ width: 300, height: 250 }}
                       style={{
                         height: 200,
                         width: 200,
@@ -222,9 +191,9 @@ export default function EditRooms({ onSuccess, data, loadData }) {
                       }}
                     />
                   ) : (
-                    <img
-                      src={data?.images ? aws_url_images + data?.images : male}
-                      style={{ width: "170px", height: "180px" }}
+                    <AddCircleOutlineTwoToneIcon
+                      style={{ fontSize: 45 }}
+                      className="text-secondary"
                     />
                   )}
                 </label>
@@ -246,22 +215,14 @@ export default function EditRooms({ onSuccess, data, loadData }) {
             <div className="col-md-6 mt-2">
               <div className="form-group mb-2">
                 <label>ເລືອກກິດຈະການ{valiDate()}</label>
-                <Houses
-                  size={"lg"}
-                  getData={(data) => {
-                    setHouse(data);
-                  }}
-                  defaultValue={getHouse?.houseName}
-                  className={errors.house ? "is-invalid" : ""}
-                />
+                dddd
               </div>
             </div>
           </div>
           <div className="form-group">
-            <label>ຊື່ຫ້ອງ {valiDate()}</label>
-            <input
+            {/* <input
               type="text"
-              style={{color: "black" }}
+              style={{ color: "black" }}
               className={
                 errors.title_lao
                   ? "form-control mb-3 is-invalid"
@@ -271,21 +232,50 @@ export default function EditRooms({ onSuccess, data, loadData }) {
               value={values.title_lao}
               onChange={handleChange}
               placeholder="ປ້ອນຫ້ອງພາສາລາວ"
-            />
+            /> */}
+            <FormControl fullWidth sx={{ m: 0 }}>
+              <OutlinedInput
+                startAdornment={
+                  <InputAdornment position="start">ພາສາລາວ:</InputAdornment>
+                }
+                onWheel={(e) => e.target.blur()}
+                type="text"
+                name="title_lao"
+                placeholder="..."
+                value={values.title_lao}
+                onChange={handleChange}
+              />
+              <div className="text-danger">{errors.title_lao}</div>
+            </FormControl>
           </div>
           <div className="form-row mt-3">
             <div>
-              <label className="text-black">ຊື່ຫ້ອງ (ພາສາອັງກິດ)</label>
               <div className="col-md-12">
-                <input
+                {/* <input
                   type="text"
+                  style={{ color: "black" }}
                   name="title_eng"
-                  style={{color: "black" }}
                   className="form-control form-control-lg"
                   placeholder="ພາສາອັງກິດ"
                   onChange={handleChange}
                   value={values?.title_eng}
-                />
+                /> */}
+                <FormControl fullWidth sx={{ m: 0 }}>
+                  <OutlinedInput
+                    startAdornment={
+                      <InputAdornment position="start">
+                        ພາສາອັງກິດ:
+                      </InputAdornment>
+                    }
+                    onWheel={(e) => e.target.blur()}
+                    type="text"
+                    name="title_eng"
+                    placeholder="..."
+                    value={values.title_eng}
+                    onChange={handleChange}
+                  />
+                  <div className="text-danger">{errors.title_eng}</div>
+                </FormControl>
               </div>
             </div>
           </div>
@@ -293,56 +283,68 @@ export default function EditRooms({ onSuccess, data, loadData }) {
             <div className="col-md-6">
               <div className="form-row mt-2">
                 <div>
-                  <label className="text-black">ລາຄາເຕັມ {valiDate()}</label>
                   <div className="col-md-12">
-                    <input
+                    {/* <input
                       type="number"
-                      style={{color: "black" }}
+                      style={{ color: "black" }}
                       name="priceFull"
                       className={`form-control form-control-lg ${
                         errors?.priceFull ? "is-invalid" : null
                       }`}
-                      placeholder="ພາສາອັງກິດ"
+                      placeholder="ຄ້າງຄືນ"
                       onChange={handleChange}
                       value={values?.priceFull}
-                    />
-                    <div className="invalid fs-5">{errors?.priceFull}</div>
+                    /> */}
+                    <FormControl fullWidth sx={{ m: 0 }}>
+                      <OutlinedInput
+                        startAdornment={
+                          <InputAdornment position="start">
+                            ຄ້າງຄືນ:
+                          </InputAdornment>
+                        }
+                        onWheel={(e) => e.target.blur()}
+                        type="text"
+                        name="priceFull"
+                        placeholder="..."
+                        value={values.priceFull}
+                        onChange={handleChange}
+                      />
+                      <div className="text-danger">{errors.priceFull}</div>
+                    </FormControl>
+                    {/* <div className="invalid fs-5">{errors?.priceFull}</div> */}
                   </div>
                 </div>
               </div>
             </div>
-            <div className="col-md-6 ml-auto">
+            <div className="col-md-6">
               <div className="form-row mt-2">
-                <label className="text-black">ລາຄາສ່ວນຫຼຸບ</label>
                 <div className="col-md-12">
-                  <input
+                  {/* <input
                     type="number"
+                    style={{ color: "black" }}
                     name="priceHalf"
-                    style={{color: "black" }}
                     className="form-control form-control-lg"
-                    placeholder="ປ້ອນສ່ວນຫຼຸບ"
+                    placeholder="ຄ້າງຄືນ"
                     onChange={handleChange}
                     value={values?.priceHalf}
-                  />
+                  /> */}
+                  <FormControl fullWidth sx={{ m: 0 }}>
+                    <OutlinedInput
+                      startAdornment={
+                        <InputAdornment position="start">
+                          ຊົ່ວຄາວ:
+                        </InputAdornment>
+                      }
+                      onWheel={(e) => e.target.blur()}
+                      type="text"
+                      name="priceHalf"
+                      placeholder="..."
+                      value={values.priceHalf}
+                      onChange={handleChange}
+                    />
+                    <div className="text-danger">{errors.priceHalf}</div>
+                  </FormControl>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="form-row mt-3 ml-auto">
-            <div>
-              <label className="text-black">ສະຖານະ {valiDate()}</label>
-              <div className="col-md-12">
-                <select
-                  className="form-control form-control-lg"
-                  name="status"
-                  onChange={(e) => setValueStatus(e.target.value)}
-                  value={getValueStatus}
-                >
-                  <option value="">ເລືອກສະຖານະ</option>
-                  <option value="FULL">ຄ້າງຄືນ</option>
-                  <option value="FEE">ຊົ່ວຄາວ</option>
-                  <option value="BOOKING">ຈອງ</option>
-                </select>
               </div>
             </div>
           </div>
@@ -352,8 +354,8 @@ export default function EditRooms({ onSuccess, data, loadData }) {
               <div className="col-md-12">
                 <textarea
                   rows={3}
+                  style={{ color: "black" }}
                   name="detail"
-                  style={{color: "black" }}
                   className="form-control form-control-lg"
                   placeholder="ປ້ອນລາຍລະອຽດ"
                   onChange={handleChange}
@@ -384,68 +386,40 @@ export default function EditRooms({ onSuccess, data, loadData }) {
             <hr />
             <div>
               <div className="col-md-12">
-                {getFileNames.length === 0 ? (
-                  <>
-                    {newArray &&
-                      newArray.map((item, index) => (
-                        <>
-                          <div className="row mb-0" key={index}>
-                            <div className="col-md-6">
-                              <h4>{item}</h4>
-                            </div>
-                          </div>
-                          <hr />
-                        </>
-                      ))}
-                  </>
-                ) : (
-                  <>
-                    {getFileNames &&
-                      getFileNames.map((item, index) => (
-                        <>
-                          <div className="row mb-0" key={index}>
-                            <div className="col-md-6">
-                              <h4>{item}</h4>
-                            </div>
-                            <div
-                              className="col-md-6"
-                              style={{ textAlign: "right" }}
-                            >
-                              <button
-                                className="btn btn-icon btn-xs btn-danger rounded-circle dz-cancel"
-                                onClick={() => removeArray(index)}
-                              >
-                                <i className="icon-delete"></i>
-                              </button>
-                            </div>
-                          </div>
-                          <hr />
-                        </>
-                      ))}
-                  </>
-                )}
+                {getFileNames &&
+                  getFileNames.map((item, index) => (
+                    <>
+                      <div className="row mb-0" key={index}>
+                        <div className="col-md-6">
+                          <h4>{item}</h4>
+                        </div>
+                        <div
+                          className="col-md-6"
+                          style={{ textAlign: "right" }}
+                        >
+                          <button
+                            className="btn btn-icon btn-xs btn-danger rounded-circle dz-cancel"
+                            onClick={() => removeArray(index)}
+                          >
+                            <i className="icon-delete"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <hr />
+                    </>
+                  ))}
               </div>
             </div>
           </div>
-        </Modal.Body>
-        <Modal.Footer>
           <button
             type="button"
-            className="btn btn-primary btn-block btn-sm"
+            className="btn btn-primary btn-block btn-lg"
             onClick={() => handleSubmit()}
-            // disabled={isDisabled}
           >
             <i className="icon-save" style={{ marginRight: 3 }} />
             ບັນທຶກ
           </button>
-          <button
-            className="btn btn-light btn-block btn-sm"
-            onClick={() => handleClose()}
-          >
-            <i className="icon-x" style={{ marginRight: 3 }} />
-            ປິດ
-          </button>
-        </Modal.Footer>
+        </Modal.Body>
       </Modal>
     </React.Fragment>
   );

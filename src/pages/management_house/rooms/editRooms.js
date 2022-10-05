@@ -1,32 +1,37 @@
 // import { useLazyQuery } from "@apollo/client";
 import { useMutation } from "@apollo/client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useFormik } from "formik";
 import { v4 as uuidv4 } from "uuid";
-import * as Yup from "yup";
-import Notiflix, { Loading } from "notiflix";
 import "./utils/index.css";
 import AddCircleOutlineTwoToneIcon from "@material-ui/icons/AddCircleOutlineTwoTone";
 import {
+  aws_url_image,
+  aws_url_images,
   loadingScreen,
   messageError,
   messageSuccess,
   messageWarning,
   valiDate,
 } from "../../../helper";
-import { CREATE_ROOM } from "./apollo";
+import { EDIT_ROOM } from "./apollo";
 import TypeRoom from "../../../helper/components/typeRoom";
-import Houses from "../../../helper/components/house";
 import { s3Client } from "../../../helper/s3Client";
-export default function AddRooms({ onSuccess, loadData }) {
+import Notiflix, { Loading } from "notiflix";
+import male from "../../../img/male.png";
+export default function EditRooms({ onSuccess, data, loadData }) {
+  console.log("data", data);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const [typeDataRoom, setTypeDataRoom] = useState({});
-  const [getHouse, setHouse] = useState({});
+  const [getValueStatus, setValueStatus] = useState();
+  const [typeDataRoom, setTypeDataRoom] = useState();
+  const [getHouse, setHouse] = useState();
   const [imageName, setImageName] = useState("");
   const [file, setFile] = useState(null);
-  const [createRoom] = useMutation(CREATE_ROOM);
+  const [createRoom] = useMutation(EDIT_ROOM);
+  const [getDocFiles, setGetDocFiles] = useState(data.coverImage);
+  const [getImages, setImages] = useState(data.images);
   const [getDocFiless, setDocFiless] = useState([]);
   const [getFileNames, setFileNames] = useState([]);
   const [status, setStatus] = useState(false);
@@ -71,6 +76,10 @@ export default function AddRooms({ onSuccess, loadData }) {
       console.log({ error });
     }
   };
+  const newArray = [];
+  for (let i = 0; i < getDocFiles?.split(",").length; i++) {
+    newArray.push(getDocFiles?.split(",")[i]);
+  }
   const removeArray = (index) => {
     getDocFiless.splice(index, 1);
     setDocFiless(getDocFiless);
@@ -79,11 +88,18 @@ export default function AddRooms({ onSuccess, loadData }) {
     setFileNames(getFileNames);
     setStatus(!status);
   };
-  const { handleChange, errors, values, handleSubmit, resetForm } = useFormik({
+  const {
+    handleChange,
+    errors,
+    values,
+    handleSubmit,
+    resetForm,
+    setFieldValue,
+  } = useFormik({
     initialValues: {
       title_lao: "",
       title_eng: "",
-      priceHalf: 0,
+      priceHalf: "",
       priceFull: "",
       detail: "",
     },
@@ -96,18 +112,15 @@ export default function AddRooms({ onSuccess, loadData }) {
       if (!values.priceFull) {
         errors.priceFull = "ກະລູນາປ້ອນລາຄາເຕັມ";
       }
-      if (getDocFiless.length < 1) {
+      if (getDocFiles === "" && getDocFiless.length < 1) {
         errors.docFile = "ກະລຸນາເລືອກຮູບກ່ອນ";
       }
       if (!getHouse?._id) errors.house = "error";
       if (!typeDataRoom?._id) errors.typeRoom = "error";
       return errors;
     },
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values) => {
       loadingScreen();
-      console.log("values",values)
-      console.log("imageName",imageName)
-      // return
       try {
         const { data: updated } = await createRoom({
           variables: {
@@ -116,55 +129,74 @@ export default function AddRooms({ onSuccess, loadData }) {
               title_eng: String(values?.title_eng),
               priceHalf: parseInt(values?.priceHalf),
               priceFull: parseInt(values?.priceFull),
+              status: String(getValueStatus),
               detail: String(values?.detail),
               house: String(getHouse?._id),
               typeRoom: String(typeDataRoom?._id),
-              coverImage: getDocFiless ? String(getDocFiless.join(",")) : "",
-              images: String(imageName),
+              coverImage:
+                getDocFiless.length > 0
+                  ? String(getDocFiless.join(","))
+                  : getDocFiles,
+              images: String(imageName ? imageName : getImages),
+            },
+            where: {
+              _id: data?._id,
             },
           },
         });
+
         if (updated) {
           Notiflix.Loading.remove();
           messageSuccess("ການດຳເນີນງານສຳເລັດ");
           onSuccess(loadData === true ? false : true);
-          setFile("");
           setFileNames("");
           setDocFiless("");
-          resetForm();
           setShow(false);
         } else {
           Notiflix.Loading.remove();
           messageError("ການດຳເນີນງານບໍ່ສຳເລັດ");
         }
       } catch (error) {
+        console.log(error);
         Notiflix.Loading.remove();
         messageError("ການເພີ່ມຂໍ້ມູນຜິດພາດ");
       }
     },
   });
 
+  useEffect(() => {
+    if (!show) {
+      return;
+    }
+    setFieldValue("title_lao", data?.title_lao ? data?.title_lao : "", false);
+    setFieldValue("title_eng", data?.title_eng ? data?.title_eng : "", false);
+    setFieldValue("priceFull", data?.priceFull ? data?.priceFull : 0, false);
+    setFieldValue("priceHalf", data?.priceHalf ? data?.priceHalf : 0, false);
+    setFieldValue("detail", data?.detail ? data?.detail : "", false);
+    setValueStatus(data.status);
+    setTypeDataRoom(data?.typeRoom);
+    setHouse(data?.house);
+  }, [data, show]);
   return (
     <React.Fragment>
       <button
         type="button"
-        className="btn btn-primary btn-lg"
+        className="btn btn-success btn-sm"
         onClick={() => setShow(true)}
       >
-        <i className="icon-plus-circle" /> ເພີ່ມຫ້ອງ
+        <i className="icon-edit" />
       </button>
-      <Modal
-        centered
-        show={show}
-        onHide={() => setShow(false)}
-        animation={false}
-        backdrop="static"
-        size="lg"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title className="fs-5">
-            <i className="icon-plus-circle" /> ຟອມເພີ່ມຂໍ້ມູນຫ້ອງ
-          </Modal.Title>
+      <Modal show={show} animation={false} size="xl">
+        <Modal.Header>
+          {" "}
+          ຟອມແກ້ໄຂຂໍ້ມູນຫ້ອງ
+          <a
+            className="pull-right ms-2 "
+            style={{ textDecoration: "none", marginTop: -10 }}
+            onClick={() => setShow(false)}
+          >
+            <i className="icon-x fa-2x text-danger" />
+          </a>
         </Modal.Header>
         <Modal.Body className="container">
           <div className="row">
@@ -187,7 +219,6 @@ export default function AddRooms({ onSuccess, loadData }) {
                     <img
                       src={URL.createObjectURL(file)}
                       alt={file.name}
-                      // style={{ width: 300, height: 250 }}
                       style={{
                         height: 200,
                         width: 200,
@@ -195,9 +226,9 @@ export default function AddRooms({ onSuccess, loadData }) {
                       }}
                     />
                   ) : (
-                    <AddCircleOutlineTwoToneIcon
-                      style={{ fontSize: 45 }}
-                      className="text-secondary"
+                    <img
+                      src={data?.images ? aws_url_images + data?.images : male}
+                      style={{ width: "170px", height: "180px" }}
                     />
                   )}
                 </label>
@@ -219,22 +250,14 @@ export default function AddRooms({ onSuccess, loadData }) {
             <div className="col-md-6 mt-2">
               <div className="form-group mb-2">
                 <label>ເລືອກກິດຈະການ{valiDate()}</label>
-                <Houses
-                  size={"lg"}
-                  getData={(data) => {
-                    setHouse(data);
-                  }}
-                  defaultValue={getHouse?.houseName}
-                  className={errors.house ? "is-invalid" : ""}
-                />
               </div>
             </div>
           </div>
           <div className="form-group">
-            <label>ຊື່ຫ້ອງ (ພາສາລາວ) {valiDate()}</label>
+            <label>ຊື່ຫ້ອງ {valiDate()}</label>
             <input
               type="text"
-              style={{color: "black" }}
+              style={{ color: "black" }}
               className={
                 errors.title_lao
                   ? "form-control mb-3 is-invalid"
@@ -252,8 +275,8 @@ export default function AddRooms({ onSuccess, loadData }) {
               <div className="col-md-12">
                 <input
                   type="text"
-                  style={{color: "black" }}
                   name="title_eng"
+                  style={{ color: "black" }}
                   className="form-control form-control-lg"
                   placeholder="ພາສາອັງກິດ"
                   onChange={handleChange}
@@ -266,16 +289,16 @@ export default function AddRooms({ onSuccess, loadData }) {
             <div className="col-md-6">
               <div className="form-row mt-2">
                 <div>
-                  <label className="text-black">ຄ້າງຄືນ {valiDate()}</label>
+                  <label className="text-black">ລາຄາເຕັມ {valiDate()}</label>
                   <div className="col-md-12">
                     <input
                       type="number"
-                      style={{color: "black" }}
+                      style={{ color: "black" }}
                       name="priceFull"
                       className={`form-control form-control-lg ${
                         errors?.priceFull ? "is-invalid" : null
                       }`}
-                      placeholder="ຄ້າງຄືນ"
+                      placeholder="ພາສາອັງກິດ"
                       onChange={handleChange}
                       value={values?.priceFull}
                     />
@@ -284,20 +307,38 @@ export default function AddRooms({ onSuccess, loadData }) {
                 </div>
               </div>
             </div>
-            <div className="col-md-6">
+            <div className="col-md-6 ml-auto">
               <div className="form-row mt-2">
-                <label className="text-black">ຊົ່ວຄາວ</label>
+                <label className="text-black">ລາຄາສ່ວນຫຼຸບ</label>
                 <div className="col-md-12">
                   <input
                     type="number"
-                    style={{color: "black" }}
                     name="priceHalf"
+                    style={{ color: "black" }}
                     className="form-control form-control-lg"
-                    placeholder="ຄ້າງຄືນ"
+                    placeholder="ປ້ອນສ່ວນຫຼຸບ"
                     onChange={handleChange}
                     value={values?.priceHalf}
                   />
                 </div>
+              </div>
+            </div>
+          </div>
+          <div className="form-row mt-3 ml-auto">
+            <div>
+              <label className="text-black">ສະຖານະ {valiDate()}</label>
+              <div className="col-md-12">
+                <select
+                  className="form-control form-control-lg"
+                  name="status"
+                  onChange={(e) => setValueStatus(e.target.value)}
+                  value={getValueStatus}
+                >
+                  <option value="">ເລືອກສະຖານະ</option>
+                  <option value="FULL">ຄ້າງຄືນ</option>
+                  <option value="FEE">ຊົ່ວຄາວ</option>
+                  <option value="BOOKING">ຈອງ</option>
+                </select>
               </div>
             </div>
           </div>
@@ -307,8 +348,8 @@ export default function AddRooms({ onSuccess, loadData }) {
               <div className="col-md-12">
                 <textarea
                   rows={3}
-                  style={{color: "black" }}
                   name="detail"
+                  style={{ color: "black" }}
                   className="form-control form-control-lg"
                   placeholder="ປ້ອນລາຍລະອຽດ"
                   onChange={handleChange}
@@ -339,28 +380,46 @@ export default function AddRooms({ onSuccess, loadData }) {
             <hr />
             <div>
               <div className="col-md-12">
-                {getFileNames &&
-                  getFileNames.map((item, index) => (
-                    <>
-                      <div className="row mb-0" key={index}>
-                        <div className="col-md-6">
-                          <h4>{item}</h4>
-                        </div>
-                        <div
-                          className="col-md-6"
-                          style={{ textAlign: "right" }}
-                        >
-                          <button
-                            className="btn btn-icon btn-xs btn-danger rounded-circle dz-cancel"
-                            onClick={() => removeArray(index)}
-                          >
-                            <i className="icon-delete"></i>
-                          </button>
-                        </div>
-                      </div>
-                      <hr />
-                    </>
-                  ))}
+                {getFileNames.length === 0 ? (
+                  <>
+                    {newArray &&
+                      newArray.map((item, index) => (
+                        <>
+                          <div className="row mb-0" key={index}>
+                            <div className="col-md-6">
+                              <h4>{item}</h4>
+                            </div>
+                          </div>
+                          <hr />
+                        </>
+                      ))}
+                  </>
+                ) : (
+                  <>
+                    {getFileNames &&
+                      getFileNames.map((item, index) => (
+                        <>
+                          <div className="row mb-0" key={index}>
+                            <div className="col-md-6">
+                              <h4>{item}</h4>
+                            </div>
+                            <div
+                              className="col-md-6"
+                              style={{ textAlign: "right" }}
+                            >
+                              <button
+                                className="btn btn-icon btn-xs btn-danger rounded-circle dz-cancel"
+                                onClick={() => removeArray(index)}
+                              >
+                                <i className="icon-delete"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <hr />
+                        </>
+                      ))}
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -368,19 +427,11 @@ export default function AddRooms({ onSuccess, loadData }) {
         <Modal.Footer>
           <button
             type="button"
-            className="btn btn-primary btn-block btn-sm"
+            className="btn btn-primary btn-block btn-lg"
             onClick={() => handleSubmit()}
-            // disabled={isDisabled}
           >
             <i className="icon-save" style={{ marginRight: 3 }} />
             ບັນທຶກ
-          </button>
-          <button
-            className="btn btn-light btn-block btn-sm"
-            onClick={() => handleClose()}
-          >
-            <i className="icon-x" style={{ marginRight: 3 }} />
-            ປິດ
           </button>
         </Modal.Footer>
       </Modal>

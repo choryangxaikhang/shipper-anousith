@@ -88,13 +88,8 @@ export default function InviteOwner() {
         ບັນຈຸເຈົ້າຂອງກິດຈະການ
       </div>
       <Modal
-        centered
         show={show}
-        onHide={() => setShow(false)}
-        animation={false}
-        backdrop="static"
-        size="xl"
-        className="container-div"
+        animation={false}size="xl"
       >
         <Modal.Header>
           ບັນຈຸເຈົ້າຂອງກິດຈະການ
