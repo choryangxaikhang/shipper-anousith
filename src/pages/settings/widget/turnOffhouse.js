@@ -2,6 +2,7 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 import Notiflix from "notiflix";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
+import "./utils/index.css"
 import { loadingData, messageError, messageSuccess } from "../../../helper";
 import { QUERY_HOUSE, UPDATE_HOUSE } from "../apollo";
 export default function TurnOffHouse() {
@@ -123,6 +124,7 @@ export default function TurnOffHouse() {
         animation={false}
         backdrop="static"
         size="xl"
+        className="container-div"
       >
         <Modal.Header>
           ຕັ້ງຄ່າເປີດ ແລະ ປິດກິດຈະກໍາ

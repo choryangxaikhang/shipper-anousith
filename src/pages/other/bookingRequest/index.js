@@ -34,6 +34,7 @@ import Pagination from "../../../helper/controllers/Pagination";
 export default function BookingRequestScreen() {
   const { match, history, location } = useReactRouter();
   const userState = getStaffLogin();
+  const userData = userState?.data;
   const query = new URLSearchParams(location?.search);
   const [numberPage, setNumberPage] = useState(1);
   const [numberRow, setNumberRow] = useState(100);
@@ -59,10 +60,17 @@ export default function BookingRequestScreen() {
   });
 
   useEffect(() => {
+    let whereData = {};
+    whereData = {
+      house: parseInt(localHouse),
+    };
+    if (userData?.role === "SUPER_ADMIN" || userData?.role === "IT") {
+      delete whereData.house;
+    }
     queryBooking({
       variables: {
         where: {
-          house: parseInt(localHouse),
+          ...whereData,
           status: "REQUESTED",
           bookDate_gte: createdAt_gte(startDate),
           bookDate_lte: createdAt_lt(endDate),
@@ -82,8 +90,6 @@ export default function BookingRequestScreen() {
     startDate,
     endDate,
   ]);
-  // const getDataBookingDataId = queryBookingDataId?.bookings?.data[0];
-
   // pagination
   useEffect(() => {
     const page = query.get("page");

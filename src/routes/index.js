@@ -20,6 +20,7 @@ import Booking from "../pages/other/booking";
 import BookingRequestScreen from "../pages/other/bookingRequest";
 import BookingCancel from "../pages/other/cancel";
 import SettingsScreen from "../pages/settings";
+import RateExChange from "../pages/rateExchange";
 
 export default function Routes() {
   const { userDispatch } = useContext(AppContext);
@@ -100,7 +101,13 @@ export default function Routes() {
                 <PrivateRoute
                   path={`${ROUTES.SETTING}/:_id`}
                   exact
-                  component={(props) => <SettingsScreen{...props} />}
+                  component={(props) => <SettingsScreen {...props} />}
+                />
+                {/* rateEx */}
+                <PrivateRoute
+                  path={`${ROUTES.RATE_EXCHANGE_SCREEN}/:page`}
+                  exact
+                  component={(props) => <RateExChange {...props} />}
                 />
 
                 <Route

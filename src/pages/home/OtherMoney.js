@@ -2,20 +2,25 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
-import useReactRouter from "use-react-router";
 import { QUERY_SUMMARY_BOOKING } from "./apollo";
 import {
   createdAt_gte,
   createdAt_lt,
   currency,
   formatDateTime,
+  getLocalHouse,
+  getStaffLogin,
   loadingData,
+  socketServer,
   toDayDash,
 } from "../../helper";
-import userEvent from "@testing-library/user-event";
 export default function SummaryMoney() {
   const [startDate, setStartDate] = useState(toDayDash());
   const [endDate, setEndDate] = useState(toDayDash());
+  const [reloadData, setReloadData] = useState(false);
+  const [localHouse, setLocalHouse] = useState("");
+  const userState = getStaffLogin();
+  const userData = userState?.data;
   const [fetchData, { data: bookingToday, loading }] = useLazyQuery(
     QUERY_SUMMARY_BOOKING,
     {
@@ -35,9 +40,27 @@ export default function SummaryMoney() {
     });
 
   useEffect(() => {
+    setLocalHouse(getLocalHouse()?._id);
+  }, []);
+
+  socketServer.on("approveBooking", (res) => {
+    if (res === localHouse) {
+      setReloadData(!reloadData);
+    }
+  });
+
+  useEffect(() => {
+    let whereData = {};
+    whereData = {
+      house: parseInt(localHouse),
+    };
+    if (userData?.role === "SUPER_ADMIN") {
+      delete whereData.house;
+    }
     fetchData({
       variables: {
         where: {
+          ...whereData,
           bookDate_gte: createdAt_gte(startDate),
           bookDate_lte: createdAt_lt(endDate),
           status: "BOOKING",
@@ -45,11 +68,10 @@ export default function SummaryMoney() {
         orderBy: "createdAt_DESC",
       },
     });
-  }, [startDate, endDate]);
-  useEffect(() => {
     outHouseData({
       variables: {
         where: {
+          ...whereData,
           checkOutAt_gte: createdAt_gte(startDate),
           checkOutAt_lte: createdAt_lt(endDate),
           status: "CHECK_OUT",
@@ -57,20 +79,45 @@ export default function SummaryMoney() {
         orderBy: "createdAt_DESC",
       },
     });
-  }, [startDate, endDate]);
-
-  useEffect(() => {
     fetchDataCheckIn({
       variables: {
         where: {
+          ...whereData,
           checkInAt_gte: createdAt_gte(startDate),
-          checkInAt_gte: createdAt_lt(endDate),
+          checkInAt_lte: createdAt_lt(endDate),
           status: "CHECK_IN",
         },
         orderBy: "createdAt_DESC",
       },
     });
   }, [startDate, endDate]);
+  // useEffect(() => {
+  //   outHouseData({
+  //     variables: {
+  //       where: {
+  //         house: parseInt(localHouse),
+  //         checkOutAt_gte: createdAt_gte(startDate),
+  //         checkOutAt_lte: createdAt_lt(endDate),
+  //         status: "CHECK_OUT",
+  //       },
+  //       orderBy: "createdAt_DESC",
+  //     },
+  //   });
+  // }, [startDate, endDate]);
+
+  // useEffect(() => {
+  //   fetchDataCheckIn({
+  //     variables: {
+  //       where: {
+  //         house: parseInt(localHouse),
+  //         checkInAt_gte: createdAt_gte(startDate),
+  //         checkInAt_lte: createdAt_lt(endDate),
+  //         status: "CHECK_IN",
+  //       },
+  //       orderBy: "createdAt_DESC",
+  //     },
+  //   });
+  // }, [startDate, endDate]);
 
   return (
     <>
@@ -98,7 +145,7 @@ export default function SummaryMoney() {
           <div className="progress-card-info">
             <div className="circular-progress" data-note={25}>
               <div style={{ width: 50, height: 50 }}>
-              <i class="fa-solid fa-circle-left fa-2x"></i>
+                <i class="fa-solid fa-circle-left fa-2x"></i>
               </div>
             </div>
             <div className="progress-info-text">
@@ -108,8 +155,8 @@ export default function SummaryMoney() {
           <div className="progress-card-amount fs-4 text-primary">
             {loadingCheckIn
               ? loadingData(25)
-              : CheckInHouse?.summaryBookingTotal?.feeBookingAmount > 0
-              ? currency(CheckInHouse?.summaryBookingTotal?.feeBookingAmount)
+              : CheckInHouse?.summaryBookingTotal?.incomeKIP > 0
+              ? currency(CheckInHouse?.summaryBookingTotal?.incomeKIP)
               : 0}{" "}
             ກີບ
           </div>
@@ -118,7 +165,7 @@ export default function SummaryMoney() {
           <div className="progress-card-info">
             <div className="circular-progress" data-note={75}>
               <div style={{ width: 50, height: 50 }}>
-              <i className="fa-solid fa-circle-right fa-2x"/>
+                <i className="fa-solid fa-circle-right fa-2x" />
               </div>
             </div>
             <div className="progress-info-text ">

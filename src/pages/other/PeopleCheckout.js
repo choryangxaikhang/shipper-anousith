@@ -17,7 +17,7 @@ import {
   startOfMonth,
 } from "../../helper";
 import BottomNav from "../../layouts/BottomNav";
-import {OTHER } from "../../routes/app";
+import { OTHER } from "../../routes/app";
 import NoData from "../../helper/components/NoData";
 import { QUERY_BOOKING, UPDATE_BOOKING_STATUS } from "./hotel/apollo";
 import SearchRoom from "../../helper/components/SearchRoom";
@@ -31,7 +31,6 @@ export default function PeopleCheckout() {
   const [numberPage, setNumberPage] = useState(1);
   const [numberRow, setNumberRow] = useState(100);
   const [reloadData, setReloadData] = useState(false);
-  //state month adn year
   const [startDate, setStartDate] = useState(startOfMonth());
   const [endDate, setEndDate] = useState(endOfMonth());
   const [localHouse, setLocalHouse] = useState("");
@@ -47,10 +46,17 @@ export default function PeopleCheckout() {
     setLocalHouse(getLocalHouse()?._id);
   }, []);
   useEffect(() => {
+    let whereData = {};
+    whereData = {
+      house: parseInt(localHouse),
+    };
+    if (userData?.role === "SUPER_ADMIN" || userData?.role === "IT") {
+      delete whereData.house;
+    }
     fetchDataRoom({
       variables: {
         where: {
-          // house: localHouse,
+          ...whereData,
           room: listRoom?._id ? listRoom?._id : undefined,
           status: "CHECK_IN",
           checkInAt_gte: createdAt_gte(startDate),

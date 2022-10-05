@@ -6,7 +6,12 @@ import { Button, Col } from "react-bootstrap";
 // import "./utils/index.css";
 import * as ROUTES from "../../routes/app";
 import BottomNav from "../../layouts/BottomNav";
-import { getLocalHouse, getStaffLogin, loadingData, socketServer } from "../../helper";
+import {
+  getLocalHouse,
+  getStaffLogin,
+  loadingData,
+  socketServer,
+} from "../../helper";
 import { BOOKINGS } from "./gql";
 import SelectLocalHouse from "../../helper/components/SelectLocalHouse";
 
@@ -43,36 +48,41 @@ export default function TabMenuOther() {
       setReloadData(!reloadData);
     }
   });
-    // data HouseLocal
-    useEffect(() => {
-      const _local = getStaffLogin();
-      setUserData(_local?.data || {});
-      setHouse(getLocalHouse());
-      //sidebar min
-      const localSideBarMini = localStorage.getItem("SIDEBAR_MINI");
-      if (localSideBarMini === "true") {
-        document.body.classList.add("sidebar-collapse");
-      }
-    }, []);
-    // end
+  // data HouseLocal
+  useEffect(() => {
+    const _local = getStaffLogin();
+    setUserData(_local?.data || {});
+    setHouse(getLocalHouse());
+    //sidebar min
+    const localSideBarMini = localStorage.getItem("SIDEBAR_MINI");
+    if (localSideBarMini === "true") {
+      document.body.classList.add("sidebar-collapse");
+    }
+  }, []);
+  // end
 
   useEffect(() => {
+    let whereData = {};
+    whereData = {
+      house: parseInt(localHouse),
+    };
+    if (userData?.role === "SUPER_ADMIN" || userData?.role === "IT") {
+      delete whereData.house;
+    }
     queryBookingFull({
       variables: {
         where: {
-          house: parseInt(localHouse),
+          ...whereData,
           status: "CHECK_IN",
         },
         orderBy: "createdAt_DESC",
       },
     });
-  }, [localHouse]);
 
-  useEffect(() => {
     queryBooking({
       variables: {
         where: {
-          house: parseInt(localHouse),
+          ...whereData,
           status: "BOOKING",
         },
         orderBy: "createdAt_DESC",
@@ -81,7 +91,7 @@ export default function TabMenuOther() {
     queryBookingRequested({
       variables: {
         where: {
-          house: parseInt(localHouse),
+          ...whereData,
           status: "REQUESTED",
         },
         orderBy: "createdAt_DESC",
@@ -182,8 +192,6 @@ export default function TabMenuOther() {
                     <h5>ຫ້ອງກຳລັງຈອງ</h5>
                   </a>
                 </div>
-              </div>
-              <div className="wallet-footer">
                 <div className="item">
                   {loadingFull ? (
                     <span
@@ -221,6 +229,29 @@ export default function TabMenuOther() {
                     <h5>ແຂກອອກ</h5>
                   </a>
                 </div>
+              </div>
+              {/* rare */}
+              <div className="wallet-footer">
+                <div className="item">
+                  <a
+                    onClick={(e) =>
+                      history.push(`${ROUTES.RATE_EXCHANGE_SCREEN}/1`)
+                    }
+                  >
+                    <div className="icon-wrapper">
+                      <i className="fa-sharp fa-solid fa-dollar-sign fa-2x" />
+                    </div>
+                    <h5>ອັດຕາແລກປ່ຽນ</h5>
+                  </a>
+                </div>
+                <div className="item">
+                  <a>
+                    <div className="icon-wrapper">
+                      <i className="fa-solid fa-book fa-2x" />
+                    </div>
+                    <h5>ເພີ່ມຫ້ອງ</h5>
+                  </a>
+                </div>
                 <div className="item">
                   <a>
                     <div className="icon-wrapper">
@@ -234,11 +265,7 @@ export default function TabMenuOther() {
           </div>
           {/* ບໍລິການອື່ນ */}
           <div className="transactions mt-2 ">
-            <a
-              href="javascript:void(0)"
-              className="item pr-0"
-              // style={{ borderBottom: "1px solid red" }}
-            >
+            <a href="javascript:void(0)" className="item pr-0">
               <div className="">
                 {loadingRequested ? (
                   <span
@@ -307,7 +334,6 @@ export default function TabMenuOther() {
             </a>
           </div>
         </div>
-
         <BottomNav />
       </div>
     </>

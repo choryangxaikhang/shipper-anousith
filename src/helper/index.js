@@ -175,8 +175,11 @@ export const setParams = (key, val) => {
 
 // ວັນທີເດືອນປີເລີ່ມວັນທີ ເລີ່ມເດືອນ ເລີ່ມປີ
 export const startOfMonth = () => {
-  // return moment().clone().startOf("month").format("YYYY-MM-DD");
   return moment().subtract(3, "months").startOf("month").format("YYYY-MM-DD");
+};
+//ວັນທີ່  ໑ ຂອງເດືອນ
+export const startMonth = () => {
+  return moment().clone().startOf("month").format("YYYY-MM-DD");
 };
 
 // ວັນທີເດືອນປີ ທ້າຍວັນທີ ທ້າວເດືອນ ທ້າຍປີ

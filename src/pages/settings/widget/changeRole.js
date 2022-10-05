@@ -99,7 +99,8 @@ export default function ChangeRole() {
         onHide={() => setShow(false)}
         animation={false}
         backdrop="static"
-        size="lg"
+        size="xl"
+        className="container-div"
       >
         <Modal.Header className="text-black">
           ກຳນົດສິດການນຳໃຊ້ລະບົບ

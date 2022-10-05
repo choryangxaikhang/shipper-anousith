@@ -19,7 +19,7 @@ import {
   _month,
 } from "../../../helper";
 import BottomNav from "../../../layouts/BottomNav";
-import {OTHER } from "../../../routes/app";
+import { OTHER } from "../../../routes/app";
 import NoData from "../../../helper/components/NoData";
 import { QUERY_BOOKING, UPDATE_BOOKING_STATUS } from "./apollo";
 import DetailRoom from "./DetailRoom";
@@ -44,7 +44,6 @@ export default function Booking() {
   const [startDate, setStartDate] = useState(startOfMonth());
   const [endDate, setEndDate] = useState(endOfMonth());
   const [localHouse, setLocalHouse] = useState("");
-  const [listRoom, setListRoom] = useState();
   const [detailRoom, setDetailRoom] = useState();
   const [searchValue, setSearchValue] = useState("");
 
@@ -59,10 +58,17 @@ export default function Booking() {
   }, []);
 
   useEffect(() => {
+    let whereData = {};
+    whereData = {
+      house: parseInt(localHouse),
+    };
+    if (userData?.role === "SUPER_ADMIN" || userData?.role === "IT") {
+      delete whereData.house;
+    }
     queryBooking({
       variables: {
         where: {
-          house: parseInt(localHouse),
+          ...whereData,
           status: "BOOKING",
           bookDate_gte: createdAt_gte(startDate),
           bookDate_lte: createdAt_lt(endDate),
@@ -79,7 +85,6 @@ export default function Booking() {
     searchValue,
     reloadData,
     localHouse,
-    listRoom,
     startDate,
     endDate,
   ]);

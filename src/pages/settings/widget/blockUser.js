@@ -95,7 +95,8 @@ export default function BlockUser() {
         onHide={() => setShow(false)}
         animation={false}
         backdrop="static"
-        size="lg"
+        size="xl"
+        className="container-div"
       >
         <Modal.Header className="text-black">
           ບລ໋ອກ User

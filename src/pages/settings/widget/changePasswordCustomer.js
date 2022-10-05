@@ -109,6 +109,7 @@ export default function ChangePasswordCustomer() {
         animation={false}
         backdrop="static"
         size="xl"
+        className="container-div"
       >
         <Modal.Header className="text-black">ປ່ຽນລະຫັດຜ່ານລູກຄ້າ
           <a

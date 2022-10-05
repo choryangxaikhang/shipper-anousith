@@ -116,7 +116,8 @@ export default function ChangePasswordCustomer_User() {
         onHide={() => setShow(false)}
         animation={false}
         backdrop="static"
-        size="lg"
+        size="xl"
+        className="container-div"
       >
         <Modal.Header closeButton>
           <Modal.Title className="fs-5">

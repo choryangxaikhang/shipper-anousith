@@ -35,7 +35,7 @@ export default function SearchRoom({
     fetchData({
       variables: {
         where: {
-          // house:localHouse,
+          house:localHouse,
           status: "FULL",
         },
       },

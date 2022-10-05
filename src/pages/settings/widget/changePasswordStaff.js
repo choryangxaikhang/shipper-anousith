@@ -113,7 +113,8 @@ export default function ChangePasswordStaff() {
         onHide={() => setShow(false)}
         animation={false}
         backdrop="static"
-        size="lg"
+        size="xl"
+        className="container-div"
       >
         <Modal.Header className="text-black"> ປ່ຽນລະຫັດຜ່ານພະນັກງານ
           <a

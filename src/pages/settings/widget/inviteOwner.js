@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { loadingData, messageError, messageSuccess } from "../../../helper";
 import ListUser from "../../../helper/components/ListUser";
+import "./utils/index.css"
 import { QUERY_HOUSE, UPDATE_HOUSE } from "../apollo";
 export default function InviteOwner() {
   const [show, setShow] = useState(false);
@@ -92,7 +93,8 @@ export default function InviteOwner() {
         onHide={() => setShow(false)}
         animation={false}
         backdrop="static"
-        size="lg"
+        size="xl"
+        className="container-div"
       >
         <Modal.Header>
           ບັນຈຸເຈົ້າຂອງກິດຈະການ
@@ -104,8 +106,8 @@ export default function InviteOwner() {
             <i className="icon-x fa-2x text-danger" />
           </a>
         </Modal.Header>
-        <Modal.Body>
-          <div className="input-group mb-3 mt-1">
+        <Modal.Body >
+          <div className="input-group mb-3">
             <input
               type="text"
               className="form-control form-control-lg"

@@ -7,6 +7,7 @@ import { QUERY_ROOM } from "./apollo";
 import {
   currency,
   getLocalHouse,
+  getStaffLogin,
   ITEM_PER_PAGE,
   loadingData,
   setParams,
@@ -18,6 +19,7 @@ import SearchTypeRoom from "../../../helper/components/SearchTypeRoom";
 import NoData from "../../../helper/components/NoData";
 import SearchRoomFee from "../../../helper/components/SearchRoomFee";
 import Pagination from "../../../helper/controllers/Pagination";
+import SelectLocalHouse from "../../../helper/components/SelectLocalHouse";
 export default function Hotel() {
   const { history, location, match } = useReactRouter();
   const query = new URLSearchParams(location.search);
@@ -28,21 +30,39 @@ export default function Hotel() {
   const [localHouse, setLocalHouse] = useState("");
   const [typeDataRoom, setTypeDataRoom] = useState({});
   const [searchValue, setSearchValue] = useState();
+  const [clickButton, setButton] = useState(false);
+  const [userData, setUserData] = useState({});
+  console.log("userData", userData);
+
+  const [house, setHouse] = useState("");
   //!ໂມໂດເປີດຫ້ອງ
   const [getData, setModal] = useState();
   const [openModal, CloseModal] = useState(false);
   const CloseModalChange = () => CloseModal(false);
   const [fetchDataRoom, { data: setDataRoom, loading: loadingDataRoom }] =
     useLazyQuery(QUERY_ROOM, { fetchPolicy: "cache-and-network" });
+  // useEffect(() => {
+  //   setLocalHouse(getLocalHouse()?._id);
+  // }, []);
+
+  // data HouseLoca
   useEffect(() => {
-    setLocalHouse(getLocalHouse()?._id);
+    const _local = getStaffLogin();
+    setUserData(_local?.data || {});
+    setLocalHouse(getLocalHouse());
+    //sidebar min
+    const localSideBarMini = localStorage.getItem("SIDEBAR_MINI");
+    if (localSideBarMini === "true") {
+      document.body.classList.add("sidebar-collapse");
+    }
   }, []);
+  // end
 
   useEffect(() => {
     fetchDataRoom({
       variables: {
         where: {
-          house: localHouse,
+          house: localHouse?._id,
           typeRoom: typeDataRoom?._id ? typeDataRoom?._id : undefined,
           title_lao: searchValue ? searchValue : undefined,
           status: "FEE",
@@ -75,7 +95,7 @@ export default function Hotel() {
   }
 
   socketServer.on("approveBooking", (res) => {
-    if (res === localHouse) {
+    if (res === localHouse?._id) {
       //   newSound.play();
       setLoadData(!loadData);
     }
@@ -98,11 +118,37 @@ export default function Hotel() {
             <i className="fa fa-chevron-left fs-4" />
           </button>
         </div>
-        ເປີດບ້ານພັກ
+        {clickButton === true ? (
+          <>
+            <SelectLocalHouse
+              style={{ width: "100%" }}
+              value={localHouse?._id}
+              onChange={(obj) => {
+                if (obj?._id) {
+                  setLocalHouse(obj);
+                  localStorage.setItem("HOUSE", JSON.stringify(obj));
+                  window.location.reload();
+                }
+              }}
+              ownerId={userData?._id}
+            />
+          </>
+        ) : (
+          <b className="text-white">ເປີດບ້ານພັກ</b>
+        )}
         <div
           className="text-white pageTitle text-right text-nowrap pr-0"
           style={{ flex: 1 }}
-        ></div>
+        >
+          <button
+            className="btn text-white"
+            onClick={(e) => {
+              setButton(!clickButton);
+            }}
+          >
+            <i className="fa-solid fa-magnifying-glass fa-2 ms-2" />
+          </button>
+        </div>
       </div>
 
       <div className=" body-content-lg ms-1 me-1 " style={{ marginTop: 50 }}>

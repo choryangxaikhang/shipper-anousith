@@ -31,7 +31,7 @@ export default function Home() {
     useLazyQuery(QUERY_ROOM, {
       fetchPolicy: "cache-and-network",
     });
-  const [fetchAnsItem, { data: DataRoom, loading: loading }] = useLazyQuery(
+  const [fetchData, { data: DataRoom, loading: loading }] = useLazyQuery(
     QUERY_ROOM,
     {
       fetchPolicy: "cache-and-network",
@@ -56,7 +56,14 @@ export default function Home() {
   }, []);
   // end
   useEffect(() => {
-    fetchAnsItem({
+    let whereData = {};
+    whereData = {
+      house: parseInt(localHouse),
+    };
+    if (userData?.role === "SUPER_ADMIN") {
+      delete whereData.house;
+    }
+    fetchData({
       variables: {
         where: {},
         limit: 1,
@@ -67,7 +74,7 @@ export default function Home() {
     queryBooking({
       variables: {
         where: {
-          // house: parseInt(localHouse),
+          ...whereData,
           status: "BOOKING",
         },
         orderBy: "createdAt_DESC",
