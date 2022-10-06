@@ -89,6 +89,7 @@ export default function SearchTypeRoom({
             onChange(res);
           }
         }}
+        errors
         options={items}
       />
     </div>

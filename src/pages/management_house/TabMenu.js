@@ -4,11 +4,10 @@ import { Button, Col } from "react-bootstrap";
 import { OTHER } from "../../routes/app";
 import TypeRoom from "./type_room";
 import Rooms from "./rooms";
-// import "./util/index.css";
+import "./util/index.css";
 export default function TabMenu() {
   const { history, location } = useReactRouter();
   const params = new URLSearchParams(location?.search);
-
   //useState
   const [tabActive, setTabActive] = useState("Type");
   useEffect(() => {
@@ -38,15 +37,13 @@ export default function TabMenu() {
             <i className="fa fa-chevron-left fs-4" />
           </button>
         </div>
-        ການເຄື່ອນໄຫວ
+        {(tabActive === "Type" ? <>ຈັດການເພີ່ມປະເພດຫ້ອງ</> : <>ຈັດການເພີ່ມຫ້ອງ</>)}
         <div
           className="text-white pageTitle text-right text-nowrap pr-0"
           style={{ flex: 1 }}
         ></div>
       </div>
-      <div
-        className="extraHeader pr-0 pl-0 nav-tabs-custom "
-      >
+      <div className="extraHeader pr-0 pl-0 nav-tabs-custom ">
         <Button
           className={`item-tab btn-block mb-1 ${
             tabActive === "Type" ? "activeClick" : ""

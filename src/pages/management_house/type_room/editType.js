@@ -93,8 +93,10 @@ export default function EditType({ getId, onSuccess }) {
                     name="title_lao"
                     placeholder="..."
                     value={values.title_lao}
+                    error={errors.title_lao}
                     onChange={handleChange}
                   />
+                  <div className="text-danger">{errors.title_lao}</div>
                 </FormControl>
               </div>
               <div className="form-group">

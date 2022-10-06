@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useFormik } from "formik";
 import { v4 as uuidv4 } from "uuid";
@@ -7,6 +7,8 @@ import Notiflix, { Loading } from "notiflix";
 import "./utils/index.css";
 import AddCircleOutlineTwoToneIcon from "@material-ui/icons/AddCircleOutlineTwoTone";
 import {
+  getLocalHouse,
+  getStaffLogin,
   loadingScreen,
   messageError,
   messageSuccess,
@@ -16,18 +18,31 @@ import {
 import { CREATE_ROOM } from "./apollo";
 import TypeRoom from "../../../helper/components/typeRoom";
 import { s3Client } from "../../../helper/s3Client";
-import { FormControl, InputAdornment, OutlinedInput } from "@mui/material";
+import {
+  FormControl,
+  InputAdornment,
+  OutlinedInput,
+  TextField,
+} from "@mui/material";
+import SearchTypeRoom from "../../../helper/components/SearchTypeRoom";
+import { useInternalState } from "@apollo/client/react/hooks/useQuery";
+import SelectLocalHouse from "../../../helper/components/SelectLocalHouse";
 export default function AddRooms({ onSuccess, loadData, className }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const [typeDataRoom, setTypeDataRoom] = useState({});
-  const [getHouse, setHouse] = useState({});
   const [imageName, setImageName] = useState("");
   const [file, setFile] = useState(null);
   const [createRoom] = useMutation(CREATE_ROOM);
   const [getDocFiless, setDocFiless] = useState([]);
   const [getFileNames, setFileNames] = useState([]);
   const [status, setStatus] = useState(false);
+  const userState = getStaffLogin();
+  const userData = userState?.data;
+  const [getHouse, setHouse] = useState("");
+  useEffect(() => {
+    setHouse(getLocalHouse())
+  }, []);
   // pictrue
   const handleUpload = async (event) => {
     const imageName = uuidv4() + "." + event.target.files[0].type.split("/")[1];
@@ -97,8 +112,8 @@ export default function AddRooms({ onSuccess, loadData, className }) {
       if (getDocFiless.length < 1) {
         errors.docFile = "ກະລຸນາເລືອກຮູບກ່ອນ";
       }
-      if (!getHouse?._id) errors.house = "error";
-      if (!typeDataRoom?._id) errors.typeRoom = "error";
+      if (!getHouse?._id) errors.house = "ເລືອກກິດຈະການ";
+      if (!typeDataRoom?._id) errors.typeRoom = "ກະລູນາເລືອກປະເພດຫ້ອງ";
       return errors;
     },
     onSubmit: async (values, { resetForm }) => {
@@ -199,40 +214,34 @@ export default function AddRooms({ onSuccess, loadData, className }) {
                 </label>
               </div>
             </div>
-            <div className="col-md-6 mt-2">
+            <div className="col-md-6">
               <div className="form-group mb-2">
-                <label>ເລືອກປະເພດຫ້ອງ {valiDate()}</label>
-                <TypeRoom
-                  size={"lg"}
-                  getData={(data) => {
-                    setTypeDataRoom(data);
+                <SearchTypeRoom
+                  style={{ height: "100%", backgroundColor: "red" }}
+                  value={typeDataRoom?._id}
+                  onChange={(obj) => {
+                    setTypeDataRoom(obj);
                   }}
-                  defaultValue={typeDataRoom?.title_lao}
-                  className={errors.typeRoom ? "is-invalid" : ""}
                 />
+                <div className="text-danger">{errors.typeRoom}</div>
               </div>
             </div>
-            <div className="col-md-6 mt-2">
+            <div className="col-md-6">
               <div className="form-group mb-2">
-                <label>ເລືອກກິດຈະການ{valiDate()}</label>
-                dddd
+                <SelectLocalHouse
+                  style={{ width: "100%" }}
+                  value={getHouse?._id}
+                  onChange={(obj) => {
+                    if (obj?._id) {
+                      setHouse(obj);
+                    }
+                  }}
+                  ownerId={userData?._id}
+                />
               </div>
             </div>
           </div>
           <div className="form-group">
-            {/* <input
-              type="text"
-              style={{ color: "black" }}
-              className={
-                errors.title_lao
-                  ? "form-control mb-3 is-invalid"
-                  : "form-control mb-3 invalid"
-              }
-              name="title_lao"
-              value={values.title_lao}
-              onChange={handleChange}
-              placeholder="ປ້ອນຫ້ອງພາສາລາວ"
-            /> */}
             <FormControl fullWidth sx={{ m: 0 }}>
               <OutlinedInput
                 startAdornment={
@@ -244,141 +253,98 @@ export default function AddRooms({ onSuccess, loadData, className }) {
                 placeholder="..."
                 value={values.title_lao}
                 onChange={handleChange}
+                error={errors.title_lao}
               />
               <div className="text-danger">{errors.title_lao}</div>
             </FormControl>
           </div>
           <div className="form-row mt-3">
-            <div>
-              <div className="col-md-12">
-                {/* <input
+            <div className="col-md-12">
+              <FormControl fullWidth sx={{ m: 0 }}>
+                <OutlinedInput
+                  startAdornment={
+                    <InputAdornment position="start">
+                      ພາສາອັງກິດ:
+                    </InputAdornment>
+                  }
+                  onWheel={(e) => e.target.blur()}
                   type="text"
-                  style={{ color: "black" }}
                   name="title_eng"
-                  className="form-control form-control-lg"
-                  placeholder="ພາສາອັງກິດ"
+                  placeholder="..."
+                  value={values.title_eng}
                   onChange={handleChange}
-                  value={values?.title_eng}
-                /> */}
-                <FormControl fullWidth sx={{ m: 0 }}>
-                  <OutlinedInput
-                    startAdornment={
-                      <InputAdornment position="start">
-                        ພາສາອັງກິດ:
-                      </InputAdornment>
-                    }
-                    onWheel={(e) => e.target.blur()}
-                    type="text"
-                    name="title_eng"
-                    placeholder="..."
-                    value={values.title_eng}
-                    onChange={handleChange}
-                  />
-                  <div className="text-danger">{errors.title_eng}</div>
-                </FormControl>
-              </div>
+                />
+                <div className="text-danger">{errors.title_eng}</div>
+              </FormControl>
             </div>
           </div>
-          <div className="row mt-1">
-            <div className="col-md-6">
-              <div className="form-row mt-2">
-                <div>
-                  <div className="col-md-12">
-                    {/* <input
-                      type="number"
-                      style={{ color: "black" }}
-                      name="priceFull"
-                      className={`form-control form-control-lg ${
-                        errors?.priceFull ? "is-invalid" : null
-                      }`}
-                      placeholder="ຄ້າງຄືນ"
-                      onChange={handleChange}
-                      value={values?.priceFull}
-                    /> */}
-                    <FormControl fullWidth sx={{ m: 0 }}>
-                      <OutlinedInput
-                        startAdornment={
-                          <InputAdornment position="start">
-                            ຄ້າງຄືນ:
-                          </InputAdornment>
-                        }
-                        onWheel={(e) => e.target.blur()}
-                        type="text"
-                        name="priceFull"
-                        placeholder="..."
-                        value={values.priceFull}
-                        onChange={handleChange}
-                      />
-                      <div className="text-danger">{errors.priceFull}</div>
-                    </FormControl>
-                    {/* <div className="invalid fs-5">{errors?.priceFull}</div> */}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="form-row mt-2">
-                <div className="col-md-12">
-                  {/* <input
-                    type="number"
-                    style={{ color: "black" }}
-                    name="priceHalf"
-                    className="form-control form-control-lg"
-                    placeholder="ຄ້າງຄືນ"
-                    onChange={handleChange}
-                    value={values?.priceHalf}
-                  /> */}
-                  <FormControl fullWidth sx={{ m: 0 }}>
-                    <OutlinedInput
-                      startAdornment={
-                        <InputAdornment position="start">
-                          ຊົ່ວຄາວ:
-                        </InputAdornment>
-                      }
-                      onWheel={(e) => e.target.blur()}
-                      type="text"
-                      name="priceHalf"
-                      placeholder="..."
-                      value={values.priceHalf}
-                      onChange={handleChange}
-                    />
-                    <div className="text-danger">{errors.priceHalf}</div>
-                  </FormControl>
-                </div>
-              </div>
+
+          <div className="form-row mt-3">
+            <div className="col-md-12">
+              <FormControl fullWidth sx={{ m: 0 }}>
+                <OutlinedInput
+                  startAdornment={
+                    <InputAdornment position="start">ຄ້າງຄືນ:</InputAdornment>
+                  }
+                  onWheel={(e) => e.target.blur()}
+                  type="number"
+                  name="priceFull"
+                  placeholder="..."
+                  value={values.priceFull}
+                  error={errors.priceFull}
+                  onChange={handleChange}
+                />
+                <div className="text-danger">{errors.priceFull}</div>
+              </FormControl>
             </div>
           </div>
           <div className="form-row mt-3">
-            <div>
-              <label className="text-black">ລາຍລະອຽດ</label>
-              <div className="col-md-12">
-                <textarea
-                  rows={3}
-                  style={{ color: "black" }}
-                  name="detail"
-                  className="form-control form-control-lg"
-                  placeholder="ປ້ອນລາຍລະອຽດ"
+            <div className="col-md-12">
+              <FormControl fullWidth sx={{ m: 0 }}>
+                <OutlinedInput
+                  startAdornment={
+                    <InputAdornment position="start">ຊົ່ວຄາວ:</InputAdornment>
+                  }
+                  onWheel={(e) => e.target.blur()}
+                  type="number"
+                  name="priceHalf"
+                  placeholder="..."
+                  value={values.priceHalf}
                   onChange={handleChange}
-                  value={values?.detail}
-                ></textarea>
-              </div>
+                />
+                <div className="text-danger">{errors.priceHalf}</div>
+              </FormControl>
+            </div>
+          </div>
+
+          <div className="form-row mt-3">
+            <label className="text-black">ລາຍລະອຽດ</label>
+            <div className="col-md-12">
+              <textarea
+                rows={3}
+                style={{ color: "black" }}
+                name="detail"
+                className="form-control form-control-lg"
+                placeholder="..."
+                onChange={handleChange}
+                value={values?.detail}
+              ></textarea>
             </div>
           </div>
           <div className="form-group mt-2">
             <label>ຮູບພາບ (ເລືອກຫຼາຍຮູບພ້ອມກັນ) {valiDate()}</label>
-            <input
-              type="file"
-              className={
-                errors.docFile
-                  ? "form-control mb-3 is-invalid"
-                  : "form-control mb-3 invalid"
-              }
-              name="docFile"
-              value={values.docFile}
-              onChange={handleUploadDocFile}
-              placeholder="ເລືອກຮູບ"
-              multiple
-            />
+            <FormControl fullWidth sx={{ m: 0 }}>
+              <OutlinedInput
+                type="file"
+                name="docFile"
+                value={values.docFile}
+                onChange={handleUploadDocFile}
+                placeholder="ເລືອກຮູບ"
+                error={errors.docFile}
+                multiple
+              />
+              <div className="text-danger">{errors.docFile}</div>
+            </FormControl>
           </div>
           <hr />
           <div className="form-group mb-2">
