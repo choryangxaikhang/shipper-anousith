@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import useReactRouter from "use-react-router";
 import {
   getStaffLogin,
@@ -10,28 +10,29 @@ import {
   getLocalHouse,
   createdAt_gte,
   createdAt_lt,
-} from "../../../helper";
-import PaginationController from "../../../helper/components/pagination/PaginationComponent";
-import LimitData from "../../../helper/components/pagination/LimitData";
-import DataListRoom from "../../../helper/components/DataList/DataListRoom";
+  setParams,
+  endOfMonth,
+} from "../../../../helper";
 import { QUERY_REPORT_BOOKING } from "./apollo";
-
-import { DETAIL_BOOKING, REPORT_BOOKING_SCREEN } from "../../../Routes/app";
 import _ from "lodash";
-import DataListHouse from "../../../helper/components/DataList/DataListHouse";
 import moment from "moment";
+import Pagination from "../../../../helper/controllers/Pagination";
+import SearchRoom from "../../../../helper/components/SearchRoom";
+import LimitData from "../../../../helper/controllers/LimitData";
+import DetailRoom from "./DetailRoom";
 export default function ReportBooking() {
   const { history, location, match } = useReactRouter();
-  const numberPage = match?.params?.page;
   const query = new URLSearchParams(location.search);
-  const rows = parseInt(query.get("rows"));
-  const [numberRows, setNumberRows] = useState(rows ? rows : ITEM_PER_PAGE);
+  const [numberPage, setNumberPage] = useState(1);
+  const [numberRow, setNumberRow] = useState(100);
   const userState = getStaffLogin();
   const userInfo = userState?.data;
   const [searchValue, setSearchValue] = useState("");
   const [newLoadData, setNewLoadData] = useState(false);
-  const [getRoomValue, setGetRoomValue] = useState("");
-  const [bookingDate_gte, setBookingDate_gte] = useState(startOfMonth());
+  const [listRoom, setListRoom] = useState("");
+  const [startDate, setStartDate] = useState(startOfMonth());
+  const [endDate, setEndDate] = useState(endOfMonth());
+  const [detailRoom, setDetailRoom] = useState();
   const toDay = new Date();
   const forMatDate = moment(toDay).format("YYYY-MM-DD");
   const [bookingDate_lt, setBookingDate_lt] = useState(forMatDate);
@@ -43,49 +44,72 @@ export default function ReportBooking() {
   );
 
   useEffect(() => {
+    let whereData = {};
+    whereData = {
+      house: parseInt(houseID?._id),
+    };
+    if (userInfo?.role === "IT" || userInfo?.role === "SUPER_ADMIN") {
+      delete whereData.house;
+    }
     getReportBooking({
       variables: {
         where: {
-          room: getRoomValue ? getRoomValue : undefined,
-          house: houseID?._id ? houseID?._id : null,
+          ...whereData,
+          room: listRoom?._id ? listRoom?._id : undefined,
           status: "BOOKING",
-          bookDate_gte: createdAt_gte(bookingDate_gte),
-          bookDate_lte: createdAt_lt(bookingDate_lt),
+          bookDate_gte: createdAt_gte(startDate),
+          bookDate_lte: createdAt_lt(endDate),
         },
-        skip: searchValue ? 0 : numberRows * (numberPage - 1),
-        limit: searchValue ? 1000 : numberRows,
+        skip: searchValue ? 0 : numberRow * (numberPage - 1),
+        limit: searchValue ? 1000 : numberRow,
         orderBy: "createdAt_DESC",
       },
     });
   }, [
-    numberRows,
+    numberRow,
     searchValue,
     numberPage,
     newLoadData,
-    getRoomValue,
+    listRoom,
     houseID,
+    startDate,
+    endDate,
   ]);
+
   const _sumAll = resReportBooking?.bookings?.data;
   const _sumFeeBooking = _.sumBy(_sumAll, "feeBooking");
   //pageination
   const countData = resReportBooking?.bookings?.total;
   const countPage = [];
-  for (var i = 1; i <= Math.ceil(countData / numberRows); i++) {
+  for (var i = 1; i <= Math.ceil(countData / numberRow); i++) {
     countPage.push(i);
   }
+  const _onChangeRows = (e) => {
+    let _value = e?.target?.value;
+    history.push(`?rows=${_value}`);
+    setNumberRow(parseInt(_value));
+  };
   const NO = (index) => {
-    const no = numberRows * numberPage - numberRows;
-    if (numberRows > 0) {
+    const no = numberRow * numberPage - numberRow;
+    if (numberRow > 0) {
       return no + index + 1;
     } else {
       return index + 1;
     }
   };
-  const _onChangeRows = (e) => {
-    let _value = e?.target?.value;
-    history.push(`?rows=${_value}`);
-    setNumberRows(parseInt(_value));
-  };
+
+  useEffect(() => {
+    const page = query.get("page");
+    const _startDate = query.get("startDate");
+    const _endDate = query.get("endDate");
+    setStartDate(_startDate || startOfMonth());
+    setEndDate(_endDate || endOfMonth());
+    if (page) {
+      setNumberPage(parseInt(page));
+    } else {
+      setNumberRow(100);
+    }
+  }, [query]);
 
   return (
     <>
@@ -102,47 +126,45 @@ export default function ReportBooking() {
               <div className="card">
                 <div className="card-header">
                   <div className="row">
-                    <div className="col-md-3">
-                      <DataListRoom
-                        returnValue={(data) => setGetRoomValue(data)}
-                      />
-                    </div>
-                      <div className="col-md-6 mb-2">
-                        <div className="input-group">
-                          <input
-                            type="date"
-                            className="form-control"
-                            value={bookingDate_gte}
-                            onChange={(e) => setBookingDate_gte(e.target.value)}
-                          />
-                          <input
-                            type="date"
-                            className="form-control"
-                            value={bookingDate_lt}
-                            onChange={(e) => setBookingDate_lt(e.target.value)}
-                          />
-                          <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick={() => setNewLoadData(!newLoadData)}
-                          >
-                            <i className="fa fa-search" /> ຄົ້ນຫາ
-                          </button>
-                        </div>
-                      </div>
-                      <div className="row mt-4">
-                        <LimitData
-                          numberRows={numberRows}
-                          onChangeRows={_onChangeRows}
-                          onSearch={(_onSearch) => {
-                            setSearchValue(_onSearch);
+                    <div className="col-md-6 mb-2">
+                      <div className="input-group">
+                        <input
+                          type="date"
+                          className="form-control"
+                          value={startDate}
+                          onChange={(e) => {
+                            history.push({
+                              search: setParams(`startDate`, e.target.value),
+                            });
                           }}
-                          numberPage={numberPage}
-                          total={countData}
-                          hiddenSearch={"HideSearch"}
-                          col={6}
+                        />
+                        <input
+                          type="date"
+                          className="form-control"
+                          value={endDate}
+                          onChange={(e) => {
+                            history.push({
+                              search: setParams(`endDate`, e.target.value),
+                            });
+                          }}
                         />
                       </div>
+                    </div>
+                    <div className="col-md-3"
+                     style={{
+                      position: "fixed",
+                      zIndex: 100,
+                      top: 57,
+                    }}
+                    >
+                      <SearchRoom
+                        style={{ with: "100%", heigh: "200px" }}
+                        value={listRoom?._id}
+                        onChange={(obj) => {
+                          setListRoom(obj);
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className="card-body ">
@@ -151,9 +173,8 @@ export default function ReportBooking() {
                       <thead>
                         <tr>
                           <th className="text-nowrap">ລຳດັບ</th>
-                          <th className="text-nowrap">ກິດຈະການ</th>
                           <th className="text-nowrap">ເບີຫ້ອງ</th>
-                          <th className="text-nowrap text-center">ຄ່າຈອງ</th>
+                          <th className="text-nowrap text-end">ຄ່າຈອງ</th>
                           <th className="text-nowrap text-center">ວັນທີຈອງ</th>
                         </tr>
                       </thead>
@@ -164,22 +185,13 @@ export default function ReportBooking() {
                               <>
                                 <tr
                                   key={index}
-                                  onClick={() =>
-                                    history.push(
-                                      `${DETAIL_BOOKING}/${item?._id}`
-                                    )
-                                  }
                                   style={{
                                     cursor: "pointer",
                                   }}
                                   className="text-black"
+                                  onClick={() => setDetailRoom(item?._id)}
                                 >
                                   <td className="text-nowrap">{NO(index)}</td>
-                                  <td className="text-nowrap">
-                                    {item?.house?.houseName
-                                      ? item?.house?.houseName
-                                      : "-"}
-                                  </td>
                                   <td className="text-nowrap">
                                     {item?.room?.title_lao
                                       ? item?.room?.title_lao
@@ -201,10 +213,13 @@ export default function ReportBooking() {
                               </>
                             )
                           )}
-                        <tr className="bg-light">
+                        <tr
+                          className="bg-light"
+                          style={{ backgroundColor: "#d1fc97" }}
+                        >
                           <td
                             className="text-nowrap text-center"
-                            colSpan="3"
+                            colSpan={2}
                             style={{ textAlign: "center" }}
                           >
                             <h4>ຍອດລວມ</h4>
@@ -217,17 +232,24 @@ export default function ReportBooking() {
                       </tbody>
                     </table>
                   </div>
-                  <PaginationController
-                    routes={REPORT_BOOKING_SCREEN}
-                    numberRows={numberRows}
-                    numberPage={numberPage}
-                    countPage={countPage}
-                  />
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {resReportBooking?.bookings?.total > 100 && (
+          <Pagination
+            className="mt-2"
+            pageTotal={countPage}
+            currentPage={numberPage}
+            onPageChange={(page) => {
+              history.push({
+                search: setParams(`page`, page),
+              });
+            }}
+          />
+        )}
+        <DetailRoom _id={detailRoom} onHide={() => setDetailRoom()} />
       </div>
     </>
   );

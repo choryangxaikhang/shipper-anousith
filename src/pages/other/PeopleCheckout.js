@@ -55,7 +55,7 @@ export default function PeopleCheckout() {
     fetchDataRoom({
       variables: {
         where: {
-          // ...whereData,
+          ...whereData,
           room: listRoom?._id ? listRoom?._id : undefined,
           status: "CHECK_IN",
           checkInAt_gte: createdAt_gte(startDate),
@@ -68,7 +68,6 @@ export default function PeopleCheckout() {
     });
   }, [localHouse, listRoom, reloadData, startDate, endDate]);
 
-  // pagination
   // pagination
   useEffect(() => {
     const page = query.get("page");

@@ -6,13 +6,13 @@ import {
   formatDateDash,
   loadingData,
   paiStatus,
-} from "../../../helper";
-import { QUERY_BOOKING } from "./apollo";
-import TypeHouse from "./TypeHouse";
+} from "../../../../helper";
+import TypeHouse from "../../booking/TypeHouse";
+import { QUERY_REPORT_BOOKING } from "./apollo";
 import "./utils/index.css";
 export default function DetailRoom({ _id, onHide }) {
   const [show, setShow] = useState(false);
-  const [fetchData, { data: setData, loading }] = useLazyQuery(QUERY_BOOKING, {
+  const [fetchData, { data: setData, loading }] = useLazyQuery(QUERY_REPORT_BOOKING, {
     fetchPolicy: "network-only",
   });
   useEffect(() => {
@@ -34,10 +34,8 @@ export default function DetailRoom({ _id, onHide }) {
           setShow(false);
           if (onHide) onHide(e);
         }}
-        animation={true}
         show={show}
         className="modal action-sheet"
-        tabindex="-1"
         role="dialog"
       >
         <Modal.Header style={{ marginTop: -20 }}>
@@ -105,7 +103,7 @@ export default function DetailRoom({ _id, onHide }) {
                       <div className=" bill-item-list pt-2" id="border">
                         <span>ຊົ່ວໂມພັກ</span>
                         <span className="text-black text-end">
-                          {currency(data?.inTime)}
+                          {currency(data?.inTime ? data?.inTime : 0)}
                         </span>
                         <br />
                       </div>
@@ -114,14 +112,14 @@ export default function DetailRoom({ _id, onHide }) {
                   <div className=" bill-item-list pt-2" id="border">
                     <span>ພັກຄ້າງຄືນ</span>
                     <span className="text-black text-end">
-                      {currency(data?.fullPriceTotal)}
+                      {currency(data?.fullPriceTotal ? data?.fullPriceTotal : 0)}
                     </span>
                     <br />
                   </div>
                   <div className=" bill-item-list pt-2" id="border">
                     <span>ພັກຊົ່ວຄາວ</span>
                     <span className="text-black text-end">
-                      {currency(data?.halfPriceTotal)}
+                      {currency(data?.halfPriceTotal ? data?.halfPriceTotal : 0)}
                     </span>
                     <br />
                   </div>

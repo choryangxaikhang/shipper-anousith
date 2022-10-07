@@ -38,6 +38,7 @@
   opacity: 0.7;
 }
 
+
 .extraHeaders {
   position: fixed;
   left: 0;
@@ -48,5 +49,5 @@
   display: flex;
   align-items: center;
   z-index: 1000;
-  border-bottom: 1px solid #dcdce9;
+  border-bottom: 1px solid #cbcbd1;
 }

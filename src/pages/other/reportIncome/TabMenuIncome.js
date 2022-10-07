@@ -4,11 +4,12 @@ import { Button, Col } from "react-bootstrap";
 import { OTHER } from "../../../routes/app";
 import { getLocalHouse } from "../../../helper";
 import "./util/index.css";
+import ReportBooking from "./reportBooking";
 export default function TabMenuIncome() {
   const { history, location } = useReactRouter();
   const params = new URLSearchParams(location?.search);
   //useState
-  const [tabActive, setTabActive] = useState("Type");
+  const [tabActive, setTabActive] = useState("reportBooking");
   const [houseId, setLocalHouse] = useState("");
 
   useEffect(() => {
@@ -51,40 +52,48 @@ export default function TabMenuIncome() {
       <div className="extraHeaders">
         <div className="extraHeader pr-0 pl-0 nav-tabs-custom">
           <Button
-            className={`item-tab ${tabActive === "items" ? "clickActives" : ""}`}
+            className={`item-tab ${
+              tabActive === "reportBooking" ? "clickActives" : "Actives"
+            }`}
             variant=""
-            onClick={() => history.push({ search: "?tab=items" })}
+            onClick={() => history.push({ search: "?tab=reportBooking" })}
           >
-            ລາຍການສ້າງໃໝ່
+            ຍອມທີ່ຈອງ
           </Button>
           <Button
-            className={`item-tab ${tabActive === "requesting" ? "clickActives" : ""}`}
+            className={`item-tab ${
+              tabActive === "reportAll" ? "clickActives" : "Actives"
+            }`}
             variant=""
-            onClick={() => history.push({ search: "?tab=requesting" })}
+            onClick={() => history.push({ search: "?tab=reportAll" })}
           >
-            ລໍຖ້າສາຂາກົດຮັບ
+            ລວມທັງຫມົດ
           </Button>
           <Button
-            className={`item-tab ${tabActive === "list" ? "clickActives" : ""}`}
+            className={`item-tab ${
+              tabActive === "dividendReport" ? "clickActives" : "Actives"
+            }`}
             variant=""
-            onClick={() => history.push({ search: "?tab=list" })}
+            onClick={() => history.push({ search: "?tab=dividendReport" })}
           >
-            ສາຂາໄດ້ຮັບແລ້ວ
+            ຍອດປັນຜົນ
           </Button>
           <Button
-            className={`item-tab ${tabActive === "all" ? "clickActives" : ""}`}
+            className={`item-tab ${
+              tabActive === "sumTotalBooking" ? "clickActives" : "Actives"
+            }`}
             variant=""
-            onClick={() => history.push({ search: "?tab=all" })}
+            onClick={() => history.push({ search: "?tab=sumTotalBooking" })}
           >
-            ພັດສະດຸສົ່ງສຳເລັດ
+            ຍອດສະຫລຸບລວມ
           </Button>
         </div>
       </div>
       <div id="appCapsule" className="extra-header-activeClick">
-        {tabActive === "Type"}
-        {tabActive === "room"}
-        {tabActive === "Type"}
-        {tabActive === "room"}
+        {tabActive === "reportBooking" && <ReportBooking />}
+        {tabActive === "reportAll"}
+        {tabActive === "dividendReport"}
+        {tabActive === "sumTotalBooking"}
       </div>
     </>
   );

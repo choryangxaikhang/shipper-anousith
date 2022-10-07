@@ -34,6 +34,7 @@ export default function DetailRoom({ _id, onHide }) {
           setShow(false);
           if (onHide) onHide(e);
         }}
+        animation={false}
         show={show}
         className="modal action-sheet"
         tabindex="-1"

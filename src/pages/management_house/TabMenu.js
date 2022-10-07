@@ -17,7 +17,6 @@ export default function TabMenu() {
     setLocalHouse(getLocalHouse());
   }, []);
 
-
   useEffect(() => {
     const tab = params.get("tab");
     if (tab) {
@@ -55,25 +54,27 @@ export default function TabMenu() {
           style={{ flex: 1 }}
         ></div>
       </div>
-      <div className="extraHeaders ">
-        <Button
-          className={`item-tab btn-block btn-lg  ${
-            tabActive === "Type" ? "activeClick" : ""
-          }`}
-          variant=""
-          onClick={() => history.push({ search: "?tab=Type" })}
-        >
-          ຂໍ້ມູນປະເພດຫ້ອງ
-        </Button>
-        <Button
-          className={`item-tab btn-block btn-lg mb-1  ${
-            tabActive === "room" ? "activeClick" : ""
-          }`}
-          variant=""
-          onClick={() => history.push({ search: "?tab=room" })}
-        >
-          ຂໍ້ມູນຫ້ອງ
-        </Button>
+      <div className="extraHeaderB">
+        <div className="extraHeader pr-0 pl-0 nav-tabs-custom">
+          <Button
+            className={`item-tab btn-block btn-lg  ${
+              tabActive === "Type" ? "activeClick" : ""
+            }`}
+            variant=""
+            onClick={() => history.push({ search: "?tab=Type" })}
+          >
+            ຂໍ້ມູນປະເພດຫ້ອງ
+          </Button>
+          <Button
+            className={`item-tab btn-block btn-lg mb-1  ${
+              tabActive === "room" ? "activeClick" : ""
+            }`}
+            variant=""
+            onClick={() => history.push({ search: "?tab=room" })}
+          >
+            ຂໍ້ມູນຫ້ອງ
+          </Button>
+        </div>
       </div>
       <div id="appCapsule" className="extra-header-activeClick">
         {tabActive === "Type" && <TypeRoom />}

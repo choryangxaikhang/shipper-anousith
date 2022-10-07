@@ -250,7 +250,7 @@ export default function TabMenuOther() {
                   <div className="item">
                     <a onClick={(e) => history.push(`${ROUTES.TAB_MENU}/Type`)}>
                       <div className="icon-wrapper">
-                        <i className="icon-plus-circle me-1 fa-2x" />
+                        <i className="icon-plus-circle me-1 fa-2x ms-1" />
                       </div>
                       <h5>ເພີ່ມຫ້ອງ</h5>
                     </a>
