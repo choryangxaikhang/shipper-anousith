@@ -36,6 +36,9 @@ export const QUERY_REPORT_BOOKING = gql`
         feeBooking
         halfPriceTotal
         fullPriceTotal
+        incomeKIP
+        incomeTHB
+        incomeUSD
       }
     }
   }

@@ -3,7 +3,6 @@ import { useLazyQuery } from "@apollo/client";
 import useReactRouter from "use-react-router";
 import {
   getStaffLogin,
-  ITEM_PER_PAGE,
   currency,
   startOfMonth,
   getLocalHouse,
@@ -52,7 +51,6 @@ export default function SumTotalBooking() {
       variables: {
         where: {
           ...whereData,
-          status: undefined,
           checkInAt_gte: createdAt_gte(startDate),
           checkInAt_lte: createdAt_lt(endDate),
         },

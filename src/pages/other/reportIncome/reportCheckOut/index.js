@@ -198,10 +198,43 @@ export default function ReportCheckOut() {
                                       : "-"}
                                   </td>
                                   <td className="text-nowrap text-end">
-                                    {item?.feeBooking
-                                      ? currency(item?.feeBooking)
-                                      : "0"}{" "}
-                                    ກີບ
+                                    {item?.bookDate ? (
+                                      <>
+                                        {item?.feeBooking
+                                          ? currency(item?.feeBooking)
+                                          : "0"}{" "}
+                                        ກີບ
+                                      </>
+                                    ) : (
+                                      <>
+                                        {item?.incomeKIP > 0 && (
+                                          <>
+                                            {item?.incomeKIP
+                                              ? currency(item?.incomeKIP)
+                                              : "0"}{" "}
+                                            ກີບ
+                                            <br />
+                                          </>
+                                        )}
+                                        {item?.incomeTHB > 0 && (
+                                          <>
+                                            {item?.incomeTHB
+                                              ? currency(item?.incomeTHB)
+                                              : "0"}{" "}
+                                            ບາດ
+                                            <br />
+                                          </>
+                                        )}
+                                        {item?.incomeUSD > 0 && (
+                                          <>
+                                            {item?.incomeUSD
+                                              ? currency(item?.incomeUSD)
+                                              : "0"}{" "}
+                                            ບາດ
+                                          </>
+                                        )}
+                                      </>
+                                    )}
                                   </td>
                                   <td className="text-nowrap text-center">
                                     {item?.bookDate

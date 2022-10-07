@@ -270,76 +270,87 @@ export default function TabMenuOther() {
                 </div>
               </div>
             </div>
+
             {/* ບໍລິການອື່ນ */}
-            <div className="transactions mt-2 ">
-              <a href="javascript:void(0)" className="item pr-0">
-                <div className="">
-                  {loadingRequested ? (
-                    <span
-                      className="ms-4"
-                      style={{
-                        position: "fixed",
-                        marginTop: -5,
-                        marginRight: -10,
-                        padding: 0,
-                        zIndex: 1000,
-                      }}
-                    >
-                      {loadingData(10)}
-                    </span>
-                  ) : setDataRequested?.bookings?.total > 0 ? (
-                    <span
-                      className="badge badge-success ms-2"
-                      style={{
-                        position: "fixed",
-                        marginTop: -10,
-                        marginRight: -50,
-                        padding: 0,
-                        zIndex: 1000,
-                      }}
-                    >
-                      <small className="p-1">
-                        {setDataRequested?.bookings?.total}
-                      </small>
-                    </span>
-                  ) : null}
-                  <a
-                    onClick={(e) => {
-                      history.push(`${`${ROUTES.REQUEST_BOOKING_SCREEN}/1`}`);
-                    }}
-                  >
-                    <div className="icon-wrapper mt-1">
-                      <i className="fa-solid fa-cart-plus fa-2x text-center ms-2 mb-1" />
+            {(userData?.role === "SUPER_ADMIN") |
+              (userData?.role === "IT") |
+              (userData?.role === "ADMIN") && (
+              <>
+                <div className="transactions mt-2 ">
+                  <a href="javascript:void(0)" className="item pr-0">
+                    <div className="">
+                      {loadingRequested ? (
+                        <span
+                          className="ms-4"
+                          style={{
+                            position: "fixed",
+                            marginTop: -5,
+                            marginRight: -10,
+                            padding: 0,
+                            zIndex: 1000,
+                          }}
+                        >
+                          {loadingData(10)}
+                        </span>
+                      ) : setDataRequested?.bookings?.total > 0 ? (
+                        <span
+                          className="badge badge-success ms-2"
+                          style={{
+                            position: "fixed",
+                            marginTop: -10,
+                            marginRight: -50,
+                            padding: 0,
+                            zIndex: 1000,
+                          }}
+                        >
+                          <small className="p-1">
+                            {setDataRequested?.bookings?.total
+                              ? setDataRequested?.bookings?.total
+                              : ""}
+                          </small>
+                        </span>
+                      ) : null}
+                      <a
+                        onClick={(e) => {
+                          history.push(
+                            `${`${ROUTES.REQUEST_BOOKING_SCREEN}/1`}`
+                          );
+                        }}
+                      >
+                        <div className="icon-wrapper mt-1">
+                          <i className="fa-solid fa-cart-plus fa-2x text-center ms-2 mb-1" />
+                        </div>
+                        <h5>ການຮ້ອງຈອງ</h5>
+                      </a>
                     </div>
-                    <h5>ການຮ້ອງຈອງ</h5>
+                    <div className="">
+                      <a
+                        onClick={(e) => {
+                          history.push(`${ROUTES.BOOKING_CANCEL}/1`);
+                        }}
+                      >
+                        <div className="icon-wrapper">
+                          <i class="fa-solid fa-triangle-exclamation fa-2x mb-1" />
+                        </div>
+                        <h5>ຍົກເລີກ</h5>
+                      </a>
+                    </div>
+                    <div className="me-3">
+                      <a
+                        onClick={(e) => {
+                          history.push(`${ROUTES.SETTING}/1`);
+                        }}
+                      >
+                        <div className="icon-wrapper">
+                          <i className="fa-solid fa-gear fa-2x mb-1" />
+                        </div>
+                        <h5>ຕັ້ງຄ່າ</h5>
+                      </a>
+                    </div>
                   </a>
                 </div>
-                <div className="">
-                  <a
-                    onClick={(e) => {
-                      history.push(`${ROUTES.BOOKING_CANCEL}/1`);
-                    }}
-                  >
-                    <div className="icon-wrapper">
-                      <i class="fa-solid fa-triangle-exclamation fa-2x mb-1" />
-                    </div>
-                    <h5>ຍົກເລີກ</h5>
-                  </a>
-                </div>
-                <div className="me-3">
-                  <a
-                    onClick={(e) => {
-                      history.push(`${ROUTES.SETTING}/1`);
-                    }}
-                  >
-                    <div className="icon-wrapper">
-                      <i className="fa-solid fa-gear fa-2x mb-1" />
-                    </div>
-                    <h5>ຕັ້ງຄ່າ</h5>
-                  </a>
-                </div>
-              </a>
-            </div>
+              </>
+            )}
           </div>
           <BottomNav />
         </div>

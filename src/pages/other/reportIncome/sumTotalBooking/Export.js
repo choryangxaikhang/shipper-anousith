@@ -42,7 +42,7 @@ function Export({ _Data }) {
 
       <Modal show={show} onHide={() => setShow(false)} animation={false}>
         <Modal.Header>
-          ພີມລາຍການທັງໝົດ
+          ພີມ
           <a
             href="javaScript:void(0)"
             className="pull-right ms-2 "

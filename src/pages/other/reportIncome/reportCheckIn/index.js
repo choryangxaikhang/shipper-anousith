@@ -75,6 +75,9 @@ export default function ReportCheckIn() {
 
   const _sumAll = resReportBooking?.bookings?.data;
   const _sumFeeBooking = _.sumBy(_sumAll, "feeBooking");
+  const _sumIncomeKip = _.sumBy(_sumAll, "incomeKIP");
+  const _sumIncomeTHB = _.sumBy(_sumAll, "incomeTHB");
+  const _sumIncomeUSD = _.sumBy(_sumAll, "incomeUSD");
   //pageination
   const countData = resReportBooking?.bookings?.total;
   const countPage = [];
@@ -112,7 +115,9 @@ export default function ReportCheckIn() {
     <>
       <div className="content__header content__boxed overlapping">
         <div className="content__wrap">
-          <h3 className="page-title mb-2 text-white">ລາຍງານຍອດແຂກເຂົ້າທັງຫມົດ</h3>
+          <h3 className="page-title mb-2 text-white">
+            ລາຍງານຍອດແຂກເຂົ້າທັງຫມົດ
+          </h3>
         </div>
       </div>
 
@@ -147,12 +152,13 @@ export default function ReportCheckIn() {
                         />
                       </div>
                     </div>
-                    <div className="col-md-3"
-                     style={{
-                      position: "fixed",
-                      zIndex: 100,
-                      top: 57,
-                    }}
+                    <div
+                      className="col-md-3"
+                      style={{
+                        position: "fixed",
+                        zIndex: 100,
+                        top: 57,
+                      }}
                     >
                       <SearchRoom
                         style={{ with: "100%", heigh: "200px" }}
@@ -195,10 +201,43 @@ export default function ReportCheckIn() {
                                       : "-"}
                                   </td>
                                   <td className="text-nowrap text-end">
-                                    {item?.feeBooking
-                                      ? currency(item?.feeBooking)
-                                      : "0"}{" "}
-                                    ກີບ
+                                    {item?.bookDate ? (
+                                      <>
+                                        {item?.feeBooking
+                                          ? currency(item?.feeBooking)
+                                          : "0"}{" "}
+                                        ກີບ
+                                      </>
+                                    ) : (
+                                      <>
+                                        {item?.incomeKIP > 0 && (
+                                          <>
+                                            {item?.incomeKIP
+                                              ? currency(item?.incomeKIP)
+                                              : "0"}{" "}
+                                            ກີບ
+                                            <br />
+                                          </>
+                                        )}
+                                        {item?.incomeTHB > 0 && (
+                                          <>
+                                            {item?.incomeTHB
+                                              ? currency(item?.incomeTHB)
+                                              : "0"}{" "}
+                                            ບາດ
+                                            <br />
+                                          </>
+                                        )}
+                                        {item?.incomeUSD > 0 && (
+                                          <>
+                                            {item?.incomeUSD
+                                              ? currency(item?.incomeUSD)
+                                              : "0"}{" "}
+                                            ບາດ
+                                          </>
+                                        )}
+                                      </>
+                                    )}
                                   </td>
                                   <td className="text-nowrap text-center">
                                     {item?.bookDate
@@ -222,7 +261,11 @@ export default function ReportCheckIn() {
                             <h4>ຍອດລວມ</h4>
                           </td>
                           <td className="text-nowrap text-end">
+                            
                             <h4>{currency(_sumFeeBooking)} ກີບ</h4>
+                            <h4>{currency(_sumIncomeKip)} ກີບ</h4>
+                            <h4>{currency(_sumIncomeTHB)} ບາດ</h4>
+                            <h4>{currency(_sumIncomeUSD)} ໂດລາ</h4>
                           </td>
                           <td></td>
                         </tr>
