@@ -32,7 +32,6 @@ export default function Hotel() {
   const [searchValue, setSearchValue] = useState();
   const [clickButton, setButton] = useState(false);
   const [userData, setUserData] = useState({});
-  console.log("userData", userData);
 
   const [house, setHouse] = useState("");
   //!ໂມໂດເປີດຫ້ອງ

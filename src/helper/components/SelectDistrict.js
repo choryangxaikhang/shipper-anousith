@@ -29,9 +29,6 @@ export default function SelectDistrict({
   const [selectedOption, setSelectedOption] = useState(null);
   const [fetchData, { data, loading }] = useLazyQuery(QUERY);
 
-  console.log("data", data);
-  console.log("provinceId", provinceId);
-
   useEffect(() => {
     fetchData({
       variables: {
@@ -44,7 +41,6 @@ export default function SelectDistrict({
 
   useEffect(() => {
     const results = data?.districts?.data || [];
-    console.log("dataRR", results);
     if (results?.length > 0) {
       const _results = results.map((_data) => {
         const object = {

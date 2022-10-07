@@ -56,7 +56,6 @@ export default function Home() {
   }, []);
   // end
 
-  console.log("house?._id", house?._id);
 
   useEffect(() => {
     let whereData = {};

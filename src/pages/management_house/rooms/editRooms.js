@@ -32,7 +32,6 @@ import {
   Select,
 } from "@mui/material";
 export default function EditRooms({ onSuccess, data, loadData }) {
-  console.log("data", data);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const [getValueStatus, setValueStatus] = useState();

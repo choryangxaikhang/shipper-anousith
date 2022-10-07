@@ -15,8 +15,6 @@ export default function EditType({ getId, onSuccess }) {
   const [show, setShow] = useState(false);
   const [editProvinces] = useMutation(EDIT_ROOM);
   const handleClose = () => setShow(false);
-
-  console.log("getId", getId?._id);
   return (
     <Formik
       initialValues={{

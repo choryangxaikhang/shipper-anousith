@@ -118,8 +118,6 @@ export default function AddRooms({ onSuccess, loadData, className }) {
     },
     onSubmit: async (values, { resetForm }) => {
       loadingScreen();
-      console.log("values", values);
-      console.log("imageName", imageName);
       // return
       try {
         const { data: updated } = await createRoom({

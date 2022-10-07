@@ -5,6 +5,10 @@ import { OTHER } from "../../../routes/app";
 import { getLocalHouse } from "../../../helper";
 import "./util/index.css";
 import ReportBooking from "./reportBooking";
+import ReportCheckIn from "./reportCheckIn";
+import ReportCheckOut from "./reportCheckOut";
+import DividendReport from "./dividend_report";
+import SumTotalBooking from "./sumTotalBooking";
 export default function TabMenuIncome() {
   const { history, location } = useReactRouter();
   const params = new URLSearchParams(location?.search);
@@ -67,7 +71,16 @@ export default function TabMenuIncome() {
             variant=""
             onClick={() => history.push({ search: "?tab=reportAll" })}
           >
-            ລວມທັງຫມົດ
+            ຍອດຫ້ອງກຳລັງເປີດ
+          </Button>
+          <Button
+            className={`item-tab ${
+              tabActive === "checkout" ? "clickActives" : "Actives"
+            }`}
+            variant=""
+            onClick={() => history.push({ search: "?tab=checkout" })}
+          >
+            ຍອດຫ້ອງແຂກອອກແລ້ວ
           </Button>
           <Button
             className={`item-tab ${
@@ -91,9 +104,10 @@ export default function TabMenuIncome() {
       </div>
       <div id="appCapsule" className="extra-header-activeClick">
         {tabActive === "reportBooking" && <ReportBooking />}
-        {tabActive === "reportAll"}
-        {tabActive === "dividendReport"}
-        {tabActive === "sumTotalBooking"}
+        {tabActive === "reportAll" && <ReportCheckIn />}
+        {tabActive === "checkout" && <ReportCheckOut />}
+        {tabActive === "dividendReport" &&<DividendReport />}
+        {tabActive === "sumTotalBooking" &&<SumTotalBooking />}
       </div>
     </>
   );

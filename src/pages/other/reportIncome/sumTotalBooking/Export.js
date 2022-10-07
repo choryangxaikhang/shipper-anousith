@@ -3,10 +3,9 @@ import { Modal, Row } from "react-bootstrap";
 import { useReactToPrint } from "react-to-print";
 import { useLazyQuery } from "@apollo/client";
 import _ from "lodash";
-import "./utils/index.css"
+import "./utils/index.css";
 import moment from "moment";
-import logo from "../../../img/icon-app.png";
-import { USER_KEY } from "../../../Routes/app";
+import logo from "../../../../img/app-icon.png";
 import useReactRouter from "use-react-router";
 import {
   currency,
@@ -14,9 +13,10 @@ import {
   formatDateTime,
   formateDateSlash,
   houseStatus,
-} from "../../../helper";
+} from "../../../../helper";
+import { getStaffLogin } from "../../../../helper";
 function Export({ _Data }) {
-  const jsonObj = JSON.parse(localStorage.getItem(USER_KEY));
+  const jsonObj = getStaffLogin();
   const userInfo = jsonObj?.data;
   const inputRef = useRef();
   const handlePrint = useReactToPrint({
@@ -41,23 +41,20 @@ function Export({ _Data }) {
       </div>
 
       <Modal show={show} onHide={() => setShow(false)} animation={false}>
-        <Modal.Header closeButton>
-          <Modal.Title className="primary modal-container custom-map-modal">
-            ພີມລາຍການທັງໝົດ
-          </Modal.Title>
+        <Modal.Header>
+          ພີມລາຍການທັງໝົດ
+          <a
+            href="javaScript:void(0)"
+            className="pull-right ms-2 "
+            style={{ textDecoration: "none" }}
+            onClick={() => setShow(false)}
+          >
+            <i className="icon-x fa-2x text-danger" />
+          </a>
         </Modal.Header>
         <Modal.Body className="modal-container">
           <Row>
             <div className="col-md-12 ">
-
-              <a
-                href="javaScript:void(0)"
-                className="pull-right ms-2 "
-                style={{ textDecoration: "none" }}
-                onClick={() => setShow(false)}
-              >
-                <i className="icon-x fa-2x text-danger" />
-              </a>
               <button
                 onClick={handlePrint}
                 type="button"
@@ -104,9 +101,7 @@ function Export({ _Data }) {
                 </tr>
                 <tr>
                   <td colSpan={8}>
-                    <h3 className="text-center">
-                      ລາຍງານຍອດສະຫລຸບ
-                    </h3>
+                    <h3 className="text-center">ລາຍງານຍອດສະຫລຸບ</h3>
                     <span className="text-center text-black">
                       ພີມໂດຍ: {userInfo?.firstName ? userInfo?.firstName : ""}{" "}
                       {userInfo?.lastName ? userInfo?.lastName : ""}
@@ -114,36 +109,42 @@ function Export({ _Data }) {
                   </td>
                 </tr>
                 <tr style={{ backgroundColor: "#f54f02", color: "white" }}>
-                  <td className="textCenter text-nowrap">
-                    ລວມຍອດຄັ້ງຈອງ
-                  </td>
+                  <td className="textCenter text-nowrap">ລວມຍອດຄັ້ງຈອງ</td>
                   <td className="textCenter text-nowrap">ລວມຍອດເງິນຈອງ</td>
                   <td className="textCenter text-nowrap">ລວມຍອດເງິນຊົ່ວຄາວ</td>
-                  <td className="textCenter text-nowrap">
-                    ລວມຍອດເງິນຄ້າງຄືນ
-                  </td>
+                  <td className="textCenter text-nowrap">ລວມຍອດເງິນຄ້າງຄືນ</td>
                 </tr>
               </thead>
               <tbody>
-                <tr >
+                <tr>
                   <td className="text-nowrap text-center border text-black">
-                    {currency(_Data?.summaryBookingTotal?.bookingTotal ?
-                      _Data?.summaryBookingTotal?.bookingTotal : 0)}
+                    {currency(
+                      _Data?.summaryBookingTotal?.bookingTotal
+                        ? _Data?.summaryBookingTotal?.bookingTotal
+                        : 0
+                    )}
                   </td>
                   <td className="text-nowrap border text-black text-center">
-                    {currency(_Data?.summaryBookingTotal?.feeBookingAmount ?
-                      _Data?.summaryBookingTotal?.feeBookingAmount : 0)}
+                    {currency(
+                      _Data?.summaryBookingTotal?.feeBookingAmount
+                        ? _Data?.summaryBookingTotal?.feeBookingAmount
+                        : 0
+                    )}
                   </td>
-                  <td className="text-nowrap border text-end text-black"
-                  >
-                    {currency(_Data?.summaryBookingTotal?.halfPriceTotal ?
-                      _Data?.summaryBookingTotal?.halfPriceTotal : 0)}{" "}
+                  <td className="text-nowrap border text-end text-black">
+                    {currency(
+                      _Data?.summaryBookingTotal?.halfPriceTotal
+                        ? _Data?.summaryBookingTotal?.halfPriceTotal
+                        : 0
+                    )}{" "}
                     ກີບ
                   </td>
-                  <td className="text-nowrap border text-end text-black"
-                  >
-                     {currency(_Data?.summaryBookingTotal?.fullPriceTotal ?
-                      _Data?.summaryBookingTotal?.fullPriceTotal : 0)}{" "}
+                  <td className="text-nowrap border text-end text-black">
+                    {currency(
+                      _Data?.summaryBookingTotal?.fullPriceTotal
+                        ? _Data?.summaryBookingTotal?.fullPriceTotal
+                        : 0
+                    )}{" "}
                     ກີບ
                   </td>
                 </tr>
