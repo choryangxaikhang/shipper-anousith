@@ -22,8 +22,7 @@ import BookingCancel from "../pages/other/cancel";
 import SettingsScreen from "../pages/settings";
 import RateExChange from "../pages/rateExchange";
 import TabMenu from "../pages/management_house/TabMenu";
-// import Rooms from "../pages/management_house/rooms";
-// import Houses from "../pages/management_house/houses";
+import TabMenuIncome from "../pages/other/reportIncome/TabMenuIncome";
 
 export default function Routes() {
   const { userDispatch } = useContext(AppContext);
@@ -118,16 +117,11 @@ export default function Routes() {
                   exact
                   component={(props) => <TabMenu {...props} />}
                 />
-                {/* <PrivateRoute
-                  path={`${ROUTES.MANAGEMENT_ROOM}/:page`}
-                  exact
-                  component={(props) => <Rooms {...props} />}
-                />
                 <PrivateRoute
-                  path={`${ROUTES.MANAGEMENT_HOUSE}/:page`}
+                  path={`${ROUTES.TAB_MENU_INCOME}/:page`}
                   exact
-                  component={(props) => <Houses {...props} />}
-                /> */}
+                  component={(props) => <TabMenuIncome {...props} />}
+                />
 
                 <Route
                   render={({ location, history }) => (

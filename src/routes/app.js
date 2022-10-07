@@ -21,3 +21,8 @@ export const TAB_MENU = "/management_house/tab_menu";
 export const MANAGEMENT_TYPE_ROOM = "/management_house/type_room";
 export const MANAGEMENT_ROOM = "/management_house/rooms";
 export const MANAGEMENT_HOUSE = "/management_house/houses";
+
+// report 
+export const TAB_MENU_INCOME = "/other/report_income";
+
+

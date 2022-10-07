@@ -16,7 +16,6 @@ import {
   setParams,
   startOfMonth,
 } from "../../helper";
-import BottomNav from "../../layouts/BottomNav";
 import { OTHER } from "../../routes/app";
 import NoData from "../../helper/components/NoData";
 import { QUERY_BOOKING, UPDATE_BOOKING_STATUS } from "./hotel/apollo";
@@ -253,18 +252,18 @@ export default function PeopleCheckout() {
                             </b>
                           </div>
                         </div>
-                        <div className="right">
+                        <div className="">
                           <button
-                            className="btn btn-primary btn-sm action-button"
+                            className="btn btn-primary btn-sm btn-block"
                             onClick={(e) => {
                               updateStatus(data?._id, data?.room?._id);
                             }}
                             onDoubleClick={() => {
                               return false;
                             }}
+                            style={{ marginRight: 50 }}
                           >
-                            <i className="icon-check-circle mr-1 fa-2x" />{" "}
-                            ຢືນຢັນອອກ
+                            <i className="icon-check-circle mr-1" /> ຢືນຢັນອອກ
                           </button>
                         </div>
                       </a>
@@ -288,7 +287,6 @@ export default function PeopleCheckout() {
               )}
             </div>
           </div>
-          <BottomNav />
         </div>
       </div>
     </div>

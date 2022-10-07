@@ -91,33 +91,6 @@ export default function SummaryMoney() {
       },
     });
   }, [startDate, endDate]);
-  // useEffect(() => {
-  //   outHouseData({
-  //     variables: {
-  //       where: {
-  //         house: parseInt(localHouse),
-  //         checkOutAt_gte: createdAt_gte(startDate),
-  //         checkOutAt_lte: createdAt_lt(endDate),
-  //         status: "CHECK_OUT",
-  //       },
-  //       orderBy: "createdAt_DESC",
-  //     },
-  //   });
-  // }, [startDate, endDate]);
-
-  // useEffect(() => {
-  //   fetchDataCheckIn({
-  //     variables: {
-  //       where: {
-  //         house: parseInt(localHouse),
-  //         checkInAt_gte: createdAt_gte(startDate),
-  //         checkInAt_lte: createdAt_lt(endDate),
-  //         status: "CHECK_IN",
-  //       },
-  //       orderBy: "createdAt_DESC",
-  //     },
-  //   });
-  // }, [startDate, endDate]);
 
   return (
     <>

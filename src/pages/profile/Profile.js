@@ -100,7 +100,7 @@ export default function Profile({ history }) {
                 border: "2px solid f54f02",
               }}
             /><br/>
-            <b>ID:{listData?._id}</b>
+            <b>ID-USER:{" "}{listData?._id}</b>
           </center>
           <div style={{ marginTop: -20 }}>
             <div className="session-list">

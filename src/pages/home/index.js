@@ -3,15 +3,18 @@ import { useLazyQuery } from "@apollo/client";
 import useReactRouter from "use-react-router";
 import "./index.css";
 import BottomNav from "../../layouts/BottomNav";
-import { BOOKINGS, QUERY_ROOM } from "./apollo";
+import { BOOKINGS, QUERY_SUMMARY_BOOKING } from "./apollo";
 import male from "../../img/male.png";
 import { Image } from "react-bootstrap";
 import {
   aws_url_employee_Image,
+  createdAt_gte,
+  createdAt_lt,
   currency,
   getLocalHouse,
   getStaffLogin,
   loadingData,
+  toDayDash,
 } from "../../helper";
 import { AppContext } from "../../App";
 import QRCode from "react-qr-code";
@@ -20,28 +23,26 @@ import { BOOKING, OTHER } from "../../routes/app";
 import SelectLocalHouse from "../../helper/components/SelectLocalHouse";
 export default function Home() {
   const { history } = useReactRouter();
-  const [total, setTotal] = useState(0);
-  const [getPayrollSummary, setDataRoom] = useState([]);
+  const [startDate, setStartDate] = useState(toDayDash());
+  const [endDate, setEndDate] = useState(toDayDash());
   const [house, setHouse] = useState("");
   const [userData, setUserData] = useState({});
   const [clickButton, setButton] = useState(false);
 
-  const [fetchItem, { data: setNoticeConfirm, loading: loadingTotal }] =
-    useLazyQuery(QUERY_ROOM, {
+  const [fetchBooking, { data: setBooking, loading: loadingBooking }] =
+    useLazyQuery(QUERY_SUMMARY_BOOKING, {
       fetchPolicy: "cache-and-network",
     });
-  const [fetchData, { data: DataRoom, loading: loading }] = useLazyQuery(
-    QUERY_ROOM,
+  const [checkOut, { data: outHouse, loading: loading }] = useLazyQuery(
+    QUERY_SUMMARY_BOOKING,
     {
       fetchPolicy: "cache-and-network",
     }
   );
-  // Bookigng
-  const [queryBooking, { data: setaBooking, loading: loadingBooking }] =
-    useLazyQuery(BOOKINGS, {
+  const [fetchDataCheckIn, { data: CheckInHouse, loadingCheckIn }] =
+    useLazyQuery(QUERY_SUMMARY_BOOKING, {
       fetchPolicy: "cache-and-network",
     });
-
   // data HouseLoca
   useEffect(() => {
     const _local = getStaffLogin();
@@ -54,52 +55,55 @@ export default function Home() {
     }
   }, []);
   // end
+
+  console.log("house?._id", house?._id);
+
   useEffect(() => {
-    // let whereData = {};
-    // whereData = {
-    //   // house: parseInt(localHouse),
-    // };
-    // if (userData?.role === "SUPER_ADMIN") {
-    //   delete whereData.house;
-    // }
-    fetchData({
-      variables: {
-        where: {},
-        limit: 1,
-        orderBy: "createdAt_DESC",
-      },
-    });
-    // Booking
-    queryBooking({
+    let whereData = {};
+    whereData = {
+      house: parseInt(house?._id),
+    };
+    if (userData?.role === "SUPER_ADMIN") {
+      delete whereData.house;
+    }
+    fetchBooking({
       variables: {
         where: {
-          house: parseInt(house?._id),
+          ...whereData,
+          bookDate_gte: createdAt_gte(startDate),
+          bookDate_lte: createdAt_lt(endDate),
           status: "BOOKING",
         },
         orderBy: "createdAt_DESC",
       },
     });
-  }, []);
+    // check_in
 
-  useEffect(() => {
-    fetchItem({
+    fetchDataCheckIn({
       variables: {
-        where: {},
+        where: {
+          ...whereData,
+          checkInAt_gte: createdAt_gte(startDate),
+          checkInAt_lte: createdAt_lt(endDate),
+          status: "CHECK_IN",
+        },
+        orderBy: "createdAt_DESC",
+      },
+    });
+
+    // Booking
+    checkOut({
+      variables: {
+        where: {
+          ...whereData,
+          checkOutAt_gte: createdAt_gte(startDate),
+          checkOutAt_lte: createdAt_lt(endDate),
+          status: "CHECK_OUT",
+        },
         orderBy: "createdAt_DESC",
       },
     });
   }, [userData]);
-
-  useEffect(() => {
-    setDataRoom(DataRoom?.rooms?.data[0]);
-  }, [DataRoom]);
-
-  useEffect(() => {
-    if (setNoticeConfirm) {
-      setTotal(setNoticeConfirm?.rooms?.data?.length);
-    }
-  }, [setNoticeConfirm]);
-
   return (
     <>
       <div
@@ -108,6 +112,7 @@ export default function Home() {
           backgroundColor: "#f54f02",
           marginBottom: 0,
           paddingBottom: 0,
+          whidth: "100vh",
         }}
       >
         <div className="appHeader  border-0 ">
@@ -137,7 +142,9 @@ export default function Home() {
               />
             </>
           ) : (
-            <b className="text-white">ໜ້າຫຼັກ</b>
+            <b className="text-white">
+              {house?.houseName ? house?.houseName : "ໜ້າຫຼັກ"}
+            </b>
           )}
           <div
             className="text-white pageTitle text-center text-nowrap pr-0"
@@ -152,11 +159,11 @@ export default function Home() {
                 <span style={{ position: "absolute", right: 10, top: 10 }}>
                   {loadingData(10)}
                 </span>
-              ) : setaBooking?.bookings?.total > 0 ? (
+              ) : setBooking?.summaryBookingTotal?.bookingTotal > 0 ? (
                 <span className="badge badge-success mr-1 p-2">
                   <small>
-                    {setaBooking?.bookings?.total
-                      ? setaBooking?.bookings?.total
+                    {setBooking?.summaryBookingTotal?.bookingTotal
+                      ? setBooking?.summaryBookingTotal?.bookingTotal
                       : 0}
                   </small>
                 </span>
@@ -172,18 +179,25 @@ export default function Home() {
             >
               <div className="add-card-inner">
                 <div className="add-card-item add-card-info">
-                  <p>ຍອດລວມທັງຫມົດ</p>
-                  {loading ? (
+                  <p>ຫ້ອງກຳລັງຈອງ</p>
+                  {loadingBooking ? (
                     loadingData(25)
                   ) : (
                     <>
-                      <h3>.0</h3>
+                      <b className="text-danger fs-4">
+                        {setBooking?.summaryBookingTotal?.bookingTotal > 0
+                          ? currency(
+                              setBooking?.summaryBookingTotal?.bookingTotal
+                            )
+                          : 0}{" "}
+                      </b>
+                      ຫ້ອງ
                     </>
                   )}
                 </div>
                 <div className="add-card-item add-balance">
                   <a href="javascript:void(0)" className="p-1">
-                    <i className="fa-solid fa-kip-sign fs-3" />
+                   <b className="fs-4">ໄອດີ: {userData?._id}</b>
                   </a>
                 </div>
               </div>
@@ -200,13 +214,22 @@ export default function Home() {
                       data-bs-toggle="modal"
                       data-bs-target="#withdraw"
                     >
-                      <p>ລາຍຮັບແຂກເຂົ້າທັງຫມົດ</p>
-                      <div className="option-card-icon">
-                        {loading ? (
+                      <p>ຫ້ອງກຳລັງເປີດ</p>
+                      <div className="option-card-icon text-black">
+                        {loadingCheckIn ? (
                           loadingData(25)
                         ) : (
                           <>
-                            <h3>0 ກີບ</h3>
+                            <b className="text-danger fs-4">
+                              {CheckInHouse?.summaryBookingTotal?.bookingTotal >
+                              0
+                                ? currency(
+                                    CheckInHouse?.summaryBookingTotal
+                                      ?.bookingTotal
+                                  )
+                                : 0}{" "}
+                            </b>
+                            ຫ້ອງ
                           </>
                         )}
                       </div>
@@ -220,13 +243,20 @@ export default function Home() {
                     style={{ borderTop: "1px solid #f54f02" }}
                   >
                     <a href="javascript:void(0)">
-                      <p>ລາຍຮັບການຈອງທັງຫມົດ</p>
-                      <div className="option-card-icon">
+                      <p>ຫ້ອງແຂກອອກມື້ນີ້</p>
+                      <div className="option-card-icon text-black">
                         {loading ? (
                           loadingData(25)
                         ) : (
                           <>
-                            <h3>0 ກີບ</h3>
+                            <b className="text-danger fs-4">
+                              {outHouse?.summaryBookingTotal?.bookingTotal > 0
+                                ? currency(
+                                    outHouse?.summaryBookingTotal?.bookingTotal
+                                  )
+                                : 0}{" "}
+                            </b>
+                            ຫ້ອງ
                           </>
                         )}
                       </div>

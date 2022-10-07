@@ -41,7 +41,7 @@ export default function AddRooms({ onSuccess, loadData, className }) {
   const userData = userState?.data;
   const [getHouse, setHouse] = useState("");
   useEffect(() => {
-    setHouse(getLocalHouse())
+    setHouse(getLocalHouse());
   }, []);
   // pictrue
   const handleUpload = async (event) => {
@@ -312,7 +312,6 @@ export default function AddRooms({ onSuccess, loadData, className }) {
                   value={values.priceHalf}
                   onChange={handleChange}
                 />
-                <div className="text-danger">{errors.priceHalf}</div>
               </FormControl>
             </div>
           </div>
@@ -349,7 +348,6 @@ export default function AddRooms({ onSuccess, loadData, className }) {
           <hr />
           <div className="form-group mb-2">
             <label>ຟາຍທີ່ອັບໂຫລດແລ້ວ</label>
-            <hr />
             <div>
               <div className="col-md-12">
                 {getFileNames &&
@@ -377,6 +375,8 @@ export default function AddRooms({ onSuccess, loadData, className }) {
               </div>
             </div>
           </div>
+        </Modal.Body>
+        <Modal.Footer>
           <button
             type="button"
             className="btn btn-primary btn-block btn-lg"
@@ -385,7 +385,7 @@ export default function AddRooms({ onSuccess, loadData, className }) {
             <i className="icon-save" style={{ marginRight: 3 }} />
             ບັນທຶກ
           </button>
-        </Modal.Body>
+        </Modal.Footer>
       </Modal>
     </React.Fragment>
   );

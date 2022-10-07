@@ -17,7 +17,6 @@ import SelectLocalHouse from "../../helper/components/SelectLocalHouse";
 
 export default function TabMenuOther() {
   const { history } = useReactRouter();
-  const [localHouse, setLocalHouse] = useState("");
   const [reloadData, setReloadData] = useState(false);
   const [house, setHouse] = useState("");
   const [userData, setUserData] = useState({});
@@ -33,9 +32,6 @@ export default function TabMenuOther() {
     queryBookingRequested,
     { data: setDataRequested, loading: loadingRequested },
   ] = useLazyQuery(BOOKINGS, { fetchPolicy: "cache-and-network" });
-  useEffect(() => {
-    setLocalHouse(getLocalHouse()?._id);
-  }, []);
 
   socketServer.on("booking", (data) => {
     setReloadData(!reloadData);
@@ -43,7 +39,7 @@ export default function TabMenuOther() {
   });
 
   socketServer.on("approveBooking", (res) => {
-    if (res === localHouse) {
+    if (res === house?._id) {
       // newSound.play();
       setReloadData(!reloadData);
     }
@@ -64,7 +60,7 @@ export default function TabMenuOther() {
   useEffect(() => {
     let whereData = {};
     whereData = {
-      house: parseInt(localHouse),
+      house: parseInt(house?._id),
     };
     if (userData?.role === "SUPER_ADMIN" || userData?.role === "IT") {
       delete whereData.house;
@@ -97,117 +93,201 @@ export default function TabMenuOther() {
         orderBy: "createdAt_DESC",
       },
     });
-  }, [localHouse, reloadData]);
+  }, [house?._id, reloadData]);
 
   return (
     <>
-    <div  >
-    <div className="appHeader  border-0 mr-0">
-        <div style={{ flex: 1 }} className="text-left">
-          <button
-            className="btn text-white"
-            onClick={(e) => {
-              setButton(!clickButton);
-            }}
-          >
-            <i className="fa-solid fa-magnifying-glass fa-2 ms-2" />
-          </button>
-        </div>
-        {clickButton === true ? (
-          <>
-            <SelectLocalHouse
-              style={{ width: "100%" }}
-              value={house?._id}
-              onChange={(obj) => {
-                if (obj?._id) {
-                  setHouse(obj);
-                  localStorage.setItem("HOUSE", JSON.stringify(obj));
-                  window.location.reload();
-                }
+      <div>
+        <div className="appHeader  border-0 mr-0">
+          <div style={{ flex: 1 }} className="text-left">
+            <button
+              className="btn text-white"
+              onClick={(e) => {
+                setButton(!clickButton);
               }}
-              ownerId={userData?._id}
-            />
-          </>
-        ) : (
-          <b className="text-white">ຈັດການຂໍ້ມູນອື່ນໆ</b>
-        )}
-        <div
-          className="text-white pageTitle text-right text-nowrap pr-0"
-          style={{ flex: 1 }}
-        ></div>
-      </div>
-      <div id="appCapsule" style={{ marginTop: -10 }}>
-        <div className="section wallet-card-section">
-          <div className="session-list mt-1" ng-controller="home">
-            <div
-              className="wallet-card"
-              style={{ borderBottom: "1px solid red" }}
             >
-              <div className="wallet-footer">
-                <div className="item">
-                  <a
-                    href="javascript:void(0)"
-                    onClick={() => history.push(`${ROUTES.HOTEL}/1`)}
-                  >
-                    <div className="icon-wrapper">
-                      <i className="fa-sharp fa-solid fa-person-booth fa-2x" />
-                    </div>
-                    <h5>ເປີດຫ້ອງ</h5>
-                  </a>
+              <i className="fa-solid fa-magnifying-glass fa-2 ms-2" />
+            </button>
+          </div>
+          {clickButton === true ? (
+            <>
+              <SelectLocalHouse
+                style={{ width: "100%" }}
+                value={house?._id}
+                onChange={(obj) => {
+                  if (obj?._id) {
+                    setHouse(obj);
+                    localStorage.setItem("HOUSE", JSON.stringify(obj));
+                    window.location.reload();
+                  }
+                }}
+                ownerId={userData?._id}
+              />
+            </>
+          ) : (
+            <b className="text-white">
+              {house?.houseName ? house?.houseName : "ຈັດການບໍລິການອື່ນໆ"}
+            </b>
+          )}
+          <div
+            className="text-white pageTitle text-right text-nowrap pr-0"
+            style={{ flex: 1 }}
+          ></div>
+        </div>
+        <div id="appCapsule" style={{ marginTop: -10 }}>
+          <div className="section wallet-card-section">
+            <div className="session-list mt-1" ng-controller="home">
+              <div
+                className="wallet-card"
+                style={{ borderBottom: "1px solid red" }}
+              >
+                <div className="wallet-footer">
+                  <div className="item">
+                    <a
+                      href="javascript:void(0)"
+                      onClick={() => history.push(`${ROUTES.HOTEL}/1`)}
+                    >
+                      <div className="icon-wrapper">
+                        <i className="fa-sharp fa-solid fa-person-booth fa-2x" />
+                      </div>
+                      <h5>ເປີດຫ້ອງ</h5>
+                    </a>
+                  </div>
+                  <div className="item">
+                    {loading ? (
+                      <span
+                        className="ms-2"
+                        style={{
+                          position: "fixed",
+                          marginTop: -10,
+                          marginRight: -50,
+                          padding: 0,
+                          zIndex: 1000,
+                        }}
+                      >
+                        {loadingData(10)}
+                      </span>
+                    ) : setData?.bookings?.total > 0 ? (
+                      <span
+                        className="badge badge-success ms-2"
+                        style={{
+                          position: "fixed",
+                          marginTop: -10,
+                          marginRight: -50,
+                          padding: 0,
+                          zIndex: 1000,
+                        }}
+                      >
+                        <small className="p-1">
+                          {setData?.bookings?.total}
+                        </small>
+                      </span>
+                    ) : null}
+                    <a
+                      href="javascript:void(0)"
+                      onClick={() => history.push(`${ROUTES.BOOKING}/1`)}
+                    >
+                      <div className="icon-wrapper">
+                        <i className="fa-solid fa-circle-down fa-2x" />
+                      </div>
+                      <h5>ຫ້ອງກຳລັງຈອງ</h5>
+                    </a>
+                  </div>
+                  <div className="item">
+                    {loadingFull ? (
+                      <span
+                        className="ms-2"
+                        style={{
+                          position: "fixed",
+                          marginTop: -10,
+                          marginRight: -50,
+                          padding: 0,
+                          zIndex: 1000,
+                        }}
+                      >
+                        {loadingData(10)}
+                      </span>
+                    ) : setDataFull?.bookings?.total > 0 ? (
+                      <span
+                        className="badge badge-success ms-2"
+                        style={{
+                          position: "fixed",
+                          marginTop: -10,
+                          marginRight: -50,
+                          padding: 0,
+                          zIndex: 1000,
+                        }}
+                      >
+                        <small className="p-1">
+                          {setDataFull?.bookings?.total}
+                        </small>
+                      </span>
+                    ) : null}
+                    <a
+                      onClick={(e) => history.push(`${ROUTES.HOTEL_CHECKOUT}`)}
+                    >
+                      <div className="icon-wrapper">
+                        <i className="fa-solid fa-share-from-square fa-2x" />
+                      </div>
+                      <h5>ແຂກອອກ</h5>
+                    </a>
+                  </div>
                 </div>
-                <div className="item">
-                  {loading ? (
+                {/* rare */}
+                <div className="wallet-footer">
+                  <div className="item">
+                    <a
+                      onClick={(e) =>
+                        history.push(`${ROUTES.RATE_EXCHANGE_SCREEN}/1`)
+                      }
+                    >
+                      <div className="icon-wrapper">
+                        <i className="fa-solid fa-kip-sign fa-2x" />
+                      </div>
+                      <h5>ອັດຕາແລກປ່ຽນ</h5>
+                    </a>
+                  </div>
+                  <div className="item">
+                    <a onClick={(e) => history.push(`${ROUTES.TAB_MENU}/Type`)}>
+                      <div className="icon-wrapper">
+                        <i className="icon-plus-circle me-1 fa-2x" />
+                      </div>
+                      <h5>ເພີ່ມຫ້ອງ</h5>
+                    </a>
+                  </div>
+                  <div className="item">
+                    <a
+                      onClick={(e) => {
+                        history.push(`${ROUTES.TAB_MENU_INCOME}/Type`);
+                      }}
+                    >
+                      <div className="icon-wrapper">
+                        <i className="fa-solid fa-book fa-2x" />
+                      </div>
+                      <h5>ລາຍງານ</h5>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* ບໍລິການອື່ນ */}
+            <div className="transactions mt-2 ">
+              <a href="javascript:void(0)" className="item pr-0">
+                <div className="">
+                  {loadingRequested ? (
                     <span
-                      className="ms-2"
+                      className="ms-4"
                       style={{
                         position: "fixed",
-                        marginTop: -10,
-                        marginRight: -50,
+                        marginTop: -5,
+                        marginRight: -10,
                         padding: 0,
                         zIndex: 1000,
                       }}
                     >
                       {loadingData(10)}
                     </span>
-                  ) : setData?.bookings?.total > 0 ? (
-                    <span
-                      className="badge badge-success ms-2"
-                      style={{
-                        position: "fixed",
-                        marginTop: -10,
-                        marginRight: -50,
-                        padding: 0,
-                        zIndex: 1000,
-                      }}
-                    >
-                      <small className="p-1">{setData?.bookings?.total}</small>
-                    </span>
-                  ) : null}
-                  <a
-                    href="javascript:void(0)"
-                    onClick={() => history.push(`${ROUTES.BOOKING}/1`)}
-                  >
-                    <div className="icon-wrapper">
-                      <i className="fa-solid fa-circle-down fa-2x" />
-                    </div>
-                    <h5>ຫ້ອງກຳລັງຈອງ</h5>
-                  </a>
-                </div>
-                <div className="item">
-                  {loadingFull ? (
-                    <span
-                      className="ms-2"
-                      style={{
-                        position: "fixed",
-                        marginTop: -10,
-                        marginRight: -50,
-                        padding: 0,
-                        zIndex: 1000,
-                      }}
-                    >
-                      {loadingData(10)}
-                    </span>
-                  ) : setDataFull?.bookings?.total > 0 ? (
+                  ) : setDataRequested?.bookings?.total > 0 ? (
                     <span
                       className="badge badge-success ms-2"
                       style={{
@@ -219,126 +299,51 @@ export default function TabMenuOther() {
                       }}
                     >
                       <small className="p-1">
-                        {setDataFull?.bookings?.total}
+                        {setDataRequested?.bookings?.total}
                       </small>
                     </span>
                   ) : null}
-                  <a onClick={(e) => history.push(`${ROUTES.HOTEL_CHECKOUT}`)}>
-                    <div className="icon-wrapper">
-                      <i className="fa-solid fa-share-from-square fa-2x" />
+                  <a
+                    onClick={(e) => {
+                      history.push(`${`${ROUTES.REQUEST_BOOKING_SCREEN}/1`}`);
+                    }}
+                  >
+                    <div className="icon-wrapper mt-1">
+                      <i className="fa-solid fa-cart-plus fa-2x text-center ms-2 mb-1" />
                     </div>
-                    <h5>ແຂກອອກ</h5>
+                    <h5>ການຮ້ອງຈອງ</h5>
                   </a>
                 </div>
-              </div>
-              {/* rare */}
-              <div className="wallet-footer">
-                <div className="item">
+                <div className="">
                   <a
-                    onClick={(e) =>
-                      history.push(`${ROUTES.RATE_EXCHANGE_SCREEN}/1`)
-                    }
+                    onClick={(e) => {
+                      history.push(`${ROUTES.BOOKING_CANCEL}/1`);
+                    }}
                   >
                     <div className="icon-wrapper">
-                      <i className="fa-sharp fa-solid fa-dollar-sign fa-2x" />
+                      <i class="fa-solid fa-triangle-exclamation fa-2x mb-1" />
                     </div>
-                    <h5>ອັດຕາແລກປ່ຽນ</h5>
+                    <h5>ຍົກເລີກ</h5>
                   </a>
                 </div>
-                <div className="item">
-                  <a onClick={(e) => history.push(`${ROUTES.TAB_MENU}/Type`)}>
+                <div className="me-3">
+                  <a
+                    onClick={(e) => {
+                      history.push(`${ROUTES.SETTING}/1`);
+                    }}
+                  >
                     <div className="icon-wrapper">
-                      <i className="fa-solid fa-book fa-2x" />
+                      <i className="fa-solid fa-gear fa-2x mb-1" />
                     </div>
-                    <h5>ເພີ່ມຫ້ອງ</h5>
+                    <h5>ຕັ້ງຄ່າ</h5>
                   </a>
                 </div>
-                <div className="item">
-                  <a>
-                    <div className="icon-wrapper">
-                      <i className="fa-solid fa-book fa-2x" />
-                    </div>
-                    <h5>ລາຍງານ</h5>
-                  </a>
-                </div>
-              </div>
+              </a>
             </div>
           </div>
-          {/* ບໍລິການອື່ນ */}
-          <div className="transactions mt-2 ">
-            <a href="javascript:void(0)" className="item pr-0">
-              <div className="">
-                {loadingRequested ? (
-                  <span
-                    className="ms-4"
-                    style={{
-                      position: "fixed",
-                      marginTop: -5,
-                      marginRight: -10,
-                      padding: 0,
-                      zIndex: 1000,
-                    }}
-                  >
-                    {loadingData(10)}
-                  </span>
-                ) : setDataRequested?.bookings?.total > 0 ? (
-                  <span
-                    className="badge badge-success ms-2"
-                    style={{
-                      position: "fixed",
-                      marginTop: -10,
-                      marginRight: -50,
-                      padding: 0,
-                      zIndex: 1000,
-                    }}
-                  >
-                    <small className="p-1">
-                      {setDataRequested?.bookings?.total}
-                    </small>
-                  </span>
-                ) : null}
-                <a
-                  onClick={(e) => {
-                    history.push(`${`${ROUTES.REQUEST_BOOKING_SCREEN}/1`}`);
-                  }}
-                >
-                  <div className="icon-wrapper mt-1">
-                    <i className="fa-solid fa-cart-plus fa-2x text-center ms-2 mb-1" />
-                  </div>
-                  <h5>ການຮ້ອງຈອງ</h5>
-                </a>
-              </div>
-              <div className="">
-                <a
-                  onClick={(e) => {
-                    history.push(`${ROUTES.BOOKING_CANCEL}/1`);
-                  }}
-                >
-                  <div className="icon-wrapper">
-                    <i class="fa-solid fa-triangle-exclamation fa-2x mb-1" />
-                  </div>
-                  <h5>ຍົກເລີກ</h5>
-                </a>
-              </div>
-              <div className="me-3">
-                <a
-                  onClick={(e) => {
-                    history.push(`${ROUTES.SETTING}/1`);
-                  }}
-                >
-                  <div className="icon-wrapper">
-                    <i className="fa-solid fa-gear fa-2x mb-1" />
-                  </div>
-                  <h5>ຕັ້ງຄ່າ</h5>
-                </a>
-              </div>
-            </a>
-          </div>
+          <BottomNav />
         </div>
-        <BottomNav />
       </div>
-    </div>
-      
     </>
   );
 }

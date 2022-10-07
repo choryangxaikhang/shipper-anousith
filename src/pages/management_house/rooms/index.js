@@ -13,12 +13,15 @@ import {
   currency,
   getLocalHouse,
   getStaffLogin,
+  setParams,
 } from "../../../helper";
 import { DELETE_ROOM, QUERY_ROOM } from "./apollo";
 import AddRooms from "./addRooms";
 import EditRooms from "./editRooms";
 import Notiflix, { Loading } from "notiflix";
 import Pagination from "../../../helper/controllers/Pagination";
+import { FormControl, InputAdornment, OutlinedInput } from "@mui/material";
+import NoData from "../../../helper/components/NoData";
 export default function Rooms() {
   const { history, location, match } = useReactRouter();
   const numberPage = match?.params?.page;
@@ -86,11 +89,6 @@ export default function Rooms() {
       return index + 1;
     }
   };
-  const _onChangeRows = (e) => {
-    let _value = e?.target?.value;
-    history.push(`?rows=${_value}`);
-    setNumberRows(parseInt(_value));
-  };
 
   const _deleteRoom = (id) => {
     messageConfirm("ທ່ານຕ້ອລືບ ແທ້ ຫຼື ບໍ່?", async () => {
@@ -119,126 +117,95 @@ export default function Rooms() {
 
   return (
     <>
-      <div className="content__header content__boxed overlapping">
-        <div className="content__wrap">
-          <h3 className="page-title mb-2 text-white">ຈັດການຂໍ້ມູນຫ້ອງ</h3>
-        </div>
-      </div>
-      <div className="content__boxed">
-        <div className="content__wrap">
+      <div className="section" style={{ marginTop: 50 }}>
+        <div className="transactions mt-2">
           <div className="row">
-            <div className="col-md-12">
-              <div className="card">
-                <div className="card-header">
-                  <div className="row">
-                    <div className="col-md-10">
-                      <div className="row">
-                        <div className="col-md-1">
-                          <span>{loading ? loadingData(25) : ""}</span>
-                        </div>
-                        dddd
+            <FormControl fullWidth sx={{ m: 0 }}>
+              <OutlinedInput
+                startAdornment={
+                  <InputAdornment position="start">
+                    <i className="fa-solid fa-magnifying-glass" />
+                  </InputAdornment>
+                }
+                onWheel={(e) => e.target.blur()}
+                type="search"
+                placeholder="ຄົ້ນຫາ..."
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
+            </FormControl>
+          </div>
+          <div className="text-center">{loading ? loadingData(25) : ""}</div>
+          {setData?.rooms?.total > 0 ? (
+            <div className="listView mt-2">
+              {setData?.rooms?.data?.map((data, index) => (
+                <>
+                  <b
+                    className="float-end"
+                    style={{ marginTop: -8, marginRight: -10 }}
+                  >
+                    <i
+                      className="fa-solid fa-trash"
+                      onClick={(e) => {
+                        _deleteRoom(data?._id);
+                      }}
+                      style={{ fontSize: 20, color: "#9c9695" }}
+                    ></i>
+                  </b>
+                  <a
+                    href="javascript:void(0)"
+                    className="item pr-0 "
+                    key={index}
+                  >
+                    <div className="detail col-md-10">
+                      <div>
+                        <strong>
+                          ເບີຫ້ອງ: {data?.title_lao ? data?.title_lao : "-"}/
+                          {data?.title_eng ? data?.title_eng : "-"}
+                        </strong>
+                        <b className="colors">
+                          ລາຄາ:{" "}
+                          {currency(data?.priceFull ? data?.priceFull : "-")} /{" "}
+                          {currency(data?.priceFull ? data?.priceFull : "-")}
+                        </b>
+                        <br />
+                        <b className="colors">
+                          ປະເພດຫ້ອງ:{" "}
+                          {currency(data?.priceFull ? data?.priceFull : "-")}
+                        </b>
+                        <br />
+                        <b className="colors">
+                          ລາຍລະອຽດ: {data?.detail ? data?.detail : "-"}
+                        </b>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div className="card-body">
-                  <div className="table-responsive">
-                    <table className="table table-striped table-sm">
-                      <thead>
-                        <tr>
-                          <th className="text-nowrap text-center">#</th>
-                          <th className="text-nowrap">ຫ້ອງ (ພາສາລາວ)</th>
-                          <th className="text-nowrap">ຫ້ອງ (ພາສາອັງກິດ)</th>
-                          <th className="text-nowrap">ຊື່ກິດຈະການ</th>
-                          <th className="text-nowrap">ປະເພດຫ້ອງ</th>
-                          <th className="text-nowrap"> ລາຄາເຕັມ</th>
-                          <th className="text-nowrap">ສ່ວນຫຼຸບ</th>
-                          <th className="text-nowrap text-center">ສະຖານະ</th>
-                          <th className="text-nowrap text-center text-center">
-                            ວັນທີ່ສ້າງ
-                          </th>
-                          <th className="text-nowrap text-center">ຈັດການ</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {setData?.rooms?.data &&
-                          setData?.rooms?.data?.map((data, index) => (
-                            <tr key={index}>
-                              <td className="text-center">{NO(index)}</td>
-                              <td className="text-nowrap text-left">
-                                {data?.title_lao ? data?.title_lao : "-"}
-                              </td>
-                              <td className="text-nowrap text-leftr">
-                                {data?.title_eng ? data?.title_eng : "-"}
-                              </td>
-                              <td>
-                                {data?.house?.houseName
-                                  ? data?.house?.houseName
-                                  : "-"}
-                              </td>
-                              <td className="text-nowrap">
-                                {data?.typeRoom?.title_lao
-                                  ? data?.typeRoom?.title_lao
-                                  : "-"}
-                              </td>
-                              <td className="text-nowrap text-end">
-                                {data?.priceFull
-                                  ? currency(data?.priceFull)
-                                  : "-"}{" "}
-                                ກີບ
-                              </td>
-                              <td className="text-nowrap text-end">
-                                {data?.priceHalf
-                                  ? currency(data?.priceHalf)
-                                  : "-"}{" "}
-                                ກີບ
-                              </td>
-                              <td className="text-nowrap text-center">
-                                {getStatus(data?.status ? data?.status : "-")}
-                              </td>
-                              <td className="text-nowrap text-center">
-                                {formatDateTime(
-                                  data?.createdAt ? data?.createdAt : "-"
-                                )}
-                              </td>
-                              <td className="text-nowrap text-end">
-                                {userInfo?.role === "IT" ||
-                                userInfo?.role === "SUPER_ADMIN" ? (
-                                  <div className="btn-group">
-                                    <EditRooms
-                                      data={data}
-                                      loadData={loadData}
-                                      onSuccess={(item) => {
-                                        setLoadData(item);
-                                      }}
-                                    />
-                                    <span className="vr" />
-                                    <button
-                                      className="btn btn-sm  btn-primary"
-                                      onClick={() => _deleteRoom(data?._id)}
-                                    >
-                                      <i className="fas fa-trash" />
-                                    </button>
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
-                  </div>
-                  <Pagination
-                    routes={`/managementhouse/rooms`}
-                    numberRows={numberRows}
-                    numberPage={numberPage}
-                    countPage={countPage}
-                  />
-                </div>
-              </div>
+                    <div className="right">
+                      <EditRooms
+                        data={data}
+                        loadData={loadData}
+                        onSuccess={(item) => {
+                          setLoadData(item);
+                        }}
+                      />
+                    </div>
+                  </a>
+                </>
+              ))}
             </div>
-          </div>
+          ) : (
+            <NoData loading={loading} />
+          )}
+          {setData?.typeRooms?.total > 100 && (
+            <Pagination
+              className="mt-2"
+              pageTotal={countPage}
+              currentPage={numberPage}
+              onPageChange={(page) => {
+                history.push({
+                  search: setParams(`page`, page),
+                });
+              }}
+            />
+          )}
         </div>
         <div
           style={{
