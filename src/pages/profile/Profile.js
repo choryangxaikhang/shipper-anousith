@@ -1,11 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useContext, useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import Notiflix, { Loading } from "notiflix";
-
-import male from "../../img/male.png";
-import { AppContext } from "../../App";
 import {
-  aws_url_employee_Image,
   currency,
   formatDate,
   getStaffLogin,
@@ -19,9 +15,7 @@ import { useLazyQuery } from "@apollo/client";
 import Imglogo from "../../img/app-icon.png";
 import { LOGIN } from "../../routes/app";
 import { USERS } from "./apollo";
-import { LocalConvenienceStoreOutlined } from "@material-ui/icons";
 export default function Profile({ history }) {
-  const [getUser, setGetUser] = useState({});
   const [listData, setListData] = useState({});
   const userState = getStaffLogin();
   const userData = userState?.data;
@@ -48,13 +42,13 @@ export default function Profile({ history }) {
       "ຕົກລົງ",
       "ຍົກເລີກ",
       () => {
-        Loading.dots();
+        loadingScreen();
         setTimeout(() => {
           Loading.remove();
           localStorage.clear();
           window.location.replace(LOGIN);
           localStorage.removeItem(TOKEN);
-        }, 2000);
+        }, 1000);
       },
       () => {
         return false;

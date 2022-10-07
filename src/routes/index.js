@@ -81,7 +81,7 @@ export default function Routes() {
                 <Route
                   exact
                   path={`${ROUTES.HOTEL_CHECKOUT}`}
-                  component={PeopleCheckout}
+                  component={(props) => <PeopleCheckout {...props} />}
                 />
                 {/* booking */}
                 <Route

@@ -1,7 +1,7 @@
 import React, { useReducer, useState } from "react";
 import "moment/locale/lo";
 import "./index.css";
-import { TOKEN } from "./helper";
+import { clearLocalStorage, TOKEN } from "./helper";
 import _ from "lodash";
 import {
   ApolloClient,
@@ -15,6 +15,7 @@ import { onError } from "@apollo/client/link/error";
 import Routes from "./routes";
 import { pageTitleReducer, userReducer, dateReducer } from "./store";
 import { LOGIN } from "./routes/app";
+import Notiflix from "notiflix";
 const api = "https://api.bit-houses.com/graphql";
 const AppContext = React.createContext();
 export default function App() {
@@ -38,6 +39,16 @@ export default function App() {
   });
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (networkError?.message === "Failed to fetch") {
+      Notiflix.Report.warning(
+        "ແຈ້ງເຕືອນ",
+        "ມີຂໍ້ຜິດພາດເກີດຂື້ນ. ກະລຸນາລອງໃໝ່ອີກຄັ້ງ.",
+        "ຕົກລົງ",()=>{
+          window.location.reload();
+        }
+      );
+      return;
+    }
     const isError1 = _.some(graphQLErrors, {
       message: "Error: TokenExpiredError: jwt expired",
     });
@@ -49,7 +60,8 @@ export default function App() {
     });
     let message = "";
     if (isError1) {
-      window.location.replace(LOGIN);
+      message =
+        "ການເຂົ້າລະບົບຂອງທ່ານໄດ້ໝົດອາຍຸລົງແລ້ວ ກະລຸນາເຂົ້າລະບົບໃໝ່ອີກຄັ້ງ";
     }
     if (isError2) {
       message = "ຂໍອະໄພ ມີຂໍ້ຜິດພາດ ກະລຸນາເຂົ້າລະບົບໃໝ່ອີກຄັ້ງ";
@@ -57,9 +69,12 @@ export default function App() {
     if (isError3) {
       message = "ຂໍອະໄພ ບັນຊີຂອງທ່ານບໍ່ມີສິດເຂົ້າໃຊ້ງານ";
     }
-
-    if (isError1) {
+    if (isError1 || isError2 || isError3 ) {
+      Notiflix.Report.warning("ແຈ້ງເຕືອນ", message, "ຕົກລົງ", async () => {
+        Notiflix.Loading.standard("ກຳລັງດຳເນິນງານ...");
+        clearLocalStorage();
         window.location.replace(LOGIN);
+      });
     }
   });
 
