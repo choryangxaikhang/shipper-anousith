@@ -249,6 +249,12 @@ export default function PeopleCheckout() {
                                 </>
                               )}
                             </b>
+                            <br />
+                            <b className="text-black">
+                              ເງິນທອນ:{" "}
+                              {currency(data?.exChange ? data?.exChange : 0)}{" "}
+                              ກີບ
+                            </b>
                           </div>
                         </div>
                         <div className="">

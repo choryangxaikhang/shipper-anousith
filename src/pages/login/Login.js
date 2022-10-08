@@ -5,11 +5,18 @@ import { useMutation } from "@apollo/client";
 import "./login.css";
 import { LOGIN_USER } from "./gql";
 import Notiflix, { Loading } from "notiflix";
-import { loadingScreen, messageError, messageWarning, TOKEN } from "../../helper";
+import {
+  loadingScreen,
+  messageError,
+  messageWarning,
+  TOKEN,
+} from "../../helper";
 import Imglogo from "../../img/app-icon.png";
+import { FormControl, InputAdornment, OutlinedInput } from "@mui/material";
 export default function Login({ history }) {
   window.history.forward();
-  const [employeeLogin] = useMutation(LOGIN_USER);
+  const [showPassword, setShowPassword] = useState("password");
+  const [userLogIn] = useMutation(LOGIN_USER);
   return (
     <>
       <Formik
@@ -20,17 +27,14 @@ export default function Login({ history }) {
         validate={(values) => {
           const errors = {};
           if (!values.phoneNumber) errors.phoneNumber = "ກະລຸນາປ້ອນເບີໂທ";
-          else if (values.phoneNumber.length > 8) {
-            errors.phoneNumber = "ເບີໂທຕ້ອງມີບໍ່ເກີນ 8 ໂຕເລກ";
-          } else if (values.phoneNumber.length < 7) {
-            errors.phoneNumber = "ເບີໂທຕ້ອງມີ 7 ໂຕເລກຂື້ນໄປ";
-          }
           if (!values.password) errors.password = "ກະລຸນາປ້ອນລະຫັດຜ່ານ";
           return errors;
         }}
         onSubmit={async (values) => {
+          console.log(values);
+
           try {
-            let user = await employeeLogin({
+            let user = await userLogIn({
               variables: {
                 where: {
                   phoneNumber: parseInt(values?.phoneNumber),
@@ -51,6 +55,8 @@ export default function Login({ history }) {
                 userRole === "ADMIN" ||
                 userRole === "ACCOUNTANT" ||
                 userRole === "FINANCE" ||
+                userRole === "CALL_CENTER" ||
+                userRole === "BRANCH_DIRECTOR" ||
                 userRole === "HR"
               ) {
                 loadingScreen();
@@ -99,47 +105,81 @@ export default function Login({ history }) {
                 <center>
                   <h2>ເຂົ້າສູ່ລະບົບ</h2>
                 </center>
-                <div className="authentication-form">
+                <div className="authentication-form mt-5">
                   <form>
-                    <div className="form-group pb-15">
-                      <label>ເບີໂທ</label>
+                    <div className="form-group">
                       <div className="input-group">
-                        <span className="input-group-text btn btn-lg">
-                          <i className="icon-phone ml-1 fs-3" />
-                        </span>
-                        <input
-                          type="number"
-                          name="phoneNumber"
-                          className="form-control form-control-lg card"
-                          placeholder="ປ້ອນເບີໂທ"
-                          onChange={handleChange}
-                        />
+                        <FormControl fullWidth sx={{ m: 0 }}>
+                          <OutlinedInput
+                          value={values.phoneNumber}
+                          onChange={handleChange('phoneNumber')}
+                            startAdornment={
+                              <InputAdornment position="start">
+                                {/* <i className="icon-phone  fs-3" /> */}
+                                +85620:
+                              </InputAdornment>
+                            }
+                            error={errors.phoneNumber}
+                            name="phoneNumber"
+                            onWheel={(e) => e.target.blur()}
+                            type="number"
+                            placeholder="ປ້ອນເບີໂທ"
+                            onKeyPress={(e) => {
+                              if (e.key === "Enter") {
+                                handleSubmit();
+                              }
+                            }}
+                          />
+                        </FormControl>
                       </div>
-                      <div className="invalid fs-5">{errors?.phoneNumber}</div>
                     </div>
                     <div className="form-group pb-15">
-                      <label>ລະຫັດຜ່ານ</label>
                       <div className="input-group">
-                        <span className="input-group-text btn btn-lg">
-                          <i className="fa-solid fa-key ml-1" />
-                        </span>
-                        <input
-                          type="password"
-                          name="password"
-                          className="form-control form-control-lg password auto-complete card"
-                          placeholder="**********"
-                          onChange={handleChange}
-                        />
+                        <FormControl fullWidth sx={{ m: 0 }}>
+                          <OutlinedInput
+                            value={values.password}
+                            onChange={handleChange("password")}
+                            startAdornment={
+                              <InputAdornment position="start">
+                                {/* <i className="fa-sharp fa-solid fa-key"/> */}
+                                ລະຫັດຜ່ານ:
+                              </InputAdornment>
+                            }
+                            error={errors.phoneNumber}
+                            type={showPassword}
+                            name="password"
+                            placeholder="**********"
+                            onKeyPress={(e) => {
+                              if (e.key === "Enter") {
+                                handleSubmit();
+                              }
+                            }}
+                            endAdornment={
+                              <InputAdornment
+                                position="end"
+                                style={{ marginRight: -3 }}
+                              >
+                                <i
+                                  class="fa-sharp fa-solid fa-eye"
+                                  onClick={() =>
+                                    showPassword === "password"
+                                      ? setShowPassword("text")
+                                      : setShowPassword("password")
+                                  }
+                                />
+                              </InputAdornment>
+                            }
+                          />
+                        </FormControl>
                       </div>
-                      <div className="invalid fs-5">{errors?.password}</div>
                     </div>
                     <button
                       type="button"
                       onClick={handleSubmit}
-                      disabled={isSubmitting}
                       style={{ backgroundColor: "#f54f02" }}
                       className="btn btn-block btn-lg text-white rounded mb-10"
                     >
+                      <i class="fa-sharp fa-solid fa-angles-right me-2"></i>
                       ເຂົ້າສູ່ລະບົບ
                     </button>
                   </form>

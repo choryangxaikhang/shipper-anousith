@@ -216,13 +216,13 @@ export default function DividendReport() {
                           style={{ backgroundColor: "#d1fc97" }}
                         >
                           <td
-                            className="text-nowrap text-center"
-                            colSpan={2}
+                            className="text-nowrap text-center text-success"
+                            colSpan={3}
                             style={{ textAlign: "center" }}
                           >
                             <h4>ຍອດລວມ</h4>
                           </td>
-                          <td className="text-nowrap text-end">
+                          <td className="text-nowrap text-end text-success">
                             <h4>{currency(_sumFee)} ກີບ</h4>
                           </td>
                           <td></td>

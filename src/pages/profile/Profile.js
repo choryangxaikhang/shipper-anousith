@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Notiflix, { Loading } from "notiflix";
 import {
   currency,
@@ -92,8 +92,9 @@ export default function Profile({ history }) {
                 borderRadius: "40%",
                 border: "2px solid f54f02",
               }}
-            /><br/>
-            <b>ID-USER:{" "}{listData?._id}</b>
+            />
+            <br />
+            <b>ID-USER: {listData?._id}</b>
           </center>
           <div style={{ marginTop: -20 }}>
             <div className="session-list">
@@ -172,10 +173,10 @@ export default function Profile({ history }) {
                   <li>
                     <div className="item">
                       <div className="in">
-                        <div>ບ້ານ</div>
+                        <div>ແຂວງ</div>
                         <div className="custom-control custom-switch">
-                          {listData?.village?.title
-                            ? listData?.village?.title
+                          {listData?.province?.provinceName
+                            ? listData?.province?.provinceName
                             : "-"}
                         </div>
                       </div>
@@ -196,10 +197,10 @@ export default function Profile({ history }) {
                   <li>
                     <div className="item">
                       <div className="in">
-                        <div>ແຂວງ</div>
+                        <div>ບ້ານ</div>
                         <div className="custom-control custom-switch">
-                          {listData?.province?.provinceName
-                            ? listData?.province?.provinceName
+                          {listData?.village?.title
+                            ? listData?.village?.title
                             : "-"}
                         </div>
                       </div>

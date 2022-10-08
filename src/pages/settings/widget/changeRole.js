@@ -154,7 +154,7 @@ export default function ChangeRole() {
                                 value="HR"
                                 selected={item?.role === "HR" ? true : false}
                               >
-                                HR
+                                ບຸກຄາລະກອນ
                               </option>
                               <option
                                 value="ACCOUNTANT"
@@ -162,7 +162,7 @@ export default function ChangeRole() {
                                   item?.role === "ACCOUNTANT" ? true : false
                                 }
                               >
-                                ACCOUNTANT
+                                ບັນຊີ
                               </option>
                               <option
                                 value="FINANCE"
@@ -170,16 +170,16 @@ export default function ChangeRole() {
                                   item?.role === "FINANCE" ? true : false
                                 }
                               >
-                                FINANCE
+                                ການເງິນ
                               </option>
 
                               <option
-                                value="STATE_DIRECTOR"
+                                value="BRANCH_DIRECTOR"
                                 selected={
-                                  item?.role === "STATE_DIRECTOR" ? true : false
+                                  item?.role === "BRANCH_DIRECTOR" ? true : false
                                 }
                               >
-                                STATE_DIRECTOR
+                                ເຈົ້າຂອງກີດຈະການ
                               </option>
                               <option
                                 value="IT"
@@ -193,7 +193,7 @@ export default function ChangeRole() {
                                   item?.role === "CALL_CENTER" ? true : false
                                 }
                               >
-                                CALL_CENTER
+                                ເຄົາເຕີ
                               </option>
                               <option
                                 value="ADMIN"
@@ -217,7 +217,7 @@ export default function ChangeRole() {
                                     : false
                                 }
                               >
-                                CUSTOMER_SERVICE
+                                ບໍລິການລູກຄ້າ
                               </option>
                             </select>
                           ) : (

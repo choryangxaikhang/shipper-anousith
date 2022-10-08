@@ -480,23 +480,17 @@ export const getStatus = (item) => {
   } else if (item === "LAW") {
     return "ກົດໝາຍ";
   } else if (item === "STATE_DIRECTOR") {
-    return "ຫົວໜ້າບໍລິຫານສາຂາ";
+    return "ຫົວໜ້າບໍລິຫານແຂວງ";
   } else if (item === "BRANCH_DIRECTOR") {
-    return "ຫົວໜ້າສາຂາ";
+    return "ເຈົ້າຂອງກິດຈະການ";
   } else if (item === "ADMIN") {
     return "ເອັດມິນ";
   } else if (item === "CALL_CENTER") {
     return "ພ/ງ ຕ້ອນຮັບ";
-  } else if (item === "DRIVER_DIRECTOR") {
-    return "ຫົົວໜ້າໂຊເເຟີ";
   } else if (item === "CUSTOMER_SERVICE") {
     return "ພ/ງ ບໍລິການລູກຄ້າ";
   } else if (item === "DRIVER") {
     return "ໄລເດີ້";
-  } else if (item === "AUDITION_DIRECTOR") {
-    return "ຫົວໜ້າສູນຄັດແຍກ";
-  } else if (item === "AUDITION_STAFF") {
-    return "ພ/ງ ສູນຄັດແຍກ";
   } else {
     return "-";
   }

@@ -56,7 +56,6 @@ export default function Home() {
   }, []);
   // end
 
-
   useEffect(() => {
     let whereData = {};
     whereData = {
@@ -196,7 +195,7 @@ export default function Home() {
                 </div>
                 <div className="add-card-item add-balance">
                   <a href="javascript:void(0)" className="p-1">
-                   <b className="fs-4">ໄອດີ: {userData?._id}</b>
+                    <b className="fs-4">ໄອດີ: {userData?._id}</b>
                   </a>
                 </div>
               </div>

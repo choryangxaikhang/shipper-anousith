@@ -97,14 +97,14 @@ export default function SummaryMoney() {
       <div className="saving-goals-section pb-15 card">
         <div className="progress-card progress-card-red mb-15">
           <div className="progress-card-info">
-            <div style={{ width: 50, height: 50 }}>
+            <div style={{ width: 50, height: 50,color: "#b1b5b2" }}>
               <i className="fa-solid fa-circle-down fa-2x" />
             </div>
             <div className="progress-primary-text ms-2">
-              <h4>ຍອດລວມການຈອງມື້ນີ້</h4>
+              <h4>ຈອງມື້ນີ້</h4>
             </div>
           </div>
-          <div className="progress-card-amount fs-4">
+          <div className="progress-card-amount text-end">
             {loading
               ? loadingData(25)
               : bookingToday?.summaryBookingTotal?.feeBookingAmount
@@ -117,39 +117,65 @@ export default function SummaryMoney() {
         <div className="progress-card progress-card-blue mb-15">
           <div className="progress-card-info">
             <div className="circular-progress" data-note={25}>
-              <div style={{ width: 50, height: 50 }}>
+              <div style={{ width: 50, height: 50, color: "#b1b5b2" }}>
                 <i class="fa-solid fa-circle-left fa-2x"></i>
               </div>
             </div>
             <div className="progress-info-text">
-              <h4>ຍອດລວມການເປີດຫ້ອງມື້ນີ້</h4>
+              <h4>ເປີດຫ້ອງມື້ນີ້</h4>
             </div>
           </div>
-          <div className="progress-card-amount fs-4 text-primary">
-            {loadingCheckIn
-              ? loadingData(25)
-              : CheckInHouse?.summaryBookingTotal?.incomeKIP > 0
-              ? currency(CheckInHouse?.summaryBookingTotal?.incomeKIP)
-              : 0}{" "}
-            ກີບ
+          <div
+            className="progress-card-amount  text-end"
+            style={{ color: "#c8ccc9" }}
+          >
+            ຄ້າງຄືນ:{" "}
+            <b className="text-primary">
+              {loadingCheckIn
+                ? loadingData(25)
+                : CheckInHouse?.summaryBookingTotal?.fullPriceTotal > 0
+                ? currency(CheckInHouse?.summaryBookingTotal?.fullPriceTotal)
+                : 0}{" "}
+              ກີບ
+              <br />
+              {loadingCheckIn
+                ? loadingData(25)
+                : CheckInHouse?.summaryBookingTotal?.halfPriceTotal > 0
+                ? currency(CheckInHouse?.summaryBookingTotal?.halfPriceTotal)
+                : 0}{" "}
+              ກີບ
+            </b>
           </div>
         </div>
         <div className="progress-card progress-card-green mb-15">
           <div className="progress-card-info">
             <div className="circular-progress" data-note={75}>
-              <div style={{ width: 50, height: 50 }}>
+              <div style={{ width: 50, height: 50,color: "#b1b5b2" }}>
                 <i className="fa-solid fa-circle-right fa-2x" />
               </div>
             </div>
             <div className="progress-info-text ">
-              <h4>ຍອດລວມແຂກອອກມື້ນີ້</h4>
+              <h4>ແຂກອອກມື້ນີ້</h4>
             </div>
           </div>
-          <div className="progress-card-amount fs-4 text-primary">
-            {loadingCheckout
-              ? loadingData(25)
-              : currency(outHouse?.summaryBookingTotal?.feeBookingAmount)}{" "}
-            ກີບ
+          <div
+            className="progress-card-amount  text-end"
+            style={{ color: "#c8ccc9" }}
+          >
+            ຄ້າງຄືນ:{" "}
+            <b className="text-primary">
+              {loadingCheckout
+                ? loadingData(25)
+                : currency(outHouse?.summaryBookingTotal?.fullPriceTotal)}{" "}
+              ກີບ
+            </b>
+            <br />
+            <b className="text-primary">
+              {loadingCheckout
+                ? loadingData(25)
+                : currency(outHouse?.summaryBookingTotal?.halfPriceTotal)}{" "}
+              ກີບ
+            </b>
           </div>
         </div>
       </div>
