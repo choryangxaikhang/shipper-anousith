@@ -55,17 +55,20 @@ export default function CheckIn({
   const [listRoom, setListRoom] = useState([]);
   const [listPromotion, setListPromotion] = useState([]);
   const [exChangeTotal, setExChangeTotal] = useState(0);
+  const [finalPrice, setFinalPrice] = useState(0);
   const [countTime, setCountTime] = useState(1);
 
   // promotions
   const getPromotion =
     listPromotion?.percent / 100 ? listPromotion?.percent / 100 : 0;
+
   // show price room
   const [halfPrice, setHalfPrice] = useState(listRoom?.priceHalf);
   const [fullPrice, setFullPrice] = useState(listRoom?.priceFull);
   // get Percent
   const feeInComeFull = (fullPrice * 2) / 100;
   const feeIncomeHalf = (halfPrice * 2) / 100;
+
   // show exChangeTotal price room
   const [inputKIP, setInputKIP] = useState(0);
   const [inputTHB, setInputTHB] = useState(0);
@@ -328,8 +331,8 @@ export default function CheckIn({
                   type="button"
                   className={
                     bookingStatus === "HALF"
-                      ? "btn btn-lg btn-primary p-3"
-                      : "btn btn-outline-primary p-3"
+                      ? "btn btn-lg btn-primary"
+                      : "btn btn-outline-primary"
                   }
                   onClick={() => {
                     setBookingStatus("HALF");
@@ -347,8 +350,8 @@ export default function CheckIn({
                   type="button"
                   className={
                     bookingStatus === "FULL"
-                      ? "btn btn-lg btn-primary p-3"
-                      : "btn btn-outline-primary p-3"
+                      ? "btn btn-lg btn-primary "
+                      : "btn btn-outline-primary "
                   }
                   onClick={() => {
                     setBookingStatus("FULL");
@@ -408,6 +411,7 @@ export default function CheckIn({
                   </FormControl>
                 </div>
               )}
+
               <div className="form-row mt-3">
                 <FormControl fullWidth>
                   <InputLabel
@@ -417,6 +421,7 @@ export default function CheckIn({
                     ລາຄາຫ້ອງ
                   </InputLabel>
                   <OutlinedInput
+                   sx={{backgroundColor:"#f2f7f3"}}
                     type="text"
                     disabled={true}
                     id="Number"
@@ -424,7 +429,7 @@ export default function CheckIn({
                     value={
                       bookingStatus === "FULL"
                         ? currency(listRoom?.priceFull * countTime) +
-                          " - Pro: " +
+                          " Pro: " +
                           currency(
                             listRoom?.priceFull -
                               listRoom?.priceFull *
@@ -432,7 +437,7 @@ export default function CheckIn({
                                 (1 - getPromotion)
                           )
                         : currency(listRoom?.priceHalf * countTime) +
-                          " - Pro: " +
+                          " Pro: " +
                           currency(
                             listRoom?.priceHalf -
                               listRoom?.priceHalf *
@@ -442,7 +447,33 @@ export default function CheckIn({
                     }
                   />
                 </FormControl>
-              </div>{" "}
+              </div>
+              <div className="form-row mt-3">
+                <FormControl fullWidth>
+                  <InputLabel
+                    className="inputLabel text-black"
+                    htmlFor="outlined-adornment-amount"
+                  >
+                    ເງິນທີ່ຄວນເກັບ
+                  </InputLabel>
+                  <OutlinedInput
+                    startAdornment={
+                      <h2 className="fw-bold text-success">LAK</h2>
+                    }
+                    type="text"
+                    id="Number"
+                    className="fs-2 text-center text-success"
+                    disabled={true}
+                    value={
+                      bookingStatus === "FULL"
+                        ? currency(fullPrice)
+                        : currency(halfPrice)
+                    }
+                    label="ເງິນທີ່ຄວນເກັບ"
+                    sx={{backgroundColor:"#f2f7f3"}}
+                  />
+                </FormControl>
+              </div>
               <div className="form-row mt-3">
                 <FormControl fullWidth>
                   <InputLabel
@@ -524,7 +555,7 @@ export default function CheckIn({
                   </InputLabel>
                   <OutlinedInput
                     startAdornment={
-                      <h2 className="fw-bold text-success">LAK</h2>
+                      <h2 className="fw-bold text-danger">LAK</h2>
                     }
                     type="text"
                     id="Number"
@@ -532,6 +563,7 @@ export default function CheckIn({
                     disabled={true}
                     value={currency(exChangeTotal)}
                     label="ເງິນທອນ"
+                    sx={{backgroundColor:"#f2f7f3"}}
                   />
                 </FormControl>
               </div>
@@ -541,7 +573,7 @@ export default function CheckIn({
         <Modal.Footer>
           <button
             type="button"
-            className="btn btn-success btn-lg p-3 mt-2 w-100"
+            className="btn btn-success btn-lg  mt-2 w-100"
             // onClick={() => handleSubmit()}
             onClick={() => {
               if (!creating) {

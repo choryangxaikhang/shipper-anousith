@@ -271,7 +271,7 @@ export default function RegisterCustomerOfHotel() {
         <Modal.Footer>
           <button
             type="button"
-            className="btn btn-success btn-lg p-3 mt-2 w-100"
+            className="btn btn-success btn-lg  mt-2 w-100"
             onClick={() => handleSubmit()}
           >
             <i className="icon-save" style={{ marginRight: 3 }} />

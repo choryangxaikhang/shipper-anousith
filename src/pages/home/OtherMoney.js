@@ -90,14 +90,14 @@ export default function SummaryMoney() {
         orderBy: "createdAt_DESC",
       },
     });
-  }, [startDate, endDate,localHouse]);
+  }, [startDate, endDate, localHouse]);
 
   return (
     <>
       <div className="saving-goals-section pb-15 card">
         <div className="progress-card progress-card-red mb-15">
           <div className="progress-card-info">
-            <div style={{ width: 50, height: 50,color: "#b1b5b2" }}>
+            <div style={{ width: 50, height: 50, color: "#b1b5b2" }}>
               <i className="fa-solid fa-circle-down fa-2x" />
             </div>
             <div className="progress-primary-text ms-2">
@@ -105,12 +105,14 @@ export default function SummaryMoney() {
             </div>
           </div>
           <div className="progress-card-amount text-end">
+          <h4 className="text-primary fs-5">
             {loading
               ? loadingData(25)
               : bookingToday?.summaryBookingTotal?.feeBookingAmount
               ? currency(bookingToday?.summaryBookingTotal?.feeBookingAmount)
               : 0}{" "}
             ກີບ
+            </h4>
           </div>
         </div>
 
@@ -125,32 +127,24 @@ export default function SummaryMoney() {
               <h4>ເປີດຫ້ອງມື້ນີ້</h4>
             </div>
           </div>
-          <div
-            className="progress-card-amount  text-end"
-            style={{ color: "#c8ccc9" }}
-          >
-            ຄ້າງຄືນ:{" "}
-            <b className="text-primary">
-              {loadingCheckIn
-                ? loadingData(25)
-                : CheckInHouse?.summaryBookingTotal?.fullPriceTotal > 0
-                ? currency(CheckInHouse?.summaryBookingTotal?.fullPriceTotal)
-                : 0}{" "}
-              ກີບ
-              <br />
-              {loadingCheckIn
-                ? loadingData(25)
-                : CheckInHouse?.summaryBookingTotal?.halfPriceTotal > 0
-                ? currency(CheckInHouse?.summaryBookingTotal?.halfPriceTotal)
-                : 0}{" "}
-              ກີບ
-            </b>
+          <div className="progress-card-amount  text-end ">
+          <h4 className="text-primary fs-5">
+            {loadingCheckIn
+              ? loadingData(25)
+              : CheckInHouse?.summaryBookingTotal?.fullPriceTotal > 0
+              ? currency(
+                  CheckInHouse?.summaryBookingTotal?.fullPriceTotal +
+                    CheckInHouse?.summaryBookingTotal?.halfPriceTotal
+                )
+              : 0}{" "}
+            ກີບ
+            </h4>
           </div>
         </div>
         <div className="progress-card progress-card-green mb-15">
           <div className="progress-card-info">
             <div className="circular-progress" data-note={75}>
-              <div style={{ width: 50, height: 50,color: "#b1b5b2" }}>
+              <div style={{ width: 50, height: 50, color: "#b1b5b2" }}>
                 <i className="fa-solid fa-circle-right fa-2x" />
               </div>
             </div>
@@ -158,24 +152,19 @@ export default function SummaryMoney() {
               <h4>ແຂກອອກມື້ນີ້</h4>
             </div>
           </div>
-          <div
-            className="progress-card-amount  text-end"
-            style={{ color: "#c8ccc9" }}
-          >
-            ຄ້າງຄືນ:{" "}
-            <b className="text-primary">
+          <div className="progress-card-amount  text-end ">
+            <h4 className="text-primary fs-5">
               {loadingCheckout
                 ? loadingData(25)
-                : currency(outHouse?.summaryBookingTotal?.fullPriceTotal)}{" "}
+                : (outHouse?.summaryBookingTotal?.fullPriceTotal > 0) |
+                  (outHouse?.summaryBookingTotal?.halfPriceTotal > 0)
+                ? currency(
+                    outHouse?.summaryBookingTotal?.fullPriceTotal +
+                      outHouse?.summaryBookingTotal?.halfPriceTotal
+                  )
+                : 0}{" "}
               ກີບ
-            </b>
-            <br />
-            <b className="text-primary">
-              {loadingCheckout
-                ? loadingData(25)
-                : currency(outHouse?.summaryBookingTotal?.halfPriceTotal)}{" "}
-              ກີບ
-            </b>
+            </h4>
           </div>
         </div>
       </div>
