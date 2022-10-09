@@ -10,6 +10,7 @@ import ChangePasswordCustomer from "./widget/changePasswordCustomer";
 import TurnOffHouse from "./widget/turnOffhouse";
 import InviteOwner from "./widget/inviteOwner";
 import { OTHER } from "../../routes/app";
+import UserList from "../user_staff";
 export default function SettingsScreen() {
   const { history, location, match } = useReactRouter();
   return (
@@ -60,6 +61,7 @@ export default function SettingsScreen() {
             </div>
             <BlockUser />
             <ChangeRole />
+            <UserList />
           </div>
         </div>
         <div className="col-md-4 mt-1">

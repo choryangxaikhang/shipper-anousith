@@ -2,11 +2,13 @@ import { useLazyQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import {
+  aws_url_images,
   currency,
   formatDateDash,
   loadingData,
   paiStatus,
 } from "../../../helper";
+import placeholder from "../../../img/placeholder.png";
 import { QUERY_BOOKING } from "./apollo";
 import TypeHouse from "./TypeHouse";
 import "./utils/index.css";
@@ -131,6 +133,16 @@ export default function DetailRoom({ _id, onHide }) {
                       {paiStatus(data?.paidStatus)}
                     </span>
                     <br />
+                  </div>
+                  <div className=" bill-item-list pt-2" id="border">
+                    <img
+                      src={
+                        data?.images
+                          ? aws_url_images + data?.images
+                          : placeholder
+                      }
+                      className="w-100"
+                    />
                   </div>
                 </>
               ))}

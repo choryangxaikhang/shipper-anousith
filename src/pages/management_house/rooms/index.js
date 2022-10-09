@@ -4,7 +4,7 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 import useReactRouter from "use-react-router";
 import {
   formatDateTime,
-  getStatus,
+  userStatus,
   ITEM_PER_PAGE,
   loadingData,
   messageConfirm,

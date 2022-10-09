@@ -7,7 +7,6 @@ import { BOOKINGS, QUERY_SUMMARY_BOOKING } from "./apollo";
 import male from "../../img/male.png";
 import { Image } from "react-bootstrap";
 import {
-  aws_url_employee_Image,
   createdAt_gte,
   createdAt_lt,
   currency,

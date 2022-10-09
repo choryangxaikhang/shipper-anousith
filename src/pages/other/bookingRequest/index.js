@@ -12,6 +12,7 @@ import {
   loadingData,
   messageConfirm,
   messageSuccess,
+  newSound,
   setParams,
   socketServer,
   startOfMonth,
@@ -56,7 +57,7 @@ export default function BookingRequestScreen() {
   }, []);
   socketServer.on("booking", (data) => {
     setReloadData(!reloadData);
-    // newSound.play();
+    newSound.play();
   });
 
   useEffect(() => {

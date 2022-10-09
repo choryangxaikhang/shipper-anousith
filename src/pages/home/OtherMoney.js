@@ -7,10 +7,10 @@ import {
   createdAt_gte,
   createdAt_lt,
   currency,
-  formatDateTime,
   getLocalHouse,
   getStaffLogin,
   loadingData,
+  newSound,
   socketServer,
   toDayDash,
 } from "../../helper";
@@ -24,19 +24,19 @@ export default function SummaryMoney() {
   const [fetchData, { data: bookingToday, loading }] = useLazyQuery(
     QUERY_SUMMARY_BOOKING,
     {
-      fetchPolicy: "cache-and-network",
+      fetchPolicy: "network-only",
     }
   );
 
   const [outHouseData, { data: outHouse, loadingCheckout }] = useLazyQuery(
     QUERY_SUMMARY_BOOKING,
     {
-      fetchPolicy: "cache-and-network",
+      fetchPolicy: "network-only",
     }
   );
   const [fetchDataCheckIn, { data: CheckInHouse, loadingCheckIn }] =
     useLazyQuery(QUERY_SUMMARY_BOOKING, {
-      fetchPolicy: "cache-and-network",
+      fetchPolicy: "network-only",
     });
 
   useEffect(() => {
@@ -45,10 +45,10 @@ export default function SummaryMoney() {
 
   socketServer.on("approveBooking", (res) => {
     if (res === localHouse) {
+      newSound.play();
       setReloadData(!reloadData);
     }
   });
-
   useEffect(() => {
     let whereData = {};
     whereData = {
@@ -90,7 +90,7 @@ export default function SummaryMoney() {
         orderBy: "createdAt_DESC",
       },
     });
-  }, [startDate, endDate]);
+  }, [startDate, endDate,localHouse]);
 
   return (
     <>

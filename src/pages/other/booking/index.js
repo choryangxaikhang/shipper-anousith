@@ -13,6 +13,7 @@ import {
   loadingData,
   messageConfirm,
   messageSuccess,
+  newSound,
   setParams,
   socketServer,
   startOfMonth,
@@ -90,7 +91,7 @@ export default function Booking() {
   ]);
   socketServer.on("approveBooking", (res) => {
     if (res === localHouse) {
-      // newSound.play();
+      newSound.play();
       setReloadData(!reloadData);
     }
   });

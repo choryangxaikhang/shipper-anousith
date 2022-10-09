@@ -71,7 +71,7 @@ export default function Login({ history }) {
               messageWarning("ເບີໂທ ຫຼື ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ");
             }
           } catch (error) {
-            messageWarning("ເບີໂທຫຼືລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ");
+            messageWarning("ເຂົ້າລະບົບຜິດພາດ ກະລຸນາລອງໃຫມ່");
           }
         }}
       >

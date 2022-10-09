@@ -156,9 +156,9 @@ export default function SumTotalBooking() {
                       <thead>
                         <tr>
                           <th className="text-nowrap">ລຳດັບ</th>
-                          <th className="text-nowrap text-center">ຈຳນວນ</th>
-                          <th className="text-nowrap text-center">
-                            ລວມຍອດເງິນ
+                          <th className="text-nowrap text-end">ຈຳນວນ</th>
+                          <th className="text-nowrap text-end">
+                            ລວມຍອດເງິນຈອງ
                           </th>
                           <th className="text-nowrap text-end">ຊົ່ວຄາວ</th>
                           <th className="text-nowrap text-end">ຄ້າງຄືນ</th>

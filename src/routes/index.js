@@ -23,7 +23,8 @@ import SettingsScreen from "../pages/settings";
 import RateExChange from "../pages/rateExchange";
 import TabMenu from "../pages/management_house/TabMenu";
 import TabMenuIncome from "../pages/other/reportIncome/TabMenuIncome";
-
+import UserList from "../pages/user_staff";
+import DetailProfile from "../pages/user_staff/DetailProfile";
 export default function Routes() {
   const { userDispatch } = useContext(AppContext);
   const _local = localStorage.getItem(TOKEN);
@@ -121,6 +122,17 @@ export default function Routes() {
                   path={`${ROUTES.TAB_MENU_INCOME}/:page`}
                   exact
                   component={(props) => <TabMenuIncome {...props} />}
+                />
+                {/* user */}
+                <PrivateRoute
+                  path={`${ROUTES.USERS}/:page`}
+                  exact
+                  component={(props) => <UserList {...props} />}
+                />
+                <PrivateRoute
+                  path={`${ROUTES.DETAIL_USER}/:_id`}
+                  exact
+                  component={(props) => <DetailProfile {...props} />}
                 />
 
                 <Route

@@ -24,5 +24,9 @@ export const MANAGEMENT_HOUSE = "/management_house/houses";
 
 // report 
 export const TAB_MENU_INCOME = "/other/report_income";
+// user
+export const USERS = "/user_staff";
+export const DETAIL_USER = "/user_detail";
+
 
 

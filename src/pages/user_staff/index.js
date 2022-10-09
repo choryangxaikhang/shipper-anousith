@@ -1,10 +1,30 @@
-import { useLazyQuery, useMutation } from "@apollo/client";
-import Notiflix from "notiflix";
 import React, { useEffect, useState } from "react";
+import { useMutation, useLazyQuery } from "@apollo/client";
+import useReactRouter from "use-react-router";
+import {
+  getStaffLogin,
+  ITEM_PER_PAGE,
+  loadingData,
+  messageError,
+  messageSuccess,
+  userStatus,
+} from "../../helper";
+import Notiflix from "notiflix";
+import { QUERY_USER_STAFF, DELETE_USER } from "./apollo";
+// import AddUserStaff from "./addUser_staff";
+// import EditUserStaff from "./EditUserStaff";
+import * as ROUTES from "../../routes/app";
+import DetailProfile from "./DetailProfile";
 import { Modal } from "react-bootstrap";
-import { loadingData, messageError, messageSuccess } from "../../../helper";
-import { QUERY_USERS, UPDATE_USERS } from "../apollo";
-export default function ChangeRole() {
+export default function UserList() {
+  const { history, location, match } = useReactRouter();
+  const numberPage = match?.params?.page;
+  // get query search
+  const query = new URLSearchParams(location.search);
+  const rows = parseInt(query.get("rows"));
+  const [numberRows, setNumberRows] = useState(rows ? rows : ITEM_PER_PAGE);
+  const [dataUserStaff, setDataUserStaff] = useState([]);
+  //   
   const [show, setShow] = useState(false);
   const [users, setUsers] = useState([]);
   const [searchValue, setSearchValue] = useState("");
@@ -13,68 +33,75 @@ export default function ChangeRole() {
   const [getIndex, setGetIndex] = useState(0);
   const [text, setText] = useState("");
 
-  const [queryUsers, { data: userData, loading }] = useLazyQuery(QUERY_USERS, {
-    fetchPolicy: "cache-and-network",
-  });
-  const [updateUser] = useMutation(UPDATE_USERS);
+  const [getUserStaff, { data: resUserStaffData, loading }] = useLazyQuery(
+    QUERY_USER_STAFF,
+    { fetchPolicy: "cache-and-network" }
+  );
+  const [deleteUserStaff] = useMutation(DELETE_USER);
 
+  const jsonObj = getStaffLogin();
+  const userInfo = jsonObj?.data;
   useEffect(() => {
-    queryUsers({
+    getUserStaff({
       variables: {
         where: {
-          firstName: searchValue ? searchValue : undefined,
+          firstName: String(searchValue),
         },
-        limit: searchValue ? 1000 : 10,
+        skip: searchValue ? 0 : numberRows * (numberPage - 1),
+        limit: searchValue ? 1000 : numberRows,
         orderBy: "createdAt_DESC",
       },
     });
-  }, [newLoadData]);
-
+  }, [numberRows, searchValue, numberPage, newLoadData]);
   useEffect(() => {
-    if (userData) {
-      setUsers(userData?.users?.data);
+    if (resUserStaffData) {
+      setDataUserStaff(resUserStaffData?.users?.data);
     }
-    if (searchValue === "") {
-      setNewLoadData(!newLoadData);
-    }
-  }, [userData, searchValue]);
+  }, [resUserStaffData]);
 
-  const _onSearch = () => {
-    setSearchValue(searchValue);
-    setNewLoadData(!newLoadData);
-  };
-  const _handleKeypress = (e) => {
-    if (e.key === "Enter") {
-      _onSearch();
+  //pageination
+  const countData = resUserStaffData?.users?.total;
+  const countPage = [];
+  for (var i = 1; i <= Math.ceil(countData / numberRows); i++) {
+    countPage.push(i);
+  }
+  const NO = (index) => {
+    const no = numberRows * numberPage - numberRows;
+    if (numberRows > 0) {
+      return no + index + 1;
+    } else {
+      return index + 1;
     }
   };
+  const _onChangeRows = (e) => {
+    let _value = e?.target?.value;
+    history.push(`?rows=${_value}`);
+    setNumberRows(parseInt(_value));
+  };
 
-  const _changeRole = (id) => {
+  const _deleteUserStaff = (id) => {
+    //   console.log(id);
+    //   return
     Notiflix.Confirm.show(
       "ແຈ້ງເຕືອນ",
-      "ທ່ານຕ້ອງການປ່ຽນສິດການໃຊ້ລະບົບ user ນີ້ແທ້ ຫຼື ບໍ່?",
+      "ທ່ານຕ້ອງການລຶບ user ນີ້ແທ້ ຫຼື ບໍ່?",
       "ຕົກລົງ",
       "ຍົກເລີກ",
-      () => {
+      async () => {
         try {
-          const _updated = updateUser({
+          const _deleteUserStaff = await deleteUserStaff({
             variables: {
-              data: {
-                role: String(text),
-              },
               where: {
                 _id: parseInt(id),
               },
             },
           });
-          if (_updated) {
-            messageSuccess("ການດຳເນີນງານສຳເລັດ");
-            setText(text);
+          if (_deleteUserStaff) {
+            messageSuccess("ດຳເນີນການສຳເລັດ");
             setNewLoadData(!newLoadData);
-            setEditStatus(false);
           }
         } catch (error) {
-          messageError("ການດຳເນີນງານບໍ່ສຳເລັດ");
+          messageError("ດຳເນີນການບໍ່ສຳເລັດ");
         }
       },
       () => {
@@ -87,11 +114,11 @@ export default function ChangeRole() {
     <React.Fragment>
       <div className=" p-1 text-black border-top" onClick={() => setShow(true)}>
         <i className="fa-solid fa-chevron-right me-2" />
-        ກຳນົດສິດການນຳໃຊ້ລະບົບ
+        ເພີ່ມພະນັກງານ
       </div>
       <Modal show={show} animation={false} size="xl">
         <Modal.Header className="text-black">
-          ກຳນົດສິດການນຳໃຊ້ລະບົບ
+          ເພີີມພະນັກງານ
           <a
             className="pull-right ms-2 "
             style={{ textDecoration: "none" }}
@@ -107,12 +134,12 @@ export default function ChangeRole() {
               className="form-control form-control-lg"
               placeholder="ຊື່ພະນັກງານ..."
               onChange={(e) => setSearchValue(e.target.value)}
-              onKeyPress={_handleKeypress}
+              // onKeyPress={_handleKeypress}
               style={{ border: "1px solid #c2c1be" }}
             />
             <button
               type="button"
-              onClick={() => _onSearch()}
+              // onClick={() => _onSearch()}
               className="btn btn-primary btn-lg"
             >
               <i className="icon-search1" />
@@ -127,8 +154,10 @@ export default function ChangeRole() {
                   <tr>
                     <th className="text-center">#</th>
                     <th>ຊື່ ແລະ ນາມສະກຸນ</th>
-                    <th>ສິດການໃຊ້ລະບົບ</th>
-                    <th>ຈັດການ</th>
+                    <th>ເບີໂທ</th>
+                    <th>ທີ່ຢູ່</th>
+                    <th>ຕຳແຫນ່ງ</th>
+                    <th>ບ່ອນປະຈຳການ</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -175,7 +204,9 @@ export default function ChangeRole() {
                               <option
                                 value="BRANCH_DIRECTOR"
                                 selected={
-                                  item?.role === "BRANCH_DIRECTOR" ? true : false
+                                  item?.role === "BRANCH_DIRECTOR"
+                                    ? true
+                                    : false
                                 }
                               >
                                 ເຈົ້າຂອງກີດຈະການ
@@ -228,7 +259,7 @@ export default function ChangeRole() {
                           {editStatus && getIndex === item?._id ? (
                             <a
                               href="javaScript:void(0)"
-                              onClick={() => _changeRole(item?._id)}
+                              // onClick={() => _changeRole(item?._id)}
                               style={{ textDecoration: "none" }}
                             >
                               <i className="icon-check text-success fa-2x" />
@@ -236,11 +267,7 @@ export default function ChangeRole() {
                           ) : (
                             <a
                               href="javaScript:void(0)"
-                              onClick={() => {
-                                setEditStatus(true);
-                                setGetIndex(item?._id);
-                                setText(item?.role);
-                              }}
+                             
                               style={{ textDecoration: "none" }}
                             >
                               <i className="icon-edit text-primary" />

@@ -4,7 +4,7 @@ import {
   currency,
   formatDate,
   getStaffLogin,
-  getStatus,
+  userStatus,
   loadingScreen,
   setGender,
   TOKEN,
@@ -152,7 +152,7 @@ export default function Profile({ history }) {
                       <div className="in">
                         <div>ຕຳແຫນ່ງ</div>
                         <div className="custom-control custom-switch user-select-all">
-                          {getStatus(listData?.role ? listData?.role : "-")}
+                          {userStatus(listData?.role ? listData?.role : "-")}
                         </div>
                       </div>
                     </div>
