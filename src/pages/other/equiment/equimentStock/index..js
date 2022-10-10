@@ -17,10 +17,9 @@ import {
   setParams,
 } from "../../../../helper";
 import {
-  CREATE_TYPE,
-  DELETE_EQUIMENT,
-  QUERY_EQUIMENT,
-  EDIT_EQUIMENT,
+  DELETE_EQUIMENT_STOCK,
+  EDIT_EQUIMENT_STOCK,
+  QUERY_EQUIMENT_STOCK,
 } from "./apollo";
 import { Table } from "react-bootstrap";
 import Notiflix from "notiflix";
@@ -31,7 +30,7 @@ import NoData from "../../../../helper/components/NoData";
 import AddData from "./AddData";
 import EditData from "./EditData";
 
-export default function EquiMent() {
+export default function EquimentStock() {
   const { history, location, match } = useReactRouter();
   const jsonObj = getStaffLogin();
   const userInfo = jsonObj?.data;
@@ -40,19 +39,19 @@ export default function EquiMent() {
   const [numberPage, setNumberPage] = useState(1);
   const [numberRow, setNumberRow] = useState(100);
   const [searchValue, setSearchValue] = useState();
-  const [addNew, setAddNew] = useState(true);
-  const [editStatus, setEditStatus] = useState(false);
-  const [getIndex, setGetIndex] = useState(0);
   const [text, setText] = useState("");
   const [newText, setNewText] = useState("");
   const [reloadData, setReloadData] = useState(false);
   const [localHouse, setLocalHouse] = useState("");
-  const [queryType, { data: setData, loading }] = useLazyQuery(QUERY_EQUIMENT, {
-    fetchPolicy: "cache-and-network",
-  });
 
-  const [editType] = useMutation(EDIT_EQUIMENT);
-  const [deleteEquiment] = useMutation(DELETE_EQUIMENT);
+  const [queryType, { data: setData, loading }] = useLazyQuery(
+    QUERY_EQUIMENT_STOCK,
+    {
+      fetchPolicy: "cache-and-network",
+    }
+  );
+  const [editType] = useMutation(EDIT_EQUIMENT_STOCK);
+  const [deleteEquiment] = useMutation(DELETE_EQUIMENT_STOCK);
 
   useEffect(() => {
     setLocalHouse(getLocalHouse()?._id);
@@ -94,56 +93,6 @@ export default function EquiMent() {
       return index + 1;
     }
   };
-
-  const handleUpdate = async (id) => {
-    const { data } = await editType({
-      variables: {
-        data: {
-          title: String(newText),
-        },
-        where: {
-          _id: parseInt(id),
-        },
-      },
-    });
-
-    if (data?.updateEquimentType?._id) {
-      messageSuccess("ແກ້ໄຂສຳເລັດ");
-      setNewText("");
-      setReloadData(!reloadData);
-      setEditStatus(false);
-    } else {
-      messageError("ແກ້ໄຂຜີີດພາດ");
-      setNewText(text);
-    }
-  };
-
-  const _delete = (id) => {
-    messageConfirm("ທ່ານຕ້ອລືບ ແທ້ ຫຼື ບໍ່?", async () => {
-      loadingScreen();
-      try {
-        const { data: _deleteData } = await deleteEquiment({
-          variables: {
-            where: {
-              _id: id,
-            },
-          },
-        });
-        if (_deleteData) {
-          Notiflix.Loading.remove();
-          messageSuccess("ລືບຂໍ້ມູນສຳເລັດແລ້ວ");
-          setReloadData(!reloadData);
-        } else {
-          messageError("ລືບຂໍ້ມູນບໍ່ສຳເລັດ");
-        }
-      } catch (error) {
-        Notiflix.Loading.remove();
-        messageError("ລືບຂໍ້ມູນຜິດພາດ");
-        console.log(error);
-      }
-    });
-  };
-
   return (
     <>
       <div className="content__header content__boxed overlapping">
@@ -169,58 +118,50 @@ export default function EquiMent() {
               </FormControl>
               <div className="option-section">
                 <div className="row gx-2">
-                  {setData?.equiments?.total > 0 ? (
+                  {setData?.equimentStocks?.total > 0 ? (
                     <>
                       <span className="text-center mb-2">
                         {loading ? loadingData(25) : ""}
                       </span>
                       <div className="table-responsive">
-                        <table className="table table-striped table-sm">
+                        <table className="table table-striped table-bordered table-sm mb-0">
                           <thead>
                             <tr>
-                              <th className="text-nowrap">ລຳດັບ</th>
+                              <th>#</th>
                               <th className="text-nowrap">ຊື່ຊັບສິນ</th>
-                              <th className="text-nowrap">ຫົວຫນ່ວຍ</th>
-                              <th className="text-nowrap">ຂະນຫນາດ</th>
-                              <th className="text-nowrap">ຍັງເຫລືອ</th>
-                              <th className="text-nowrap">ລາຄາ</th>
-                              <th className="text-nowrap text-center">
-                                ຈັດການ
-                              </th>
+                              <th className="text-nowrap">ວັນທີ່ນຳເຂົ້າ</th>
+                              <th className="text-nowrap">ຈຳນວນນຳເຂົ້າ</th>
+                              <th className="text-center">ລາຄາ/ອັນ</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {setData?.equiments?.data &&
-                              setData?.equiments?.data?.map((data, index) => (
-                                <tr key={index}>
-                                  <td>{NO(index)}</td>
-                                  <td className="text-nowrap">
-                                    {data?.title ? data?.title : "-"}
-                                  </td>
-                                  <td>{data?.unit ? data?.unit : "-"}</td>
-                                  <td>{data?.size ? data?.size : "-"}</td>
-                                  <td>
-                                    {currency(data?.price ? data?.price : "-")}
-                                  </td>
-                                  <td>
-                                    {currency(data?.price ? data?.price : "-")}
-                                  </td>
-                                  <td className="text-end text-nowrap">
-                                      <EditData
-                                        data={data}
-                                        onSuccess={() => {
-                                          setReloadData(!reloadData);
-                                        }}
-                                      />
-                                      <button
-                                        className="btn btn-lg "
-                                        onClick={() => _delete(data?._id)}
-                                      >
-                                        <i className="fas fa-trash" />
-                                      </button>
-                                  </td>
-                                </tr>
-                              ))}
+                            {setData?.equimentStocks?.data?.map(
+                              (data, index) => (
+                                <>
+                                  <tr key={index} className="text-black">
+                                    <td>{NO(index)}</td>
+                                    <td>{data?.equmentID?.title}</td>
+                                    <td>
+                                      {formatDateDash(
+                                        data?.createdAt ? data?.createdAt : "-"
+                                      )}
+                                    </td>
+                                    <td>
+                                      {currency(
+                                        data?.inTotal ? data?.inTotal : 0
+                                      )}
+                                    </td>
+                                    <td>
+                                      {currency(
+                                        data?.equmentID?.price
+                                          ? data?.equmentID?.price
+                                          : 0
+                                      )}
+                                    </td>
+                                  </tr>
+                                </>
+                              )
+                            )}
                           </tbody>
                         </table>
                       </div>
@@ -249,7 +190,7 @@ export default function EquiMent() {
         <div
           style={{
             position: "fixed",
-            backgroundColor: "#f5f7f7",
+            backgroundColor: "#edece8",
           }}
           className="col-md-12 appBottomMenu"
         >

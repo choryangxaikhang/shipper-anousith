@@ -1,78 +1,88 @@
 // import { useLazyQuery } from "@apollo/client";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useFormik } from "formik";
 import {
+  currency,
   formatDateDash,
   getLocalHouse,
   getStaffLogin,
   loadingScreen,
   messageError,
   messageSuccess,
+  messageWarning,
   toDay,
 } from "../../../../helper";
 
-import { ADD_EQUIMENT } from "./apollo";
+import { ADD_EQUIMENT_STOCK, QUERY_EQUIMENT } from "./apollo";
 import Notiflix from "notiflix";
 import { TextField } from "@mui/material";
 import SelectEquimentType from "../../../../helper/components/SelectEquimentType";
+import SelectEquiment from "../../../../helper/components/SelectEquiment";
+import { EDIT_EQUIMENT } from "../equiment/apollo";
 
 export default function AddData({ onSuccess }) {
   const data = getStaffLogin();
   const userInfo = data?.data;
-  const [listEquimentType, setListEquimentType] = useState("");
+  const [listEquiment, setListEquiment] = useState("");
   const [show, setShow] = useState(false);
-  const [addEquiment] = useMutation(ADD_EQUIMENT);
+  const [addStock] = useMutation(ADD_EQUIMENT_STOCK);
   const [house, setHouse] = useState({});
   const [today, setToday] = useState(toDay());
+  const [listData, setListData] = useState();
+  const [inputTotal, setInputTotal] = useState(0);
+  const [editEquiment] = useMutation(EDIT_EQUIMENT);
+
+  const [fetchData, { data: setData, loading }] = useLazyQuery(QUERY_EQUIMENT, {
+    fetchPolicy: "network-only",
+  });
   useEffect(() => {
     setHouse(getLocalHouse());
   }, []);
+  useEffect(() => {
+    if (!listEquiment?._id) {
+      return;
+    }
+    fetchData({
+      variables: {
+        where: {
+          _id: listEquiment?._id,
+          house: house?._id,
+        },
+        limit: 1,
+      },
+    });
+  }, [listEquiment]);
 
+  useEffect(() => {
+    setListData(setData?.equiments?.data[0]);
+  }, [setData]);
+
+  // insert
+  const getTotal = listData?.total ? listData?.total : 0;
+  // update
+  const getFinalTotal = parseInt(getTotal) + parseInt(inputTotal);
   const { handleChange, errors, values, handleSubmit, resetForm, isDisabled } =
     useFormik({
       initialValues: {
-        title: "",
-        receiptDate: "",
-        unit: "",
-        size: "",
-        price: "",
-        details: "",
+        inTotal: "",
       },
       enableReinitialize: false,
       validate: (values) => {
         const errors = {};
-        if (!values.title) {
-          errors.title = "ກະລຸນາປ້ອນຊື່ຊັບສິນ";
-        }
-        if (!today) {
-          errors.receiptDate = "error";
-        }
-        if (!values.unit) {
-          errors.unit = "ກະລຸນາປ້ອນຫົວຫນ່ວຍ";
-        }
-        if (!values.size) {
-          errors.size = "ກະລຸນາປ້ອນຂະຫນາດ";
-        }
-        if (!listEquimentType?._id)
-          errors.equimentType = "ກະລຸນາເລືອກຫມວດຊັບສິນ";
-        if (!values.price) errors.price = "ກະລຸນາປ້ອນລາຄາ";
+        if (!inputTotal) errors.inTotal = "ກະລຸນາປ້ອນຈຳນວນຊັບສິນ";
         return errors;
       },
       onSubmit: async (values) => {
+        if (!listEquiment?._id) return messageWarning("ກະລຸນາເລືອກຫມວດຊັບສິນ");
         loadingScreen();
         try {
-          const { data: updated } = await addEquiment({
+          const { data: updated } = await addStock({
             variables: {
               data: {
-                title: values?.title,
-                equimentType: String(listEquimentType?._id),
-                receiptDate: String(today),
-                unit: String(values?.unit),
-                size: String(values?.size),
-                price: parseInt(values?.price),
-                details: values?.details,
+                inTotal: parseInt(inputTotal),
+                equmentID: String(listEquiment?._id),
                 house: house?._id,
               },
             },
@@ -80,6 +90,7 @@ export default function AddData({ onSuccess }) {
           if (updated) {
             Notiflix.Loading.remove();
             messageSuccess("ບັນທືກສຳເລັດ");
+            updateEquiment();
             setTimeout(() => {
               resetForm({ values: "" });
               window.scrollTo(0, 0);
@@ -97,6 +108,25 @@ export default function AddData({ onSuccess }) {
         }
       },
     });
+  // update totl equiment
+  const updateEquiment = async () => {
+    try {
+      const { data: _deleteData } = await editEquiment({
+        variables: {
+          data: {
+            total: parseInt(getFinalTotal),
+          },
+          where: {
+            _id: listEquiment?._id,
+          },
+        },
+      });
+      console.log("======success=====");
+    } catch (error) {
+      Notiflix.Loading.remove();
+      console.log(error);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -105,11 +135,11 @@ export default function AddData({ onSuccess }) {
         className="btn  btn-lg btn-block"
         onClick={() => setShow(true)}
       >
-        <i className="icon-plus-circle me-1" /> ເພີ່ມຊັບສິນ
+        <i className="icon-plus-circle me-1" /> ນຳຊັບສິນເຂົ້າ
       </button>
       <Modal show={show} animation={false} size="xl">
         <Modal.Header className="text-black">
-          ເພີ່ມລາຍການຊັບສິນ
+          ນຳຊັບສິນເຂົ້າ
           <a
             className="pull-right ms-2 "
             style={{ textDecoration: "none", marginTop: -10 }}
@@ -119,119 +149,51 @@ export default function AddData({ onSuccess }) {
           </a>
         </Modal.Header>
         <div className="p-2">
-          <div className="form-row mt-1 mb-2">
-            <label className="text-black">ເລືອກຫມວດຊັບສິນ</label>
-            <div className="col-md-7">
-              <SelectEquimentType
-                style={{ minWidth: 200 }}
-                value={listEquimentType?._id}
-                onChange={(obj) => {
-                  if (obj?._id) {
-                    setListEquimentType(obj);
-                  }
-                }}
-              />
-            </div>
-            <div className="text-danger fs-4">{errors?.equimentType}</div>
-          </div>
-          <div className="form-group mb-1">
-            <TextField
-              label="ຊື່ຊັບສິນ"
-              variant="outlined"
-              type="text"
-              name="title"
-              value={values?.title}
-              onChange={handleChange}
-              sx={{
-                m: 0,
-                width: "100%",
-                backgroundColor: "#ffff",
+          <div className="form-group mb-3">
+            <SelectEquiment
+              style={{ minWidth: 200, position: "fixed" }}
+              value={listEquiment?._id}
+              onChange={(obj) => {
+                if (obj?._id) {
+                  setListEquiment(obj);
+                }
               }}
-              error={errors.title}
             />
-            <span className="text-danger">{errors.title}</span>
           </div>
-          <div className="form-group mb-1">
+          <div className="form-group " style={{ marginTop: 50 }}>
             <TextField
-              label="ຫົວຫນ່ວຍ"
-              variant="outlined"
-              type="text"
-              name="unit"
-              onWheel={(e) => e.target.blur()}
-              value={values?.unit}
-              onChange={handleChange}
-              sx={{
-                m: 0,
-                width: "100%",
-                backgroundColor: "#ffff",
-              }}
-              error={errors.unit}
-            />
-            <span className="text-danger">{errors.unit}</span>
-          </div>
-          <div className="form-group mb-1">
-            <TextField
-              label="ຂະນຫນາດ"
+              label="ຈຳນວນ"
               variant="outlined"
               type="number"
-              name="size"
+              name="inTotal"
               onWheel={(e) => e.target.blur()}
-              value={values?.size}
-              onChange={handleChange}
-              sx={{
-                m: 0,
-                width: "100%",
-                backgroundColor: "#ffff",
-              }}
-              error={errors.size}
-            />
-            <span className="text-danger">{errors.size}</span>
-          </div>
-          <div className="form-group mb-1">
-            <TextField
-              label="ລາຄາ"
-              variant="outlined"
-              type="number"
-              name="price"
-              onWheel={(e) => e.target.blur()}
-              value={values?.price}
-              onChange={handleChange}
-              sx={{
-                m: 0,
-                width: "100%",
-                backgroundColor: "#ffff",
-              }}
-              error={errors.price}
-            />
-            <span className="text-danger">{errors.price}</span>
-          </div>
-          <div className="form-group mb-1">
-            <TextField
-              label="ວັນທີ່"
-              variant="outlined"
-              type="date"
-              name="receiptDate"
-              value={formatDateDash(today)}
+              value={inputTotal}
               onChange={(e) => {
-                setToday(e.text.value);
+                setInputTotal(e.target.value);
               }}
               sx={{
                 m: 0,
                 width: "100%",
                 backgroundColor: "#ffff",
               }}
+              error={errors.inTotal}
             />
+            <span className="text-danger">{errors.inTotal}</span>
           </div>
           <div className="form-group mt-1">
-            <label>ລາຍລະອຽດ</label>
-            <textarea
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="..."
-              name="details"
-              style={{ color: "black" }}
-              onChange={handleChange}
-            ></textarea>
+            <TextField
+              label="ຍອງທີ່ເຫລືອ"
+              variant="outlined"
+              type="number"
+              disabled={true}
+              onWheel={(e) => e.target.blur()}
+              value={currency(listData?.total)}
+              sx={{
+                m: 0,
+                width: "100%",
+                backgroundColor: "#edf0ee",
+              }}
+            />
           </div>
         </div>
 

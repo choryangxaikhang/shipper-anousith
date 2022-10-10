@@ -78,6 +78,7 @@ export default function EditData({ data, onSuccess }) {
               size: String(values?.size),
               price: parseInt(values?.price),
               details: values?.details,
+              total: 0,
             },
             where: {
               _id: data?._id,

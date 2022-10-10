@@ -3,85 +3,82 @@ import { useEffect, useState } from "react";
 import Select from "react-select";
 
 const QUERY = gql`
-  query Districts($where: DistrictWhereInput) {
-    districts(where: $where) {
+  query Equiments($where: EquimentWhereInput) {
+    equiments(where: $where) {
       data {
         title
-        id_list
-        id_state {
-          id_state
-          provinceName
-        }
+        _id
       }
     }
   }
 `;
-
-export default function SelectDistrict({
+export default function SelectEquiment({
   className,
   style,
   onChange,
   disabled,
   value,
-  provinceId,
 }) {
-  const [getData, setData] = useState([]);
+  const [items, setItems] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
   const [fetchData, { data, loading }] = useLazyQuery(QUERY);
-
   useEffect(() => {
     fetchData({
       variables: {
-        where: {
-          // id_state: "1",
-        },
+        where: {},
       },
     });
-  }, [provinceId]);
-  
+  }, []);
 
   useEffect(() => {
-    const results = data?.districts?.data || [];
+    const results = data?.equiments?.data || [];
     if (results?.length > 0) {
-      const _results = results.map((_data) => {
+      const _results = results.map((item) => {
         const object = {
-          ..._data,
-          value: _data?.id_list,
-          label: _data?.title,
+          ...item,
+          value: item?._id,
+          label: item?.title,
         };
         return object;
       });
-      setData(_results);
+      setItems(_results);
     } else {
-      setData([]);
+      setItems([]);
     }
   }, [data]);
-
   //set value
   useEffect(() => {
     if (value) {
-      const result = getData?.filter((_data) => _data?.id_list === value);
+      const result = items?.filter((item) => item?._id === value);
       setSelectedOption(result[0] || null);
     } else {
       setSelectedOption(null);
     }
-  }, [getData, value]);
+  }, [items, value]);
 
   return (
-    <div style={{ width: "100%", color: "black", fontSize: 16 }}>
+    <div
+      style={{
+        width: "60%",
+        color: "black",
+        fontSize: 16,
+        position: "fixed",
+        zIndex: 999,
+      }}
+    >
       <Select
         styles={style}
         className={className}
         isDisabled={disabled}
         value={selectedOption}
-        placeholder={loading ? "ກຳລັງໂຫຼດ..." : "ເລືອກເມືອງ"}
+        placeholder={loading ? "ກຳລັງໂຫຼດ..." : "ເລືອກຊື່ຊັບສິນ"}
         onChange={(res) => {
           setSelectedOption(res);
           if (onChange) {
             onChange(res);
           }
         }}
-        options={getData}
+        options={items}
       />
     </div>
   );

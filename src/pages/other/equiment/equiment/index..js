@@ -31,9 +31,11 @@ import NoData from "../../../../helper/components/NoData";
 import AddData from "./AddData";
 import EditData from "./EditData";
 import Detail from "./Detail";
+import { TAB_EQUIMENT } from "../../../../routes/app";
 
 export default function EquiMent() {
   const { history, location, match } = useReactRouter();
+  const getId = match?.params?._id;
   const jsonObj = getStaffLogin();
   const userInfo = jsonObj?.data;
   // get query search
@@ -148,11 +150,24 @@ export default function EquiMent() {
 
   return (
     <>
-      <div className="content__header content__boxed overlapping">
-        <div className="content__wrap">
-          <h3 className="page-title mb-2 text-white">ລາຍງານຍອດການຈອງ</h3>
+      {getId >= 2 && (
+        <div className="appHeader text-light border-0 mr-0">
+          <div style={{ flex: 1 }} className="text-left">
+            <button
+              className="btn text-white"
+              onClick={() => history.push(`/other/equiment/Type?tab=sumTotalBooking`)}
+            >
+              <i className="fa fa-chevron-left fs-4" />
+            </button>
+          </div>
+          ເບິກຊັບສິນ
+          <div
+            className="text-white pageTitle text-right text-nowrap pr-0"
+            style={{ flex: 1 }}
+          ></div>
         </div>
-      </div>
+      )}
+
       <div className=" body-content-lg" style={{ marginTop: 30 }}>
         <div className="option-section">
           <div className="row col-md-12  mt-4">
@@ -197,16 +212,17 @@ export default function EquiMent() {
                                 <tr
                                   key={index}
                                   onClick={() => setDetail(data?._id)}
+                                  className="text-black"
                                 >
                                   <td>{NO(index)}</td>
                                   <td className="text-nowrap text-start">
                                     {data?.title ? data?.title : "-"}
                                   </td>
                                   <td>
-                                    {currency(data?.price ? data?.price : "-")}
+                                    {currency(data?.total ? data?.total : 0)}
                                   </td>
                                   <td>
-                                    {currency(data?.price ? data?.price : "-")}
+                                    {currency(data?.price ? data?.price : 0)}
                                   </td>
                                   <td className="text-end text-nowrap">
                                     <EditData
@@ -254,7 +270,7 @@ export default function EquiMent() {
         <div
           style={{
             position: "fixed",
-            backgroundColor: "#f5f7f7",
+            backgroundColor: "#edece8",
           }}
           className="col-md-12 appBottomMenu"
         >

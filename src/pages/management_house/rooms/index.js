@@ -211,7 +211,7 @@ export default function Rooms() {
           style={{
             position: "fixed",
             // bottom: 1,
-            backgroundColor: "#f5f7f7",
+            backgroundColor: "#edece8",
             zIndex: 99999,
           }}
           className="col-md-12 appBottomMenu"

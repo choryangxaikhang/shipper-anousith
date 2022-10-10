@@ -23,7 +23,7 @@ import {
 import BottomNav from "../../layouts/BottomNav";
 import { OTHER } from "../../routes/app";
 import NoData from "../../helper/components/NoData";
-import { QUERY_RATE_EXCHANGE, DELETE_RATE_EXCHANGE } from "./apollo";
+import { QUERY_PROMOTION, DELETE_PROMOTION } from "./apollo";
 import {
   FormControl,
   InputAdornment,
@@ -34,9 +34,9 @@ import {
 import Pagination from "../../helper/controllers/Pagination";
 import SelectLocalHouse from "../../helper/components/SelectLocalHouse";
 import Notiflix from "notiflix";
-import EditRateExChange from "./editRateExchange";
-import AddRateExchange from "./addRateExchange";
-export default function RateExChange() {
+import AddPromotions from "./AddPromotions";
+import EditPromotions from "./editPromotions";
+export default function Promotion() {
   const { match, history, location } = useReactRouter();
   const userState = getStaffLogin();
   const userData = userState?.data;
@@ -48,21 +48,24 @@ export default function RateExChange() {
   const [startDate, setStartDate] = useState(startMonth());
   const [endDate, setEndDate] = useState(endOfMonth());
   const [searchValue, setSearchValue] = useState("");
-  const [deleteRateExchange] = useMutation(DELETE_RATE_EXCHANGE);
+  const [deletePromotion] = useMutation(DELETE_PROMOTION);
   const [queryBooking, { data: setData, loading: loading }] = useLazyQuery(
-    QUERY_RATE_EXCHANGE,
+    QUERY_PROMOTION,
     { fetchPolicy: "network-only" }
   );
+
   useEffect(() => {
     setHouse(getLocalHouse());
   }, []);
+
   useEffect(() => {
     queryBooking({
       variables: {
         where: {
           house: house?._id,
+          status: parseInt(1),
           createdAt_gte: createdAt_gte(startDate),
-          createdAt_lt: createdAt_lt(endDate),
+          createdAt_lte: createdAt_lt(endDate),
         },
         skip: numberRow * (numberPage - 1),
         limit: searchValue ? 1000 : numberRow,
@@ -92,11 +95,7 @@ export default function RateExChange() {
     }
   }, [query]);
   const countPage = [];
-  for (
-    var i = 1;
-    i <= Math.ceil(setData?.rateExchanges?.total / numberRow);
-    i++
-  ) {
+  for (var i = 1; i <= Math.ceil(setData?.promotions?.total / numberRow); i++) {
     countPage.push(i);
   }
 
@@ -108,14 +107,14 @@ export default function RateExChange() {
       "ຍົກເລີກ",
       async () => {
         try {
-          const _deleteRateExchange = await deleteRateExchange({
+          const _deletePromotion = await deletePromotion({
             variables: {
               where: {
                 _id: parseInt(id),
               },
             },
           });
-          if (_deleteRateExchange) {
+          if (_deletePromotion) {
             messageSuccess("ລືບສຳເລັດ");
             setReloadData(!reloadData);
           }
@@ -143,7 +142,7 @@ export default function RateExChange() {
                 <i className="fa fa-chevron-left fs-4" />
               </button>
             </div>
-            ຈັດການຂໍ້ມູນອັດຕາແລກປ່ຽນ
+            ຈັດການໂປຣໂມຊັ່ນ
             <div
               className="text-white pageTitle text-right text-nowrap pr-0"
               style={{ flex: 1 }}
@@ -216,9 +215,9 @@ export default function RateExChange() {
               <div className="text-center">
                 {loading ? loadingData(25) : ""}
               </div>
-              {setData?.rateExchanges?.total > 0 ? (
+              {setData?.promotions?.total > 0 ? (
                 <div className="listView mt-2">
-                  {setData?.rateExchanges?.data?.map((data, index) => (
+                  {setData?.promotions?.data?.map((data, index) => (
                     <>
                       <b
                         className="float-end"
@@ -245,15 +244,12 @@ export default function RateExChange() {
                               ຊື່ກິດຈະການ: {data?.house?.houseName}
                             </strong>
                             <b className="text-black">
-                              ກີບ: {currency(data?.laoKIP)}
+                              ສ່ວນຫລຸດ:{" "}
+                              {currency(data?.percent ? data?.percent : 0)}
                             </b>
                             <br />
                             <b className="text-black">
-                              ບາດ: {currency(data?.laoTHB)}
-                            </b>
-                            <br />
-                            <b className="text-black pt-1">
-                              ໂດລາ: {currency(data?.laoUSD)}
+                              ເນື່ອໃນ: {data?.title ? data?.title : "-"}
                             </b>
                             <br />
                             <b className="text-black">
@@ -263,7 +259,7 @@ export default function RateExChange() {
                         </div>
                         <div className="right">
                           <button className="btn  btn-sm">
-                            <EditRateExChange
+                            <EditPromotions
                               dataValue={data}
                               onSuccess={() => {
                                 setReloadData(!reloadData);
@@ -278,7 +274,7 @@ export default function RateExChange() {
               ) : (
                 <NoData loading={loading} />
               )}
-              {setData?.rateExchanges?.total > 50 && (
+              {setData?.promotions?.total > 50 && (
                 <Pagination
                   className="mt-2"
                   pageTotal={countPage}
@@ -302,7 +298,7 @@ export default function RateExChange() {
         }}
         className="col-md-12 appBottomMenu"
       >
-        <AddRateExchange
+        <AddPromotions
           onSuccess={(e) => {
             setReloadData(!reloadData);
           }}

@@ -191,9 +191,9 @@ export default function TabMenuOther() {
                   </div>
                   <div className="item">
                     <a
-                      onClick={(e) => {
-                        history.push(`${ROUTES.TAB_MENU_INCOME}/Type`);
-                      }}
+                      // onClick={(e) => {
+                      //   history.push(`${ROUTES.TAB_MENU_INCOME}/Type`);
+                      // }}
                     >
                       <div className="icon-wrapper">
                         <i className="fa-solid fa-book fa-2x" />
@@ -204,11 +204,11 @@ export default function TabMenuOther() {
                   <div className="item">
                     <a
                       onClick={(e) => {
-                        history.push(`${ROUTES.TAB_MENU_INCOME}/Type`);
+                        history.push(`${ROUTES.PROMOTION_SCREEN}/1`);
                       }}
                     >
                       <div className="icon-wrapper">
-                        <i className="fa-solid fa-book fa-2x" />
+                      <i className="fa-solid fa-hand-holding-dollar fa-2x"/>
                       </div>
                       <h5>ຈັດການໂປຣໂມຊັ່ນ</h5>
                     </a>

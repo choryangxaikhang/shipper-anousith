@@ -109,7 +109,6 @@ export default function EquiType() {
   };
 
   const handleDelete = (id) => {
-    console.log("id",id)
     Notiflix.Confirm.show(
       "ແຈ້ງເຕືອນ",
       "ທ່ານຕ້ອງການລຶບຂໍ້ມູນນີ້ແທ້ ຫຼື ບໍ່?",
@@ -274,7 +273,7 @@ export default function EquiType() {
         <div
           style={{
             position: "fixed",
-            backgroundColor: "#f5f7f7",
+            backgroundColor: "#edece8",
           }}
           className="col-md-12 appBottomMenu"
         >

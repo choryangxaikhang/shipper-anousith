@@ -36,6 +36,7 @@ export const QUERY_EQUIMENT = gql`
         status
         details
         createdAt
+        total
       }
     }
   }

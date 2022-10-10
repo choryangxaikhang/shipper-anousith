@@ -26,7 +26,6 @@ import SelectDistrict from "../../helper/components/SelectDistrict";
 import SelectProvince from "../../helper/components/SelectProvince";
 import SelectVillage from "../../helper/components/SelectVillage";
 export default function EditUserStaff({ onSuccess, getData }) {
-  console.log("getData", getData);
   const [show, setShow] = useState(false);
   const [role, setRole] = useState(getData?.role);
   const [update_user] = useMutation(UPDATE_USER);
@@ -36,9 +35,6 @@ export default function EditUserStaff({ onSuccess, getData }) {
   const [provinceData, setProvinceData] = useState({});
   const [districtData, setDistrictData] = useState({});
   const [viLLage, setVillageData] = useState({});
-  console.log("provinceData", provinceData);
-  console.log("districtData", districtData);
-  console.log("viLLage", viLLage);
 
   const [imageName, setImageName] = useState("");
   const [file, setFile] = useState(null);

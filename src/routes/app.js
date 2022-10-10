@@ -31,6 +31,9 @@ export const DETAIL_USER = "/user_detail";
 
 // equiment
 export const TAB_EQUIMENT = "/other/equiment";
+export const EQUIMENT_LIST = "/other/equiment_list";
+// promotions
+export const PROMOTION_SCREEN = "/promotion";
 
 
 

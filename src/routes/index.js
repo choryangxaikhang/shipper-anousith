@@ -27,6 +27,8 @@ import PeopleCheckout from "../pages/room_services/PeopleCheckout";
 import Hotel from "../pages/room_services/hotel";
 import TabMenuRoom from "../pages/room_services/TabMenuRoom";
 import TabMenuEquiment from "../pages/other/equiment/TabMenu";
+import EquiMent from "../pages/other/equiment/equiment/index.";
+import Promotion from "../pages/pomotions";
 export default function Routes() {
   const { userDispatch } = useContext(AppContext);
   const _local = localStorage.getItem(TOKEN);
@@ -146,6 +148,17 @@ export default function Routes() {
                   path={`${ROUTES.TAB_EQUIMENT}/:_id`}
                   exact
                   component={(props) => <TabMenuEquiment {...props} />}
+                />
+                <PrivateRoute
+                  path={`${ROUTES.EQUIMENT_LIST}/:_id`}
+                  exact
+                  component={(props) => <EquiMent {...props} />}
+                />
+                {/* PROMOTION */}
+                <PrivateRoute
+                  path={`${ROUTES.PROMOTION_SCREEN}/:page`}
+                  exact
+                  component={(props) => <Promotion {...props} />}
                 />
 
                 <Route

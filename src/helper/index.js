@@ -501,13 +501,25 @@ export const equimentStatus = (house) => {
     return "ໃຊ້ງານ";
   } else if (house === "BROKED") {
     return "ບ໋ອກ";
-  }
-  else if (house === "FIXING") {
+  } else if (house === "FIXING") {
     return "ສ້ອມແປງ";
-  }
-  else if (house === "UNACTIVE") {
+  } else if (house === "UNACTIVE") {
     return "ເປ່ເພ";
   } else {
     return "-";
   }
+};
+export const StatusEquiment = (status) => {
+  if (status === "FEE") {
+    return "ສ້າງໃໝ່";
+  } else if (status === "FULL") {
+    return "ຖືກນຳໃຊ້ແລ້ວ";
+  } else {
+    return "-";
+  }
+};
+// bill auto
+export const randomBillNo = (pr = "B-") => {
+  for (let i = 1; i <= 8; i++) pr += ~~(Math.random() * 8);
+  return pr;
 };

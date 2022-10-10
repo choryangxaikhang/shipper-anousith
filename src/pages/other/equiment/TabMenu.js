@@ -6,6 +6,8 @@ import { getLocalHouse } from "../../../helper";
 import "./util/index.css";
 import EquiType from "./equimentType/index.";
 import EquiMent from "./equiment/index.";
+import EquimentStock from "./equimentStock/index.";
+import GenerateBill from "./generateBill";
 export default function TabMenuEquiment() {
   const { history, location } = useReactRouter();
   const params = new URLSearchParams(location?.search);
@@ -81,10 +83,10 @@ export default function TabMenuEquiment() {
           </Button>
           <Button
             className={`item-tab ${
-              tabActive === "dividendReport" ? "clickActives" : "Actives"
+              tabActive === "bill" ? "clickActives" : "Actives"
             }`}
             variant=""
-            onClick={() => history.push({ search: "?tab=dividendReport" })}
+            onClick={() => history.push({ search: "?tab=bill" })}
           >
             ສ້າງໃບເບີກ
           </Button>
@@ -102,8 +104,8 @@ export default function TabMenuEquiment() {
       <div id="appCapsule" className="extra-header-activeClick">
         {tabActive === "type" && <EquiType />}
         {tabActive === "equiment" && <EquiMent />}
-        {tabActive === "checkout"}
-        {tabActive === "dividendReport"}
+        {tabActive === "checkout" && <EquimentStock />}
+        {tabActive === "bill" && <GenerateBill />}
         {tabActive === "sumTotalBooking"}
       </div>
     </>
