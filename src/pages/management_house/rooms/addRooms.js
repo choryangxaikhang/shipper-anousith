@@ -175,7 +175,7 @@ export default function AddRooms({ onSuccess, loadData, className }) {
             <i className="icon-x fa-2x text-danger" />
           </a>
         </Modal.Header>
-        <Modal.Body>
+        <div className="p-2">
           <div className="row">
             <div className="form-group">
               <label className="control-label">ອັບໂຫຼດຮູບໂປຣໄຟຣ໌ຫ້ອງ</label>
@@ -373,11 +373,11 @@ export default function AddRooms({ onSuccess, loadData, className }) {
               </div>
             </div>
           </div>
-        </Modal.Body>
+        </div>
         <Modal.Footer>
           <button
             type="button"
-            className="btn btn-primary btn-block btn-lg"
+            className="btn btn-primary btn-block btn-lg mb-2"
             onClick={() => handleSubmit()}
           >
             <i className="icon-save" style={{ marginRight: 3 }} />

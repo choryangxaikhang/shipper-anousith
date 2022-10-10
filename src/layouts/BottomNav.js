@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { OTHER, PROFILES } from "../routes/app";
+import { OTHER, PROFILES, ROOM_SERVICES } from "../routes/app";
 // import "./bottomNav.css";
 
 export default function BottomNav() {
@@ -22,6 +22,18 @@ export default function BottomNav() {
           <i className="icon-sort text-secondary" style={{ fontSize: 25 }} />
           <strong className="text-secondary" style={{ fontSize: 15 }}>
             ບໍລິການອື່ນໆ
+          </strong>
+        </div>
+      </NavLink>
+      <NavLink
+        className="item"
+        to={`${ROOM_SERVICES}`}
+        style={{ borderTopLeftRadius: 25, marginLeft: -10 }}
+      >
+        <div className="col pt-1" style={{ borderTopLeftRadius: 20 }}>
+          <i className="fa-solid fa-city text-secondary"  />
+          <strong className="text-secondary" style={{ fontSize: 15 }}>
+            ຫ້ອງ
           </strong>
         </div>
       </NavLink>

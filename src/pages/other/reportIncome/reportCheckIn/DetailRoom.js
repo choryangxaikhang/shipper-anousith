@@ -7,7 +7,7 @@ import {
   loadingData,
   paiStatus,
 } from "../../../../helper";
-import TypeHouse from "../../booking/TypeHouse";
+import TypeHouse from "../../TypeHouse";
 import { QUERY_REPORT_BOOKING } from "./apollo";
 import "./utils/index.css";
 export default function DetailRoom({ _id, onHide }) {

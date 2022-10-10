@@ -16,6 +16,8 @@ import { QUERY_USER_STAFF, DELETE_USER } from "./apollo";
 import * as ROUTES from "../../routes/app";
 import DetailProfile from "./DetailProfile";
 import { Modal } from "react-bootstrap";
+import EditUserStaff from "./EditUserStaff";
+import AddUserStaff from "./addUser_staff";
 export default function UserList() {
   const { history, location, match } = useReactRouter();
   const numberPage = match?.params?.page;
@@ -24,7 +26,7 @@ export default function UserList() {
   const rows = parseInt(query.get("rows"));
   const [numberRows, setNumberRows] = useState(rows ? rows : ITEM_PER_PAGE);
   const [dataUserStaff, setDataUserStaff] = useState([]);
-  //   
+  //
   const [show, setShow] = useState(false);
   const [users, setUsers] = useState([]);
   const [searchValue, setSearchValue] = useState("");
@@ -118,7 +120,11 @@ export default function UserList() {
       </div>
       <Modal show={show} animation={false} size="xl">
         <Modal.Header className="text-black">
-          ເພີີມພະນັກງານ
+          <AddUserStaff
+            onSuccess={() => {
+              setNewLoadData(!newLoadData);
+            }}
+          />
           <a
             className="pull-right ms-2 "
             style={{ textDecoration: "none" }}
@@ -134,16 +140,8 @@ export default function UserList() {
               className="form-control form-control-lg"
               placeholder="ຊື່ພະນັກງານ..."
               onChange={(e) => setSearchValue(e.target.value)}
-              // onKeyPress={_handleKeypress}
               style={{ border: "1px solid #c2c1be" }}
             />
-            <button
-              type="button"
-              // onClick={() => _onSearch()}
-              className="btn btn-primary btn-lg"
-            >
-              <i className="icon-search1" />
-            </button>
           </div>
           {loading ? (
             loadingData(23, "ກຳລັງໂຫຼດຂໍ້ມູນ")
@@ -161,121 +159,44 @@ export default function UserList() {
                   </tr>
                 </thead>
                 <tbody>
-                  {users &&
-                    users?.map((item, index) => (
-                      <tr key={index}>
-                        <td className="text-center">{index + 1}</td>
-                        <td className="text-nowrap">
-                          {item?.firstName ? item?.firstName : "-"}{" "}
-                          {item?.lastName ? item?.lastName : "-"}
-                        </td>
-                        <td className="text-nowrap">
-                          {editStatus && getIndex === item?._id ? (
-                            <select
-                              className="form-control"
-                              onChange={(e) => setText(e.target.value)}
-                            >
-                              <option defaultValue="">
-                                ເລືອກສິດການໃຊ້ລະບົບ
-                              </option>
-                              <option
-                                value="HR"
-                                selected={item?.role === "HR" ? true : false}
-                              >
-                                ບຸກຄາລະກອນ
-                              </option>
-                              <option
-                                value="ACCOUNTANT"
-                                selected={
-                                  item?.role === "ACCOUNTANT" ? true : false
-                                }
-                              >
-                                ບັນຊີ
-                              </option>
-                              <option
-                                value="FINANCE"
-                                selected={
-                                  item?.role === "FINANCE" ? true : false
-                                }
-                              >
-                                ການເງິນ
-                              </option>
-
-                              <option
-                                value="BRANCH_DIRECTOR"
-                                selected={
-                                  item?.role === "BRANCH_DIRECTOR"
-                                    ? true
-                                    : false
-                                }
-                              >
-                                ເຈົ້າຂອງກີດຈະການ
-                              </option>
-                              <option
-                                value="IT"
-                                selected={item?.role === "IT" ? true : false}
-                              >
-                                IT
-                              </option>
-                              <option
-                                value="CALL_CENTER"
-                                selected={
-                                  item?.role === "CALL_CENTER" ? true : false
-                                }
-                              >
-                                ເຄົາເຕີ
-                              </option>
-                              <option
-                                value="ADMIN"
-                                selected={item?.role === "ADMIN" ? true : false}
-                              >
-                                ADMIN
-                              </option>
-                              <option
-                                value="SUPER_ADMIN"
-                                selected={
-                                  item?.role === "SUPER_ADMIN" ? true : false
-                                }
-                              >
-                                SUPER_ADMIN
-                              </option>
-                              <option
-                                value="CUSTOMER_SERVICE"
-                                selected={
-                                  item?.role === "CUSTOMER_SERVICE"
-                                    ? true
-                                    : false
-                                }
-                              >
-                                ບໍລິການລູກຄ້າ
-                              </option>
-                            </select>
-                          ) : (
-                            item?.role
-                          )}
-                        </td>
-
-                        <td style={{ textAlign: "center" }}>
-                          {editStatus && getIndex === item?._id ? (
-                            <a
-                              href="javaScript:void(0)"
-                              // onClick={() => _changeRole(item?._id)}
-                              style={{ textDecoration: "none" }}
-                            >
-                              <i className="icon-check text-success fa-2x" />
-                            </a>
-                          ) : (
-                            <a
-                              href="javaScript:void(0)"
-                             
-                              style={{ textDecoration: "none" }}
-                            >
-                              <i className="icon-edit text-primary" />
-                            </a>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
+                  {dataUserStaff?.map((item, index) => (
+                    <tr key={index}>
+                      <td className="text-center">{index + 1}</td>
+                      <td className="text-nowrap">
+                        {item?.firstName ? item?.firstName : "-"}{" "}
+                        {item?.lastName ? item?.lastName : "-"}
+                      </td>
+                      <td className="text-nowrap">
+                        {item?.phoneNumber ? item?.phoneNumber : "-"}{" "}
+                      </td>
+                      <td className="text-nowrap">
+                        {item?.province?.provinceName
+                          ? item?.province?.provinceName
+                          : "-"}
+                        <br />
+                        {item?.district?.title ? item?.district?.title : "-"}
+                        <br />
+                        {item?.village?.title ? item?.village?.title : "-"}
+                        <br />
+                      </td>
+                      <td className="text-nowrap">
+                        {userStatus(item?.role ? item?.role : "-")}
+                      </td>
+                      <td className="text-nowrap">
+                        {userStatus(
+                          item?.house?.houseName ? item?.house?.houseName : "-"
+                        )}
+                      </td>
+                      <td style={{ textAlign: "center" }}>
+                        <EditUserStaff
+                          getData={item}
+                          onSuccess={() => {
+                            setNewLoadData(!newLoadData);
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

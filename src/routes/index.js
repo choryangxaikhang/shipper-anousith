@@ -14,9 +14,6 @@ import * as ROUTES from "./app";
 import Profile from "../pages/profile/Profile";
 import Other from "../pages/other/TabMenuOther";
 import TabMenuOther from "../pages/other/TabMenuOther";
-import Hotel from "../pages/other/hotel";
-import PeopleCheckout from "../pages/other/PeopleCheckout";
-import Booking from "../pages/other/booking";
 import BookingRequestScreen from "../pages/other/bookingRequest";
 import BookingCancel from "../pages/other/cancel";
 import SettingsScreen from "../pages/settings";
@@ -25,6 +22,11 @@ import TabMenu from "../pages/management_house/TabMenu";
 import TabMenuIncome from "../pages/other/reportIncome/TabMenuIncome";
 import UserList from "../pages/user_staff";
 import DetailProfile from "../pages/user_staff/DetailProfile";
+import Booking from "../pages/room_services/booking";
+import PeopleCheckout from "../pages/room_services/PeopleCheckout";
+import Hotel from "../pages/room_services/hotel";
+import TabMenuRoom from "../pages/room_services/TabMenuRoom";
+import TabMenuEquiment from "../pages/other/equiment/TabMenu";
 export default function Routes() {
   const { userDispatch } = useContext(AppContext);
   const _local = localStorage.getItem(TOKEN);
@@ -67,7 +69,12 @@ export default function Routes() {
                   path={`${ROUTES.OTHER}`}
                   component={(props) => <TabMenuOther {...props} />}
                 />
-
+                {/* tab room */}
+                <Route
+                  exact
+                  path={`${ROUTES.ROOM_SERVICES}`}
+                  component={(props) => <TabMenuRoom {...props} />}
+                />
                 <Route
                   exact
                   path={`${ROUTES.PROFILES}`}
@@ -133,6 +140,12 @@ export default function Routes() {
                   path={`${ROUTES.DETAIL_USER}/:_id`}
                   exact
                   component={(props) => <DetailProfile {...props} />}
+                />
+                {/* equiment */}
+                <PrivateRoute
+                  path={`${ROUTES.TAB_EQUIMENT}/:_id`}
+                  exact
+                  component={(props) => <TabMenuEquiment {...props} />}
                 />
 
                 <Route

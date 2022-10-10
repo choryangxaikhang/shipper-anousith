@@ -141,98 +141,6 @@ export default function TabMenuOther() {
                 className="wallet-card"
                 style={{ borderBottom: "1px solid red" }}
               >
-                <div className="wallet-footer">
-                  <div className="item">
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => history.push(`${ROUTES.HOTEL}/1`)}
-                    >
-                      <div className="icon-wrapper">
-                        <i className="fa-sharp fa-solid fa-person-booth fa-2x" />
-                      </div>
-                      <h5>ເປີດຫ້ອງ</h5>
-                    </a>
-                  </div>
-                  <div className="item">
-                    {loading ? (
-                      <span
-                        className="ms-2"
-                        style={{
-                          position: "fixed",
-                          marginTop: -10,
-                          marginRight: -50,
-                          padding: 0,
-                          zIndex: 1000,
-                        }}
-                      >
-                        {loadingData(10)}
-                      </span>
-                    ) : setData?.bookings?.total > 0 ? (
-                      <span
-                        className="badge badge-success ms-2"
-                        style={{
-                          position: "fixed",
-                          marginTop: -10,
-                          marginRight: -50,
-                          padding: 0,
-                          zIndex: 1000,
-                        }}
-                      >
-                        <small className="p-1">
-                          {setData?.bookings?.total}
-                        </small>
-                      </span>
-                    ) : null}
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => history.push(`${ROUTES.BOOKING}/1`)}
-                    >
-                      <div className="icon-wrapper">
-                        <i className="fa-solid fa-circle-down fa-2x" />
-                      </div>
-                      <h5>ຫ້ອງກຳລັງຈອງ</h5>
-                    </a>
-                  </div>
-                  <div className="item">
-                    {loadingFull ? (
-                      <span
-                        className="ms-2"
-                        style={{
-                          position: "fixed",
-                          marginTop: -10,
-                          marginRight: -50,
-                          padding: 0,
-                          zIndex: 1000,
-                        }}
-                      >
-                        {loadingData(10)}
-                      </span>
-                    ) : setDataFull?.bookings?.total > 0 ? (
-                      <span
-                        className="badge badge-success ms-2"
-                        style={{
-                          position: "fixed",
-                          marginTop: -10,
-                          marginRight: -50,
-                          padding: 0,
-                          zIndex: 1000,
-                        }}
-                      >
-                        <small className="p-1">
-                          {setDataFull?.bookings?.total}
-                        </small>
-                      </span>
-                    ) : null}
-                    <a
-                      onClick={(e) => history.push(`${ROUTES.HOTEL_CHECKOUT}`)}
-                    >
-                      <div className="icon-wrapper">
-                        <i className="fa-solid fa-share-from-square fa-2x" />
-                      </div>
-                      <h5>ແຂກອອກ</h5>
-                    </a>
-                  </div>
-                </div>
                 {/* rare */}
                 <div className="wallet-footer">
                   <div className="item">
@@ -265,6 +173,44 @@ export default function TabMenuOther() {
                         <i className="fa-solid fa-book fa-2x" />
                       </div>
                       <h5>ລາຍງານ</h5>
+                    </a>
+                  </div>
+                </div>
+                <div className="wallet-footer">
+                  <div className="item">
+                    <a
+                      onClick={(e) => {
+                        history.push(`${ROUTES.TAB_EQUIMENT}/Type`);
+                      }}
+                    >
+                      <div className="icon-wrapper">
+                      <i class="fa-solid fa-chart-line fa-2x"/>
+                      </div>
+                      <h5>ຈັດການຊັບສິນ</h5>
+                    </a>
+                  </div>
+                  <div className="item">
+                    <a
+                      onClick={(e) => {
+                        history.push(`${ROUTES.TAB_MENU_INCOME}/Type`);
+                      }}
+                    >
+                      <div className="icon-wrapper">
+                        <i className="fa-solid fa-book fa-2x" />
+                      </div>
+                      <h5>ຈັດການບັນຊີ</h5>
+                    </a>
+                  </div>
+                  <div className="item">
+                    <a
+                      onClick={(e) => {
+                        history.push(`${ROUTES.TAB_MENU_INCOME}/Type`);
+                      }}
+                    >
+                      <div className="icon-wrapper">
+                        <i className="fa-solid fa-book fa-2x" />
+                      </div>
+                      <h5>ຈັດການໂປຣໂມຊັ່ນ</h5>
                     </a>
                   </div>
                 </div>

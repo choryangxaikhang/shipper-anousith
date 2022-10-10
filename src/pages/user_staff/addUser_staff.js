@@ -15,17 +15,17 @@ import {
   valiDate,
 } from "../../helper";
 import Gender from "../../helper/Gender";
-import male from "../../img/males.png";
+import male from "../../img/female.png";
 import AddCircleOutlineTwoToneIcon from "@material-ui/icons/AddCircleOutlineTwoTone";
+import SelectLocalHouse from "../../helper/components/SelectLocalHouse";
+import SelectDistrict from "../../helper/components/SelectDistrict";
+import SelectProvince from "../../helper/components/SelectProvince";
+import SelectVillage from "../../helper/components/SelectVillage";
 import * as ROUTES from "../../routes/app";
 import { v4 as uuidv4 } from "uuid";
 import { s3Client } from "../../helper/s3Client";
-// import Provinces from "../../helper/components/Province";
-// import District from "../../helper/components/District";
-// import Village from "../../helper/components/Village";
 import Notiflix, { Loading } from "notiflix";
 import "./utils/index.css";
-import Houses from "../../helper/components/house";
 export default function AddUserStaff({ onSuccess, getData }) {
   const [show, setShow] = useState(false);
   const [role, setRole] = useState("");
@@ -83,10 +83,10 @@ export default function AddUserStaff({ onSuccess, getData }) {
       if (!values.password) {
         errors.password = "error";
       }
-      if (!districtData?._id) errors.district = "error";
-      if (!provinceData?._id) errors.province = "error";
-      if (!getHouse?._id) errors.house = "error";
-      if (!role) errors.role = "error";
+      if (!districtData?._id) errors.district = "ກະລຸນາເລືອກເມືອງ";
+      if (!provinceData?._id) errors.province = "ກະລຸນາເລືອກແຂວງ";
+      if (!getHouse?._id) errors.house = "ກະລຸນາເລືອກກີດຈະການ";
+      if (!role) errors.role = "ກະລຸນາເລືອກຕຳແຫນ່ງ";
       return errors;
     },
     onSubmit: async (values) => {
@@ -128,29 +128,26 @@ export default function AddUserStaff({ onSuccess, getData }) {
         }
       } catch (error) {
         Notiflix.Loading.remove();
-        console.log(error)
+        console.log(error);
         messageError("ບັນທືກຂໍ້ມູນຜິດພາດ");
       }
     },
   });
 
-
   return (
     <React.Fragment>
       <button
         type="button"
-        className="btn btn-primary btn-lg"
+        className="btn btn-light btn-lg"
         onClick={() => setShow(true)}
       >
-        <i className="icon-plus-circle" /> <span className="vr" /> ເພີ່ມ
+        <i className="icon-plus-circle me-1" />  ເພີ່ມ
       </button>
       <Modal
-        centered
         show={show}
         onHide={() => setShow(false)}
         animation={false}
-        backdrop="static"
-        size="lg"
+        size="xl"
       >
         <Modal.Header closeButton>
           <Modal.Title className="fs-5">
@@ -186,7 +183,7 @@ export default function AddUserStaff({ onSuccess, getData }) {
               </div>
             </div>
 
-            <div className="form-group col-md-6 mt-2">
+            <div className="form-group mt-1">
               <label>ຊື່ {valiDate()}</label>
               <input
                 type="text"
@@ -201,7 +198,7 @@ export default function AddUserStaff({ onSuccess, getData }) {
                 placeholder="ຊື່"
               />
             </div>
-            <div className="form-group mb-2 col-md-6 mt-2">
+            <div className="form-group mb-2">
               <label>ນາມສະກຸນ {valiDate()}</label>
               <input
                 type="text"
@@ -225,30 +222,29 @@ export default function AddUserStaff({ onSuccess, getData }) {
             <span className="invalid">{errors?.gender}</span>
           </div>
           <div className="row mt-1">
-            <div className="form-group col-md-6">
+            <div className="form-group">
               <label>ເບີໂທ(+856 20) {valiDate()}</label>
               <input
                 type="number"
                 className={
                   errors.phoneNumber
-                    ? "form-control mb-3 is-invalid"
-                    : "form-control mb-3 invalid"
+                    ? "form-control  is-invalid"
+                    : "form-control  invalid"
                 }
                 name="phoneNumber"
-                onWheel={(e) => e.target.blur()}
                 value={values.phoneNumber}
                 onChange={handleChange}
                 placeholder="7678XXXX"
               />
             </div>
-            <div className="form-group col-md-6">
-              <label>ບັດປະຈຳຕົວ {valiDate()}</label>
+            <div className="form-group">
+              <label>ບັດປະຈຳຕົວ</label>
               <input
                 type="text"
                 className={
                   errors.carSign
-                    ? "form-control mb-3 is-invalid"
-                    : "form-control mb-3 invalid"
+                    ? "form-control  is-invalid"
+                    : "form-control  invalid"
                 }
                 name="carSign"
                 value={values.carSign}
@@ -257,27 +253,10 @@ export default function AddUserStaff({ onSuccess, getData }) {
               />
             </div>
           </div>
-
-          <div className="form-group mb-2">
-            <label>ລະຫັດຜ່ານ {valiDate()}</label>
-            <input
-              type="password"
-              className={
-                errors.password
-                  ? "form-control mb-3 is-invalid"
-                  : "form-control mb-3 invalid"
-              }
-              name="password"
-              value={values.password}
-              onChange={handleChange}
-              placeholder="ລະຫັດຜ່ານ"
-            />
-          </div>
-          <div className="row">
-            <div className="form-row mt-2 col-md-4">
+          <div className="form-row mt-1">
+            <div className="col-md-12">
               <div>
-                <label className="text-black">ແຂວງ {valiDate()}</label>
-                {/* <Provinces
+                <SelectProvince
                   size={"lg"}
                   getData={(data) => {
                     setProvinceData(data);
@@ -285,61 +264,59 @@ export default function AddUserStaff({ onSuccess, getData }) {
                   }}
                   defaultValue={provinceData?.provinceName}
                   className={errors.province ? "is-invalid" : ""}
-                /> */}
-              </div>
-            </div>
-            <div className="form-row mt-2 col-md-4">
-              <label className="text-black">ເລືອກເມືອງ {valiDate()}</label>
-              <div className="col-md-12">
-                {/* <District
-                  size={"lg"}
-                  getData={(data) => {
-                    setDistrictData(data);
-                    setVillageData({});
-                  }}
-                  where={{ _id: provinceData?._id }}
-                  defaultValue={districtData?.title}
-                  className={errors?.district ? "is-invalid" : ""}
-                /> */}
-              </div>
-            </div>
-            <div className="form-row mt-2 col-md-4">
-              <label className="text-black">ເລືອກບ້ານ </label>
-              <div className="col-md-12">
-                {/* <Village
-                  size={"lg"}
-                  getData={(data) => {
-                    setVillageData(data);
-                  }}
-                  where={{ _id: districtData?._id }}
-                  defaultValue={viLLage?.title}
-                /> */}
+                />
+                <div className="text-danger">{errors.province}</div>
               </div>
             </div>
           </div>
-          <div className="mt-4">
-            <div className="form-group mb-2">
-              <label>ເລືອກກິດຈະການ{valiDate()}</label>
-              <Houses
+          <div className="form-row mt-1">
+            <div className="col-md-12">
+              <SelectDistrict
                 size={"lg"}
                 getData={(data) => {
-                  setHouse(data);
+                  setDistrictData(data);
+                  setVillageData({});
                 }}
                 provinceId={{ _id: provinceData?._id }}
-                defaultValue={getHouse?.houseName}
-                className={errors.house ? "is-invalid" : ""}
+                defaultValue={districtData?.title}
+                className={errors?.district ? "is-invalid" : ""}
+              />
+              <div className="text-danger">{errors.district}</div>
+            </div>
+          </div>
+          <div className="form-row mt-1">
+            <div className="col-md-12">
+              <SelectVillage
+                size={"lg"}
+                getData={(data) => {
+                  setVillageData(data);
+                }}
+                districtId={{ _id: districtData?._id }}
+                defaultValue={viLLage?.title}
+                className={errors?.village ? "is-invalid" : ""}
               />
             </div>
           </div>
-          <div className="form-group mt-3">
+          <div className="row">
+            <div className="col-md-12 mt-1">
+              <div className="form-group mb-2">
+                <SelectLocalHouse
+                  size={"lg"}
+                  getData={(data) => {
+                    setHouse(data);
+                  }}
+                  provinceId={{ _id: provinceData?._id }}
+                  defaultValue={getHouse?.houseName}
+                  className={errors.house ? "is-invalid" : ""}
+                />
+                <div className="text-danger">{errors.house}</div>
+              </div>
+            </div>
+          </div>
+          <div className="form-group mt-1">
             <label>ເລືອກຕຳແຫນ່ງ {valiDate()}</label>
             <select
-              className={
-                errors.role
-                  ? "form-control mb-3 is-invalid"
-                  : "form-control mb-3 invalid"
-              }
-              name="role"
+              className="form-select"
               value={role}
               onChange={(e) => setRole(e.target.value)}
             >
@@ -350,38 +327,26 @@ export default function AddUserStaff({ onSuccess, getData }) {
               ))}
             </select>
           </div>
-          <div className="row mt-1">
-            <div className="form-row mt-2 col-md-12">
-              <div>
-                <label className="text-black">
-                  ວັນທີ່ເລີ່ມງານ {valiDate()}
-                </label>
-                <input
-                  type="date"
-                  className="form-control form-control-lg"
-                  name="startWorkTime"
-                  value={formatDateDash(startWorkTime)}
-                  onChange={(e) => setStartDate(e.target.value)}
-                />
-              </div>
-            </div>
+          <div className="form-group mt-1">
+            <label>ວັນທີ່ເລີ່ມງານ</label>
+            <input
+              type="date"
+              className="form-control form-control-lg"
+              name="startWorkTime"
+              value={formatDateDash(startWorkTime)}
+              onChange={(e) => setStartDate(e.target.value)}
+              placeholder="ເລືອກວັນທີ່"
+            />
           </div>
         </Modal.Body>
         <Modal.Footer>
           <button
             type="button"
-            className="btn btn-primary btn-block btn-sm"
+            className="btn btn-primary btn-block btn-lg"
             onClick={() => handleSubmit()}
           >
             <i className="icon-save" style={{ marginRight: 3 }} />
             ບັນທຶກ
-          </button>
-          <button
-            className="btn btn-light btn-block btn-sm"
-            onClick={() => handleClose()}
-          >
-            <i className="icon-x" style={{ marginRight: 3 }} />
-            ປິດ
           </button>
         </Modal.Footer>
       </Modal>

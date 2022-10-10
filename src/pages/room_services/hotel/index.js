@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import useReactRouter from "use-react-router";
-import { OTHER } from "../../../routes/app";
+import { ROOM_SERVICES } from "../../../routes/app";
 import BottomNav from "../../../layouts/BottomNav";
 import { QUERY_ROOM } from "./apollo";
 import {
@@ -112,7 +112,7 @@ export default function Hotel() {
         <div style={{ flex: 1 }} className="text-left">
           <button
             className="btn text-white"
-            onClick={() => history.push(OTHER)}
+            onClick={() => history.push(ROOM_SERVICES)}
           >
             <i className="fa fa-chevron-left fs-4" />
           </button>

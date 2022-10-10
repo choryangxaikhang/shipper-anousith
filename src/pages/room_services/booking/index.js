@@ -20,7 +20,7 @@ import {
   _month,
 } from "../../../helper";
 import BottomNav from "../../../layouts/BottomNav";
-import { OTHER } from "../../../routes/app";
+import { ROOM_SERVICES } from "../../../routes/app";
 import NoData from "../../../helper/components/NoData";
 import { QUERY_BOOKING, UPDATE_BOOKING_STATUS } from "./apollo";
 import DetailRoom from "./DetailRoom";
@@ -174,7 +174,7 @@ export default function Booking() {
             <div style={{ flex: 1 }} className="text-left">
               <button
                 className="btn text-white"
-                onClick={() => history.push(OTHER)}
+                onClick={() => history.push(ROOM_SERVICES)}
               >
                 <i className="fa fa-chevron-left fs-4" />
               </button>

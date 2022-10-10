@@ -210,7 +210,7 @@ export default function EditRooms({ onSuccess, data, loadData }) {
             <i className="icon-x fa-2x text-danger" />
           </a>
         </Modal.Header>
-        <Modal.Body className="container">
+        <div className="p-2">
           <div className="row">
             <div className="form-group">
               <label className="control-label">ອັບໂຫຼດຮູບໂປຣໄຟຣ໌ຫ້ອງ</label>
@@ -455,7 +455,7 @@ export default function EditRooms({ onSuccess, data, loadData }) {
               </div>
             </div>
           </div>
-        </Modal.Body>
+        </div>
         <Modal.Footer>
           <button
             type="button"

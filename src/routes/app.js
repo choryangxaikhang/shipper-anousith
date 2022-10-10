@@ -1,13 +1,14 @@
 export const HOME_PAGE = "/home";
 export const LOGIN = "/login";
 export const OTHER = "/other";
+export const ROOM_SERVICES = "/room_services";
 export const PROFILES = "/profile";
 
 // Hotel
-export const HOTEL = "/other/hotel";
-export const HOTEL_CHECKOUT = "/other/hotel_checkout";
+export const HOTEL = "/room_services/hotel";
+export const HOTEL_CHECKOUT = "/room_services/hotel_checkout";
 // booking
-export const BOOKING = "/other/booking";
+export const BOOKING = "/room_services/booking";
 export const REQUEST_BOOKING_SCREEN = "/other/request_booking";
 export const BOOKING_CANCEL = "/other/booking_cancel";
 
@@ -27,6 +28,9 @@ export const TAB_MENU_INCOME = "/other/report_income";
 // user
 export const USERS = "/user_staff";
 export const DETAIL_USER = "/user_detail";
+
+// equiment
+export const TAB_EQUIMENT = "/other/equiment";
 
 
 

@@ -10,3 +10,17 @@ export const BOOKINGS = gql`
     }
   }
 `;
+
+export const HOUSE = gql`
+query Houses($where: HouseWhereInput, $limit: Int) {
+  houses(where: $where, limit: $limit) {
+    data {
+      type {
+        title_lao
+        title_eng
+      }
+      _id
+    }
+  }
+}
+`;

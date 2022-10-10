@@ -1,89 +1,83 @@
 import { gql, useLazyQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import Select from "react-select";
+import { getLocalHouse } from "..";
 
 const QUERY = gql`
-  query Districts($where: DistrictWhereInput) {
-    districts(where: $where) {
+  query EquimentTypes($where: EquimentTypeWhereInput) {
+    equimentTypes(where: $where) {
       data {
         title
-        id_list
-        id_state {
-          id_state
-          provinceName
-        }
+        _id
       }
     }
   }
 `;
-
-export default function SelectDistrict({
+export default function SelectEquimentType({
   className,
   style,
   onChange,
   disabled,
   value,
-  provinceId,
 }) {
-  const [getData, setData] = useState([]);
+  const [items, setItems] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
   const [fetchData, { data, loading }] = useLazyQuery(QUERY);
-
+  const [localHouse, setLocalHouse] = useState("");
+  useEffect(() => {
+    setLocalHouse(getLocalHouse()?._id);
+  }, []);
   useEffect(() => {
     fetchData({
       variables: {
         where: {
-          // id_state: "1",
+          house:localHouse,
         },
       },
     });
-  }, [provinceId]);
-  
-  console.log("provinceId",provinceId)
+  }, [localHouse]);
 
   useEffect(() => {
-    const results = data?.districts?.data || [];
-    console.log("results",results)
+    const results = data?.equimentTypes?.data || [];
     if (results?.length > 0) {
-      const _results = results.map((_data) => {
+      const _results = results.map((item) => {
         const object = {
-          ..._data,
-          value: _data?.id_list,
-          label: _data?.title,
+          ...item,
+          value: item?._id,
+          label: item?.title,
         };
         return object;
       });
-      setData(_results);
+      setItems(_results);
     } else {
-      setData([]);
+      setItems([]);
     }
   }, [data]);
-
   //set value
   useEffect(() => {
     if (value) {
-      const result = getData?.filter((_data) => _data?.id_list === value);
+      const result = items?.filter((item) => item?._id === value);
       setSelectedOption(result[0] || null);
     } else {
       setSelectedOption(null);
     }
-  }, [getData, value]);
+  }, [items, value]);
 
   return (
-    <div style={{ width: "100%", color: "black", fontSize: 16 }}>
+    <div style={{ minWidth: 200, color: "black",fontSize:16 }}>
       <Select
         styles={style}
         className={className}
         isDisabled={disabled}
         value={selectedOption}
-        placeholder={loading ? "ກຳລັງໂຫຼດ..." : "ເລືອກເມືອງ"}
+        placeholder={loading ? "ກຳລັງໂຫຼດ..." : "ເລືອກຫມວດຊັບສິນ"}
         onChange={(res) => {
           setSelectedOption(res);
           if (onChange) {
             onChange(res);
           }
         }}
-        options={getData}
+        options={items}
       />
     </div>
   );

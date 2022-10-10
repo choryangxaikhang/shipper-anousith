@@ -3,27 +3,23 @@ import { useEffect, useState } from "react";
 import Select from "react-select";
 
 const QUERY = gql`
-  query Districts($where: DistrictWhereInput) {
-    districts(where: $where) {
+  query Villages($where: VillageWhereInput) {
+    villages(where: $where) {
       data {
+        _id
         title
-        id_list
-        id_state {
-          id_state
-          provinceName
-        }
       }
     }
   }
 `;
 
-export default function SelectDistrict({
+export default function SelectVillage({
   className,
   style,
   onChange,
   disabled,
   value,
-  provinceId,
+  districtId,
 }) {
   const [getData, setData] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -33,22 +29,19 @@ export default function SelectDistrict({
     fetchData({
       variables: {
         where: {
-          // id_state: "1",
+          district: districtId,
         },
       },
     });
-  }, [provinceId]);
-  
-  console.log("provinceId",provinceId)
+  }, [districtId]);
 
   useEffect(() => {
-    const results = data?.districts?.data || [];
-    console.log("results",results)
+    const results = data?.villages?.data || [];
     if (results?.length > 0) {
       const _results = results.map((_data) => {
         const object = {
           ..._data,
-          value: _data?.id_list,
+          value: _data?._id,
           label: _data?.title,
         };
         return object;
@@ -62,7 +55,7 @@ export default function SelectDistrict({
   //set value
   useEffect(() => {
     if (value) {
-      const result = getData?.filter((_data) => _data?.id_list === value);
+      const result = getData?.filter((_data) => _data?._id === value);
       setSelectedOption(result[0] || null);
     } else {
       setSelectedOption(null);
@@ -76,7 +69,7 @@ export default function SelectDistrict({
         className={className}
         isDisabled={disabled}
         value={selectedOption}
-        placeholder={loading ? "ກຳລັງໂຫຼດ..." : "ເລືອກເມືອງ"}
+        placeholder={loading ? "ກຳລັງໂຫຼດ..." : "ເລືອກບ້ານ"}
         onChange={(res) => {
           setSelectedOption(res);
           if (onChange) {

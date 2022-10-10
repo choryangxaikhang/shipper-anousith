@@ -495,3 +495,19 @@ export const userStatus = (item) => {
     return "-";
   }
 };
+
+export const equimentStatus = (house) => {
+  if (house === "INACTIVE") {
+    return "ໃຊ້ງານ";
+  } else if (house === "BROKED") {
+    return "ບ໋ອກ";
+  }
+  else if (house === "FIXING") {
+    return "ສ້ອມແປງ";
+  }
+  else if (house === "UNACTIVE") {
+    return "ເປ່ເພ";
+  } else {
+    return "-";
+  }
+};

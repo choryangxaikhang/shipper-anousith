@@ -7,12 +7,10 @@ import {
   loadingData,
   paiStatus,
 } from "../../../../helper";
-import TypeHouse from "../../TypeHouse";
-import { QUERY_REPORT_BOOKING } from "./apollo";
-import "./utils/index.css";
-export default function DetailRoom({ _id, onHide }) {
+import { QUERY_EQUIMENT } from "./apollo";
+export default function Detail({ _id, onHide }) {
   const [show, setShow] = useState(false);
-  const [fetchData, { data: setData, loading }] = useLazyQuery(QUERY_REPORT_BOOKING, {
+  const [fetchData, { data: setData, loading }] = useLazyQuery(QUERY_EQUIMENT, {
     fetchPolicy: "network-only",
   });
   useEffect(() => {
@@ -52,11 +50,6 @@ export default function DetailRoom({ _id, onHide }) {
                     <span className="text-black text-end">
                       {data?.room?.title_lao}
                     </span>
-                    <br />
-                  </div>
-                  <div className=" bill-item-list pt-2" id="border">
-                    <span>ປະເພດກິດຈະການ</span>
-                    <TypeHouse getId={data?.house?._id} />
                     <br />
                   </div>
                   <div className=" bill-item-list pt-2" id="border">

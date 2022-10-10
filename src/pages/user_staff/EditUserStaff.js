@@ -15,17 +15,18 @@ import {
   valiDate,
 } from "../../helper";
 import Gender from "../../helper/Gender";
-import male from "../../img/males.png";
+import male from "../../img/female.png";
 import * as ROUTES from "../../routes/app";
 import { v4 as uuidv4 } from "uuid";
 import { s3Client } from "../../helper/s3Client";
-import Provinces from "../../helper/components/Province";
-import District from "../../helper/components/District";
-import Village from "../../helper/components/Village";
 import Notiflix, { Loading } from "notiflix";
 import "./utils/index.css";
-import Houses from "../../helper/components/house";
+import SelectLocalHouse from "../../helper/components/SelectLocalHouse";
+import SelectDistrict from "../../helper/components/SelectDistrict";
+import SelectProvince from "../../helper/components/SelectProvince";
+import SelectVillage from "../../helper/components/SelectVillage";
 export default function EditUserStaff({ onSuccess, getData }) {
+  console.log("getData", getData);
   const [show, setShow] = useState(false);
   const [role, setRole] = useState(getData?.role);
   const [update_user] = useMutation(UPDATE_USER);
@@ -35,6 +36,10 @@ export default function EditUserStaff({ onSuccess, getData }) {
   const [provinceData, setProvinceData] = useState({});
   const [districtData, setDistrictData] = useState({});
   const [viLLage, setVillageData] = useState({});
+  console.log("provinceData", provinceData);
+  console.log("districtData", districtData);
+  console.log("viLLage", viLLage);
+
   const [imageName, setImageName] = useState("");
   const [file, setFile] = useState(null);
   const [gender, setGender] = useState(getData?.gender);
@@ -63,7 +68,14 @@ export default function EditUserStaff({ onSuccess, getData }) {
     }
   };
 
-  const { handleChange, errors, values, handleSubmit, resetForm,setFieldValue } = useFormik({
+  const {
+    handleChange,
+    errors,
+    values,
+    handleSubmit,
+    resetForm,
+    setFieldValue,
+  } = useFormik({
     initialValues: {
       firstName: "",
       lastName: "",
@@ -147,14 +159,26 @@ export default function EditUserStaff({ onSuccess, getData }) {
     setDistrictData(getData?.district);
     setVillageData(getData?.village);
     setHouse(getData?.house);
-    setFieldValue("firstName", getData?.firstName ? getData?.firstName : "", false);
-    setFieldValue("lastName", getData?.lastName ? getData?.lastName : "", false);
+    setFieldValue(
+      "firstName",
+      getData?.firstName ? getData?.firstName : "",
+      false
+    );
+    setFieldValue(
+      "lastName",
+      getData?.lastName ? getData?.lastName : "",
+      false
+    );
     setFieldValue(
       "phoneNumber",
       getData?.phoneNumber ? getData?.phoneNumber : "",
       false
     );
-    setFieldValue("password", getData?.password ? getData?.password : "", false);
+    setFieldValue(
+      "password",
+      getData?.password ? getData?.password : "",
+      false
+    );
     setFieldValue(
       "startWorkTime",
       getData?.startWorkTime ? getData?.startWorkTime : "",
@@ -172,7 +196,7 @@ export default function EditUserStaff({ onSuccess, getData }) {
     <React.Fragment>
       <button
         type="button"
-        className="btn btn-success btn-sm"
+        className="btn btn-light btn-sm"
         onClick={(e) => {
           e.stopPropagation();
           setShow(true);
@@ -181,12 +205,10 @@ export default function EditUserStaff({ onSuccess, getData }) {
         <i className="icon icon-edit"></i>
       </button>
       <Modal
-        centered
         show={show}
         onHide={() => setShow(false)}
         animation={false}
-        backdrop="static"
-        size="lg"
+        size="xl"
       >
         <Modal.Header closeButton>
           <Modal.Title className="fs-5">
@@ -222,7 +244,7 @@ export default function EditUserStaff({ onSuccess, getData }) {
               </div>
             </div>
 
-            <div className="form-group col-md-6 mt-2">
+            <div className="form-group mt-1">
               <label>ຊື່ {valiDate()}</label>
               <input
                 type="text"
@@ -237,7 +259,7 @@ export default function EditUserStaff({ onSuccess, getData }) {
                 placeholder="ຊື່"
               />
             </div>
-            <div className="form-group mb-2 col-md-6 mt-2">
+            <div className="form-group mb-2">
               <label>ນາມສະກຸນ {valiDate()}</label>
               <input
                 type="text"
@@ -261,14 +283,14 @@ export default function EditUserStaff({ onSuccess, getData }) {
             <span className="invalid">{errors?.gender}</span>
           </div>
           <div className="row mt-1">
-            <div className="form-group col-md-6">
+            <div className="form-group">
               <label>ເບີໂທ(+856 20) {valiDate()}</label>
               <input
                 type="number"
                 className={
                   errors.phoneNumber
-                    ? "form-control mb-3 is-invalid"
-                    : "form-control mb-3 invalid"
+                    ? "form-control  is-invalid"
+                    : "form-control  invalid"
                 }
                 name="phoneNumber"
                 value={values.phoneNumber}
@@ -276,14 +298,14 @@ export default function EditUserStaff({ onSuccess, getData }) {
                 placeholder="7678XXXX"
               />
             </div>
-            <div className="form-group col-md-6">
+            <div className="form-group">
               <label>ບັດປະຈຳຕົວ {valiDate()}</label>
               <input
                 type="text"
                 className={
                   errors.carSign
-                    ? "form-control mb-3 is-invalid"
-                    : "form-control mb-3 invalid"
+                    ? "form-control  is-invalid"
+                    : "form-control  invalid"
                 }
                 name="carSign"
                 value={values.carSign}
@@ -292,11 +314,10 @@ export default function EditUserStaff({ onSuccess, getData }) {
               />
             </div>
           </div>
-          <div className="row">
-            <div className="form-row mt-2 col-md-4">
+          <div className="form-row mt-1">
+            <div className="col-md-12">
               <div>
-                <label className="text-black">ແຂວງ {valiDate()}</label>
-                <Provinces
+                <SelectProvince
                   size={"lg"}
                   getData={(data) => {
                     setProvinceData(data);
@@ -307,41 +328,38 @@ export default function EditUserStaff({ onSuccess, getData }) {
                 />
               </div>
             </div>
-            <div className="form-row mt-2 col-md-4">
-              <label className="text-black">ເລືອກເມືອງ {valiDate()}</label>
-              <div className="col-md-12">
-                <District
-                  size={"lg"}
-                  getData={(data) => {
-                    setDistrictData(data);
-                    setVillageData({});
-                  }}
-                  where={{ _id: provinceData?._id }}
-                  defaultValue={districtData?.title}
-                  className={errors?.district ? "is-invalid" : ""}
-                />
-              </div>
+          </div>
+          <div className="form-row mt-1">
+            <div className="col-md-12">
+              <SelectDistrict
+                size={"lg"}
+                getData={(data) => {
+                  setDistrictData(data);
+                  setVillageData({});
+                }}
+                provinceId={{ _id: provinceData?._id }}
+                defaultValue={districtData?.title}
+                className={errors?.district ? "is-invalid" : ""}
+              />
             </div>
-            <div className="form-row mt-2 col-md-4">
-              <label className="text-black">ເລືອກບ້ານ {valiDate()}</label>
-              <div className="col-md-12">
-                <Village
-                  size={"lg"}
-                  getData={(data) => {
-                    setVillageData(data);
-                  }}
-                  where={{ _id: districtData?._id }}
-                  defaultValue={viLLage?.title}
-                  className={errors?.village ? "is-invalid" : ""}
-                />
-              </div>
+          </div>
+          <div className="form-row mt-1">
+            <div className="col-md-12">
+              <SelectVillage
+                size={"lg"}
+                getData={(data) => {
+                  setVillageData(data);
+                }}
+                districtId={{ _id: districtData?._id }}
+                defaultValue={viLLage?.title}
+                className={errors?.village ? "is-invalid" : ""}
+              />
             </div>
           </div>
           <div className="row">
-            <div className="col-md-12 mt-3">
+            <div className="col-md-12 mt-1">
               <div className="form-group mb-2">
-                <label>ເລືອກກິດຈະການ{valiDate()}</label>
-                <Houses
+                <SelectLocalHouse
                   size={"lg"}
                   getData={(data) => {
                     setHouse(data);
@@ -353,55 +371,40 @@ export default function EditUserStaff({ onSuccess, getData }) {
               </div>
             </div>
           </div>
-          <div className="row mt-1">
-            <div className="form-group mt-3 col-6">
-              <label>ເລືອກຕຳແຫນ່ງ {valiDate()}</label>
-              <select
-                className="form-select"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-              >
-                {userRole?.map((item, index) => (
-                  <option key={index} value={item?.value}>
-                    {item?.title}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="form-row mt-3 col-md-6">
-              <div>
-                <label className="text-black">
-                  ວັນທີ່ເລີ່ມງານ {valiDate()}
-                </label>
-                <input
-                  type="date"
-                  className="form-control form-control-lg"
-                  name="startWorkTime"
-                  value={formatDateDash(startWorkTime)}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  placeholder="ເລືອກວັນທີ່"
-                />
-              </div>
-            </div>
+          <div className="form-group mt-1">
+            <label>ເລືອກຕຳແຫນ່ງ {valiDate()}</label>
+            <select
+              className="form-select"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              {userRole?.map((item, index) => (
+                <option key={index} value={item?.value}>
+                  {item?.title}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group mt-1">
+            <label>ວັນທີ່ເລີ່ມງານ</label>
+            <input
+              type="date"
+              className="form-control form-control-lg"
+              name="startWorkTime"
+              value={formatDateDash(startWorkTime)}
+              onChange={(e) => setStartDate(e.target.value)}
+              placeholder="ເລືອກວັນທີ່"
+            />
           </div>
         </Modal.Body>
         <Modal.Footer>
           <button
             type="button"
-            className="btn btn-primary btn-block btn-sm"
+            className="btn btn-primary btn-block btn-lg"
             onClick={() => handleSubmit()}
           >
             <i className="icon-save" style={{ marginRight: 3 }} />
             ບັນທຶກ
-          </button>
-          <button
-            className="btn btn-light btn-block btn-sm"
-            onClick={(e) => {
-              handleClose();
-            }}
-          >
-            <i className="icon-x" style={{ marginRight: 3 }} />
-            ປິດ
           </button>
         </Modal.Footer>
       </Modal>
