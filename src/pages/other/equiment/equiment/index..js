@@ -14,6 +14,7 @@ import {
   messageConfirm,
   messageError,
   messageSuccess,
+  messageWarning,
   setParams,
 } from "../../../../helper";
 import {
@@ -21,6 +22,8 @@ import {
   DELETE_EQUIMENT,
   QUERY_EQUIMENT,
   EDIT_EQUIMENT,
+  QUERY_BILL,
+  CREATE_EQUIMENT_OUT,
 } from "./apollo";
 import { Table } from "react-bootstrap";
 import Notiflix from "notiflix";
@@ -31,10 +34,11 @@ import NoData from "../../../../helper/components/NoData";
 import AddData from "./AddData";
 import EditData from "./EditData";
 import Detail from "./Detail";
-import { TAB_EQUIMENT } from "../../../../routes/app";
+import { OTHER, TAB_EQUIMENT } from "../../../../routes/app";
 import _ from "lodash";
 import SearchEquimentType from "../../../../helper/components/SearchEquimentType";
-
+import CheckOutOrder from "./CheckOutOrder";
+import ListEquimentOut from "./ListEquimentOut";
 export default function EquiMent() {
   const { history, location, match } = useReactRouter();
   const getId = match?.params?._id;
@@ -45,31 +49,28 @@ export default function EquiMent() {
   const [numberPage, setNumberPage] = useState(1);
   const [numberRow, setNumberRow] = useState(100);
   const [searchValue, setSearchValue] = useState();
-  const [addNew, setAddNew] = useState(true);
-  const [editStatus, setEditStatus] = useState(false);
-  const [getIndex, setGetIndex] = useState(0);
-  const [text, setText] = useState("");
-  const [newText, setNewText] = useState("");
   const [reloadData, setReloadData] = useState(false);
   const [localHouse, setLocalHouse] = useState("");
   const [detail, setDetail] = useState();
+
+  // end
   const [listEquimentType, setListEquimentType] = useState("");
   const [queryType, { data: setData, loading }] = useLazyQuery(QUERY_EQUIMENT, {
     fetchPolicy: "cache-and-network",
   });
 
-  const [editType] = useMutation(EDIT_EQUIMENT);
   const [deleteEquiment] = useMutation(DELETE_EQUIMENT);
+  const [upDateStock] = useMutation(EDIT_EQUIMENT);
 
   useEffect(() => {
-    setLocalHouse(getLocalHouse()?._id);
+    setLocalHouse(getLocalHouse());
   }, []);
   useEffect(() => {
     queryType({
       variables: {
         where: {
           title: searchValue,
-          house: localHouse,
+          house: localHouse?._id,
           equimentType: listEquimentType?._id
             ? listEquimentType?._id
             : undefined,
@@ -87,13 +88,13 @@ export default function EquiMent() {
     localHouse,
     listEquimentType,
   ]);
-
   //pageination
   const countData = setData?.equiments?.total;
   const countPage = [];
   for (var i = 1; i <= Math.ceil(countData / numberRow); i++) {
     countPage.push(i);
   }
+
   useEffect(() => {
     const page = query.get("page");
     if (page) {
@@ -111,30 +112,6 @@ export default function EquiMent() {
       return index + 1;
     }
   };
-
-  const handleUpdate = async (id) => {
-    const { data } = await editType({
-      variables: {
-        data: {
-          title: String(newText),
-        },
-        where: {
-          _id: parseInt(id),
-        },
-      },
-    });
-
-    if (data?.updateEquimentType?._id) {
-      messageSuccess("ແກ້ໄຂສຳເລັດ");
-      setNewText("");
-      setReloadData(!reloadData);
-      setEditStatus(false);
-    } else {
-      messageError("ແກ້ໄຂຜີີດພາດ");
-      setNewText(text);
-    }
-  };
-
   const _delete = (id) => {
     messageConfirm("ທ່ານຕ້ອລືບ ແທ້ ຫຼື ບໍ່?", async () => {
       loadingScreen();
@@ -163,32 +140,34 @@ export default function EquiMent() {
 
   return (
     <>
-      {getId >= 2 && (
-        <div className="appHeader text-light border-0 mr-0">
-          <div style={{ flex: 1 }} className="text-left">
-            <button
-              className="btn text-white"
-              onClick={() =>
-                history.push(`/other/equiment/Type?tab=sumTotalBooking`)
-              }
-            >
-              <i className="fa fa-chevron-left fs-4" />
-            </button>
-          </div>
-          ເບິກຊັບສິນ
-          <div
-            className="text-white pageTitle text-right text-nowrap pr-0"
-            style={{ flex: 1 }}
-          ></div>
-        </div>
-      )}
-
       <div style={{ marginTop: -90 }}>
         <div id="appCapsule">
           <div className="justify-content-md-center">
             <div className="appHeader text-light border-0">
-              <div style={{ flex: 1 }} className="text-left"></div>
-              ນຳສິນຄ້າເຂົ້າ
+              <div style={{ flex: 1 }} className="text-left">
+                {getId >= 2 ? (
+                  <button
+                    className="btn text-white"
+                    onClick={() =>
+                      history.push(`/other/equiment/Type?tab=sumTotalBooking`)
+                    }
+                  >
+                    <i className="fa fa-chevron-left fs-4" />
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      className="btn text-white"
+                      onClick={() => history.push(OTHER)}
+                    >
+                      <i className="fa fa-chevron-left fs-4" />
+                    </button>
+                  </>
+                )}
+              </div>
+              {getId >= 2 ? <>ເບິກຊັບສິນ</> : <>
+              {localHouse?.houseName ? localHouse?.houseName : "ລາຍງານຂໍ້ມູນ"}</>}
+
               <div
                 className="text-white pageTitle text-right text-nowrap pr-0"
                 style={{ flex: 1 }}
@@ -208,7 +187,7 @@ export default function EquiMent() {
             <br />
             <br />
             <div className="section  mb-2 mt-5">
-              <div className="transactions">
+              <div className="transactions row">
                 <div className="row">
                   <div className="col-12 w-100">
                     <div className="mb-1">
@@ -216,9 +195,7 @@ export default function EquiMent() {
                         style={{ minWidth: 200 }}
                         value={listEquimentType?._id}
                         onChange={(obj) => {
-                          if (obj?._id) {
-                            setListEquimentType(obj);
-                          }
+                          setListEquimentType(obj);
                         }}
                       />
                     </div>
@@ -239,85 +216,106 @@ export default function EquiMent() {
                 <div className="text-center">
                   {loading ? loadingData(25) : ""}
                 </div>
-                {setData?.equiments?.total > 0 ? (
-                  <>
-                    <span className="text-center mb-2">
-                      {loading ? loadingData(25) : ""}
-                    </span>
-                    <div className="table-responsive mt-2">
-                      <table className="table table-striped  table-sm mb-0">
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th className="text-nowrap">ຊື່ຊັບສິນ</th>
-                            <th className="text-nowrap">ວັນທີ່</th>
-                            <th className="text-nowrap text-end">ຈຳນວນ</th>
-                            <th className="text-nowrap text-end">ລາຄາ/ອັນ</th>
-                            <th className="text-nowrap text-end">ລວມ</th>
-                            <th className="text-nowrap text-end">ຈັດການ</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {setData?.equiments?.data?.map((data, index) => (
-                            <>
-                              <tr key={index} className="text-black">
-                                <td>{NO(index)}</td>
-                                <td clasName="text-nowrap">
-                                  {data?.title ? data?.title : "-"}
-                                </td>
-                                <td clasName="text-nowrap ">
-                                  {formatDateDash(data?.createdAt)}
-                                </td>
-                                <td className="text-end text-nowrap">
-                                  {currency(data?.total ? data?.total : 0)}
-                                </td>
-                                <td className="text-end text-nowrap">
-                                  {currency(data?.price ? data?.price : 0)}
-                                </td>
-                                <td className="text-end text-nowrap">
-                                  {currency(
-                                    data?.total * parseInt(data?.price)
+                <div className="col-lg-8">
+                  {setData?.equiments?.total > 0 ? (
+                    <>
+                      <span className="text-center mb-2">
+                        {loading ? loadingData(25) : ""}
+                      </span>
+                      <div className="table-responsive mt-2 ">
+                        <table className="table table-striped  table-sm mb-0">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th className="text-nowrap">ຊື່ຊັບສິນ</th>
+                              <th className="text-nowrap">ວັນທີ່</th>
+                              <th className="text-nowrap text-end">ຈຳນວນ</th>
+                              <th className="text-nowrap text-end">ລາຄາ/ອັນ</th>
+                              <th className="text-nowrap text-end">ລວມ</th>
+                              <th className="text-nowrap text-end">ຈັດການ</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {setData?.equiments?.data?.map((data, index) => (
+                              <>
+                                <tr key={index} className="text-black">
+                                  <td>{NO(index)}</td>
+                                  <td className="text-nowrap">
+                                    {data?.title ? data?.title : "-"}
+                                  </td>
+                                  <td className="text-nowrap ">
+                                    {formatDateDash(data?.createdAt)}
+                                  </td>
+                                  <td className="text-end text-nowrap">
+                                    {currency(data?.total ? data?.total : 0)}
+                                  </td>
+                                  <td className="text-end text-nowrap">
+                                    {currency(data?.price ? data?.price : 0)}
+                                  </td>
+                                  <td className="text-end text-nowrap">
+                                    {currency(
+                                      data?.total * parseInt(data?.price)
+                                    )}
+                                  </td>
+                                  {getId >= 2 ? (
+                                    <td className="text-nowrap text-end">
+                                      <CheckOutOrder
+                                        getBillId={getId}
+                                        getData={data}
+                                        onSuccess={() => {
+                                          setReloadData(!reloadData);
+                                        }}
+                                      />
+                                    </td>
+                                  ) : (
+                                    <>
+                                      <td className="text-end text-nowrap">
+                                        <EditData
+                                          data={data}
+                                          onSuccess={() => {
+                                            setReloadData(!reloadData);
+                                          }}
+                                        />
+                                        <button
+                                          className="btn btn-sm "
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            _delete(data?._id);
+                                          }}
+                                        >
+                                          <i className="fas fa-trash" />
+                                        </button>
+                                      </td>
+                                    </>
                                   )}
-                                </td>
-                                <td className="text-end text-nowrap">
-                                  <EditData
-                                    data={data}
-                                    onSuccess={() => {
-                                      setReloadData(!reloadData);
-                                    }}
-                                  />
-                                  <button
-                                    className="btn btn-sm "
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      _delete(data?._id);
-                                    }}
-                                  >
-                                    <i className="fas fa-trash" />
-                                  </button>
-                                </td>
-                              </tr>
-                            </>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </>
-                ) : (
-                  <NoData loading={loading} />
-                )}
-                {setData?.equiments?.total > 100 && (
-                  <Pagination
-                    className="mt-2"
-                    pageTotal={countPage}
-                    currentPage={numberPage}
-                    onPageChange={(page) => {
-                      history.push({
-                        search: setParams(`page`, page),
-                      });
-                    }}
-                  />
-                )}
+                                </tr>
+                              </>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
+                  ) : (
+                    <NoData loading={loading} />
+                  )}
+                  {setData?.equiments?.total > 100 && (
+                    <Pagination
+                      className="mt-2"
+                      pageTotal={countPage}
+                      currentPage={numberPage}
+                      onPageChange={(page) => {
+                        history.push({
+                          search: setParams(`page`, page),
+                        });
+                      }}
+                    />
+                  )}
+                </div>
+                <ListEquimentOut
+                  onSuccess={(e) => {
+                    setReloadData(!reloadData);
+                  }}
+                />
               </div>
             </div>
           </div>

@@ -98,77 +98,75 @@ export default function GenerateBill() {
       </h3>
       <div className="row">
         <div className="col-12">
-          <div className="card">
-            <div className="card-body">
-              <div className="row">
-                <div className="col-lg-12">
-                  <div className="table-responsive">
-                    <table className="table table-striped  table-sm mb-0">
-                      <thead className="table-light">
-                        <tr>
-                          <th>#</th>
-                          <th>ເລກໃບເບີກ</th>
-                          <th>ຫົວຂໍ້</th>
-                          <th className="text-end">ຈັດການ</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {setData?.billEquiment?.data?.map((data, index) => (
-                          <>
-                            <tr key={index} className="text-black">
-                              <td>{index + 1}</td>
-                              <td className="text-nowrap">
-                                {data?.billNo ? data?.billNo : "-"}
-                              </td>
-                              <td className="text-nowrap">
-                                {data?.details ? data?.details : "-"}
-                              </td>
-                              <td className="text-nowrap text-end">
-                                <button
-                                  className="btn  me-1 btn-lg"
-                                  onClick={() =>
-                                    history.push(
-                                      `${EQUIMENT_LIST}/${data?._id}`
-                                    )
-                                  }
-                                >
-                                  <i
-                                    className="fa fa-cart-plus me-1"
-                                    style={{ fontSize: 17 }}
-                                  />
-                                  ເບີກຊັບສິນ
-                                </button>
-                                <EditData
-                                  _data={data}
-                                  onSuccess={(e) => {
-                                    setNewLoadData(!reloadData);
-                                  }}
+          <div className="card-body">
+            <div className="row">
+              <div className="col-lg-12">
+                <div className="table-responsive">
+                  <table className="table table-striped  table-sm mb-0">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>ເລກໃບເບີກ</th>
+                        <th>ຫົວຂໍ້</th>
+                        <th className="text-end">ຈັດການ</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {setData?.billEquiment?.data?.map((data, index) => (
+                        <>
+                          <tr key={index} className="text-black">
+                            <td>{index + 1}</td>
+                            <td className="text-nowrap">
+                              {data?.billNo ? data?.billNo : "-"}
+                            </td>
+                            <td className="text-nowrap">
+                              {data?.details ? data?.details : "-"}
+                            </td>
+                            <td className="text-nowrap">
+                              {StatusEquiment(data?.status ? data?.status : "-")}
+                            </td>
+                            <td className="text-nowrap text-end">
+                              <button
+                                className="btn  me-1 btn-sm text-success"
+                                onClick={() =>
+                                  history.push(`${EQUIMENT_LIST}/${data?._id}`)
+                                }
+                              >
+                                <i
+                                  className="fa fa-cart-plus me-1"
                                 />
-                              </td>
-                            </tr>
-                          </>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                                ເບີກ
+                              </button>
+                              <EditData
+                                _data={data}
+                                onSuccess={(e) => {
+                                  setNewLoadData(!reloadData);
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        </>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div
-          style={{
-            position: "fixed",
-            backgroundColor: "#edece8",
+      </div>
+      <div
+        style={{
+          position: "fixed",
+          backgroundColor: "#edece8",
+        }}
+        className="col-md-12 appBottomMenu"
+      >
+        <AddData
+          onSuccess={(e) => {
+            setNewLoadData(!reloadData);
           }}
-          className="col-md-12 appBottomMenu"
-        >
-          <AddData
-            onSuccess={(e) => {
-              setNewLoadData(!reloadData);
-            }}
-          />
-        </div>
+        />
       </div>
     </>
   );

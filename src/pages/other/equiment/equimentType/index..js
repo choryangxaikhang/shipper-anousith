@@ -142,7 +142,7 @@ export default function EquiType() {
     <>
       <div className="content__header content__boxed overlapping">
         <div className="content__wrap">
-          <h3 className="page-title mb-2 text-white">ລາຍງານຍອດການຈອງ</h3>
+          <h3 className="page-title mb-2 text-white">ລາຍການຫມວດຊັບສິນ</h3>
         </div>
       </div>
       <div className=" body-content-lg" style={{ marginTop: 30 }}>

@@ -76,7 +76,7 @@ export default function EditData({ onSuccess, _data }) {
     <React.Fragment>
       <button
         type="button"
-        className="btn  btn-lg"
+        className="btn  btn-sm"
         onClick={() => {
           setShow(true);
         }}

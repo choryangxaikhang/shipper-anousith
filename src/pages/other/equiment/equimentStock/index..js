@@ -34,6 +34,7 @@ import NoData from "../../../../helper/components/NoData";
 import AddData from "./AddData";
 import EditData from "./EditData";
 import SearchEquiment from "../../../../helper/components/SearchEquiment";
+import { OTHER } from "../../../../routes/app";
 
 export default function EquimentStock() {
   const { history, location, match } = useReactRouter();
@@ -61,14 +62,14 @@ export default function EquimentStock() {
   const [deleteEquiment] = useMutation(DELETE_EQUIMENT_STOCK);
 
   useEffect(() => {
-    setLocalHouse(getLocalHouse()?._id);
+    setLocalHouse(getLocalHouse());
   }, []);
   useEffect(() => {
     queryType({
       variables: {
         where: {
           equmentID: listEquiment?._id ? listEquiment?._id : undefined,
-          house: localHouse,
+          house: localHouse?._id,
           createdAt_gte: createdAt_gte(startDate),
           createdAt_lte: createdAt_lt(endDate),
         },
@@ -119,23 +120,19 @@ export default function EquimentStock() {
         <div id="appCapsule">
           <div className="justify-content-md-center">
             <div className="appHeader text-light border-0">
-              <div style={{ flex: 1 }} className="text-left"></div>
-              ນຳສິນຄ້າເຂົ້າ
+              <div style={{ flex: 1 }} className="text-left">
+                <button
+                  className="btn text-white"
+                  onClick={() => history.push(OTHER)}
+                >
+                  <i className="fa fa-chevron-left fs-4" />
+                </button>
+              </div>
+              {localHouse?.houseName ? localHouse?.houseName : "ລາຍງານຂໍ້ມູນ"}
               <div
                 className="text-white pageTitle text-right text-nowrap pr-0"
                 style={{ flex: 1 }}
-              >
-                <button
-                  className="btn text-white mr-0"
-                  onClick={() => setReloadData(!reloadData)}
-                >
-                  {loading ? (
-                    loadingData(23)
-                  ) : (
-                    <i className="icon-cycle fs-4" />
-                  )}
-                </button>
-              </div>
+              ></div>
             </div>
             <br />
             <br />
@@ -186,7 +183,7 @@ export default function EquimentStock() {
                       style={{ width: "100%" }}
                       value={listEquiment?._id}
                       onChange={(obj) => {
-                          setListEquiment(obj);
+                        setListEquiment(obj);
                       }}
                     />
                   </div>
@@ -206,9 +203,9 @@ export default function EquimentStock() {
                             <th>#</th>
                             <th className="text-nowrap">ຊື່ຊັບສິນ</th>
                             <th className="text-nowrap">ວັນທີ່ນຳເຂົ້າ</th>
-                            <th className="text-nowrap">ຈຳນວນ</th>
-                            <th className="text-center">ລາຄາ/ອັນ</th>
-                            <th className="text-center">ລວມ</th>
+                            <th className="text-nowrap text-end">ຈຳນວນ</th>
+                            <th className="text-end">ລາຄາ/ອັນ</th>
+                            <th className="text-end">ລວມ</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -222,17 +219,17 @@ export default function EquimentStock() {
                                     data?.createdAt ? data?.createdAt : "-"
                                   )}
                                 </td>
-                                <td>
+                                <td className="text-end">
                                   {currency(data?.inTotal ? data?.inTotal : 0)}
                                 </td>
-                                <td>
+                                <td className="text-end">
                                   {currency(
                                     data?.equmentID?.price
                                       ? data?.equmentID?.price
                                       : 0
                                   )}
                                 </td>
-                                <td>
+                                <td className="text-end">
                                   {currency(
                                     data?.inTotal *
                                       parseInt(data?.equmentID?.price)

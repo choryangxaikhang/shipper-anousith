@@ -71,3 +71,92 @@ export const QUERY_TYPE_HOUSE = gql`
     }
   }
 `;
+
+export const QUERY_BILL = gql`
+  query BillEquiment($where: BillEquimentWhereInput, $limit: Int) {
+    billEquiment(where: $where, limit: $limit) {
+      data {
+        _id
+        billNo
+        status
+      }
+    }
+  }
+`;
+
+export const CREATE_ORDER_OUT = gql`
+  mutation CreateEquimentOut($data: EquimentOutInput!) {
+    createEquimentOut(data: $data) {
+      _id
+    }
+  }
+`;
+
+export const UPDATE_EQUIMENT_OUT = gql`
+  mutation UpdateEquimentOut(
+    $data: EquimentOutInput!
+    $where: EquimentOutWhereInputOne
+  ) {
+    updateEquimentOut(data: $data, where: $where) {
+      _id
+    }
+  }
+`;
+export const QUERY_EQUIMENT_OUT = gql`
+  query EquimentOuts(
+    $where: EquimentOutWhereInput
+    $orderBy: OrderByInput
+    $skip: Int
+    $limit: Int
+    $noLimit: Boolean
+  ) {
+    equimentOuts(
+      where: $where
+      orderBy: $orderBy
+      skip: $skip
+      limit: $limit
+      noLimit: $noLimit
+    ) {
+      total
+      data {
+        _id
+        outTotal
+        transactionDate
+        createdAt
+        price
+        status
+        billEquiment {
+          _id
+          billNo
+          details
+          status
+        }
+        house {
+          _id
+          houseName
+          contactPhone
+        }
+        equmentID {
+          _id
+          title
+          price
+        }
+        createdBy {
+          _id
+          firstName
+        }
+      }
+    }
+  }
+`;
+
+export const EDIT_BILL = gql`
+  mutation UpdateBillEquiment(
+    $data: BillEquimentInput!
+    $where: BillEquimentWhereInputOne
+  ) {
+    updateBillEquiment(data: $data, where: $where) {
+      _id
+    }
+  }
+`;
