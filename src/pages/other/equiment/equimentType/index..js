@@ -166,7 +166,7 @@ export default function EquiType() {
                   {expenseTypeData?.equimentTypes?.total > 0 ? (
                     <>
                       <div className="table-responsive">
-                        <Table className="table table-striped table-sm">
+                        <Table className="table table-striped  table-sm mb-0">
                           <thead>
                             <tr>
                               <th className="text-start">ລຳດັບ</th>
@@ -225,10 +225,10 @@ export default function EquiType() {
                                               setGetIndex(item?._id);
                                               setNewText(item?.title);
                                             }}
-                                            className="btn btn-lg"
+                                            className="btn btn-sm"
                                             style={{ textDecoration: "none" }}
                                           >
-                                            <i className="icon-edit" />
+                                            <i className="fas fa-edit" />
                                           </button>
                                         )}
                                         <button
@@ -236,7 +236,7 @@ export default function EquiType() {
                                           onClick={() =>
                                             handleDelete(item?._id)
                                           }
-                                          className="btn btn-lg"
+                                          className="btn btn-sm"
                                         >
                                           <i className="icon-trash text-danger"></i>
                                         </button>

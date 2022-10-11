@@ -15,7 +15,12 @@ import {
 
 import { ADD_EQUIMENT } from "./apollo";
 import Notiflix from "notiflix";
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  InputAdornment,
+  OutlinedInput,
+  TextField,
+} from "@mui/material";
 import SelectEquimentType from "../../../../helper/components/SelectEquimentType";
 
 export default function AddData({ onSuccess }) {
@@ -121,7 +126,7 @@ export default function AddData({ onSuccess }) {
         <div className="p-2">
           <div className="form-row mt-1 mb-2">
             <label className="text-black">ເລືອກຫມວດຊັບສິນ</label>
-            <div className="col-md-7">
+            <div className="col-md-12">
               <SelectEquimentType
                 style={{ minWidth: 200 }}
                 value={listEquimentType?._id}
@@ -132,27 +137,43 @@ export default function AddData({ onSuccess }) {
                 }}
               />
             </div>
-            <div className="text-danger fs-4">{errors?.equimentType}</div>
+            <div className="text-danger">{errors?.equimentType}</div>
           </div>
           <div className="form-group mb-1">
-            <TextField
-              label="ຊື່ຊັບສິນ"
-              variant="outlined"
-              type="text"
-              name="title"
-              value={values?.title}
-              onChange={handleChange}
-              sx={{
-                m: 0,
-                width: "100%",
-                backgroundColor: "#ffff",
-              }}
-              error={errors.title}
-            />
+            <FormControl fullWidth sx={{ m: 0 }}>
+              <OutlinedInput
+                startAdornment={
+                  <InputAdornment position="start">
+                    ຊື່ຊັບສິນ: 
+                  </InputAdornment>
+                }
+                type="text"
+                placeholder="..."
+                name="title"
+                value={values?.title}
+                onChange={handleChange}
+              />
+            </FormControl>
             <span className="text-danger">{errors.title}</span>
           </div>
           <div className="form-group mb-1">
-            <TextField
+          <FormControl fullWidth sx={{ m: 0 }}>
+              <OutlinedInput
+                startAdornment={
+                  <InputAdornment position="start">
+                    ຫົວຫນ່ວຍ: 
+                  </InputAdornment>
+                }
+                type="number"
+                placeholder="..."
+                onWheel={(e) => e.target.blur()}
+                name="unit"
+                value={values?.unit}
+                onChange={handleChange}
+              />
+            </FormControl>
+
+            {/* <TextField
               label="ຫົວຫນ່ວຍ"
               variant="outlined"
               type="text"
@@ -166,11 +187,11 @@ export default function AddData({ onSuccess }) {
                 backgroundColor: "#ffff",
               }}
               error={errors.unit}
-            />
+            /> */}
             <span className="text-danger">{errors.unit}</span>
           </div>
           <div className="form-group mb-1">
-            <TextField
+            {/* <TextField
               label="ຂະນຫນາດ"
               variant="outlined"
               type="number"
@@ -184,8 +205,22 @@ export default function AddData({ onSuccess }) {
                 backgroundColor: "#ffff",
               }}
               error={errors.size}
-            />
-            <span className="text-danger">{errors.size}</span>
+            /> */}
+             <FormControl fullWidth sx={{ m: 0 }}>
+              <OutlinedInput
+                startAdornment={
+                  <InputAdornment position="start">
+                    ຂະນຫນາດ: 
+                  </InputAdornment>
+                }
+                type="number"
+                placeholder="..."
+                onWheel={(e) => e.target.blur()}
+                name="unit"
+                value={values?.unit}
+                onChange={handleChange}
+              />
+            </FormControl>
           </div>
           <div className="form-group mb-1">
             <TextField

@@ -123,7 +123,7 @@ export default function EditData({ data, onSuccess }) {
     <React.Fragment>
       <button
         type="button"
-        className="btn  btn-lg"
+        className="btn  btn-sm"
         onClick={(e) => {
           e.stopPropagation();
           setShow(true);

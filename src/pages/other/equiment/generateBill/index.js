@@ -109,8 +109,6 @@ export default function GenerateBill() {
                           <th>#</th>
                           <th>ເລກໃບເບີກ</th>
                           <th>ຫົວຂໍ້</th>
-                          <th>ສະຖານະ</th>
-                          <th>ວັນທີ່ສ້າງ</th>
                           <th className="text-end">ຈັດການ</th>
                         </tr>
                       </thead>
@@ -119,21 +117,15 @@ export default function GenerateBill() {
                           <>
                             <tr key={index} className="text-black">
                               <td>{index + 1}</td>
-                              <td>{data?.billNo ? data?.billNo : "-"}</td>
-                              <td>{data?.details ? data?.details : "-"}</td>
-                              <td>
-                                {StatusEquiment(
-                                  data?.status ? data?.status : "-"
-                                )}
+                              <td className="text-nowrap">
+                                {data?.billNo ? data?.billNo : "-"}
                               </td>
-                              <td>
-                                {formatDateDash(
-                                  data?.createdAt ? data?.createdAt : "-"
-                                )}
+                              <td className="text-nowrap">
+                                {data?.details ? data?.details : "-"}
                               </td>
                               <td className="text-nowrap text-end">
                                 <button
-                                  className="btn btn-success me-2 btn-lg"
+                                  className="btn  me-1 btn-lg"
                                   onClick={() =>
                                     history.push(
                                       `${EQUIMENT_LIST}/${data?._id}`

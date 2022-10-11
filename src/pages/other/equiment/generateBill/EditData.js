@@ -76,20 +76,17 @@ export default function EditData({ onSuccess, _data }) {
     <React.Fragment>
       <button
         type="button"
-        className="btn btn-primary btn-lg"
+        className="btn  btn-lg"
         onClick={() => {
           setShow(true);
         }}
       >
-        <i className="icon-edit" />
+        <i className="fas fa-edit" />
       </button>
       <Modal
-        centered
         show={show}
-        onHide={() => setShow(false)}
         animation={false}
-        backdrop="static"
-        size="lg"
+        size="xl"
       >
         <Modal.Header closeButton>
           <Modal.Title className="fs-5">
