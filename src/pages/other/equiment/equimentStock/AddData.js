@@ -92,7 +92,7 @@ export default function AddData({ onSuccess }) {
             messageSuccess("ບັນທືກສຳເລັດ");
             updateEquiment();
             setTimeout(() => {
-              resetForm({ values: "" });
+              setInputTotal("")
               window.scrollTo(0, 0);
             }, 100);
             setShow(false);

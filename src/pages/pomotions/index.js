@@ -245,7 +245,7 @@ export default function Promotion() {
                             </strong>
                             <b className="text-black">
                               ສ່ວນຫລຸດ:{" "}
-                              {currency(data?.percent ? data?.percent : 0)}
+                              {currency(data?.percent ? data?.percent : 0)} {" % "}
                             </b>
                             <br />
                             <b className="text-black">

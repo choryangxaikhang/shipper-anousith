@@ -19,7 +19,10 @@ export default function TypeRoom({
       : "form-control-md";
   const [searchValue, setSearchValue] = useState();
   const [show, setShow] = useState(false);
-  const [fetchData, { data, loading }] = useLazyQuery(QUERY_TYPE_ROOM);
+  // const [fetchData, { data, loading }] = useLazyQuery(QUERY_TYPE_ROOM);
+  const [fetchData, { data: data, loading: loading }] = useLazyQuery(QUERY_TYPE_ROOM, {
+    fetchPolicy: "network-only",
+  });
   useEffect(() => {
     fetchData({
       variables: {

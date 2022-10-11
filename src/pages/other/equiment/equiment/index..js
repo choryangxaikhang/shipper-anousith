@@ -168,7 +168,7 @@ export default function EquiMent() {
         </div>
       )}
 
-      <div className=" body-content-lg" style={{ marginTop: 30 }}>
+      <div className=" body-content-lg" style={{ marginTop: 50 }}>
         <div className="option-section">
           <div className="row col-md-12  mt-4">
             <div className="option-card">

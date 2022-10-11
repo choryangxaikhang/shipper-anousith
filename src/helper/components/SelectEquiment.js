@@ -21,7 +21,12 @@ export default function SelectEquiment({
 }) {
   const [items, setItems] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [fetchData, { data, loading }] = useLazyQuery(QUERY);
+
+  // const [fetchData, { data, loading }] = useLazyQuery(QUERY);
+  const [fetchData, { data: data, loading: loading }] = useLazyQuery(QUERY, {
+    fetchPolicy: "network-only",
+  });
+
   useEffect(() => {
     fetchData({
       variables: {

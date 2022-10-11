@@ -22,7 +22,10 @@ export default function SelectEquimentType({
 }) {
   const [items, setItems] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [fetchData, { data, loading }] = useLazyQuery(QUERY);
+  // const [fetchData, { data, loading }] = useLazyQuery(QUERY);
+  const [fetchData, { data: data, loading: loading }] = useLazyQuery(QUERY, {
+    fetchPolicy: "network-only",
+  });
   const [localHouse, setLocalHouse] = useState("");
   useEffect(() => {
     setLocalHouse(getLocalHouse()?._id);
