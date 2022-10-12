@@ -523,3 +523,13 @@ export const randomBillNo = (pr = "B-") => {
   for (let i = 1; i <= 8; i++) pr += ~~(Math.random() * 8);
   return pr;
 };
+
+export const houseStatus = (house) => {
+  if (house === "GUEST_HOUSE") {
+    return "ກິດຈະການພັກ";
+  } else if (house === "HOTEL") {
+    return "ໂຮມແຮມ";
+  } else {
+    return "-";
+  }
+};

@@ -191,9 +191,9 @@ export default function TabMenuOther() {
                   </div>
                   <div className="item">
                     <a
-                      // onClick={(e) => {
-                      //   history.push(`${ROUTES.TAB_MENU_INCOME}/Type`);
-                      // }}
+                      onClick={(e) => {
+                        history.push(`${ROUTES.TAB_ACCOUNT}/Type`);
+                      }}
                     >
                       <div className="icon-wrapper">
                         <i className="fa-solid fa-book fa-2x" />

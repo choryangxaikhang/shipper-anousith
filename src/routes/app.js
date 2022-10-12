@@ -35,5 +35,9 @@ export const EQUIMENT_LIST = "/other/equiment_list";
 // promotions
 export const PROMOTION_SCREEN = "/promotion";
 
+//account
+export const TAB_ACCOUNT = "/other/accounting";
+
+
 
 

@@ -29,6 +29,7 @@ import TabMenuRoom from "../pages/room_services/TabMenuRoom";
 import TabMenuEquiment from "../pages/other/equiment/TabMenu";
 import EquiMent from "../pages/other/equiment/equiment/index.";
 import Promotion from "../pages/pomotions";
+import TabMenuAccount from "../pages/other/accounting/TabMenu";
 export default function Routes() {
   const { userDispatch } = useContext(AppContext);
   const _local = localStorage.getItem(TOKEN);
@@ -153,6 +154,12 @@ export default function Routes() {
                   path={`${ROUTES.EQUIMENT_LIST}/:_id`}
                   exact
                   component={(props) => <EquiMent {...props} />}
+                />
+                {/* account */}
+                <PrivateRoute
+                  path={`${ROUTES.TAB_ACCOUNT}/:page`}
+                  exact
+                  component={(props) => <TabMenuAccount {...props} />}
                 />
                 {/* PROMOTION */}
                 <PrivateRoute
