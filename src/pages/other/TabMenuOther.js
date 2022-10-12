@@ -184,7 +184,7 @@ export default function TabMenuOther() {
                       }}
                     >
                       <div className="icon-wrapper">
-                      <i class="fa-solid fa-chart-line fa-2x"/>
+                        <i class="fa-solid fa-chart-line fa-2x" />
                       </div>
                       <h5>ຈັດການຊັບສິນ</h5>
                     </a>
@@ -196,7 +196,7 @@ export default function TabMenuOther() {
                       }}
                     >
                       <div className="icon-wrapper">
-                        <i className="fa-solid fa-book fa-2x" />
+                        <i className="fa-sharp fa-solid fa-file-invoice-dollar fa-2x" />
                       </div>
                       <h5>ຈັດການບັນຊີ</h5>
                     </a>
@@ -208,7 +208,7 @@ export default function TabMenuOther() {
                       }}
                     >
                       <div className="icon-wrapper">
-                      <i className="fa-solid fa-hand-holding-dollar fa-2x"/>
+                        <i className="fa-solid fa-hand-holding-dollar fa-2x" />
                       </div>
                       <h5>ຈັດການໂປຣໂມຊັ່ນ</h5>
                     </a>

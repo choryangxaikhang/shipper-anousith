@@ -1,40 +1,47 @@
 import Notiflix, { Loading } from "notiflix";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { useMutation } from "@apollo/client";
-import { s3Client } from "../../../../helper/s3Client";
+import { useApolloClient, useMutation } from "@apollo/client";
 import {
   currency,
+  formatDateTime,
   getLocalHouse,
+  getLocalProvince,
   getStaffLogin,
+  loadingScreen,
   messageError,
   messageSuccess,
   messageWarning,
   toDayDash,
+  valiDate,
 } from "../../../../helper";
-import _ from "lodash";
-import placeholder from "../../../../img/placeholder.png";
+import { CREATE_EXPENSES } from "../apollo";
 import { useFormik } from "formik";
 import { v4 as uuidv4 } from "uuid";
-import { CREATE_EXPENSES } from "../apollo";
-import { TextField } from "@mui/material";
+import { s3Client } from "../../../../helper/s3Client";
+import {
+  FormControl,
+  InputAdornment,
+  OutlinedInput,
+  TextField,
+} from "@mui/material";
 import SelectExpressTypes from "../../../../helper/components/SelectExpressTypes";
-export default function Expenses({ getData, onSuccess }) {
+export default function Expeses({ onSuccess }) {
   const [show, setShow] = useState(false);
   const [createIncome] = useMutation(CREATE_EXPENSES);
   const [userData, setUserData] = useState({});
   const [startDate, setStartDate] = useState(toDayDash());
-  const [imageName, setImageName] = useState("");
-  const [file, setFile] = useState(null);
-  const [getTypeExpress, setTypExpress] = useState({});
   const getUser = userData?.firstName + " " + userData?.lastName;
-  const [localHouse, setLocalHouse] = useState("");
-  useEffect(() => {
-    setLocalHouse(getLocalHouse()?._id);
-  }, []);
+  const [getTypeEx, setTypEx] = useState();
   useEffect(() => {
     const local = getStaffLogin();
     setUserData(local?.data);
+  }, []);
+  const [imageName, setImageName] = useState("");
+  const [file, setFile] = useState(null);
+  const [localHouse, setLocalHouse] = useState("");
+  useEffect(() => {
+    setLocalHouse(getLocalHouse()?._id);
   }, []);
   const handleUpload = async (event) => {
     const imageName = uuidv4() + "." + event.target.files[0].type.split("/")[1];
@@ -48,89 +55,85 @@ export default function Expenses({ getData, onSuccess }) {
     } else {
       setFile(null);
       setImageName("");
-      messageWarning("ການອັບໂຫຼດເອກະສານບໍ່ສຳເລັດ");
+      messageWarning("ອັບໂຫຼດເອກະສານບໍ່ສຳເລັດ");
     }
   };
-
   const { handleChange, errors, values, handleSubmit, resetForm, submitCount } =
     useFormik({
       initialValues: {
         detail: "",
-        expenseKIP: "",
+        incomeKIP: "",
+        extraType: "INCOME",
       },
       enableReinitialize: false,
       validate: (values) => {
         const errors = {};
-        if (!values.expenseKIP) {
-          errors.expenseKIP = "ກະລູນາປ້ອນຈຳນວນເງິນ";
+        if (values.incomeKIP <= 0) {
+          errors.incomeKIP = "ກະລູນາປ້ອນຈຳນວນເງິນ ຕ້ອງຫລາຍກວ່າ 0";
         }
-        if (!values.detail) {
-          errors.detail = "ກະລູນາປ້ອນລາຍລະອຽດ";
-        }
-        if (!imageName) errors.fileUpload = "ກະລູນາເລືອກບິນຈ່າຍກ່ອນ";
-        if (!getTypeExpress?.id_expense)
-          errors.expenseType = "ກະລູນາເລືອກປະເພດລາຍຈ່າຍ";
+        if (!getTypeEx?.id_expense)
+          errors.incomeType = "ກະລູນາເລືອກປະເພດລາຍລາຍຈ່າຍ";
         return errors;
       },
       onSubmit: async (values) => {
-        Loading.dots();
+       loadingScreen();
         try {
           const { data: _create } = await createIncome({
             variables: {
               data: {
+                incomeKIP: parseInt(values.incomeKIP),
                 accountantDate: String(startDate),
                 fileUpload: String(imageName),
                 StaffFullName: String(getUser),
                 house: String(localHouse),
                 detail: String(values.detail),
                 extraType: "EXPENSE",
-                expenseKIP: parseInt(values.expenseKIP),
-                expenseType: String(getTypeExpress?.id_expense),
+                incomeType: String(getTypeEx?.id_expense),
               },
             },
           });
           if (_create) {
             Notiflix.Loading.remove();
-            messageSuccess("ລົງລາຍຈ່າຍສຳເລັດແລ້ວ");
+            messageSuccess("ລົງລາຍຮັບສຳເລັດແລ້ວ");
             onSuccess();
-            setImageName("");
             setTimeout(() => {
               resetForm({ values: "" });
               window.scrollTo(0, 0);
             }, 100);
             setShow(false);
           } else {
-            messageError("ລົງລາຍຈ່າຍບໍສຳເລັດ");
+            Notiflix.Loading.remove();
+            messageError("ລົງລາຍຮັບບໍສຳເລັດ");
+            setTimeout(() => {
+              resetForm({ values: "" });
+              window.scrollTo(0, 0);
+            }, 100);
             onSuccess();
           }
         } catch (error) {
-          messageError("ການເພີ່ມຂໍ້ມູນຜິດພາດ");
-          onSuccess();
+          Notiflix.Loading.remove();
+          console.log(error);
+          setShow(false);
         }
       },
     });
 
-  const sumMoney = {
-    endBalanceKIP: _.sumBy(getData?.extraExpenses?.data, "endBalanceKIP"),
-  };
-
-  const _data = getData?.extraExpenses?.data[0]?.endBalanceKIP;
   return (
     <>
       <div
-        className="bg-primary col-6 btn btn-block p-2 rounded "
-        style={{ marginTop: -1 }}
+        className="bg-primary col-6 btn btn-block p-2 rounded"
         onClick={() => setShow(true)}
       >
-        ລົງລາຍຈ່າຍ
+        <i class="fas fa-pay me-1"></i> ລົງລາຍຮັບ
       </div>
+
       <Modal show={show} onHide={() => setShow(false)} size="lg">
         <Modal.Header closeButton>
-          <h3>ຟອມລົງລາຍຈ່າຍ</h3>
+          <h3>ຟອມລົງລາຍຮັບ</h3>
         </Modal.Header>
-        <Modal.Body className="container">
-          <div className="col-md-12">
-            <div className="form-group mb-3">
+        <div className="p-2">
+          <div className="form-row  mt-1">
+            <div className="col-md-12">
               <TextField
                 label=" "
                 variant="outlined"
@@ -144,121 +147,81 @@ export default function Expenses({ getData, onSuccess }) {
                   backgroundColor: "#ffff",
                 }}
               />
-              <div className="text-danger mt-1 fs-5">{errors.fileUpload}</div>
             </div>
           </div>
-          <div className="col-md-12 mt-3">
-            <SelectExpressTypes
-              style={{ minWidth: 200 }}
-              value={getTypeExpress?.id_expense}
-              onChange={(obj) => {
-                if (obj?.id_expense) {
-                  setTypExpress(obj);
-                }
-              }}
-            />
-            <div className="text-danger fs-5">{errors.expenseType}</div>
-          </div>
-          <div className="row mt-1">
-            <div className="col-md-6">
-              <div className="form-row mt-2">
-                <div
-                  className="col-md-12 card mt-3 p-2"
-                  style={{ height: "52px" }}
-                >
-                  ຍອດຄົງເຫຼືອ:
-                  <b className="fs-4 d-inline">{currency(_data)}</b>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="form-row mt-3">
-                <div className="col-md-12">
-                  <TextField
-                    label="ລາຍຈ່າຍ"
-                    variant="outlined"
-                    type="number"
-                    name="expenseKIP"
-                    onWheel={(e) => e.target.blur()}
-                    value={values?.expenseKIP}
-                    onChange={handleChange}
-                    sx={{
-                      m: 0,
-                      width: "100%",
-                      backgroundColor: "#ffff",
-                    }}
-                    errors={errors.expenseKIP}
-                  />
-                  <div className="text-danger fs-5">{errors.expenseKIP}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="form-row mt-3">
-            <div className="col-md-12">
-              <TextField
-                label="ວັນທີ່ຈ່າຍ"
-                variant="outlined"
-                type="date"
-                onWheel={(e) => e.target.blur()}
-                name="accountantDate"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                sx={{
-                  m: 0,
-                  width: "100%",
-                  backgroundColor: "#ffff",
+
+          <div className="form-row">
+            <div className="col-md-12 mt-1">
+               <SelectExpressTypes
+                style={{ minWidth: 200 }}
+                value={getTypeEx?.id_expense}
+                onChange={(obj) => {
+                  if (obj?.id_expense) {
+                    setTypEx(obj);
+                  }
                 }}
               />
+              <div className="text-danger">{errors.incomeType}</div>
             </div>
-            <label className="text-black mt-2">ລາຍລະອຽດ</label>
+          </div>
+          <div className="form-row  mt-1">
+            <div className="col-md-12">
+              <FormControl fullWidth sx={{ m: 0 }}>
+                <OutlinedInput
+                  startAdornment={
+                    <InputAdornment position="start">
+                      ຈຳນວນເງິນ:{" "}
+                    </InputAdornment>
+                  }
+                  type="number"
+                  placeholder="ລາຍຮັບ"
+                  onWheel={(e) => e.target.blur()}
+                  value={values?.incomeKIP}
+                  name="incomeKIP"
+                  onChange={handleChange}
+                />
+              </FormControl>
+              <div className="text-danger">{errors.incomeKIP}</div>
+            </div>
+          </div>
+          <div className="form-row  mt-1">
+            <div className="col-md-12">
+              <FormControl fullWidth sx={{ m: 0 }}>
+                <OutlinedInput
+                  startAdornment={
+                    <InputAdornment position="start">ວັນທີ່: </InputAdornment>
+                  }
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+              </FormControl>
+            </div>
+          </div>
+          <div className="form-row  mt-1">
+            <label className="text-black ">ລາຍລະອຽດ</label>
             <div className="col-md-12">
               <textarea
                 rows={3}
                 name="detail"
-                className={
-                  errors.detail
-                    ? "form-control text-back  is-invalid"
-                    : "form-control text-back  invalid"
-                }
+                className="form-control form-control-lg text-black"
                 placeholder="..."
                 onChange={handleChange}
                 value={values?.detail}
               ></textarea>
-              <div className="text-danger fs-5">{errors.detail}</div>
-            </div>
-            <div className="col-md-12 mt-3">
-              <TextField
-                label="ພະນັກງານ"
-                variant="outlined"
-                defaultValue={getUser}
-                sx={{
-                  m: 0,
-                  width: "100%",
-                  backgroundColor: "#ffff",
-                }}
-                disabled={true}
-              />
-            </div>
-            <hr className="text-danger" />
-            <div className="col-md-md-2 mt-3 text-end">
-              <button
-                className="btn btn-primary ms-2"
-                onClick={() => handleSubmit()}
-              >
-                <i className="fas fa-save me-1" />
-                ບັນທຶກ
-              </button>
-              <button
-                className="btn btn-light ms-2"
-                onClick={() => setShow(false)}
-              >
-                <i class="fa-solid fa-rectangle-xmark me-1" />
-                ຍົກເລີກ
-              </button>
             </div>
           </div>
-        </Modal.Body>
+        </div>
+        <Modal.Footer className="border-top">
+          <button
+            type="button"
+            className="btn btn-primary btn-block btn-lg"
+            onClick={() => handleSubmit()}
+          >
+            <i className="icon-save" style={{ marginRight: 3 }} />
+            ບັນທຶກ
+          </button>
+        </Modal.Footer>
       </Modal>
     </>
   );

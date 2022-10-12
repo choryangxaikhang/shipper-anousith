@@ -124,7 +124,7 @@ export default function AddIncome({ onSuccess }) {
         className="bg-success col-6 btn btn-block p-2 rounded"
         onClick={() => setShow(true)}
       >
-        <i class="fa-solid fa-hand-holding-dollar"></i> ລົງລາຍຮັບ
+        <i className="fa-solid fa-hand-holding-dollar me-1"/>ລົງລາຍຮັບ
       </div>
 
       <Modal show={show} onHide={() => setShow(false)} size="lg">
@@ -147,7 +147,6 @@ export default function AddIncome({ onSuccess }) {
                   backgroundColor: "#ffff",
                 }}
               />
-              <i className="text-danger">{errors.fileUpload}</i>
             </div>
           </div>
 
