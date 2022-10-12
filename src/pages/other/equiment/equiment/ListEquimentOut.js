@@ -122,66 +122,76 @@ export default function ListEquimentOut({ onSuccess }) {
     <>
       <div className="col-md-4">
         <div className="border  mt-4 mt-lg-0 rounded">
-          <table className="table table-bordered table-sm mb-0 text-black">
-            <thead className="table-light">
-              <tr>
-                <th>#</th>
-                <th className="text-nowrap">ລາຍການ</th>
-                <th className="text-nowrap text-end">ຈຳນວນ</th>
-                <th className="text-nowrap text-end">ລາຄາ/ອັນ</th>
-                <th className="text-nowrap text-end">ລວມ</th>
-              </tr>
-            </thead>
-            <tbody>
-              {setData?.equimentOuts?.data?.map((data, index) => (
-                <>
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td className="text-nowrap text-start">
-                      {data?.equmentID?.title}
+          {setData?.equimentOuts?.total > 0 ? (
+            <>
+              <table className="table table-bordered table-sm mb-0 text-black">
+                <thead className="table-light">
+                  <tr>
+                    <th>#</th>
+                    <th className="text-nowrap">ລາຍການ</th>
+                    <th className="text-nowrap text-end">ຈຳນວນ</th>
+                    <th className="text-nowrap text-end">ລາຄາ/ອັນ</th>
+                    <th className="text-nowrap text-end">ລວມ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {setData?.equimentOuts?.data?.map((data, index) => (
+                    <>
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td className="text-nowrap text-start">
+                          {data?.equmentID?.title}
+                        </td>
+                        <td className="text-end text-nowrap">
+                          {currency(data?.outTotal ? data?.outTotal : 0)}
+                        </td>
+                        <td className="text-end text-nowrap">
+                          {currency(data?.price ? data?.price : 0)}
+                        </td>
+                        <td className="text-end text-nowrap">
+                          {currency(
+                            parseInt(data?.outTotal ? data?.outTotal : 0) *
+                              parseInt(data?.price ? data?.price : 0)
+                          )}
+                        </td>
+                      </tr>
+                    </>
+                  ))}
+                  <tr style={{ backgroundColor: "#fafafa" }}>
+                    <td className=" text-center fs-5" colSpan={3}>
+                      ລວມທັງຫມົດ :
                     </td>
-                    <td className="text-end text-nowrap">
-                      {currency(data?.outTotal ? data?.outTotal : 0)}
+                    <td className="text-end fs-5">
+                      {currency(sumTotal?.outTotal ? sumTotal?.outTotal : 0)}
                     </td>
-                    <td className="text-end text-nowrap">
-                      {currency(data?.price ? data?.price : 0)}
-                    </td>
-                    <td className="text-end text-nowrap">
+                    <td className="text-end fs-5">
                       {currency(
-                        parseInt(data?.outTotal ? data?.outTotal : 0) *
-                          parseInt(data?.price ? data?.price : 0)
+                        sumTotal?.finalPrice ? sumTotal?.finalPrice : 0
                       )}
                     </td>
                   </tr>
-                </>
-              ))}
-              <tr style={{ backgroundColor: "#fafafa" }}>
-                <td className=" text-center fs-5" colSpan={3}>
-                  ລວມທັງຫມົດ :
-                </td>
-                <td className="text-end fs-5">
-                  {currency(sumTotal?.outTotal ? sumTotal?.outTotal : 0)}
-                </td>
-                <td className="text-end fs-5">
-                  {currency(sumTotal?.finalPrice ? sumTotal?.finalPrice : 0)}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div className="row">
-            <Export _data={setData} />
-            <button
-              className="col-5 btn-primary text-center mt-2 bg-danger"
-              onClick={(e) => {
-                closeBill();
-              }}
-            >
-              <h3 className="text-white">
-                <i class="fa-solid fa-power-off me-1 p-2 pt-3" />
-                ປິດໃບເບີກນີ້
-              </h3>
-            </button>
-          </div>
+                </tbody>
+              </table>
+              <div className="row">
+                <Export _data={setData} />
+                <button
+                  className="col-5 btn-primary text-center mt-2 bg-danger"
+                  onClick={(e) => {
+                    closeBill();
+                  }}
+                >
+                  <b className="text-white">
+                    <i class="fa-solid fa-power-off me-1  p-1" />
+                    ປິດໃບເບີກນີ້
+                  </b>
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <b className="text-primary text-center">ບໍ່ມີຂໍ້ມູນເບີກຊັບສິນ</b>
+            </>
+          )}
         </div>
       </div>
     </>

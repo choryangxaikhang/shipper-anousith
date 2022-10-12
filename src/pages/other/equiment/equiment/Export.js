@@ -53,10 +53,10 @@ function Export({ _data }) {
           setShow(true);
         }}
       >
-        <h3 className="text-white">
+        <b className="text-white">
           <i className="fas fa-print me-1 pt-1" />
           ພີມໃບເບິກ
-        </h3>
+        </b>
       </button>
       <Modal
         show={show}
