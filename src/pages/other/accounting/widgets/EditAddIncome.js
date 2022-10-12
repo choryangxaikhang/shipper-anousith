@@ -26,7 +26,7 @@ import {
   TextField,
 } from "@mui/material";
 import SelectIncomeType from "../../../../helper/components/SelectIncomeType";
-export default function AddIncome({ onSuccess }) {
+export default function EditAddIncome({ onSuccess }) {
   const [show, setShow] = useState(false);
   const [createIncome] = useMutation(CREATE_EXPENSES);
   const [userData, setUserData] = useState({});
@@ -76,7 +76,7 @@ export default function AddIncome({ onSuccess }) {
         return errors;
       },
       onSubmit: async (values) => {
-       loadingScreen();
+        loadingScreen();
         try {
           const { data: _create } = await createIncome({
             variables: {
@@ -120,12 +120,9 @@ export default function AddIncome({ onSuccess }) {
 
   return (
     <>
-      <div
-        className="bg-success col-6 btn btn-block p-2 rounded"
-        onClick={() => setShow(true)}
-      >
-        <i class="fa-solid fa-hand-holding-dollar"></i> ລົງລາຍຮັບ
-      </div>
+      <button className=" btn btn-sm" onClick={() => setShow(true)}>
+        <i className="fas fa-edit" />
+      </button>
 
       <Modal show={show} onHide={() => setShow(false)} size="lg">
         <Modal.Header closeButton>
@@ -153,7 +150,7 @@ export default function AddIncome({ onSuccess }) {
 
           <div className="form-row">
             <div className="col-md-12 mt-1">
-               <SelectIncomeType
+              <SelectIncomeType
                 style={{ minWidth: 200 }}
                 value={getTypeIncome?.id_income}
                 onChange={(obj) => {

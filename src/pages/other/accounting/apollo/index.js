@@ -65,10 +65,6 @@ export const QUERY_EXTRA_EXPENSE = gql`
           houseName
           houseCode
           contactPhone
-          type{
-          title_lao
-          title_eng
-          }
         }
         StaffFullName
         extraType

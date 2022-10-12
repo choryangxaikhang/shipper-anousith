@@ -15,6 +15,7 @@ import {
   messageError,
   messageSuccess,
   setParams,
+  startMonth,
   startOfMonth,
 } from "../../../helper";
 import {
@@ -27,22 +28,23 @@ import { Table } from "react-bootstrap";
 import Notiflix from "notiflix";
 import _ from "lodash";
 import Pagination from "../../../helper/controllers/Pagination";
-// import AddIncome from "./widgets/AddIncome";
-// import Expenses from "./widgets/Expeses";
+import AddIncome from "./widgets/AddIncome";
 import Export from "./Export";
-// import SummaryExpense from "./widgets/summaryExpense";
+import Expenses from "./widgets/Expeses";
+import PreviewImage from "./previewImage";
+import EditAddIncome from "./widgets/EditAddIncome";
 export default function ListAllExpenses() {
   const { history, location, match } = useReactRouter();
   const userState = getStaffLogin();
   const userData = userState?.data;
   const queryParams = new URLSearchParams(location?.search);
-  const numberPage = match?.params?.page;
-  const [numberRows, setNumberRows] = useState(ITEM_PER_PAGE);
+  const [numberPage, setNumberPage] = useState(1);
+  const [numberRow, setNumberRow] = useState(100);
   const [startDate, setStartDate] = useState(startOfMonth());
   const [endDate, setEndDate] = useState(endOfMonth());
   const [newLoadData, setNewLoadData] = useState(false);
   const [listHouses, setListHouses] = useState({});
-  const [localHouse, setLocalHouse] = useState("")
+  const [localHouse, setLocalHouse] = useState("");
   const [fetchData, { data: extraExpenseData, loading }] = useLazyQuery(
     QUERY_EXTRA_EXPENSE,
     { fetchPolicy: "cache-and-network" }
@@ -75,8 +77,8 @@ export default function ListAllExpenses() {
           house: localHouse,
           ...whereDate,
         },
-        skip: numberRows * (numberPage - 1),
-        limit: parseInt(numberRows),
+        skip: numberRow * (numberPage - 1),
+        limit: parseInt(numberRow),
         orderBy: "createdAt_DESC",
       },
     });
@@ -88,51 +90,53 @@ export default function ListAllExpenses() {
         },
       },
     });
-  }, [numberRows, numberPage, localHouse, newLoadData, startDate, endDate]);
-// summay Total
+  }, [numberRow, numberPage, localHouse, newLoadData, startDate, endDate]);
+  useEffect(() => {
+    const page = queryParams.get("page");
+    const _startDate = queryParams.get("startDate");
+    const _endDate = queryParams.get("endDate");
+    setStartDate(_startDate || startMonth());
+    setEndDate(_endDate || endOfMonth());
+    if (page) {
+      setNumberPage(parseInt(page));
+    } else {
+      setNumberRow(100);
+    }
+  }, [queryParams]);
+  // summay Total
 
-// const sumAllMoney = {
-//   totalIncome: _.sumBy( summaryExpenseData?.summaryExtraExpense?.data,"totalIncome" ),
-//   totalExpense: _.sumBy( summaryExpenseData?.summaryExtraExpense?.data,"totalExpense" ),
-//   totalEndBalance: _.sumBy( summaryExpenseData?.summaryExtraExpense?.data,"totalEndBalance" ),
-  
-// };
-const Income = summaryExpenseData?.summaryExtraExpense?.totalIncome;
-const exPres = summaryExpenseData?.summaryExtraExpense?.totalExpense;
-const finalMoney = Income - exPres;
+  // const sumAllMoney = {
+  //   totalIncome: _.sumBy( summaryExpenseData?.summaryExtraExpense?.data,"totalIncome" ),
+  //   totalExpense: _.sumBy( summaryExpenseData?.summaryExtraExpense?.data,"totalExpense" ),
+  //   totalEndBalance: _.sumBy( summaryExpenseData?.summaryExtraExpense?.data,"totalEndBalance" ),
 
+  // };
+  const Income = summaryExpenseData?.summaryExtraExpense?.totalIncome;
+  const exPres = summaryExpenseData?.summaryExtraExpense?.totalExpense;
+  const finalMoney = Income - exPres;
 
   //pageination
   const countData = extraExpenseData?.extraExpenses?.total;
   const countPage = [];
-  for (var i = 1; i <= Math.ceil(countData / numberRows); i++) {
+  for (var i = 1; i <= Math.ceil(countData / numberRow); i++) {
     countPage.push(i);
   }
   const NO = (index) => {
-    const no = numberRows * numberPage - numberRows;
-    if (numberRows > 0) {
+    const no = numberRow * numberPage - numberRow;
+    if (numberRow > 0) {
       return no + index + 1;
     } else {
       return index + 1;
     }
   };
 
-  useEffect(() => {
-    let _rows = queryParams.get("rows");
-    const _startDate = queryParams.get("startDate");
-    const _endDate = queryParams.get("endDate");
-    setStartDate(_startDate);
-    setEndDate(_endDate);
-    setNumberRows(_rows ? parseInt(_rows) : ITEM_PER_PAGE);
-  }, []);
-
   // get route params
   useEffect(() => {
     const _rows = queryParams.get("rows");
     if (_rows) {
-      setNumberRows(_rows);
+      setNumberRow(_rows);
     } else {
-      setNumberRows(ITEM_PER_PAGE);
+      setNumberRow(ITEM_PER_PAGE);
     }
   }, [queryParams]);
 
@@ -199,7 +203,9 @@ const finalMoney = Income - exPres;
     <>
       <div className="content__header content__boxed overlapping">
         <div className="content__wrap">
-          <h3 className="page-title mb-2 text-white">ສະຫລູບລາຍຮັບ ແລະ ລາຍຈ່າຍ</h3>
+          <h3 className="page-title mb-2 text-white">
+            ສະຫລູບລາຍຮັບ ແລະ ລາຍຈ່າຍ
+          </h3>
         </div>
       </div>
       <div className="content__boxed">
@@ -270,9 +276,9 @@ const finalMoney = Income - exPres;
                         <h2>
                           {summaryExpenseData?.summaryExtraExpense?.totalIncome
                             ? currency(
-                              summaryExpenseData?.summaryExtraExpense
-                                ?.totalIncome
-                            )
+                                summaryExpenseData?.summaryExtraExpense
+                                  ?.totalIncome
+                              )
                             : 0}{" "}
                           ກີບ
                         </h2>
@@ -287,9 +293,9 @@ const finalMoney = Income - exPres;
                         <h2>
                           {summaryExpenseData?.summaryExtraExpense?.totalExpense
                             ? currency(
-                              summaryExpenseData?.summaryExtraExpense
-                                ?.totalExpense
-                            )
+                                summaryExpenseData?.summaryExtraExpense
+                                  ?.totalExpense
+                              )
                             : 0}{" "}
                           ກີບ
                         </h2>
@@ -301,16 +307,13 @@ const finalMoney = Income - exPres;
                     >
                       <div className="card-body text-center">
                         <h5 className="card-title">ຍອດຄົງເຫຼືອ</h5>
-                        <h2>
-                          {currency(finalMoney ? finalMoney : 0)}{" "}
-                          ກີບ
-                        </h2>
+                        <h2>{currency(finalMoney ? finalMoney : 0)} ກີບ</h2>
                       </div>
                     </div>
                   </div>
 
                   <div className="table-responsive">
-                    <Table className="table table-striped table-sm">
+                    <Table className="table table-sm">
                       <thead>
                         <tr>
                           <th className="text-nowrap">ລຳດັບ</th>
@@ -328,95 +331,97 @@ const finalMoney = Income - exPres;
                         </tr>
                       </thead>
                       <tbody>
-                        {extraExpenseData &&
-                          extraExpenseData?.extraExpenses?.data?.map(
-                            (data, index) => (
-                              <tr
-                                key={index}
-                                className={
-                                  data?.confirmStatus === "CONFIRMED"
-                                    ? "table-success"
-                                    : ""
-                                }
-                              >
-                                <td className="text-nowrap">{NO(index)}</td>
+                        {extraExpenseData?.extraExpenses?.data?.map(
+                          (data, index) => (
+                            <tr
+                              key={index}
+                              className={
+                                data?.confirmStatus === "CONFIRMED"
+                                  ? "table-success"
+                                  : ""
+                              }
+                            >
+                              <td className="text-nowrap">{NO(index)}</td>
 
-                                <td className="text-nowrap">
-                                  {data?.accountantDate
-                                    ? formatDateTime(data?.accountantDate)
-                                    : "-"}
-                                </td>
-                                <td>{data?.detail ? data?.detail : "-"}</td>
-                                <td className="text-nowrap text-right">
-                                  {currency(
-                                    data?.incomeKIP ? data?.incomeKIP : 0
-                                  )}{" "}
-                                  ກີບ
-                                </td>
-                                <td className="text-nowrap text-right">
-                                  {currency(
-                                    data?.expenseKIP ? data?.expenseKIP : 0
-                                  )}{" "}
-                                  ກີບ
-                                </td>
-                                <td className="text-nowrap text-right">
-                                  {currency(
-                                    data?.endBalanceKIP
-                                      ? data?.endBalanceKIP
-                                      : 0
-                                  )}{" "}
-                                  ກີບ
-                                </td>
-                                <td className="text-nowrap text-center">
-                                  {data?.confirmStatus === "CONFIRMED" ? (
-                                    <span>
-                                      {data?.confirmBy?.firstName +
-                                        " " +
-                                        data?.confirmBy?.lastName}
-                                    </span>
-                                  ) : (
-                                    <>
-                                      <button
-                                        className="btn btn-sm btn-success"
-                                        onClick={() =>
-                                          _handleConfirm(data?.id_list)
-                                        }
-                                        disabled={userData?.role === "ADMIN" || userData?.role === "SUPER_ADMIN" ? false : true}
-                                      >
-                                        <i className="icon-check-circle" />{" "}
-                                        ອານຸມັດ
-                                      </button>
-                                      <hr className="m-1" />
-                                      {data?.confirmDate
-                                        ? formatDateTime(data?.confirmDate)
-                                        : "--/--/----"}
-                                    </>
-                                  )}
-                                </td>
-                                <td className="text-nowrap text-start">
-                                  <div className="btn-group">
-                                    {/* <PreviewImage
-                                      image={
-                                        data?.fileUpload ? data?.fileUpload : ""
-                                      }
-                                    /> */}
+                              <td className="text-nowrap">
+                                {data?.accountantDate
+                                  ? formatDateTime(data?.accountantDate)
+                                  : "-"}
+                              </td>
+                              <td>{data?.detail ? data?.detail : "-"}</td>
+                              <td className="text-nowrap text-right">
+                                {currency(
+                                  data?.incomeKIP ? data?.incomeKIP : 0
+                                )}{" "}
+                                ກີບ
+                              </td>
+                              <td className="text-nowrap text-right">
+                                {currency(
+                                  data?.expenseKIP ? data?.expenseKIP : 0
+                                )}{" "}
+                                ກີບ
+                              </td>
+                              <td className="text-nowrap text-right">
+                                {currency(
+                                  data?.endBalanceKIP ? data?.endBalanceKIP : 0
+                                )}{" "}
+                                ກີບ
+                              </td>
+                              <td className="text-nowrap text-center">
+                                {data?.confirmStatus === "CONFIRMED" ? (
+                                  <span>
+                                    {data?.confirmBy?.firstName +
+                                      " " +
+                                      data?.confirmBy?.lastName}
+                                  </span>
+                                ) : (
+                                  <>
                                     <button
-                                      className="btn btn-sm btn-danger"
+                                      className="btn btn-sm btn-success"
                                       onClick={() =>
-                                        _handleDelete(data?.id_list)
+                                        _handleConfirm(data?.id_list)
+                                      }
+                                      disabled={
+                                        userData?.role === "ADMIN" ||
+                                        userData?.role === "SUPER_ADMIN"
+                                          ? false
+                                          : true
                                       }
                                     >
-                                      <i className="icon-trash" />
+                                      <i className="icon-check-circle" />{" "}
+                                      ອານຸມັດ
                                     </button>
-                                  </div>
-                                </td>
-                              </tr>
-                            )
-                          )}
+                                    <hr className="m-1" />
+                                    {data?.confirmDate
+                                      ? formatDateTime(data?.confirmDate)
+                                      : "--/--/----"}
+                                  </>
+                                )}
+                              </td>
+                              <td className="text-nowrap text-end">
+                                <div className="btn-group">
+                                  <PreviewImage
+                                    image={
+                                      data?.fileUpload ? data?.fileUpload : ""
+                                    }
+                                  />
+
+                                  <EditAddIncome _data={data} />
+                                  <button
+                                    className="btn btn-sm  ms-2"
+                                    onClick={() => _handleDelete(data?.id_list)}
+                                  >
+                                    <i className="icon-trash text-danger" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          )
+                        )}
                       </tbody>
                     </Table>
                   </div>
-                  {/* {expenseTypeData?.incomeTypes?.total > 100 && (
+                  {extraExpenseData?.extraExpenses?.data?.total > 100 && (
                     <Pagination
                       className="mt-2"
                       pageTotal={countPage}
@@ -427,18 +432,27 @@ const finalMoney = Income - exPres;
                         });
                       }}
                     />
-                  )} */}
+                  )}
                   <div
                     style={{
                       position: "fixed",
-                      bottom: 15,
+                      bottom: 50,
                       right: 25,
                       opacity: 0.7,
                     }}
                   >
-                    <Export
-                      _Data={extraExpenseData}
-                    />
+                    <Export _Data={extraExpenseData} />
+                  </div>
+                  <div
+                    style={{
+                      position: "fixed",
+                      bottom: 5,
+                      right: 2,
+                    }}
+                    className="col-md-12"
+                  >
+                    <AddIncome />
+                    <Expenses />
                   </div>
                 </div>
               </div>

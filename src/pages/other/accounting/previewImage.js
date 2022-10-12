@@ -1,12 +1,12 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useRef, useState } from "react";
 import { Modal, Row } from "react-bootstrap";
-import { aws_url_images} from "../../helper";
+import { aws_url_images} from "../../../helper";
 function PreviewImage({ image }) {
   const [show, setShow] = useState(false);
   return (
     <React.Fragment>
-      <button className="btn btn-sm btn-light" disabled={image?false:true} onClick={() => setShow(true)}>
+      <button className="btn btn-sm me-1" disabled={image?false:true} onClick={() => setShow(true)}>
         <i className="icon-receipt" />
       </button>
 

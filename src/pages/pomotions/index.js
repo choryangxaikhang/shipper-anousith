@@ -224,14 +224,13 @@ export default function Promotion() {
                         style={{ marginTop: -8, marginRight: -10 }}
                       >
                         <i
-                          className="icon-x-circle text-danger"
+                          className="icon-trash text-danger"
                           onClick={(e) => {
                             _deleteRateExChange(data?._id);
                           }}
                           style={{ fontSize: 20 }}
                         ></i>
                       </b>
-
                       <a
                         href="javascript:void(0)"
                         className="item pr-0 "

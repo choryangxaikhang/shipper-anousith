@@ -271,7 +271,7 @@ export default function BookingRequestScreen() {
                         style={{ marginTop: -8, marginRight: -10 }}
                       >
                         <i
-                          className="icon-x-circle text-danger"
+                          className="icon-trash text-danger"
                           onClick={(e) => {
                             _cancel(
                               data?._id,

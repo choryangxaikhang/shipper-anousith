@@ -225,7 +225,7 @@ export default function RateExChange() {
                         style={{ marginTop: -8, marginRight: -10 }}
                       >
                         <i
-                          className="icon-x-circle text-danger"
+                          className="icon-trash text-danger"
                           onClick={(e) => {
                             _deleteRateExChange(data?._id);
                           }}

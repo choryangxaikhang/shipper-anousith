@@ -3,7 +3,6 @@ import { Modal, Row } from "react-bootstrap";
 import { useReactToPrint } from "react-to-print";
 import { useLazyQuery } from "@apollo/client";
 import _ from "lodash";
-import "./utils/index.css"
 import moment from "moment";
 import useReactRouter from "use-react-router";
 import {
@@ -100,8 +99,7 @@ function Export({ _Data }) {
                       id="table-to-xls"
                     />
                     <br />
-                   ຊື່ກິດຈະການ: {_Data?.extraExpenses?.data[0]?.house?.houseName}, {" "}
-                   {houseStatus(_Data?.extraExpenses?.data[0]?.house?.type)}
+                   ຊື່ກິດຈະການ: {_Data?.extraExpenses?.data[0]?.house?.houseName},
                     <br />
                      ໂທ: {_Data?.extraExpenses?.data[0]?.house?.contactPhone}
                   </td>

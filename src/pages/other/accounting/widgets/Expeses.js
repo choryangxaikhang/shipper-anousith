@@ -2,35 +2,33 @@ import Notiflix, { Loading } from "notiflix";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useMutation } from "@apollo/client";
-import { s3Client } from "../../../helper/s3Client";
+import { s3Client } from "../../../../helper/s3Client";
 import {
   currency,
-  getLocalBranch,
   getLocalHouse,
   getStaffLogin,
   messageError,
   messageSuccess,
   messageWarning,
   toDayDash,
-} from "../../../helper";
+} from "../../../../helper";
 import _ from "lodash";
-import male from "../../../img/other.png";
+import placeholder from "../../../../img/placeholder.png";
 import { useFormik } from "formik";
 import { v4 as uuidv4 } from "uuid";
 import { CREATE_EXPENSES } from "../apollo";
-import ExpressType from "../../../helper/components/ExpressTypes";
 import { TextField } from "@mui/material";
+import SelectExpressTypes from "../../../../helper/components/SelectExpressTypes";
 export default function Expenses({ getData, onSuccess }) {
   const [show, setShow] = useState(false);
   const [createIncome] = useMutation(CREATE_EXPENSES);
   const [userData, setUserData] = useState({});
-  const [localBranch, setLocalBranch] = useState("");
   const [startDate, setStartDate] = useState(toDayDash());
   const [imageName, setImageName] = useState("");
   const [file, setFile] = useState(null);
   const [getTypeExpress, setTypExpress] = useState({});
   const getUser = userData?.firstName + " " + userData?.lastName;
-  const [localHouse, setLocalHouse] = useState("")
+  const [localHouse, setLocalHouse] = useState("");
   useEffect(() => {
     setLocalHouse(getLocalHouse()?._id);
   }, []);
@@ -70,7 +68,8 @@ export default function Expenses({ getData, onSuccess }) {
           errors.detail = "ກະລູນາປ້ອນລາຍລະອຽດ";
         }
         if (!imageName) errors.fileUpload = "ກະລູນາເລືອກບິນຈ່າຍກ່ອນ";
-        if (!getTypeExpress?.id_expense) errors.expenseType = ("ກະລູນາເລືອກປະເພດລາຍຈ່າຍ");
+        if (!getTypeExpress?.id_expense)
+          errors.expenseType = "ກະລູນາເລືອກປະເພດລາຍຈ່າຍ";
         return errors;
       },
       onSubmit: async (values) => {
@@ -86,7 +85,7 @@ export default function Expenses({ getData, onSuccess }) {
                 detail: String(values.detail),
                 extraType: "EXPENSE",
                 expenseKIP: parseInt(values.expenseKIP),
-                expenseType: String(getTypeExpress?.id_expense)
+                expenseType: String(getTypeExpress?.id_expense),
               },
             },
           });
@@ -118,12 +117,13 @@ export default function Expenses({ getData, onSuccess }) {
   const _data = getData?.extraExpenses?.data[0]?.endBalanceKIP;
   return (
     <>
-      <button
-        className="btn btn-warning btn-block text-nowrap shadow-none"
+      <div
+        className="bg-primary col-6 btn btn-block p-2 rounded "
+        style={{ marginTop: -1 }}
         onClick={() => setShow(true)}
       >
-        <i className="fa-brands fa-amazon-pay"></i> ລົງລາຍຈ່າຍ
-      </button>
+        ລົງລາຍຈ່າຍ
+      </div>
       <Modal show={show} onHide={() => setShow(false)} size="lg">
         <Modal.Header closeButton>
           <h3>ຟອມລົງລາຍຈ່າຍ</h3>
@@ -132,33 +132,38 @@ export default function Expenses({ getData, onSuccess }) {
           <div className="col-md-12">
             <div className="form-group mb-3">
               <TextField
-                label=" " variant="outlined"
+                label=" "
+                variant="outlined"
                 name="fileUpload"
                 onChange={handleUpload}
                 type="file"
                 accept="image/x-png,image/gif,image/jpeg"
                 sx={{
-                  m: 0, width: '100%', backgroundColor: "#ffff"
+                  m: 0,
+                  width: "100%",
+                  backgroundColor: "#ffff",
                 }}
               />
               <div className="text-danger mt-1 fs-5">{errors.fileUpload}</div>
             </div>
           </div>
           <div className="col-md-12 mt-3">
-            <ExpressType
-              size={"lg"}
-              getData={(data) => {
-                setTypExpress(data);
+            <SelectExpressTypes
+              style={{ minWidth: 200 }}
+              value={getTypeExpress?.id_expense}
+              onChange={(obj) => {
+                if (obj?.id_expense) {
+                  setTypExpress(obj);
+                }
               }}
-              defaultValue={getTypeExpress?.expenseTitle}
-              className={errors.expenseType ? "is-invalid" : ""}
             />
             <div className="text-danger fs-5">{errors.expenseType}</div>
           </div>
           <div className="row mt-1">
             <div className="col-md-6">
               <div className="form-row mt-2">
-                <div className="col-md-12 card mt-3 p-2"
+                <div
+                  className="col-md-12 card mt-3 p-2"
                   style={{ height: "52px" }}
                 >
                   ຍອດຄົງເຫຼືອ:
@@ -170,14 +175,17 @@ export default function Expenses({ getData, onSuccess }) {
               <div className="form-row mt-3">
                 <div className="col-md-12">
                   <TextField
-                    label="ລາຍຈ່າຍ" variant="outlined"
+                    label="ລາຍຈ່າຍ"
+                    variant="outlined"
                     type="number"
                     name="expenseKIP"
                     onWheel={(e) => e.target.blur()}
                     value={values?.expenseKIP}
                     onChange={handleChange}
                     sx={{
-                      m: 0, width: '100%', backgroundColor: "#ffff"
+                      m: 0,
+                      width: "100%",
+                      backgroundColor: "#ffff",
                     }}
                     errors={errors.expenseKIP}
                   />
@@ -189,14 +197,17 @@ export default function Expenses({ getData, onSuccess }) {
           <div className="form-row mt-3">
             <div className="col-md-12">
               <TextField
-                label="ວັນທີ່ຈ່າຍ" variant="outlined"
+                label="ວັນທີ່ຈ່າຍ"
+                variant="outlined"
                 type="date"
                 onWheel={(e) => e.target.blur()}
                 name="accountantDate"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
                 sx={{
-                  m: 0, width: '100%', backgroundColor: "#ffff"
+                  m: 0,
+                  width: "100%",
+                  backgroundColor: "#ffff",
                 }}
               />
             </div>
@@ -218,10 +229,13 @@ export default function Expenses({ getData, onSuccess }) {
             </div>
             <div className="col-md-12 mt-3">
               <TextField
-                label="ພະນັກງານ" variant="outlined"
+                label="ພະນັກງານ"
+                variant="outlined"
                 defaultValue={getUser}
                 sx={{
-                  m: 0, width: '100%', backgroundColor: "#ffff"
+                  m: 0,
+                  width: "100%",
+                  backgroundColor: "#ffff",
                 }}
                 disabled={true}
               />
