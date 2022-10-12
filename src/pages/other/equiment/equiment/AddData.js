@@ -57,9 +57,6 @@ export default function AddData({ onSuccess }) {
         if (!values.unit) {
           errors.unit = "ກະລຸນາປ້ອນຫົວຫນ່ວຍ";
         }
-        if (!values.size) {
-          errors.size = "ກະລຸນາປ້ອນຂະຫນາດ";
-        }
         if (!listEquimentType?._id)
           errors.equimentType = "ກະລຸນາເລືອກຫມວດຊັບສິນ";
         if (!values.price) errors.price = "ກະລຸນາປ້ອນລາຄາ";
@@ -164,48 +161,17 @@ export default function AddData({ onSuccess }) {
                     ຫົວຫນ່ວຍ: 
                   </InputAdornment>
                 }
-                type="number"
+                type="text"
                 placeholder="..."
                 onWheel={(e) => e.target.blur()}
                 name="unit"
                 value={values?.unit}
                 onChange={handleChange}
               />
+              <div className="text-danger">{errors.unit}</div>
             </FormControl>
-
-            {/* <TextField
-              label="ຫົວຫນ່ວຍ"
-              variant="outlined"
-              type="text"
-              name="unit"
-              onWheel={(e) => e.target.blur()}
-              value={values?.unit}
-              onChange={handleChange}
-              sx={{
-                m: 0,
-                width: "100%",
-                backgroundColor: "#ffff",
-              }}
-              error={errors.unit}
-            /> */}
-            <span className="text-danger">{errors.unit}</span>
           </div>
-          <div className="form-group mb-1">
-            {/* <TextField
-              label="ຂະນຫນາດ"
-              variant="outlined"
-              type="number"
-              name="size"
-              onWheel={(e) => e.target.blur()}
-              value={values?.size}
-              onChange={handleChange}
-              sx={{
-                m: 0,
-                width: "100%",
-                backgroundColor: "#ffff",
-              }}
-              error={errors.size}
-            /> */}
+          <div className="form-group mb-2">
              <FormControl fullWidth sx={{ m: 0 }}>
               <OutlinedInput
                 startAdornment={
@@ -216,13 +182,13 @@ export default function AddData({ onSuccess }) {
                 type="number"
                 placeholder="..."
                 onWheel={(e) => e.target.blur()}
-                name="unit"
-                value={values?.unit}
+                name="size"
+                value={values?.size}
                 onChange={handleChange}
               />
             </FormControl>
           </div>
-          <div className="form-group mb-1">
+          <div className="form-group mb-2">
             <TextField
               label="ລາຄາ"
               variant="outlined"

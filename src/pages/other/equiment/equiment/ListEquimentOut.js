@@ -18,6 +18,7 @@ import { Table } from "react-bootstrap";
 import Notiflix from "notiflix";
 import Export from "./Export";
 import _ from "lodash";
+import { TAB_EQUIMENT } from "../../../../routes/app";
 
 export default function ListEquimentOut({ onSuccess }) {
   const { history, location, match } = useReactRouter();
@@ -27,19 +28,13 @@ export default function ListEquimentOut({ onSuccess }) {
   // get query search
   const query = new URLSearchParams(location.search);
   const rows = parseInt(query.get("rows"));
-  const inputRef = useRef();
   const [numberRows, setNumberRows] = useState(rows ? rows : ITEM_PER_PAGE);
   const [searchValue, setSearchValue] = useState();
   const [updateEquimentOut] = useMutation(UPDATE_EQUIMENT_OUT);
   const [updateBill] = useMutation(EDIT_BILL);
   const [localHouse, setLocalHouse] = useState("");
   const [newLoadData, setLoadData] = useState(false);
-  const [newText, setNewText] = useState("");
   const [listData, setDataList] = useState();
-  //caludar
-  const [listIdData, setIdData] = useState();
-  const getInTotal = listIdData?.inTotal;
-  const getInput = getInTotal - newText;
 
   const [queryOut, { data: setData, loading }] = useLazyQuery(
     QUERY_EQUIMENT_OUT,
@@ -49,13 +44,13 @@ export default function ListEquimentOut({ onSuccess }) {
   useEffect(() => {
     setLocalHouse(getLocalHouse()?._id);
   }, []);
-
   useEffect(() => {
     queryOut({
       variables: {
         where: {
-          house:localHouse,
-          // status: "GETIN",
+          createdBy: userInfo?._id,
+          house: localHouse,
+          status: "GETIN",
         },
         limit: searchValue ? 1000 : numberRows,
         orderBy: "createdAt_DESC",
@@ -69,7 +64,7 @@ export default function ListEquimentOut({ onSuccess }) {
 
   const sumTotal = {
     outTotal: _.sumBy(setData?.equimentOuts?.data, "outTotal"),
-    price: _.sumBy(setData?.equimentOuts?.data, "price"),
+    finalPrice: _.sumBy(setData?.equimentOuts?.data, "finalPrice"),
   };
 
   const upDataBill = async () => {
@@ -95,7 +90,7 @@ export default function ListEquimentOut({ onSuccess }) {
   };
 
   const closeBill = () => {
-    messageConfirm("ທ່ານຕ້ອງການລືບ ແທ້ ຫຼື ບໍ່?", async () => {
+    messageConfirm("ທ່ານຕ້ອງການປິດ ແທ້ ຫຼື ບໍ່?", async () => {
       loadingScreen();
       try {
         const _data = setData?.equimentOuts?.data;
@@ -112,8 +107,9 @@ export default function ListEquimentOut({ onSuccess }) {
           });
         }
         Notiflix.Loading.remove();
-        messageSuccess("ປິດບິນສຳເລັັດ");
         upDataBill();
+        messageSuccess("ປິດບິນສຳເລັັດ");
+        history.push(`${TAB_EQUIMENT}/Type?tab=equiment`);
         setLoadData(!newLoadData);
       } catch (error) {
         console.log(error);
@@ -126,13 +122,14 @@ export default function ListEquimentOut({ onSuccess }) {
     <>
       <div className="col-md-4">
         <div className="border  mt-4 mt-lg-0 rounded">
-          <table className="table table-striped  table-sm mb-0 text-black">
+          <table className="table table-bordered table-sm mb-0 text-black">
             <thead className="table-light">
               <tr>
                 <th>#</th>
                 <th className="text-nowrap">ລາຍການ</th>
                 <th className="text-nowrap text-end">ຈຳນວນ</th>
-                <th className="text-nowrap text-end">ລາຄາ</th>
+                <th className="text-nowrap text-end">ລາຄາ/ອັນ</th>
+                <th className="text-nowrap text-end">ລວມ</th>
               </tr>
             </thead>
             <tbody>
@@ -140,33 +137,41 @@ export default function ListEquimentOut({ onSuccess }) {
                 <>
                   <tr key={index}>
                     <td>{index + 1}</td>
-                    <td className="text-nowrap text-start">ລາຍການ</td>
+                    <td className="text-nowrap text-start">
+                      {data?.equmentID?.title}
+                    </td>
                     <td className="text-end text-nowrap">
                       {currency(data?.outTotal ? data?.outTotal : 0)}
                     </td>
                     <td className="text-end text-nowrap">
                       {currency(data?.price ? data?.price : 0)}
                     </td>
+                    <td className="text-end text-nowrap">
+                      {currency(
+                        parseInt(data?.outTotal ? data?.outTotal : 0) *
+                          parseInt(data?.price ? data?.price : 0)
+                      )}
+                    </td>
                   </tr>
                 </>
               ))}
               <tr style={{ backgroundColor: "#fafafa" }}>
-                <td className=" text-center fs-4" colSpan={2}>
+                <td className=" text-center fs-5" colSpan={3}>
                   ລວມທັງຫມົດ :
                 </td>
-                <td className="text-end fs-4">
+                <td className="text-end fs-5">
                   {currency(sumTotal?.outTotal ? sumTotal?.outTotal : 0)}
                 </td>
-                <td className="text-end fs-4">
-                  {currency(sumTotal?.price ? sumTotal?.price : 0)}
+                <td className="text-end fs-5">
+                  {currency(sumTotal?.finalPrice ? sumTotal?.finalPrice : 0)}
                 </td>
               </tr>
             </tbody>
           </table>
           <div className="row">
             <Export _data={setData} />
-            <div
-              className="col-md-6 bg-primary text-center mt-2 bg-danger"
+            <button
+              className="col-5 btn-primary text-center mt-2 bg-danger"
               onClick={(e) => {
                 closeBill();
               }}
@@ -175,7 +180,7 @@ export default function ListEquimentOut({ onSuccess }) {
                 <i class="fa-solid fa-power-off me-1 p-2 pt-3" />
                 ປິດໃບເບີກນີ້
               </h3>
-            </div>
+            </button>
           </div>
         </div>
       </div>

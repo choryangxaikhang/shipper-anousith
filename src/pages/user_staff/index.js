@@ -82,8 +82,6 @@ export default function UserList() {
   };
 
   const _deleteUserStaff = (id) => {
-    //   console.log(id);
-    //   return
     Notiflix.Confirm.show(
       "ແຈ້ງເຕືອນ",
       "ທ່ານຕ້ອງການລຶບ user ນີ້ແທ້ ຫຼື ບໍ່?",

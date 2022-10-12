@@ -25,9 +25,6 @@ export default function AddTypeData({ onSuccess }) {
   useEffect(() => {
     setHouse(getLocalHouse());
   }, []);
-
-  console.log("house",house?._id)
-
   const { handleChange, errors, values, handleSubmit, resetForm, isDisabled } =
     useFormik({
       initialValues: {

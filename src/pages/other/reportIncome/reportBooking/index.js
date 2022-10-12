@@ -169,7 +169,7 @@ export default function ReportBooking() {
                 </div>
                 <div className="card-body ">
                   <div className="table-responsive">
-                    <table className="table table-striped table-sm">
+                    <table className="table table-sm">
                       <thead>
                         <tr>
                           <th className="text-nowrap">ລຳດັບ</th>

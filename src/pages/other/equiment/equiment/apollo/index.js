@@ -124,6 +124,8 @@ export const QUERY_EQUIMENT_OUT = gql`
         transactionDate
         createdAt
         price
+        finalPrice
+        details
         status
         billEquiment {
           _id

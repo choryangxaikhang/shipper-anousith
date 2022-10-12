@@ -8,6 +8,7 @@ import EquiType from "./equimentType/index.";
 import EquiMent from "./equiment/index.";
 import EquimentStock from "./equimentStock/index.";
 import GenerateBill from "./generateBill";
+import History from "./equimentHistory";
 export default function TabMenuEquiment() {
   const { history, location } = useReactRouter();
   const params = new URLSearchParams(location?.search);
@@ -92,10 +93,10 @@ export default function TabMenuEquiment() {
           </Button>
           <Button
             className={`item-tab ${
-              tabActive === "sumTotalBooking" ? "clickActives" : "Actives"
+              tabActive === "set_history" ? "clickActives" : "Actives"
             }`}
             variant=""
-            onClick={() => history.push({ search: "?tab=sumTotalBooking" })}
+            onClick={() => history.push({ search: "?tab=set_history" })}
           >
             ປະຫວັດ
           </Button>
@@ -106,7 +107,7 @@ export default function TabMenuEquiment() {
         {tabActive === "equiment" && <EquiMent />}
         {tabActive === "checkout" && <EquimentStock />}
         {tabActive === "bill" && <GenerateBill />}
-        {tabActive === "sumTotalBooking"}
+        {tabActive === "set_history" && <History />}
       </div>
     </>
   );

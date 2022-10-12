@@ -97,7 +97,7 @@ export default function AddRooms({ onSuccess, loadData, className }) {
       title_lao: "",
       title_eng: "",
       priceHalf: 0,
-      priceFull: "",
+      priceFull: 0,
       detail: "",
     },
     enableReinitialize: false,
@@ -106,8 +106,11 @@ export default function AddRooms({ onSuccess, loadData, className }) {
       if (!values.title_lao) {
         errors.title_lao = "ກະລຸນາປ້ອນຫ້ອງ";
       }
-      if (!values.priceFull) {
-        errors.priceFull = "ກະລູນາປ້ອນລາຄາເຕັມ";
+      if (values.priceFull <= 0) {
+        errors.priceFull = "ກະລຸນາປ້ອນຈຳນວນເງິນຫລາຍກວ່າ 0";
+      }
+      if (values.priceHalf <= 0) {
+        errors.priceHalf = "ກະລຸນາປ້ອນຈຳນວນເງິນຫລາຍກວ່າ 0";
       }
       if (getDocFiless.length < 1) {
         errors.docFile = "ກະລຸນາເລືອກຮູບກ່ອນ";
@@ -310,6 +313,7 @@ export default function AddRooms({ onSuccess, loadData, className }) {
                   value={values.priceHalf}
                   onChange={handleChange}
                 />
+                <div className="text-danger">{errors.priceHalf}</div>
               </FormControl>
             </div>
           </div>

@@ -15,7 +15,12 @@ import {
 
 import { ADD_EQUIMENT, EDIT_EQUIMENT } from "./apollo";
 import Notiflix from "notiflix";
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  InputAdornment,
+  OutlinedInput,
+  TextField,
+} from "@mui/material";
 import SelectEquimentType from "../../../../helper/components/SelectEquimentType";
 
 export default function EditData({ data, onSuccess }) {
@@ -57,9 +62,6 @@ export default function EditData({ data, onSuccess }) {
       }
       if (!values.unit) {
         errors.unit = "ກະລຸນາປ້ອນຫົວຫນ່ວຍ";
-      }
-      if (!values.size) {
-        errors.size = "ກະລຸນາປ້ອນຂະຫນາດ";
       }
       if (!listEquimentType?._id) errors.equimentType = "ກະລຸນາເລືອກຫມວດຊັບສິນ";
       if (!values.price) errors.price = "ກະລຸນາປ້ອນລາຄາ";
@@ -148,74 +150,64 @@ export default function EditData({ data, onSuccess }) {
         </Modal.Header>
         <div className="p-2">
           <div className="form-row mt-1 mb-2">
-            <label className="text-black">ເລືອກຫມວດຊັບສິນ</label>
-            <div className="col-md-7">
-              <SelectEquimentType
-                style={{ minWidth: 200 }}
-                value={listEquimentType?._id}
-                onChange={(obj) => {
-                  if (obj?._id) {
-                    setListEquimentType(obj);
-                  }
-                }}
-              />
-            </div>
+            <SelectEquimentType
+              style={{ minWidth: "100%" }}
+              value={listEquimentType?._id}
+              onChange={(obj) => {
+                if (obj?._id) {
+                  setListEquimentType(obj);
+                }
+              }}
+            />
             <div className="text-danger fs-4">{errors?.equimentType}</div>
           </div>
           <div className="form-group mb-1">
-            <TextField
-              label="ຊື່ຊັບສິນ"
-              variant="outlined"
-              type="text"
-              name="title"
-              value={values?.title}
-              onChange={handleChange}
-              sx={{
-                m: 0,
-                width: "100%",
-                backgroundColor: "#ffff",
-              }}
-              error={errors.title}
-            />
+            <FormControl fullWidth sx={{ m: 0 }}>
+              <OutlinedInput
+                startAdornment={
+                  <InputAdornment position="start">ຊື່ຊັບສິນ:</InputAdornment>
+                }
+                type="text"
+                placeholder="..."
+                name="title"
+                value={values?.title}
+                onChange={handleChange}
+              />
+            </FormControl>
             <span className="text-danger">{errors.title}</span>
           </div>
           <div className="form-group mb-1">
-            <TextField
-              label="ຫົວຫນ່ວຍ"
-              variant="outlined"
-              type="text"
-              name="unit"
-              onWheel={(e) => e.target.blur()}
-              value={values?.unit}
-              onChange={handleChange}
-              sx={{
-                m: 0,
-                width: "100%",
-                backgroundColor: "#ffff",
-              }}
-              error={errors.unit}
-            />
-            <span className="text-danger">{errors.unit}</span>
+            <FormControl fullWidth sx={{ m: 0 }}>
+              <OutlinedInput
+                startAdornment={
+                  <InputAdornment position="start">ຫົວຫນ່ວຍ:</InputAdornment>
+                }
+                type="text"
+                placeholder="..."
+                onWheel={(e) => e.target.blur()}
+                name="unit"
+                value={values?.unit}
+                onChange={handleChange}
+              />
+              <div className="text-danger">{errors.unit}</div>
+            </FormControl>
           </div>
-          <div className="form-group mb-1">
-            <TextField
-              label="ຂະນຫນາດ"
-              variant="outlined"
-              type="number"
-              name="size"
-              onWheel={(e) => e.target.blur()}
-              value={values?.size}
-              onChange={handleChange}
-              sx={{
-                m: 0,
-                width: "100%",
-                backgroundColor: "#ffff",
-              }}
-              error={errors.size}
-            />
-            <span className="text-danger">{errors.size}</span>
+          <div className="form-group mb-2">
+            <FormControl fullWidth sx={{ m: 0 }}>
+              <OutlinedInput
+                startAdornment={
+                  <InputAdornment position="start">ຂະນຫນາດ:</InputAdornment>
+                }
+                type="number"
+                placeholder="..."
+                onWheel={(e) => e.target.blur()}
+                name="size"
+                value={values?.size}
+                onChange={handleChange}
+              />
+            </FormControl>
           </div>
-          <div className="form-group mb-1">
+          <div className="form-group mb-2">
             <TextField
               label="ລາຄາ"
               variant="outlined"

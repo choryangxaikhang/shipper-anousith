@@ -185,8 +185,11 @@ export default function CheckIn({
     validate: (values) => {
       const errors = {};
       // if (!customerId?._id)errors.customer = "ກະລຸນາປ້ອນເບີລູດຄ້າເພື່ອຄົ້ນຫາຂໍ້ມູນ";
-      if (inputKIP == 0) {
-        errors.incomeKIP = "ກະລຸນາປ້ອນເງິນກີບ";
+      // if (inputKIP == 0) {
+      //   errors.incomeKIP = "ກະລຸນາປ້ອນເງິນກີບ";
+      // }
+      if (inputKIP <= 0) {
+        errors.incomeKIP = "ກະລຸນາປ້ອນຈຳນວນເງິນຫລາຍກວ່າ 0";
       }
       return errors;
     },

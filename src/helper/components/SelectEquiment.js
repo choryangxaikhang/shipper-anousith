@@ -64,11 +64,9 @@ export default function SelectEquiment({
   return (
     <div
       style={{
-        width: "60%",
+        width: "100%",
         color: "black",
         fontSize: 16,
-        position: "fixed",
-        zIndex: 999,
       }}
     >
       <Select

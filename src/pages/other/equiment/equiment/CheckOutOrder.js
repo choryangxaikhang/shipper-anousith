@@ -29,8 +29,6 @@ import {
   TextField,
 } from "@mui/material";
 export default function CheckOutOrder({ getBillId, getData, onSuccess }) {
-  console.log("getData", getData?._id);
-
   const data = getStaffLogin();
   const userInfo = data?.data;
   const [listEquimentType, setListEquimentType] = useState("");
@@ -90,6 +88,7 @@ export default function CheckOutOrder({ getBillId, getData, onSuccess }) {
     initialValues: {
       outTotal: parseInt(0),
       price: "",
+      details: "",
     },
     enableReinitialize: false,
     validate: (values) => {
@@ -100,14 +99,14 @@ export default function CheckOutOrder({ getBillId, getData, onSuccess }) {
       if (inputTotal <= 0) {
         errors.outTotal = "ກະລຸນາປ້ອນຈຳນວນເບີກຕ້ອງຫລາຍກວ່າ 0";
       }
-      if (listBill?.status === "FULL") {
-        return messageWarning("ບິນນີ້ບໍມີໃນລະບົບ");
-      }
       return errors;
     },
     onSubmit: async (values) => {
       if (getTotal < inputTotal) {
         return messageWarning("ຊັບສິກບໍພຽງພໍທີ່ຈະເບິກ❗");
+      }
+      if (listBill?.status === "FULL") {
+        return messageWarning("ບິນນີ້ບໍມີໃນລະບົບ ກະລຸນາສ້າງບິນເບີກກ່ອນ");
       }
       loadingScreen();
       try {
@@ -118,6 +117,8 @@ export default function CheckOutOrder({ getBillId, getData, onSuccess }) {
               price: parseInt(listPice),
               status: "GETIN",
               house: house?._id,
+              details: values?.details,
+              finalPrice: parseInt(finalPrice),
               billEquiment: getBillId,
               equmentID: getData?._id,
             },
@@ -189,7 +190,10 @@ export default function CheckOutOrder({ getBillId, getData, onSuccess }) {
       </button>
       <Modal show={show} animation={false} size="xl">
         <Modal.Header className="text-black">
-          ເບີກຊັບສິນ
+          ເບີກຊັບສິນ{" "}
+          <b className="fs-4">
+            ເລກບິນ: {setDataBill?.billEquiment?.data[0]?.billNo}
+          </b>
           <a
             className="pull-right ms-2 "
             style={{ textDecoration: "none", marginTop: -10 }}
@@ -270,6 +274,17 @@ export default function CheckOutOrder({ getBillId, getData, onSuccess }) {
                 style={{ backgroundColor: "#edece8" }}
               />
             </FormControl>
+          </div>
+          <div className="form-group mb-1">
+            <label>ຄຳອະທິບາຍ</label>
+            <textarea
+              type="text"
+              row={3}
+              name="details"
+              onChange={handleChange}
+              placeholder="..."
+              className="form-control form-control-lg"
+            ></textarea>
           </div>
         </div>
         <Modal.Footer>

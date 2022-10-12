@@ -1630,22 +1630,27 @@ pre code {
   width: 100%;
   margin-bottom: 1rem;
   color: #212529;
+  border: 1px solid white !important;
 }
 
 .table td,
 .table th {
   padding: 0.75rem;
   vertical-align: top;
-  border-top: 1px solid #dee2e6;
+  border-bottom: 1px solid #f3f5f2;
 }
-
 .table thead th {
   vertical-align: bottom;
-  border-bottom: 2px solid #dee2e6;
+  border-right: 1px solid white !important;
+  border-top: 1px solid white !important;
+  border-left: 1px solid white !important;
+  background-color: #dee2e6 !important;
+  color: black !important;
+
 }
 
 .table tbody + tbody {
-  border-top: 2px solid #dee2e6;
+  border-top: 1px solid white;
 }
 
 .table-sm td,
@@ -1654,12 +1659,12 @@ pre code {
 }
 
 .table-bordered {
-  border: 1px solid #dee2e6;
+  border: 1px solid #faf9f7;
 }
 
 .table-bordered td,
 .table-bordered th {
-  border: 1px solid #dee2e6;
+  border: 1px solid #faf9f7;
 }
 
 .table-bordered thead td,
@@ -1675,7 +1680,7 @@ pre code {
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color:#fdfffc;
 }
 
 .table-hover tbody tr:hover {
@@ -13495,7 +13500,7 @@ a.text-dark {
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background: rgba(220, 220, 233, 0.4);
+  background: #fdfffc !important;
 }
 
 .table-bordered {

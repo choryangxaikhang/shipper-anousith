@@ -1,6 +1,7 @@
 import { gql, useLazyQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import Select from "react-select";
+import { getLocalHouse } from "..";
 
 const QUERY = gql`
   query EquimentTypes($where: EquimentTypeWhereInput) {
@@ -22,16 +23,22 @@ export default function SearchEquimentType({
   const [items, setItems] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
   // const [fetchData, { data, loading }] = useLazyQuery(QUERY);
+  const [localHouse, setLocalHouse] = useState("");
   const [fetchData, { data: data, loading: loading }] = useLazyQuery(QUERY, {
     fetchPolicy: "network-only",
   });
   useEffect(() => {
+    setLocalHouse(getLocalHouse());
+  }, []);
+  useEffect(() => {
     fetchData({
       variables: {
-        where: {},
+        where: {
+          house: localHouse?._id,
+        },
       },
     });
-  }, []);
+  }, [localHouse]);
 
   useEffect(() => {
     const results = data?.equimentTypes?.data || [];

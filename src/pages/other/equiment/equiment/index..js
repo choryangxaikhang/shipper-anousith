@@ -149,7 +149,7 @@ export default function EquiMent() {
                   <button
                     className="btn text-white"
                     onClick={() =>
-                      history.push(`/other/equiment/Type?tab=sumTotalBooking`)
+                      history.push(`/other/equiment/Type?tab=equiment`)
                     }
                   >
                     <i className="fa fa-chevron-left fs-4" />
@@ -223,7 +223,7 @@ export default function EquiMent() {
                         {loading ? loadingData(25) : ""}
                       </span>
                       <div className="table-responsive mt-2 ">
-                        <table className="table table-striped  table-sm mb-0">
+                        <table className="table table-sm mb-0">
                           <thead>
                             <tr>
                               <th>#</th>

@@ -31,8 +31,6 @@ export default function Login({ history }) {
           return errors;
         }}
         onSubmit={async (values) => {
-          console.log(values);
-
           try {
             let user = await userLogIn({
               variables: {
@@ -108,70 +106,66 @@ export default function Login({ history }) {
                 <div className="authentication-form mt-5">
                   <form>
                     <div className="form-group">
-                      <div className="input-group">
-                        <FormControl fullWidth sx={{ m: 0 }}>
-                          <OutlinedInput
+                      <FormControl fullWidth sx={{ m: 0 }}>
+                        <OutlinedInput
                           value={values.phoneNumber}
-                          onChange={handleChange('phoneNumber')}
-                            startAdornment={
-                              <InputAdornment position="start">
-                                {/* <i className="icon-phone  fs-3" /> */}
-                                +85620:
-                              </InputAdornment>
+                          onChange={handleChange("phoneNumber")}
+                          startAdornment={
+                            <InputAdornment position="start">
+                              {/* <i className="icon-phone  fs-3" /> */}
+                              +85620:
+                            </InputAdornment>
+                          }
+                          error={errors.phoneNumber}
+                          name="phoneNumber"
+                          onWheel={(e) => e.target.blur()}
+                          type="number"
+                          placeholder="ປ້ອນເບີໂທ"
+                          onKeyPress={(e) => {
+                            if (e.key === "Enter") {
+                              handleSubmit();
                             }
-                            error={errors.phoneNumber}
-                            name="phoneNumber"
-                            onWheel={(e) => e.target.blur()}
-                            type="number"
-                            placeholder="ປ້ອນເບີໂທ"
-                            onKeyPress={(e) => {
-                              if (e.key === "Enter") {
-                                handleSubmit();
-                              }
-                            }}
-                          />
-                        </FormControl>
-                      </div>
+                          }}
+                        />
+                      </FormControl>
                     </div>
                     <div className="form-group pb-15">
-                      <div className="input-group">
-                        <FormControl fullWidth sx={{ m: 0 }}>
-                          <OutlinedInput
-                            value={values.password}
-                            onChange={handleChange("password")}
-                            startAdornment={
-                              <InputAdornment position="start">
-                                {/* <i className="fa-sharp fa-solid fa-key"/> */}
-                                ລະຫັດຜ່ານ:
-                              </InputAdornment>
+                      <FormControl fullWidth sx={{ m: 0 }}>
+                        <OutlinedInput
+                          value={values.password}
+                          onChange={handleChange("password")}
+                          startAdornment={
+                            <InputAdornment position="start">
+                              {/* <i className="fa-sharp fa-solid fa-key"/> */}
+                              ລະຫັດຜ່ານ:
+                            </InputAdornment>
+                          }
+                          error={errors.phoneNumber}
+                          type={showPassword}
+                          name="password"
+                          placeholder="**********"
+                          onKeyPress={(e) => {
+                            if (e.key === "Enter") {
+                              handleSubmit();
                             }
-                            error={errors.phoneNumber}
-                            type={showPassword}
-                            name="password"
-                            placeholder="**********"
-                            onKeyPress={(e) => {
-                              if (e.key === "Enter") {
-                                handleSubmit();
-                              }
-                            }}
-                            endAdornment={
-                              <InputAdornment
-                                position="end"
-                                style={{ marginRight: -3 }}
-                              >
-                                <i
-                                  class="fa-sharp fa-solid fa-eye"
-                                  onClick={() =>
-                                    showPassword === "password"
-                                      ? setShowPassword("text")
-                                      : setShowPassword("password")
-                                  }
-                                />
-                              </InputAdornment>
-                            }
-                          />
-                        </FormControl>
-                      </div>
+                          }}
+                          endAdornment={
+                            <InputAdornment
+                              position="end"
+                              style={{ marginRight: -3 }}
+                            >
+                              <i
+                                class="fa-sharp fa-solid fa-eye"
+                                onClick={() =>
+                                  showPassword === "password"
+                                    ? setShowPassword("text")
+                                    : setShowPassword("password")
+                                }
+                              />
+                            </InputAdornment>
+                          }
+                        />
+                      </FormControl>
                     </div>
                     <button
                       type="button"

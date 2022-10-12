@@ -34,7 +34,7 @@ export default function SelectEquimentType({
     fetchData({
       variables: {
         where: {
-          house:localHouse,
+          house: localHouse,
         },
       },
     });
@@ -67,7 +67,7 @@ export default function SelectEquimentType({
   }, [items, value]);
 
   return (
-    <div style={{ minWidth: 200, color: "black",fontSize:16 }}>
+    <div style={{ width: "100%", color: "black", fontSize: 16 }}>
       <Select
         styles={style}
         className={className}

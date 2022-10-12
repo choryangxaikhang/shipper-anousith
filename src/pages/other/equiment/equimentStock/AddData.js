@@ -17,7 +17,12 @@ import {
 
 import { ADD_EQUIMENT_STOCK, QUERY_EQUIMENT } from "./apollo";
 import Notiflix from "notiflix";
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  InputAdornment,
+  OutlinedInput,
+  TextField,
+} from "@mui/material";
 import SelectEquimentType from "../../../../helper/components/SelectEquimentType";
 import SelectEquiment from "../../../../helper/components/SelectEquiment";
 import { EDIT_EQUIMENT } from "../equiment/apollo";
@@ -31,7 +36,7 @@ export default function AddData({ onSuccess }) {
   const [house, setHouse] = useState({});
   const [today, setToday] = useState(toDay());
   const [listData, setListData] = useState();
-  const [inputTotal, setInputTotal] = useState(0);
+  const [inputTotal, setInputTotal] = useState();
   const [editEquiment] = useMutation(EDIT_EQUIMENT);
 
   const [fetchData, { data: setData, loading }] = useLazyQuery(QUERY_EQUIMENT, {
@@ -71,11 +76,12 @@ export default function AddData({ onSuccess }) {
       enableReinitialize: false,
       validate: (values) => {
         const errors = {};
-        if (!inputTotal) errors.inTotal = "ກະລຸນາປ້ອນຈຳນວນຊັບສິນ";
+        if (inputTotal <= 0)
+          errors.inTotal = "ປ້ອນຈຳນວນຊັບສິນນຳເຂົ້າຕ້ອງຫລາຍກວ່າ 0";
         return errors;
       },
       onSubmit: async (values) => {
-        if (!listEquiment?._id) return messageWarning("ກະລຸນາເລືອກຫມວດຊັບສິນ");
+        if (!listEquiment?._id) return messageWarning("ກະລຸນາເລືອກຊື່ຊັບສິນ");
         loadingScreen();
         try {
           const { data: updated } = await addStock({
@@ -92,9 +98,9 @@ export default function AddData({ onSuccess }) {
             messageSuccess("ບັນທືກສຳເລັດ");
             updateEquiment();
             setTimeout(() => {
-              setInputTotal("")
               window.scrollTo(0, 0);
             }, 100);
+            setListEquiment("");
             setShow(false);
             onSuccess();
           } else {
@@ -121,6 +127,7 @@ export default function AddData({ onSuccess }) {
           },
         },
       });
+      setInputTotal("");
       console.log("======success=====");
     } catch (error) {
       Notiflix.Loading.remove();
@@ -149,9 +156,9 @@ export default function AddData({ onSuccess }) {
           </a>
         </Modal.Header>
         <div className="p-2">
-          <div className="form-group mb-3">
+          <div className="form-group ">
             <SelectEquiment
-              style={{ minWidth: 200, position: "fixed" }}
+              style={{ width: "100%" }}
               value={listEquiment?._id}
               onChange={(obj) => {
                 if (obj?._id) {
@@ -159,41 +166,45 @@ export default function AddData({ onSuccess }) {
                 }
               }}
             />
+            <span className="text-danger">{errors.equmentID}</span>
           </div>
-          <div className="form-group " style={{ marginTop: 50 }}>
-            <TextField
-              label="ຈຳນວນ"
-              variant="outlined"
-              type="number"
-              name="inTotal"
-              onWheel={(e) => e.target.blur()}
-              value={inputTotal}
-              onChange={(e) => {
-                setInputTotal(e.target.value);
-              }}
-              sx={{
-                m: 0,
-                width: "100%",
-                backgroundColor: "#ffff",
-              }}
-              error={errors.inTotal}
-            />
+
+          <div className="form-group ">
+            <FormControl fullWidth sx={{ m: 0 }}>
+              <OutlinedInput
+                startAdornment={
+                  <InputAdornment position="start">ຈຳນວນ:</InputAdornment>
+                }
+                onWheel={(e) => e.target.blur()}
+                type="number"
+                placeholder="..."
+                name="inputTotal"
+                value={inputTotal}
+                onChange={(e) => {
+                  setInputTotal(e.target.value);
+                }}
+                error={errors.inTotal}
+              />
+            </FormControl>
             <span className="text-danger">{errors.inTotal}</span>
           </div>
-          <div className="form-group mt-1">
-            <TextField
-              label="ຍອງທີ່ເຫລືອ"
-              variant="outlined"
-              type="number"
-              disabled={true}
-              onWheel={(e) => e.target.blur()}
-              value={currency(listData?.total)}
-              sx={{
-                m: 0,
-                width: "100%",
-                backgroundColor: "#edf0ee",
-              }}
-            />
+          <div className="form-group ">
+            <FormControl fullWidth sx={{ m: 0 }}>
+              <OutlinedInput
+                startAdornment={
+                  <InputAdornment position="start">ຍອງທີ່ເຫລືອ:</InputAdornment>
+                }
+                onWheel={(e) => e.target.blur()}
+                type="text"
+                disabled={true}
+                value={currency(listData?.total ? listData?.total : 0)}
+                sx={{
+                  m: 0,
+                  width: "100%",
+                  backgroundColor: "#edf0ee",
+                }}
+              />
+            </FormControl>
           </div>
         </div>
 

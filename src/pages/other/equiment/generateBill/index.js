@@ -12,6 +12,7 @@ import {
   messageError,
   messageSuccess,
   messageWarning,
+  setParams,
   StatusEquiment,
 } from "../../../../helper";
 import {
@@ -24,68 +25,69 @@ import Notiflix from "notiflix";
 import AddData from "./AddData";
 import EditData from "./EditData";
 import { EQUIMENT_LIST } from "../../../../routes/app";
+import NoData from "../../../../helper/components/NoData";
+import Pagination from "../../../../helper/controllers/Pagination";
 
 export default function GenerateBill() {
   const { history, location, match } = useReactRouter();
   const jsonObj = getStaffLogin();
   const userInfo = jsonObj?.data;
-  const numberPage = match?.params?.page;
   // get query search
   const query = new URLSearchParams(location.search);
-  const rows = parseInt(query.get("rows"));
-  const inputRef = useRef();
-  const [numberRows, setNumberRows] = useState(rows ? rows : ITEM_PER_PAGE);
+  const [numberPage, setNumberPage] = useState(1);
+  const [numberRow, setNumberRow] = useState(100);
   const [searchValue, setSearchValue] = useState();
-  const [editStatus, setEditStatus] = useState(false);
-  const [getIndex, setGetIndex] = useState(0);
-  const [newText, setNewText] = useState("");
   const [reloadData, setNewLoadData] = useState(false);
   const [localHouse, setLocalHouse] = useState("");
-  const [addNew, setAddNew] = useState(true);
-  //caludar
-  const [listIdData, setIdData] = useState();
-  const getInTotal = listIdData?.endTotal;
-  const finalTotal = getInTotal - newText;
 
-  const [queryStock, { data: setData, loading }] = useLazyQuery(QUERY_BILL, {
+  const [queryBill, { data: setData, loading }] = useLazyQuery(QUERY_BILL, {
     fetchPolicy: "cache-and-network",
   });
 
   useEffect(() => {
-    setLocalHouse(getLocalHouse()?._id);
+    setLocalHouse(getLocalHouse());
   }, []);
 
   useEffect(() => {
-    queryStock({
+    queryBill({
       variables: {
         where: {
           status: "FEE",
+          house: localHouse?._id,
         },
-        skip: searchValue ? 0 : numberRows * (numberPage - 1),
-        limit: searchValue ? 1000 : numberRows,
+        skip: numberRow * (numberPage - 1),
+        limit: numberRow,
         orderBy: "createdAt_DESC",
       },
     });
-  }, [numberRows, searchValue, numberPage, reloadData, localHouse]);
+  }, [numberRow, searchValue, numberPage, reloadData, localHouse]);
 
   const _onSearch = () => {
     setSearchValue(searchValue);
     setNewLoadData(!reloadData);
   };
-  const _handleKeypress = (e) => {
-    if (e.key === "Enter") {
-      _onSearch();
-    }
-  };
+  
+
   //pageination
-  const countData = setData?.equimentStocks?.total;
+  const countData = setData?.billEquiment?.total;
   const countPage = [];
-  for (var i = 1; i <= Math.ceil(countData / numberRows); i++) {
+  for (var i = 1; i <= Math.ceil(countData / numberRow); i++) {
     countPage.push(i);
   }
+
+  useEffect(() => {
+    const page = query.get("page");
+    if (page) {
+      setNumberPage(parseInt(page));
+    } else {
+      setNumberRow(100);
+    }
+  }, [query]);
+
+
   const NO = (index) => {
-    const no = numberRows * numberPage - numberRows;
-    if (numberRows > 0) {
+    const no = numberRow * numberPage - numberRow;
+    if (numberRow > 0) {
       return no + index + 1;
     } else {
       return index + 1;
@@ -101,55 +103,79 @@ export default function GenerateBill() {
           <div className="card-body">
             <div className="row">
               <div className="col-lg-12">
-                <div className="table-responsive">
-                  <table className="table table-striped  table-sm mb-0">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>ເລກໃບເບີກ</th>
-                        <th>ຫົວຂໍ້</th>
-                        <th className="text-end">ຈັດການ</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {setData?.billEquiment?.data?.map((data, index) => (
-                        <>
-                          <tr key={index} className="text-black">
-                            <td>{index + 1}</td>
-                            <td className="text-nowrap">
-                              {data?.billNo ? data?.billNo : "-"}
-                            </td>
-                            <td className="text-nowrap">
-                              {data?.details ? data?.details : "-"}
-                            </td>
-                            <td className="text-nowrap">
-                              {StatusEquiment(data?.status ? data?.status : "-")}
-                            </td>
-                            <td className="text-nowrap text-end">
-                              <button
-                                className="btn  me-1 btn-sm text-success"
-                                onClick={() =>
-                                  history.push(`${EQUIMENT_LIST}/${data?._id}`)
-                                }
-                              >
-                                <i
-                                  className="fa fa-cart-plus me-1"
-                                />
-                                ເບີກ
-                              </button>
-                              <EditData
-                                _data={data}
-                                onSuccess={(e) => {
-                                  setNewLoadData(!reloadData);
-                                }}
-                              />
-                            </td>
+                {setData?.billEquiment?.total > 0 ? (
+                  <>
+                    <span className="text-center mb-2">
+                      {loading ? loadingData(25) : ""}
+                    </span>
+                    <div className="table-responsive">
+                      <table className="table   table-sm mb-0">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>ເລກໃບເບີກ</th>
+                            <th>ຫົວຂໍ້</th>
+                            <th>ສະຖານະບິນ</th>
+                            <th className="text-end">ຈັດການ</th>
                           </tr>
-                        </>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                        </thead>
+                        <tbody>
+                          {setData?.billEquiment?.data?.map((data, index) => (
+                            <>
+                              <tr key={index} className="text-black">
+                                <td>{NO(index)}</td>
+                                <td className="text-nowrap">
+                                  {data?.billNo ? data?.billNo : "-"}
+                                </td>
+                                <td className="text-nowrap">
+                                  {data?.details ? data?.details : "-"}
+                                </td>
+                                <td className="text-nowrap">
+                                  {StatusEquiment(
+                                    data?.status ? data?.status : "-"
+                                  )}
+                                </td>
+                                <td className="text-nowrap text-end">
+                                  <button
+                                    className="btn  me-1 btn-sm text-success"
+                                    onClick={() =>
+                                      history.push(
+                                        `${EQUIMENT_LIST}/${data?._id}`
+                                      )
+                                    }
+                                  >
+                                    <i className="fa fa-cart-plus me-1" />
+                                    ເບີກ
+                                  </button>
+                                  <EditData
+                                    _data={data}
+                                    onSuccess={(e) => {
+                                      setNewLoadData(!reloadData);
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            </>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </>
+                ) : (
+                  <NoData loading={loading} />
+                )}
+                {setData?.billEquiment?.total > 100 && (
+                  <Pagination
+                    className="mt-2"
+                    pageTotal={countPage}
+                    currentPage={numberPage}
+                    onPageChange={(page) => {
+                      history.push({
+                        search: setParams(`page`, page),
+                      });
+                    }}
+                  />
+                )}
               </div>
             </div>
           </div>

@@ -161,12 +161,12 @@ export default function EquiType() {
                   onChange={(e) => setSearchValue(e.target.value)}
                 />
               </FormControl>
-              <div className="option-section">
+              <div className="option-section mt-1">
                 <div className="row gx-2">
                   {expenseTypeData?.equimentTypes?.total > 0 ? (
                     <>
                       <div className="table-responsive">
-                        <Table className="table table-striped  table-sm mb-0">
+                        <Table className="table  table-sm mb-0">
                           <thead>
                             <tr>
                               <th className="text-start">ລຳດັບ</th>

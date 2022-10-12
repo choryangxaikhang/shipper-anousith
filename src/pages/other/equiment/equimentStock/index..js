@@ -11,25 +11,12 @@ import {
   formatDateDash,
   getLocalHouse,
   getStaffLogin,
-  ITEM_PER_PAGE,
   loadingData,
-  loadingScreen,
-  messageConfirm,
-  messageError,
-  messageSuccess,
   setParams,
   startMonth,
 } from "../../../../helper";
-import {
-  DELETE_EQUIMENT_STOCK,
-  EDIT_EQUIMENT_STOCK,
-  QUERY_EQUIMENT_STOCK,
-} from "./apollo";
-import { Table } from "react-bootstrap";
-import Notiflix from "notiflix";
+import { QUERY_EQUIMENT_STOCK } from "./apollo";
 import Pagination from "../../../../helper/controllers/Pagination";
-import LimitData from "../../../../helper/controllers/LimitData";
-import { FormControl, InputAdornment, OutlinedInput } from "@mui/material";
 import NoData from "../../../../helper/components/NoData";
 import AddData from "./AddData";
 import EditData from "./EditData";
@@ -40,32 +27,26 @@ export default function EquimentStock() {
   const { history, location, match } = useReactRouter();
   const jsonObj = getStaffLogin();
   const userInfo = jsonObj?.data;
-  // get query search
   const query = new URLSearchParams(location.search);
   const [numberPage, setNumberPage] = useState(1);
   const [numberRow, setNumberRow] = useState(100);
-  const [searchValue, setSearchValue] = useState();
-  const [text, setText] = useState("");
   const [newText, setNewText] = useState("");
   const [reloadData, setReloadData] = useState(false);
   const [localHouse, setLocalHouse] = useState("");
   const [startDate, setStartDate] = useState(startMonth());
   const [endDate, setEndDate] = useState(endOfMonth());
   const [listEquiment, setListEquiment] = useState("");
-  const [queryType, { data: setData, loading }] = useLazyQuery(
+  const [queryStock, { data: setData, loading }] = useLazyQuery(
     QUERY_EQUIMENT_STOCK,
     {
       fetchPolicy: "cache-and-network",
     }
   );
-  const [editType] = useMutation(EDIT_EQUIMENT_STOCK);
-  const [deleteEquiment] = useMutation(DELETE_EQUIMENT_STOCK);
-
   useEffect(() => {
     setLocalHouse(getLocalHouse());
   }, []);
   useEffect(() => {
-    queryType({
+    queryStock({
       variables: {
         where: {
           equmentID: listEquiment?._id ? listEquiment?._id : undefined,
@@ -78,15 +59,7 @@ export default function EquimentStock() {
         orderBy: "createdAt_DESC",
       },
     });
-  }, [
-    numberRow,
-    searchValue,
-    numberPage,
-    reloadData,
-    localHouse,
-    startDate,
-    listEquiment,
-  ]);
+  }, [numberRow, numberPage, reloadData, localHouse, startDate, listEquiment]);
   useEffect(() => {
     const page = query.get("page");
     const _startDate = query.get("startDate");
@@ -132,7 +105,18 @@ export default function EquimentStock() {
               <div
                 className="text-white pageTitle text-right text-nowrap pr-0"
                 style={{ flex: 1 }}
-              ></div>
+              >
+                <button
+                  className="btn text-white mr-0"
+                  onClick={() => setReloadData(!reloadData)}
+                >
+                  {loading ? (
+                    loadingData(23)
+                  ) : (
+                    <i className="icon-cycle fs-4" />
+                  )}
+                </button>
+              </div>
             </div>
             <br />
             <br />
@@ -193,11 +177,8 @@ export default function EquimentStock() {
                 </div>
                 {setData?.equimentStocks?.total > 0 ? (
                   <>
-                    <span className="text-center mb-2">
-                      {loading ? loadingData(25) : ""}
-                    </span>
                     <div className="table-responsive mt-2">
-                      <table className="table table-striped  table-sm mb-0">
+                      <table className="table  table-sm mb-0">
                         <thead>
                           <tr>
                             <th>#</th>
@@ -205,7 +186,8 @@ export default function EquimentStock() {
                             <th className="text-nowrap">ວັນທີ່ນຳເຂົ້າ</th>
                             <th className="text-nowrap text-end">ຈຳນວນ</th>
                             <th className="text-end">ລາຄາ/ອັນ</th>
-                            <th className="text-end">ລວມ</th>
+                            <th className="text-end">ລວມເປັນເງິນ</th>
+                            <th className="text-center">ຈັດການ</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -234,6 +216,14 @@ export default function EquimentStock() {
                                     data?.inTotal *
                                       parseInt(data?.equmentID?.price)
                                   )}
+                                </td>
+                                <td className="text-nowrap text-center">
+                                  <EditData
+                                    _data={data}
+                                    onSuccess={(e) => {
+                                      setReloadData(!reloadData);
+                                    }}
+                                  />
                                 </td>
                               </tr>
                             </>

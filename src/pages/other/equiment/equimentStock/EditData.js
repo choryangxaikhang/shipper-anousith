@@ -15,23 +15,27 @@ import {
   toDay,
 } from "../../../../helper";
 
-import { ADD_EQUIMENT_STOCK, QUERY_EQUIMENT } from "./apollo";
+import { EDIT_EQUIMENT_STOCK, QUERY_EQUIMENT } from "./apollo";
 import Notiflix from "notiflix";
-import { TextField } from "@mui/material";
-import SelectEquimentType from "../../../../helper/components/SelectEquimentType";
+import {
+  FormControl,
+  InputAdornment,
+  OutlinedInput,
+} from "@mui/material";
 import SelectEquiment from "../../../../helper/components/SelectEquiment";
 import { EDIT_EQUIMENT } from "../equiment/apollo";
 
-export default function EditData({ onSuccess }) {
+export default function EditData({ onSuccess, _data }) {
   const data = getStaffLogin();
   const userInfo = data?.data;
   const [listEquiment, setListEquiment] = useState("");
   const [show, setShow] = useState(false);
-  const [addStock] = useMutation(ADD_EQUIMENT_STOCK);
+  const [updateData] = useMutation(EDIT_EQUIMENT_STOCK);
   const [house, setHouse] = useState({});
   const [today, setToday] = useState(toDay());
   const [listData, setListData] = useState();
   const [inputTotal, setInputTotal] = useState(0);
+  const [toTalDefault, setTotalDefault] = useState(0);
   const [editEquiment] = useMutation(EDIT_EQUIMENT);
 
   const [fetchData, { data: setData, loading }] = useLazyQuery(QUERY_EQUIMENT, {
@@ -59,55 +63,61 @@ export default function EditData({ onSuccess }) {
     setListData(setData?.equiments?.data[0]);
   }, [setData]);
 
-  // insert
+  // query total
   const getTotal = listData?.total ? listData?.total : 0;
-  // update
-  const getFinalTotal = parseInt(getTotal) + parseInt(inputTotal);
-  const { handleChange, errors, values, handleSubmit, resetForm, isDisabled } =
-    useFormik({
-      initialValues: {
-        inTotal: "",
-      },
-      enableReinitialize: false,
-      validate: (values) => {
-        const errors = {};
-        if (!inputTotal) errors.inTotal = "ກະລຸນາປ້ອນຈຳນວນຊັບສິນ";
-        return errors;
-      },
-      onSubmit: async (values) => {
-        if (!listEquiment?._id) return messageWarning("ກະລຸນາເລືອກຫມວດຊັບສິນ");
-        loadingScreen();
-        try {
-          const { data: updated } = await addStock({
-            variables: {
-              data: {
-                inTotal: parseInt(inputTotal),
-                equmentID: String(listEquiment?._id),
-                house: house?._id,
-              },
+  // delete default
+  const toToDefault = parseInt(getTotal) - parseInt(toTalDefault);
+  // plus total
+  const getFinalTotal = parseInt(toToDefault) + parseInt(inputTotal);
+
+  const { handleChange, errors, values, handleSubmit, isDisabled } = useFormik({
+    initialValues: {
+      inTotal: "",
+    },
+    enableReinitialize: false,
+    validate: (values) => {
+      const errors = {};
+      if (inputTotal <= 0)
+        errors.inTotal = "ປ້ອນຈຳນວນຊັບສິນນຳເຂົ້າຕ້ອງຫລາຍກວ່າ 0";
+      return errors;
+    },
+    onSubmit: async (values) => {
+      if (!listEquiment?._id) return messageWarning("ກະລຸນາເລືອກຊື່ຊັບສິນ");
+      loadingScreen();
+      try {
+        const { data: updated } = await updateData({
+          variables: {
+            data: {
+              inTotal: parseInt(inputTotal),
+              equmentID: String(listEquiment?._id),
+              house: house?._id,
             },
-          });
-          if (updated) {
-            Notiflix.Loading.remove();
-            messageSuccess("ບັນທືກສຳເລັດ");
-            updateEquiment();
-            setTimeout(() => {
-              resetForm({ values: "" });
-              window.scrollTo(0, 0);
-            }, 100);
-            setShow(false);
-            onSuccess();
-          } else {
-            Notiflix.Loading.remove();
-            messageError("ບັນທຶກບໍ່ສຳເລັດ");
-          }
-        } catch (error) {
-          console.log(error);
+            where: {
+              _id: _data?._id,
+            },
+          },
+        });
+        if (updated) {
           Notiflix.Loading.remove();
-          messageError("ການເພີ່ມຂໍ້ມູນຜິດພາດ");
+          messageSuccess("ແກ້ໄຂສຳເລັດ");
+          updateEquiment();
+          setTimeout(() => {
+            window.scrollTo(0, 0);
+          }, 100);
+          setListEquiment("");
+          setShow(false);
+          onSuccess();
+        } else {
+          Notiflix.Loading.remove();
+          messageError("ແກ້ໄຂບໍ່ສຳເລັດ");
         }
-      },
-    });
+      } catch (error) {
+        console.log(error);
+        Notiflix.Loading.remove();
+        messageError("ການເພີ່ມຂໍ້ມູນຜິດພາດ");
+      }
+    },
+  });
   // update totl equiment
   const updateEquiment = async () => {
     try {
@@ -121,6 +131,7 @@ export default function EditData({ onSuccess }) {
           },
         },
       });
+      setInputTotal("");
       console.log("======success=====");
     } catch (error) {
       Notiflix.Loading.remove();
@@ -128,14 +139,23 @@ export default function EditData({ onSuccess }) {
     }
   };
 
+  useEffect(() => {
+    if (!show) {
+      return;
+    }
+    setListEquiment(_data?.equmentID);
+    setTotalDefault(_data?.inTotal);
+    setInputTotal(_data?.inTotal);
+  }, [_data, show]);
+
   return (
     <React.Fragment>
       <button
         type="button"
-        className="btn  btn-lg btn-block"
+        className="btn  btn-sm"
         onClick={() => setShow(true)}
       >
-        <i className="icon-plus-circle me-1" /> ນຳຊັບສິນເຂົ້າ
+        <i className="fas fa-edit" />
       </button>
       <Modal show={show} animation={false} size="xl">
         <Modal.Header className="text-black">
@@ -151,49 +171,52 @@ export default function EditData({ onSuccess }) {
         <div className="p-2">
           <div className="form-group mb-3">
             <SelectEquiment
-              style={{ minWidth: 200, position: "fixed" }}
+              style={{ minWidth: "100%" }}
               value={listEquiment?._id}
               onChange={(obj) => {
                 if (obj?._id) {
                   setListEquiment(obj);
                 }
               }}
+              disabled = {true}
             />
           </div>
           <div className="form-group " style={{ marginTop: 50 }}>
-            <TextField
-              label="ຈຳນວນ"
-              variant="outlined"
-              type="number"
-              name="inTotal"
-              onWheel={(e) => e.target.blur()}
-              value={inputTotal}
-              onChange={(e) => {
-                setInputTotal(e.target.value);
-              }}
-              sx={{
-                m: 0,
-                width: "100%",
-                backgroundColor: "#ffff",
-              }}
-              error={errors.inTotal}
-            />
+            <FormControl fullWidth sx={{ m: 0 }}>
+              <OutlinedInput
+                startAdornment={
+                  <InputAdornment position="start">ຈຳນວນ:</InputAdornment>
+                }
+                onWheel={(e) => e.target.blur()}
+                type="number"
+                placeholder="..."
+                name="inputTotal"
+                value={inputTotal}
+                onChange={(e) => {
+                  setInputTotal(e.target.value);
+                }}
+                error={errors.inTotal}
+              />
+            </FormControl>
             <span className="text-danger">{errors.inTotal}</span>
           </div>
           <div className="form-group mt-1">
-            <TextField
-              label="ຍອງທີ່ເຫລືອ"
-              variant="outlined"
-              type="number"
-              disabled={true}
-              onWheel={(e) => e.target.blur()}
-              value={currency(listData?.total)}
-              sx={{
-                m: 0,
-                width: "100%",
-                backgroundColor: "#edf0ee",
-              }}
-            />
+            <FormControl fullWidth sx={{ m: 0 }}>
+              <OutlinedInput
+                startAdornment={
+                  <InputAdornment position="start">ຍອງທີ່ເຫລືອ:</InputAdornment>
+                }
+                onWheel={(e) => e.target.blur()}
+                type="text"
+                disabled={true}
+                value={currency(listData?.total ? listData?.total : 0)}
+                sx={{
+                  m: 0,
+                  width: "100%",
+                  backgroundColor: "#edf0ee",
+                }}
+              />
+            </FormControl>
           </div>
         </div>
 

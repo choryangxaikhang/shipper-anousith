@@ -8,19 +8,14 @@ import useReactRouter from "use-react-router";
 import {
   currency,
   formatDateDash,
-  formatDateTime,
   formateDateSlash,
-  houseStatus,
-  messageError,
-  messageSuccess,
+  getLocalHouse,
 } from "../../../../helper";
-import Notiflix from "notiflix";
-import { UPDATE_EQUIMENT_OUT } from "./apollo";
+import { QUERY_EQUIMENT_OUT } from "./apollo";
 import { getStaffLogin } from "../../../../helper";
-function Export({ _data }) {
+import "./utils/index.css";
+function DetailData({ billNo, getId }) {
   const jsonObj = getStaffLogin();
-  const { history, location, match } = useReactRouter();
-  const queryParams = new URLSearchParams(location.search);
   const userInfo = jsonObj?.data;
   const inputRef = useRef();
   const handlePrint = useReactToPrint({
@@ -28,55 +23,82 @@ function Export({ _data }) {
   });
   let today = moment().format("YYYY-MM-DD");
   const [show, setShow] = useState(false);
-  const [listData, setData] = useState("");
-  const [list, setDataList] = useState("");
+  const [localHouse, setLocalHouse] = useState("");
+  const [listData, setDataList] = useState();
+
+  useEffect(() => {
+    setLocalHouse(getLocalHouse());
+  }, []);
+
+  const [queryOut, { data: setData, loading }] = useLazyQuery(
+    QUERY_EQUIMENT_OUT,
+    {
+      fetchPolicy: "cache-and-network",
+    }
+  );
 
   const SumMoney = {
-    outTotal: _.sumBy(_data?.equimentOuts?.data, "outTotal"),
-    finalPrice: _.sumBy(_data?.equimentOuts?.data, "finalPrice"),
+    outTotal: _.sumBy(listData?.data, "outTotal"),
+    finalPrice: _.sumBy(listData?.data, "finalPrice"),
   };
 
 
   useEffect(() => {
-    if (!show) {
-      return;
-    }
-    setData(_data?.equimentOuts);
-    setDataList(_data?.equimentOuts?.data[0]);
-  }, [_data, show]);
+    queryOut({
+      variables: {
+        where: {
+          createdBy: userInfo?._id,
+          billEquiment: getId,
+          house: setLocalHouse?._id,
+          status: "CLOSE",
+        },
+        orderBy: "createdAt_DESC",
+      },
+    });
+  }, [localHouse, getId]);
+  useEffect(() => {
+    setDataList(setData?.equimentOuts);
+  }, [setData]);
 
   return (
     <React.Fragment>
       <button
-        className="col-6  btn-primary mt-2 ms-3"
+        className="btn btn-light"
         onClick={(e) => {
           setShow(true);
         }}
       >
-        <h3 className="text-white">
-          <i className="fas fa-print me-1 pt-1" />
-          ພີມໃບເບິກ
-        </h3>
+        <i className="fas fa-list me-1" />
+        ລາຍລະອຽດ
       </button>
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-        animation={false}
-        size="xl"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title className="primary">ພີມລາຍການທັງໝົດ</Modal.Title>
+      <Modal show={show} animation={false} size="xl">
+        <Modal.Header className="text-black">
+          ລາຍງານບິນເບີກເຄື່ອງ
+          <a
+            className="pull-right ms-2 "
+            style={{ textDecoration: "none", marginTop: -10 }}
+            onClick={() => setShow(false)}
+          >
+            <i className="icon-x fa-2x text-danger" />
+          </a>
         </Modal.Header>
-        <Modal.Body>
+        <div className="p-1 customDiv">
           <Row>
             <div className="col-md-12 ">
               <button
                 onClick={handlePrint}
                 type="button"
-                className="btn btn-dark me-2 float-start"
+                className="btn btn-dark me-2 float-start mt-2"
               >
                 <i className="icon-print mr-1"></i> ພິມລາຍງານ
               </button>
+              <a
+                className="float-end mt-2 ms-3 btn btn-danger rounded"
+                style={{ textDecoration: "none", marginTop: -10 }}
+                onClick={() => setShow(false)}
+              >
+                <i className="icon-x fa-2x text-white" />
+              </a>
             </div>
           </Row>
           <div style={{ paddingBottom: "10px" }} />
@@ -106,22 +128,21 @@ function Export({ _data }) {
                       id="table-to-xls"
                     />
                     <br />
-                    ຊື່ກິດຈະການ:{" "}
-                    {_data?.equimentOuts?.data[0]?.house?.houseName}
+                    ຊື່ກິດຈະການ: {listData?.data[0]?.house?.houseName}
                     <br />
-                    ໂທ: {_data?.equimentOuts?.data[0]?.house?.contactPhone}
+                    ໂທ: {listData?.data[0]?.house?.contactPhone}
                   </td>
                   <td className="text-end text-black mt-2">
                     ວັນທີ:{formateDateSlash(today)}
                     <br />
-                    ບິນເລກທີ: {list?.billEquiment?.billNo}
+                    ບິນເລກທີ: {billNo}
                   </td>
                 </tr>
                 <tr>
                   <td colSpan={8}>
                     <h3 className="text-center">
                       <u className="fw-bold">ລາຍການເບີກຊັບສິນ</u>
-                      <br />[ {list?.billEquiment?.details} ]
+                      <br />[ {listData?.data[0]?.billEquiment?.details} ]
                     </h3>
                     <span className="text-center text-black">
                       ພີມໂດຍ: {userInfo?.firstName ? userInfo?.firstName : ""}{" "}
@@ -162,10 +183,7 @@ function Export({ _data }) {
                       {currency(data?.price ? data?.price : 0)}
                     </td>
                     <td className="text-nowrap border text-end text-black">
-                      {currency(
-                        parseInt(data?.outTotal ? data?.outTotal : 0) *
-                          parseInt(data?.price ? data?.price : 0)
-                      )}
+                      {currency(data?.finalPrice ? data?.finalPrice : 0)}
                     </td>
                   </tr>
                 ))}
@@ -179,7 +197,11 @@ function Export({ _data }) {
                     </h3>
                   </td>
                   <td className="border text-end" colSpan={2}>
-                    <h3>{SumMoney?.finalPrice ? currency(SumMoney?.finalPrice) : 0}</h3>
+                    <h3>
+                      {SumMoney?.finalPrice
+                        ? currency(SumMoney?.finalPrice)
+                        : 0}
+                    </h3>
                   </td>
                 </tr>
                 <tr>
@@ -193,9 +215,9 @@ function Export({ _data }) {
               </tbody>
             </table>
           </div>
-        </Modal.Body>
+        </div>
       </Modal>
     </React.Fragment>
   );
 }
-export default Export;
+export default DetailData;

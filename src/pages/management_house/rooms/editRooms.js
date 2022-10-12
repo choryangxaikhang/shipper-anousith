@@ -121,8 +121,11 @@ export default function EditRooms({ onSuccess, data, loadData }) {
       if (!values.title_lao) {
         errors.title_lao = "ກະລຸນາປ້ອນຫ້ອງ";
       }
-      if (!values.priceFull) {
-        errors.priceFull = "ກະລູນາປ້ອນລາຄາເຕັມ";
+      if (values.priceFull <= 0) {
+        errors.priceFull = "ກະລຸນາປ້ອນຈຳນວນເງິນຫລາຍກວ່າ 0";
+      }
+      if (values.priceHalf <= 0) {
+        errors.priceHalf = "ກະລຸນາປ້ອນຈຳນວນເງິນຫລາຍກວ່າ 0";
       }
       if (getDocFiles === "" && getDocFiless.length < 1) {
         errors.docFile = "ກະລຸນາເລືອກຮູບກ່ອນ";
@@ -249,14 +252,6 @@ export default function EditRooms({ onSuccess, data, loadData }) {
             <div className="col-md-6 mt-2">
               <div className="form-group mb-2">
                 <label>ເລືອກປະເພດຫ້ອງ {valiDate()}</label>
-                {/* <TypeRoom
-                  size={"lg"}
-                  getData={(data) => {
-                    setTypeDataRoom(data);
-                  }}
-                  defaultValue={typeDataRoom?.title_lao}
-                  className={errors.typeRoom ? "is-invalid" : ""}
-                /> */}
                 <SearchTypeRoom
                   style={{ height: "100%", backgroundColor: "red" }}
                   value={typeDataRoom?._id}
@@ -341,7 +336,6 @@ export default function EditRooms({ onSuccess, data, loadData }) {
                     />
                     <div className="text-danger">{errors.priceFull}</div>
                   </FormControl>
-                  <div className="invalid fs-5">{errors?.priceFull}</div>
                 </div>
               </div>
             </div>
@@ -384,19 +378,6 @@ export default function EditRooms({ onSuccess, data, loadData }) {
           </div>
           <div className="form-group mt-2">
             <label>ຮູບພາບ (ເລືອກຫຼາຍຮູບພ້ອມກັນ) {valiDate()}</label>
-            {/* <input
-              type="file"
-              className={
-                errors.docFile
-                  ? "form-control mb-3 is-invalid"
-                  : "form-control mb-3 invalid"
-              }
-              name="docFile"
-              value={values.docFile}
-              onChange={handleUploadDocFile}
-              placeholder="ເລືອກຮູບ"
-              multiple
-            /> */}
             <FormControl fullWidth sx={{ m: 0 }}>
               <OutlinedInput
                 type="file"
