@@ -1,21 +1,19 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Modal, Row } from "react-bootstrap";
 import { useReactToPrint } from "react-to-print";
-import { useLazyQuery } from "@apollo/client";
 import _ from "lodash";
-import "./utils/index.css"
+import "./utils/index.css";
 import moment from "moment";
-import { USER_KEY } from "../../../Routes/app";
 import useReactRouter from "use-react-router";
 import {
+  getStaffLogin,
   currency,
   formatDateDash,
   formatDateTime,
-  formateDateSlash,
   houseStatus,
-} from "../../../helper";
+} from "../../../../helper";
 function Export({ _Data }) {
-  const jsonObj = JSON.parse(localStorage.getItem(USER_KEY));
+  const jsonObj = getStaffLogin();
   const userInfo = jsonObj?.data;
   const inputRef = useRef();
   const handlePrint = useReactToPrint({
@@ -52,10 +50,9 @@ function Export({ _Data }) {
             ພີມລາຍການທັງໝົດ
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body className="modal-container">
+        <div className="p-2">
           <Row>
             <div className="col-md-12 ">
-
               <a
                 href="javaScript:void(0)"
                 className="pull-right ms-2 "
@@ -100,19 +97,25 @@ function Export({ _Data }) {
                       id="table-to-xls"
                     />
                     <br />
-                    ຊື່ກິດຈະການ: {_Data?.accountingSummaries?.data[0]?.house?.houseName}, {" "}
-                    {houseStatus(_Data?.accountingSummaries?.data[0]?.house?.type)}
+                    ຊື່ກິດຈະການ:{" "}
+                    {
+                      _Data?.accountingSummaries?.data[0]?.house?.houseName
+                    },{" "}
+                    {houseStatus(
+                      _Data?.accountingSummaries?.data[0]?.house?.type
+                    )}
                     <br />
-                    ໂທ: {_Data?.accountingSummaries?.data[0]?.house?.contactPhone}
+                    ໂທ:{" "}
+                    {_Data?.accountingSummaries?.data[0]?.house?.contactPhone}
                   </td>
                   <td colSpan={6} className="text-end text-black">
-                      ວັນທີ:{formateDateSlash(today)}
+                    ວັນທີ:{formatDateDash(today)}
                   </td>
                 </tr>
                 <tr>
                   <td colSpan={8}>
                     <h3 className="text-center">
-                    ລາຍງານສະຫລຸບລາຍຮັບ ແລະ ລາຍຈ່າຍ
+                      ລາຍງານສະຫລຸບລາຍຮັບ ແລະ ລາຍຈ່າຍ
                     </h3>
                     <span className="text-center text-black">
                       ພີມໂດຍ: {userInfo?.firstName ? userInfo?.firstName : ""}{" "}
@@ -121,87 +124,84 @@ function Export({ _Data }) {
                   </td>
                 </tr>
                 <tr style={{ backgroundColor: "#f54f02", color: "white" }}>
-                  <td className="textCenter text-nowrap">
-                    ລຳດັບ
+                  <td className="textCenter text-nowrap">ລຳດັບ</td>
+                  <td className="textCenter text-nowrap">ພະນັກງານ</td>
+                  <td className="textCenter text-nowrap text-center">
+                    ລົງວັນທີ່
                   </td>
-                  <td className="textCenter text-nowrap">
-                    ພະນັກງານ
-                  </td>
-                  <td className="textCenter text-nowrap text-center">ລົງວັນທີ່</td>
                   <td className="textCenter text-nowrap">ເນື້ອໃນລາຍການ</td>
-                  <td className="textCenter text-nowrap">
-                    {" "}
-                    ລາຍຮັບ
-                  </td>
-                  <td className="textCenter text-nowrap">
-                    ລາຍຈ່າຍ
-                  </td>
-                  <td className="textCenter text-nowrap">
-                    ຍອດຄົງເຫຼືອ
-                  </td>
+                  <td className="textCenter text-nowrap"> ລາຍຮັບ</td>
+                  <td className="textCenter text-nowrap">ລາຍຈ່າຍ</td>
+                  <td className="textCenter text-nowrap">ຍອດຄົງເຫຼືອ</td>
                 </tr>
               </thead>
               <tbody>
                 {_Data &&
-                  _Data?.accountingSummaries?.data?.map(
-                    (data, index) => (
-                      <tr
-                        key={index}
-                        className={
-                          data?.confirmStatus === "CONFIRMED"
-                            ? "table-success"
-                            : ""
-                        }
-                      >
-                        <td className="text-nowrap text-center border text-black">{index + 1}</td>
-                        <td className="text-nowrap border text-black">
-                          {data?.createdBy?.firstName ? data?.createdBy?.firstName : "-" +
-                            "" +
-                            data?.createdBy?.lastName ? data?.createdBy?.lastName : "-"}
-                        </td>
-                        <td className="text-nowrap border text-black text-center">
-                          {data?.accountingDate
-                            ? formatDateDash(data?.accountingDate)
-                            : "-"}
-                        </td>
+                  _Data?.accountingSummaries?.data?.map((data, index) => (
+                    <tr
+                      key={index}
+                      className={
+                        data?.confirmStatus === "CONFIRMED"
+                          ? "table-success"
+                          : ""
+                      }
+                    >
+                      <td className="text-nowrap text-center border text-black">
+                        {index + 1}
+                      </td>
+                      <td className="text-nowrap border text-black">
+                        {data?.createdBy?.firstName
+                          ? data?.createdBy?.firstName
+                          : "-" + "" + data?.createdBy?.lastName
+                          ? data?.createdBy?.lastName
+                          : "-"}
+                      </td>
+                      <td className="text-nowrap border text-black text-center">
+                        {data?.accountingDate
+                          ? formatDateDash(data?.accountingDate)
+                          : "-"}
+                      </td>
 
-                        <td className=" border  text-black">{data?.detail ? data?.detail : "-"}</td>
-                        <td className="text-nowrap border text-end text-black"
-                        >
-                          {currency(
-                            data?.incomeKIP ? data?.incomeKIP : 0
-                          )}{" "}
-                          ກີບ
-                        </td>
-                        <td className="text-nowrap border text-end text-black"
-                        >
-                          {currency(
-                            data?.expenseKIP ? data?.expenseKIP : 0
-                          )}{" "}
-                          ກີບ
-                        </td>
-                        <td className="text-nowrap border text-end text-black"
-                        >
-                          {currency(
-                            data?.endBalanceKIP
-                              ? data?.endBalanceKIP
-                              : 0
-                          )}{" "}
-                          ກີບ
-                        </td>
-                      </tr>
-                    )
-                  )}
+                      <td className=" border  text-black">
+                        {data?.detail ? data?.detail : "-"}
+                      </td>
+                      <td className="text-nowrap border text-end text-black">
+                        {currency(data?.incomeKIP ? data?.incomeKIP : 0)} ກີບ
+                      </td>
+                      <td className="text-nowrap border text-end text-black">
+                        {currency(data?.expenseKIP ? data?.expenseKIP : 0)} ກີບ
+                      </td>
+                      <td className="text-nowrap border text-end text-black">
+                        {currency(
+                          data?.endBalanceKIP ? data?.endBalanceKIP : 0
+                        )}{" "}
+                        ກີບ
+                      </td>
+                    </tr>
+                  ))}
                 <tr style={{ backgroundColor: "#fafafa" }}>
                   <td colSpan={4} className="border">
                     <h3 className="text-center">ລວມ:</h3>
                   </td>
                   <td className="border text-end">
-                    <h3>{SumMoney?.incomeKIP ? currency(SumMoney?.incomeKIP) : 0}</h3>
+                    <h3>
+                      {SumMoney?.incomeKIP ? currency(SumMoney?.incomeKIP) : 0}
+                    </h3>
                   </td>
-                  <td className="border text-end"><h3>{SumMoney?.expenseKIP ? currency(SumMoney?.expenseKIP) : 0}</h3></td>
-                  <td className="border text-end"><h3>{SumMoney?.endBalanceKIP ? currency(SumMoney?.endBalanceKIP) : 0}</h3></td>
-
+                  <td className="border text-end">
+                    <h3>
+                      {SumMoney?.expenseKIP
+                        ? currency(SumMoney?.expenseKIP)
+                        : 0}
+                    </h3>
+                  </td>
+                  <td className="border text-end">
+                    <h3>
+                      {SumMoney?.endBalanceKIP
+                        ? currency(SumMoney?.endBalanceKIP)
+                        : 0}
+                    </h3>
+                  </td>
                 </tr>
                 <tr>
                   <td colSpan={2} className=" text-center p-4">
@@ -214,7 +214,7 @@ function Export({ _Data }) {
               </tbody>
             </table>
           </div>
-        </Modal.Body>
+        </div>
       </Modal>
     </React.Fragment>
   );

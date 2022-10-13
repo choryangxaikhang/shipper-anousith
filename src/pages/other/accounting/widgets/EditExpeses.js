@@ -15,7 +15,7 @@ import {
 import _ from "lodash";
 import { useFormik } from "formik";
 import { v4 as uuidv4 } from "uuid";
-import { CREATE_EXPENSES } from "../apollo";
+import { UPDATE_EXTRA_EXPENSE } from "../apollo";
 import {
   FormControl,
   InputAdornment,
@@ -26,14 +26,19 @@ import SelectExpressTypes from "../../../../helper/components/SelectExpressTypes
 import { s3Client } from "../../../../helper/s3Client";
 export default function UpdateEx({ getData, onSuccess }) {
   const [show, setShow] = useState(false);
-  const [createIncome] = useMutation(CREATE_EXPENSES);
+  const [upDateExtra] = useMutation(UPDATE_EXTRA_EXPENSE);
   const [userData, setUserData] = useState({});
   const [startDate, setStartDate] = useState(toDayDash());
   const [imageName, setImageName] = useState("");
   const [file, setFile] = useState(null);
+
   const [getTypeExpress, setTypExpress] = useState({});
   const getUser = userData?.firstName + " " + userData?.lastName;
   const [localHouse, setLocalHouse] = useState("");
+  // state price
+  const [inputPrice, setInputPrice] = useState();
+  const [defaultPrice, setDefaultPrice] = useState();
+
   useEffect(() => {
     setLocalHouse(getLocalHouse()?._id);
   }, []);
@@ -57,69 +62,95 @@ export default function UpdateEx({ getData, onSuccess }) {
     }
   };
 
-  const { handleChange, errors, values, handleSubmit, resetForm, submitCount } =
-    useFormik({
-      initialValues: {
-        detail: "",
-        expenseKIP: "",
-      },
-      enableReinitialize: false,
-      validate: (values) => {
-        const errors = {};
-        if (!values.expenseKIP) {
-          errors.expenseKIP = "ກະລູນາປ້ອນຈຳນວນເງິນ";
-        }
-        if (!values.detail) {
-          errors.detail = "ກະລູນາປ້ອນລາຍລະອຽດ";
-        }
-        if (!getTypeExpress?.id_expense)
-          errors.expenseType = "ກະລູນາເລືອກປະເພດລາຍຈ່າຍ";
-        return errors;
-      },
-      onSubmit: async (values) => {
-        loadingScreen();
-        try {
-          const { data: _create } = await createIncome({
-            variables: {
-              data: {
-                accountantDate: String(startDate),
-                fileUpload: String(imageName),
-                StaffFullName: String(getUser),
-                house: String(localHouse),
-                detail: String(values.detail),
-                extraType: "EXPENSE",
-                expenseKIP: parseInt(values.expenseKIP),
-                expenseType: String(getTypeExpress?.id_expense),
-              },
+  // qurey total
+  const _dataEndBalanceKIP = getData?.endBalanceKIP;
+  // get price input
+  const finalTPrice = parseInt(_dataEndBalanceKIP) + parseInt(defaultPrice);
+  // plus total
+  const getFinalTotalPrice = parseInt(finalTPrice) - parseInt(inputPrice);
+  const {
+    handleChange,
+    errors,
+    values,
+    handleSubmit,
+    resetForm,
+    setFieldValue,
+    submitCount,
+  } = useFormik({
+    initialValues: {
+      detail: "",
+      expenseKIP: "",
+    },
+    enableReinitialize: false,
+    validate: (values) => {
+      const errors = {};
+      if (!values.expenseKIP) {
+        errors.expenseKIP = "ກະລູນາປ້ອນຈຳນວນເງິນ";
+      }
+      if (!values.detail) {
+        errors.detail = "ກະລູນາປ້ອນລາຍລະອຽດ";
+      }
+      if (!getTypeExpress?.id_expense)
+        errors.expenseType = "ກະລູນາເລືອກປະເພດລາຍຈ່າຍ";
+      return errors;
+    },
+    onSubmit: async (values) => {
+      loadingScreen();
+      try {
+        const { data: _create } = await upDateExtra({
+          variables: {
+            data: {
+              accountantDate: String(startDate),
+              fileUpload: String(imageName),
+              StaffFullName: String(getUser),
+              house: String(localHouse),
+              detail: String(values.detail),
+              extraType: "EXPENSE",
+              expenseKIP: parseInt(inputPrice),
+              endBalanceKIP: parseInt(getFinalTotalPrice),
+              expenseType: String(getTypeExpress?.id_expense),
             },
-          });
-          if (_create) {
-            Notiflix.Loading.remove();
-            messageSuccess("ລົງລາຍຈ່າຍສຳເລັດແລ້ວ");
-            onSuccess();
-            setImageName("");
-            setTimeout(() => {
-              resetForm({ values: "" });
-              window.scrollTo(0, 0);
-            }, 100);
-            setShow(false);
-          } else {
-            messageError("ລົງລາຍຈ່າຍບໍສຳເລັດ");
-            onSuccess();
-          }
-        } catch (error) {
-          messageError("ການເພີ່ມຂໍ້ມູນຜິດພາດ");
-          console.log(error);
+            where: {
+              id_list: parseInt(getData?.id_list),
+            },
+          },
+        });
+        if (_create) {
+          Notiflix.Loading.remove();
+          messageSuccess("ລົງລາຍຈ່າຍສຳເລັດແລ້ວ");
+          onSuccess();
+          setImageName("");
+          setTimeout(() => {
+            resetForm({ values: "" });
+            window.scrollTo(0, 0);
+          }, 100);
+          setShow(false);
+        } else {
+          messageError("ລົງລາຍຈ່າຍບໍສຳເລັດ");
           onSuccess();
         }
-      },
-    });
+      } catch (error) {
+        messageError("ການເພີ່ມຂໍ້ມູນຜິດພາດ");
+        console.log(error);
+        onSuccess();
+      }
+    },
+  });
+  useEffect(() => {
+    if (!show) {
+      return;
+    }
+    setTypExpress(getData?.expenseType);
+    setFieldValue(
+      "accountantDate",
+      getData?.accountantDate ? getData?.accountantDate : "",
+      false
+    );
+    setFieldValue("detail", getData?.detail ? getData?.detail : "", false);
+    setInputPrice(getData?.expenseKIP ? getData?.expenseKIP : 0);
+    setDefaultPrice(getData?.expenseKIP ? getData?.expenseKIP : 0);
+  }, [getData, show]);
 
-  const sumMoney = {
-    endBalanceKIP: _.sumBy(getData?.extraExpenses?.data, "endBalanceKIP"),
-  };
-
-  const _data = getData?.extraExpenses?.data[0]?.endBalanceKIP;
   return (
     <>
       <button
@@ -141,7 +172,7 @@ export default function UpdateEx({ getData, onSuccess }) {
             <i className="icon-x fa-2x text-danger" />
           </a>
         </Modal.Header>
-        <div className="p-2">
+        <div className="p-2" style={{ backgroundColor: "#f2f7f3" }}>
           <div className="form-row">
             <div className="col-md-12">
               <TextField
@@ -176,7 +207,7 @@ export default function UpdateEx({ getData, onSuccess }) {
 
           <div className="form-row mt-1">
             <div className="col-md-12">
-              <FormControl fullWidth sx={{ m: 0 }}>
+              <FormControl fullWidth sx={{ m: 0, fontSize: 20 }}>
                 <OutlinedInput
                   startAdornment={
                     <InputAdornment position="start">
@@ -185,9 +216,8 @@ export default function UpdateEx({ getData, onSuccess }) {
                   }
                   type="text"
                   placeholder="ລາຍຈ່າຍ"
-                  name="accountantDate"
-                  value={currency(_data)}
-                  onChange={(e) => setStartDate(e.target.value)}
+                  disabled={true}
+                  value={currency(_dataEndBalanceKIP)}
                 />
               </FormControl>
               <div className="text-danger">{errors.expenseKIP}</div>
@@ -204,11 +234,16 @@ export default function UpdateEx({ getData, onSuccess }) {
                     </InputAdornment>
                   }
                   type="number"
+                  sx={{
+                    backgroundColor: "#ffff",
+                  }}
                   placeholder="ລາຍຈ່າຍ"
                   onWheel={(e) => e.target.blur()}
-                  value={values?.expenseKIP}
+                  value={inputPrice}
                   name="expenseKIP"
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    setInputPrice(e.target.value);
+                  }}
                 />
               </FormControl>
               <div className="text-danger">{errors.expenseKIP}</div>
@@ -224,6 +259,9 @@ export default function UpdateEx({ getData, onSuccess }) {
                   type="date"
                   placeholder="ລາຍຈ່າຍ"
                   name="accountantDate"
+                  sx={{
+                    backgroundColor: "#ffff",
+                  }}
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
                 />
@@ -234,11 +272,7 @@ export default function UpdateEx({ getData, onSuccess }) {
               <textarea
                 rows={3}
                 name="detail"
-                className={
-                  errors.detail
-                    ? "form-control text-back  is-invalid"
-                    : "form-control text-back  invalid"
-                }
+                className={"form-control form-control-lg"}
                 placeholder="..."
                 onChange={handleChange}
                 value={values?.detail}

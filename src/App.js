@@ -71,7 +71,7 @@ export default function App() {
     }
     if (isError1 || isError2 || isError3 ) {
       Notiflix.Report.warning("ແຈ້ງເຕືອນ", message, "ຕົກລົງ", async () => {
-        Notiflix.Loading.standard("ກຳລັງດຳເນິນງານ...");
+        Notiflix.Loading.standard("ກຳລັງດຳເນິນການ...");
         clearLocalStorage();
         window.location.replace(LOGIN);
       });

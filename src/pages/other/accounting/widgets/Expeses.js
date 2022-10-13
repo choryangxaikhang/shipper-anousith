@@ -1,7 +1,7 @@
 import Notiflix, { Loading } from "notiflix";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import {
   currency,
   getLocalHouse,
@@ -15,7 +15,7 @@ import {
 import _ from "lodash";
 import { useFormik } from "formik";
 import { v4 as uuidv4 } from "uuid";
-import { CREATE_EXPENSES } from "../apollo";
+import { CREATE_EXPENSES, QUERY_EXTRA_EXPENSE } from "../apollo";
 import {
   FormControl,
   InputAdornment,
@@ -34,6 +34,11 @@ export default function Expenses({ getData, onSuccess }) {
   const [getTypeExpress, setTypExpress] = useState({});
   const getUser = userData?.firstName + " " + userData?.lastName;
   const [localHouse, setLocalHouse] = useState("");
+  const [fetchData, { data: extraExpenseData, loading }] = useLazyQuery(
+    QUERY_EXTRA_EXPENSE,
+    { fetchPolicy: "network-only" }
+  );
+
   useEffect(() => {
     setLocalHouse(getLocalHouse()?._id);
   }, []);
@@ -41,6 +46,22 @@ export default function Expenses({ getData, onSuccess }) {
     const local = getStaffLogin();
     setUserData(local?.data);
   }, []);
+
+  useEffect(() => {
+    if (!show) {
+      return;
+    }
+    fetchData({
+      variables: {
+        where: {
+          house: localHouse,
+        },
+        limit: 1,
+        orderBy: "createdAt_DESC",
+      },
+    });
+  }, [localHouse,show]);
+
   const handleUpload = async (event) => {
     const imageName = uuidv4() + "." + event.target.files[0].type.split("/")[1];
     const _file = event.target.files[0];
@@ -77,7 +98,7 @@ export default function Expenses({ getData, onSuccess }) {
         return errors;
       },
       onSubmit: async (values) => {
-        loadingScreen();;
+        loadingScreen();
         try {
           const { data: _create } = await createIncome({
             variables: {
@@ -102,6 +123,7 @@ export default function Expenses({ getData, onSuccess }) {
               resetForm({ values: "" });
               window.scrollTo(0, 0);
             }, 100);
+            setTypExpress("");
             setShow(false);
           } else {
             messageError("ລົງລາຍຈ່າຍບໍສຳເລັດ");
@@ -115,11 +137,6 @@ export default function Expenses({ getData, onSuccess }) {
       },
     });
 
-  const sumMoney = {
-    endBalanceKIP: _.sumBy(getData?.extraExpenses?.data, "endBalanceKIP"),
-  };
-
-  const _data = getData?.extraExpenses?.data[0]?.endBalanceKIP;
   return (
     <>
       <div
@@ -186,7 +203,9 @@ export default function Expenses({ getData, onSuccess }) {
                   type="text"
                   placeholder="ລາຍຈ່າຍ"
                   name="accountantDate"
-                  value={currency(_data)}
+                  value={currency(
+                    extraExpenseData?.extraExpenses?.data[0]?.endBalanceKIP
+                  )}
                   onChange={(e) => setStartDate(e.target.value)}
                 />
               </FormControl>
@@ -234,11 +253,7 @@ export default function Expenses({ getData, onSuccess }) {
               <textarea
                 rows={3}
                 name="detail"
-                className={
-                  errors.detail
-                    ? "form-control text-back  is-invalid"
-                    : "form-control text-back  invalid"
-                }
+                className={"form-control form-control-lg"}
                 placeholder="..."
                 onChange={handleChange}
                 value={values?.detail}

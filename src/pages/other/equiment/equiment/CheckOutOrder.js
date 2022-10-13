@@ -169,7 +169,6 @@ export default function CheckOutOrder({ getBillId, getData, onSuccess }) {
       console.log(error);
     }
   };
-
   useEffect(() => {
     if (!show) {
       return;

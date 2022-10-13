@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import { useMutation, useLazyQuery } from "@apollo/client";
-import { SUMMARY_ACCOUNT } from "../../../Routes/app";
+import { SUMMARY_ACCOUNT } from "../../../../routes/app";
 import useReactRouter from "use-react-router";
 import {
   createdAt_gte,
@@ -18,29 +18,26 @@ import {
   messageSuccess,
   setParams,
   startOfMonth,
-} from "../../../helper";
-import {
-  UPDATE_ACCOUNT_SUMMARY,
-  QUERY_SUMMARY_ACCOUNT,
-} from "./apollo";
+} from "../../../../helper";
+import { UPDATE_ACCOUNT_SUMMARY, QUERY_SUMMARY_ACCOUNT } from "./apollo";
 import { Table } from "react-bootstrap";
-import PaginationController from "../../../helper/components/pagination/PaginationComponent";
 import Notiflix from "notiflix";
 import _ from "lodash";
 import AddAccountSummary from "./AddAccount";
 import { DELETE_ACCOUNT_SUMMARY } from "./apollo";
 import TotalSummaryAccount from "./TotalSummaryAccount";
 import Export from "./Export";
+import Pagination from "../../../../helper/controllers/Pagination";
 
 export default function SummaryAccount() {
   const { history, location, match } = useReactRouter();
   const queryParams = new URLSearchParams(location?.search);
-  const numberPage = match?.params?.page;
-  const [numberRows, setNumberRows] = useState(ITEM_PER_PAGE);
+  const [numberPage, setNumberPage] = useState(1);
+  const [numberRow, setNumberRow] = useState(100);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [newLoadData, setNewLoadData] = useState(false);
-  const [localHouse, setLocalHouse] = useState("")
+  const [localHouse, setLocalHouse] = useState("");
   const [fetchData, { data: extraExpenseData, loading }] = useLazyQuery(
     QUERY_SUMMARY_ACCOUNT,
     { fetchPolicy: "cache-and-network" }
@@ -49,14 +46,14 @@ export default function SummaryAccount() {
     setLocalHouse(getLocalHouse()?._id);
   }, []);
   useEffect(() => {
-    let whereDate = {}
+    let whereDate = {};
     if (startDate && endDate) {
       whereDate = {
         accountingDate_gte: createdAt_gte(startDate),
         accountingDate_lt: createdAt_lt(endDate),
-      }
+      };
     } else {
-      whereDate = {}
+      whereDate = {};
     }
     fetchData({
       variables: {
@@ -64,21 +61,21 @@ export default function SummaryAccount() {
           house: localHouse,
           ...whereDate,
         },
-        skip: numberRows * (numberPage - 1),
-        limit: parseInt(numberRows),
+        skip: numberRow * (numberPage - 1),
+        limit: parseInt(numberRow),
         orderBy: "createdAt_DESC",
       },
     });
-  }, [numberRows, numberPage, newLoadData, startDate, endDate, localHouse]);
+  }, [numberRow, numberPage, newLoadData, startDate, endDate, localHouse]);
   //pageination
   const countData = extraExpenseData?.accountingSummaries?.total;
   const countPage = [];
-  for (var i = 1; i <= Math.ceil(countData / numberRows); i++) {
+  for (var i = 1; i <= Math.ceil(countData / numberRow); i++) {
     countPage.push(i);
   }
   const NO = (index) => {
-    const no = numberRows * numberPage - numberRows;
-    if (numberRows > 0) {
+    const no = numberRow * numberPage - numberRow;
+    if (numberRow > 0) {
       return no + index + 1;
     } else {
       return index + 1;
@@ -86,30 +83,25 @@ export default function SummaryAccount() {
   };
 
   useEffect(() => {
-    let _rows = queryParams.get("rows");
+    let page = queryParams.get("page");
     const _startDate = queryParams.get("startDate");
     const _endDate = queryParams.get("endDate");
     setStartDate(_startDate);
     setEndDate(_endDate);
-    setNumberRows(_rows ? parseInt(_rows) : ITEM_PER_PAGE);
-  }, []);
-
-  // get route params
-  useEffect(() => {
-    const _rows = queryParams.get("rows");
-    if (_rows) {
-      setNumberRows(_rows);
+    if (page) {
+      setNumberPage(parseInt(page));
     } else {
-      setNumberRows(ITEM_PER_PAGE);
+      setNumberRow(100);
     }
   }, [queryParams]);
-
 
   return (
     <>
       <div className="content__header content__boxed overlapping">
         <div className="content__wrap">
-          <h3 className="page-title mb-2 text-white">ສະຫລຸບລາຍຮັບ ແລະ ລາຍຈ່າຍ</h3>
+          <h3 className="page-title mb-2 text-white">
+            ສະຫລຸບລາຍຮັບ ແລະ ລາຍຈ່າຍ
+          </h3>
         </div>
       </div>
       <div className="content__boxed">
@@ -120,11 +112,12 @@ export default function SummaryAccount() {
                 <div className="card-header">
                   <div className="row">
                     <div className="col-md-6">
-                      <AddAccountSummary
+                      {/* <AddAccountSummary
                         onSuccess={() => {
                           setNewLoadData(!newLoadData);
                         }}
-                      />
+                      /> */}
+                      f
                     </div>
                   </div>
                   <hr />
@@ -159,13 +152,10 @@ export default function SummaryAccount() {
                     </div>
                   </div>
                 </div>
-                <TotalSummaryAccount
-                  startDate={startDate}
-                  endDate={endDate}
-                />
+                <TotalSummaryAccount startDate={startDate} endDate={endDate} />
                 <div className="card-body">
                   <div className="table-responsive">
-                    <Table className="table table-striped table-sm text-black">
+                    <Table className="table  table-sm text-black">
                       <thead>
                         <tr>
                           <th className="text-nowrap">ລຳດັບ</th>
@@ -179,100 +169,149 @@ export default function SummaryAccount() {
                         </tr>
                       </thead>
                       <tbody>
-                        {extraExpenseData &&
-                          extraExpenseData?.accountingSummaries?.data?.map(
-                            (data, index) => (
-                              <tr
-                                key={index}
-                                className={
-                                  data?.confirmStatus === "CONFIRMED"
-                                    ? "table-success"
-                                    : ""
-                                }
-                              >
-                                <td className="text-nowrap">{NO(index)}</td>
+                        {extraExpenseData?.accountingSummaries?.data?.map(
+                          (data, index) => (
+                            <tr
+                              key={index}
+                              className={
+                                data?.confirmStatus === "CONFIRMED"
+                                  ? "table-success"
+                                  : ""
+                              }
+                            >
+                              <td className="text-nowrap">{NO(index)}</td>
 
-                                <td className="text-nowrap">
-                                  {data?.accountingDate
-                                    ? formatDateDash(data?.accountingDate)
-                                    : "-"}
-                                </td>
-                                <td className="text-nowrap text-end">
+                              <td className="text-nowrap">
+                                {data?.accountingDate
+                                  ? formatDateDash(data?.accountingDate)
+                                  : "-"}
+                              </td>
+                              <td className="text-nowrap text-end fs-5">
+                                <b className="mt-2">
                                   {currency(
                                     data?.incomeKIP ? data?.incomeKIP : 0
                                   )}{" "}
-                                  ກີບ <hr />
+                                  ກີບ
+                                </b>
+                                <br />
+                                <b className="mt-2">
                                   {currency(
                                     data?.incomeTHB ? data?.incomeTHB : 0
                                   )}{" "}
-                                  ບາດ <hr />
+                                  ບາດ
+                                </b>
+                                <br />
+                                <b>
                                   {currency(
                                     data?.incomeUSD ? data?.incomeUSD : 0
                                   )}{" "}
                                   ໂດລາ
-                                </td>
-                                <td className="text-nowrap text-end">
+                                </b>
+                              </td>
+                              <td className="text-nowrap text-end fs-5">
+                                <b className="mt-2">
                                   {currency(
                                     data?.expenseKIP ? data?.expenseKIP : 0
                                   )}{" "}
-                                  ກີບ <hr />
+                                  ກີບ
+                                </b>
+                                <br />
+                                <b className="mt-2">
                                   {currency(
                                     data?.expenseTHB ? data?.expenseTHB : 0
                                   )}{" "}
-                                  ບາດ <hr />
+                                  ບາດ
+                                </b>
+                                <br />
+                                <b>
                                   {currency(
                                     data?.expenseUSD ? data?.expenseUSD : 0
                                   )}{" "}
                                   ໂດລາ
-                                </td>
-                                <td className="text-nowrap text-end">
+                                </b>
+                              </td>
+                              <td className="text-nowrap text-end fs-5">
+                                <b className="mt-2">
                                   {currency(
-                                    data?.endBalanceKIP ? data?.endBalanceKIP : 0
+                                    data?.endBalanceKIP
+                                      ? data?.endBalanceKIP
+                                      : 0
                                   )}{" "}
-                                  ກີບ <hr />
+                                  ກີບ
+                                </b>
+                                <br />
+                                <b className="mt-2">
                                   {currency(
-                                    data?.endBalanceTHB ? data?.endBalanceTHB : 0
+                                    data?.endBalanceTHB
+                                      ? data?.endBalanceTHB
+                                      : 0
                                   )}{" "}
-                                  ບາດ <hr />
+                                  ບາດ
+                                </b>
+                                <br />
+                                <b>
                                   {currency(
-                                    data?.endBalanceUSD ? data?.endBalanceUSD : 0
+                                    data?.endBalanceUSD
+                                      ? data?.endBalanceUSD
+                                      : 0
                                   )}{" "}
                                   ໂດລາ
-                                </td>
-                                <td className="text-nowrap text-center">
-                                  <span>
-                                    {data?.createdBy?.firstName ? data?.createdBy?.firstName : "-" + " " +
-                                      data?.createdBy?.lastName ? data?.createdBy?.lastName : "-"}
-                                  </span>
-                                </td>
-                              </tr>
-                            )
-                          )}
+                                </b>
+                              </td>
+                              <td className="text-nowrap text-center">
+                                <span>
+                                  {data?.createdBy?.firstName
+                                    ? data?.createdBy?.firstName
+                                    : "-" + " " + data?.createdBy?.lastName
+                                    ? data?.createdBy?.lastName
+                                    : "-"}
+                                </span>
+                              </td>
+                            </tr>
+                          )
+                        )}
                       </tbody>
                     </Table>
                   </div>
                   <div
                     style={{
                       position: "fixed",
-                      bottom: 15,
+                      bottom: 50,
                       right: 25,
                       opacity: 0.7,
                     }}
                   >
-                    <Export
-                      _Data={extraExpenseData}
-                    />
+                    <Export _Data={extraExpenseData} />
                   </div>
-                  <PaginationController
-                    routes={`${SUMMARY_ACCOUNT}`}
-                    numberRows={numberRows}
-                    numberPage={numberPage}
-                    countPage={countPage}
-                  />
+                  {extraExpenseData?.accountingSummaries?.data?.total > 100 && (
+                    <Pagination
+                      className="mt-2"
+                      pageTotal={countPage}
+                      currentPage={numberPage}
+                      onPageChange={(page) => {
+                        history.push({
+                          search: setParams(`page`, page),
+                        });
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             </div>
           </div>
+        </div>
+        <div
+          style={{
+            position: "fixed",
+            backgroundColor: "#edece8",
+          }}
+          className="col-md-12 appBottomMenu"
+        >
+          <AddAccountSummary
+            onSuccess={() => {
+              setNewLoadData(!newLoadData);
+            }}
+          />
         </div>
       </div>
     </>

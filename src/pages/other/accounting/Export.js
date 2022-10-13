@@ -8,7 +8,6 @@ import useReactRouter from "use-react-router";
 import {
   currency,
   formatDateDash,
-  formatDateTime,
   formateDateSlash,
   houseStatus,
   getStaffLogin,
@@ -45,24 +44,26 @@ function Export({ _Data }) {
         </button>
       </div>
 
-      <Modal show={show} onHide={() => setShow(false)} animation={false}>
-        <Modal.Header closeButton>
-          <Modal.Title className="primary modal-container custom-map-modal">
-            ພີມລາຍການທັງໝົດ
-          </Modal.Title>
+      <Modal
+        show={show}
+        onHide={() => setShow(false)}
+        animation={false}
+        size="xl"
+      >
+        <Modal.Header>
+          ພີມລາຍລາຍງານ
+          <a
+            href="javaScript:void(0)"
+            className="pull-right ms-2  float-end"
+            style={{ textDecoration: "none" }}
+            onClick={() => setShow(false)}
+          >
+            <i className="icon-x fa-2x text-danger" />
+          </a>
         </Modal.Header>
-        <Modal.Body className="modal-container">
+        <div className="p-2">
           <Row>
             <div className="col-md-12 ">
-              
-              <a
-                href="javaScript:void(0)"
-                className="pull-right ms-2 "
-                style={{ textDecoration: "none" }}
-                onClick={() => setShow(false)}
-              >
-                <i className="icon-x fa-2x text-danger" />
-              </a>
               <button
                 onClick={handlePrint}
                 type="button"
@@ -99,19 +100,18 @@ function Export({ _Data }) {
                       id="table-to-xls"
                     />
                     <br />
-                   ຊື່ກິດຈະການ: {_Data?.extraExpenses?.data[0]?.house?.houseName},
+                    ຊື່ກິດຈະການ:{" "}
+                    {_Data?.extraExpenses?.data[0]?.house?.houseName},
                     <br />
-                     ໂທ: {_Data?.extraExpenses?.data[0]?.house?.contactPhone}
+                    ໂທ: {_Data?.extraExpenses?.data[0]?.house?.contactPhone}
                   </td>
                   <td colSpan={6} className="text-end text-black">
-                      ວັນທີ:{formateDateSlash(today)}
+                    ວັນທີ:{formateDateSlash(today)}
                   </td>
                 </tr>
                 <tr>
                   <td colSpan={8}>
-                    <h3 className="text-center">
-                      ລາຍງານລາຍຮັບ ແລະ ລາຍຈ່າຍ
-                    </h3>
+                    <h3 className="text-center">ລາຍງານລາຍຮັບ ແລະ ລາຍຈ່າຍ</h3>
                     <span className="text-center text-black">
                       ພີມໂດຍ: {userInfo?.firstName ? userInfo?.firstName : ""}{" "}
                       {userInfo?.lastName ? userInfo?.lastName : ""}
@@ -119,118 +119,103 @@ function Export({ _Data }) {
                   </td>
                 </tr>
                 <tr style={{ backgroundColor: "#f54f02", color: "white" }}>
-                  <td className="textCenter text-nowrap">
-                    ລຳດັບ
-                  </td>
-                  <td className="textCenter text-nowrap">
-                    ພະນັກງານ
-                  </td>
-                  <td className="textCenter text-nowrap">ລົງວັນທີ່</td>
-                  <td className="textCenter text-nowrap">ເນື້ອໃນລາຍການ</td>
-                  <td className="textCenter text-nowrap">
-                    {" "}
-                    ລາຍຮັບ
-                  </td>
-                  <td className="textCenter text-nowrap">
-                    ລາຍຈ່າຍ
-                  </td>
-                  <td className="textCenter text-nowrap">
-                    ຍອດຄົງເຫຼືອ
-                  </td>
-                  <td className="textCenter text-nowrap">
-                    ອານຸມັດໂດຍ
-                  </td>
+                  <td className="border text-nowrap">ລຳດັບ</td>
+                  <td className="border text-nowrap">ພະນັກງານ</td>
+                  <td className="border text-nowrap">ລົງວັນທີ່</td>
+                  <td className="border text-nowrap">ເນື້ອໃນລາຍການ</td>
+                  <td className="text-end border text-nowrap"> ລາຍຮັບ</td>
+                  <td className="text-end border text-nowrap">ລາຍຈ່າຍ</td>
+                  <td className="text-end border text-nowrap">ອານຸມັດໂດຍ</td>
                 </tr>
               </thead>
               <tbody>
                 {_Data &&
-                  _Data?.extraExpenses?.data?.map(
-                    (data, index) => (
-                      <tr
-                        key={index}
-                        className={
-                          data?.confirmStatus === "CONFIRMED"
-                            ? "table-success"
-                            : ""
-                        }
-                      >
-                        <td className="text-nowrap text-center border text-black">{index + 1}</td>
-                        <td className="text-nowrap border text-black">
-                           {data?.StaffFullName}
-                        </td>
-                        <td className="text-nowrap border text-black text-center">
-                          {data?.createdAt
-                            ? formatDateDash(data?.accountantDate)
-                            : "-"}
-                        </td>
+                  _Data?.extraExpenses?.data?.map((data, index) => (
+                    <tr
+                      key={index}
+                      className={
+                        data?.confirmStatus === "CONFIRMED"
+                          ? "table-success"
+                          : ""
+                      }
+                    >
+                      <td className="text-nowrap text-center border text-black">
+                        {index + 1}
+                      </td>
+                      <td className="text-nowrap border text-black">
+                        {data?.StaffFullName}
+                      </td>
+                      <td className="text-nowrap border text-black text-center">
+                        {data?.createdAt
+                          ? formatDateDash(data?.accountantDate)
+                          : "-"}
+                      </td>
 
-                        <td className=" border  text-black">{data?.detail ? data?.detail : "-"}</td>
-                        <td className="text-nowrap border text-end text-black"
-                        >
-                          {currency(
-                            data?.incomeKIP ? data?.incomeKIP : 0
-                          )}{" "}
-                          ກີບ
-                        </td>
-                        <td className="text-nowrap border text-end text-black"
-                        >
-                          {currency(
-                            data?.expenseKIP ? data?.expenseKIP : 0
-                          )}{" "}
-                          ກີບ
-                        </td>
-                        <td className="text-nowrap border text-end text-black"
-                        >
-                          {currency(
-                            data?.endBalanceKIP
-                              ? data?.endBalanceKIP
-                              : 0
-                          )}{" "}
-                          ກີບ
-                        </td>
-
-                        <td className="text-nowrap border text-center text-black">
-                          <span>
-                            {data?.confirmBy?.firstName ? data?.confirmBy?.firstName : "-" +
-                              "" +
-                              data?.confirmBy?.lastName ? data?.confirmBy?.lastName : "-"}
-                          </span>
-
-                          <hr className="m-1" />
-                          {data?.confirmDate
-                            ? formatDateTime(data?.confirmDate)
-                            : "--/--/----"}
-                        </td>
-
-                      </tr>
-                    )
-                  )}
-                <tr  style={{backgroundColor:"#fafafa"}}>
+                      <td className=" border  text-black">
+                        {data?.detail ? data?.detail : "-"}
+                      </td>
+                      <td className="text-nowrap border text-end text-black">
+                        {currency(data?.incomeKIP ? data?.incomeKIP : 0)} ກີບ
+                      </td>
+                      <td className="text-nowrap border text-end text-black">
+                        {currency(data?.expenseKIP ? data?.expenseKIP : 0)} ກີບ
+                      </td>
+                      <td className="text-nowrap border text-center text-black">
+                        <span>
+                          {data?.confirmBy?.firstName +
+                            " " +
+                            data?.confirmBy?.lastName}
+                        </span>
+                        {data?.confirmDate ? (
+                          <>
+                            <br />
+                            {data?.confirmDate
+                              ? formatDateDash(data?.confirmDate)
+                              : ""}
+                          </>
+                        ) : (
+                          "ຍັງບໍທັນອານຸມັດ"
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                <tr style={{ backgroundColor: "#fafafa" }}>
                   <td colSpan={4} className="border">
                     <h3 className="text-center">ລວມ:</h3>
                   </td>
                   <td className="border text-end">
-                    <h3>{SumMoney?.incomeKIP ? currency(SumMoney?.incomeKIP) : 0}</h3>
+                    <h3>
+                      {SumMoney?.incomeKIP ? currency(SumMoney?.incomeKIP) : 0}
+                    </h3>
                   </td>
-                  <td className="border text-end"><h3>{SumMoney?.expenseKIP ? currency(SumMoney?.expenseKIP) : 0}</h3></td>
-                  <td className="border text-end"><h3>{SumMoney?.endBalanceKIP ? currency(SumMoney?.endBalanceKIP) : 0}</h3></td>
-                  <td className="border text-start">
-                    <input type="checkbox"/> ຖືກຕ້ອງຄົບຖ້ວນ<br/>
-                    <input type="checkbox"/> ບໍຖືກຕ້ອງ
-                    </td>
+                  <td className="border text-end">
+                    <h3>
+                      {SumMoney?.expenseKIP
+                        ? currency(SumMoney?.expenseKIP)
+                        : 0}
+                    </h3>
+                  </td>
+                  <td className="border text-end">
+                    <h3>
+                      {currency(
+                        parseInt(SumMoney?.incomeKIP) +
+                          parseInt(SumMoney?.expenseKIP)
+                      )}
+                    </h3>
+                  </td>
                 </tr>
                 <tr>
                   <td colSpan={3} className=" text-center p-4">
                     <h4 className="text-center">ເຊັນຜູ້ກວດສອບ/ອານຸມັດ</h4>
                   </td>
-                  <td className=" text-end p-4" colSpan={4}>
+                  <td className=" text-center p-4" colSpan={4}>
                     <h4>ພະນັກງານ</h4>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </Modal.Body>
+        </div>
       </Modal>
     </React.Fragment>
   );

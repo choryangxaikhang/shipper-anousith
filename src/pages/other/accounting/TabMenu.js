@@ -6,6 +6,7 @@ import { getLocalHouse } from "../../../helper";
 import IncomeType from "./inComeType/index.";
 import ExpenseTypeScreen from "./expenseType/index.";
 import ListAllExpenses from ".";
+import SummaryAccount from "./accountSummary";
 export default function TabMenuAccount() {
   const { history, location } = useReactRouter();
   const params = new URLSearchParams(location?.search);
@@ -81,10 +82,10 @@ export default function TabMenuAccount() {
           </Button>
           <Button
             className={`item-tab ${
-              tabActive === "bill" ? "clickActives" : "Actives"
+              tabActive === "summary_account" ? "clickActives" : "Actives"
             }`}
             variant=""
-            onClick={() => history.push({ search: "?tab=bill" })}
+            onClick={() => history.push({ search: "?tab=summary_account" })}
           >
             ສະຫລຸບບັນຊີ
           </Button>
@@ -94,8 +95,7 @@ export default function TabMenuAccount() {
         {tabActive === "type_expense" && <ExpenseTypeScreen />}
         {tabActive === "type" && <IncomeType />}
         {tabActive === "listData" && <ListAllExpenses />}
-        {tabActive === "bill" && <IncomeType />}
-        {tabActive === "set_history" && <IncomeType />}
+        {tabActive === "summary_account" && <SummaryAccount />}
       </div>
     </>
   );

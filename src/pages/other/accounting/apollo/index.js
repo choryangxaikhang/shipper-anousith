@@ -1,46 +1,7 @@
 import { gql } from "@apollo/client";
-export const QUERY_BRANCH = gql`
-  query Data(
-    $where: BranchWhereInput
-    $skip: Int
-    $limit: Int
-    $orderBy: OrderByInput
-  ) {
-    branches(where: $where, skip: $skip, limit: $limit, orderBy: $orderBy) {
-      data {
-        id_branch
-        branch_name
-        branch_address
-        branch_code
-        address_info
-        provinceID {
-          id_state
-          provinceName
-          provinceCode
-          province_map_lat
-          province_map_lng
-          addressInfo
-        }
-        mainBranches
-        districtName
-        public
-        sameday_public
-        branch_type
-        districtNextDay {
-          id_district
-          districtName
-        }
-        percentOfCOD
-        percentOfPickup
-        percentOfCom
-      }
-      total
-    }
-  }
-`;
 
 export const QUERY_EXTRA_EXPENSE = gql`
- query ExtraExpenses(
+  query ExtraExpenses(
     $where: ExtraExpenseWhereInput
     $orderBy: OrderByInput
     $skip: Int
@@ -78,19 +39,27 @@ export const QUERY_EXTRA_EXPENSE = gql`
           firstName
           lastName
         }
+        expenseType {
+          id_expense
+          expenseTitle
+        }
+        incomeType {
+          id_income
+          incomeTitle
+        }
       }
     }
   }
 `;
 
 export const QUERY_SUMMARY_EXPENSE = gql`
- query SummaryExtraExpense($where: ExtraExpenseWhereInput) {
-  summaryExtraExpense(where: $where) {
-    totalIncome
-    totalExpense
-    totalEndBalance
+  query SummaryExtraExpense($where: ExtraExpenseWhereInput) {
+    summaryExtraExpense(where: $where) {
+      totalIncome
+      totalExpense
+      totalEndBalance
+    }
   }
-}
 `;
 
 export const QUERY_INCOME_TYPE = gql`
@@ -158,7 +127,6 @@ export const CREATE_EXPENSE_TYPE = gql`
   }
 `;
 
-
 export const UPDATE_EXPENSE_TYPE = gql`
   mutation UpdateExpenseType(
     $data: ExpenseTypeInput!
@@ -176,7 +144,6 @@ export const DELETE_EXPENSE_TYPE = gql`
     }
   }
 `;
-
 
 export const UPDATE_EXTRA_EXPENSE = gql`
   mutation UpdateExtraExpense(
@@ -196,7 +163,6 @@ export const DELETE_EXTRA_EXPENSE = gql`
   }
 `;
 
-
 export const CREATE_EXPENSES = gql`
   mutation CreateExtraExpense($data: ExtraExpenseInput!) {
     createExtraExpense(data: $data) {
@@ -206,7 +172,7 @@ export const CREATE_EXPENSES = gql`
 `;
 
 export const SUMMARY_EXTRA_EXPENSE = gql`
- query ExtraExpenses(
+  query ExtraExpenses(
     $where: ExtraExpenseWhereInput
     $orderBy: OrderByInput
     $skip: Int

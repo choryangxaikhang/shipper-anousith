@@ -1637,7 +1637,7 @@ pre code {
 .table th {
   padding: 0.75rem;
   vertical-align: top;
-  border-bottom: 1px solid #f3f5f2;
+  border-bottom: 1px solid #eaedeb;
 }
 .table thead th {
   vertical-align: bottom;
@@ -1680,7 +1680,7 @@ pre code {
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color:#fdfffc;
+  background-color:#f7faf8  !important;
 }
 
 .table-hover tbody tr:hover {
@@ -13500,7 +13500,7 @@ a.text-dark {
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background: #fdfffc !important;
+  background: #f7faf8 !important;
 }
 
 .table-bordered {

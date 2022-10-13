@@ -103,14 +103,6 @@ export default function ListAllExpenses() {
       setNumberRow(100);
     }
   }, [queryParams]);
-  // summay Total
-
-  // const sumAllMoney = {
-  //   totalIncome: _.sumBy( summaryExpenseData?.summaryExtraExpense?.data,"totalIncome" ),
-  //   totalExpense: _.sumBy( summaryExpenseData?.summaryExtraExpense?.data,"totalExpense" ),
-  //   totalEndBalance: _.sumBy( summaryExpenseData?.summaryExtraExpense?.data,"totalEndBalance" ),
-
-  // };
   const Income = summaryExpenseData?.summaryExtraExpense?.totalIncome;
   const exPres = summaryExpenseData?.summaryExtraExpense?.totalExpense;
   const finalMoney = Income - exPres;
@@ -143,7 +135,7 @@ export default function ListAllExpenses() {
   const _handleConfirm = (id) => {
     Notiflix.Confirm.show(
       "ແຈ້ງເຕືອນ",
-      "ທ່ານຕ້ອງການຢືນຢັນລາຍການນີ້ແທ້ ຫຼື ບໍ່?",
+      "ທ່ານຕ້ອງການອະນຸມັດລາຍການນີ້ແທ້ ຫຼື ບໍ່?",
       "ຕົກລົງ",
       "ຍົກເລີກ",
       async () => {
@@ -292,7 +284,7 @@ export default function ListAllExpenses() {
                 </div>
 
                 <div className="table-responsive">
-                  <Table className="table table-sm text-black">
+                  <Table className="table table-sm   text-black">
                     <thead>
                       <tr>
                         <th className="text-nowrap">ລຳດັບ</th>
@@ -300,7 +292,6 @@ export default function ListAllExpenses() {
                         <th>ເນື້ອໃນລາຍການ</th>
                         <th className="text-nowrap text-right">ລາຍຮັບ</th>
                         <th className="text-nowrap text-right">ລາຍຈ່າຍ</th>
-                        <th className="text-nowrap text-right">ຍອດຄົງເຫຼືອ</th>
                         <th className="text-nowrap text-center">
                           ຜູ້ອານຸມັດ/ວັນທີອານຸມັດ
                         </th>
@@ -312,11 +303,12 @@ export default function ListAllExpenses() {
                         (data, index) => (
                           <tr
                             key={index}
-                            className={
-                              data?.confirmStatus === "CONFIRMED"
-                                ? "table-success"
-                                : ""
-                            }
+                            style={{
+                              backgroundColor:
+                                data?.confirmStatus === "CONFIRMED"
+                                  ? "#f7faf8"
+                                  : "",
+                            }}
                           >
                             <td className="text-nowrap">{NO(index)}</td>
 
@@ -333,12 +325,6 @@ export default function ListAllExpenses() {
                             <td className="text-nowrap text-right text-danger">
                               {currency(
                                 data?.expenseKIP ? data?.expenseKIP : 0
-                              )}{" "}
-                              ກີບ
-                            </td>
-                            <td className="text-nowrap text-right">
-                              {currency(
-                                data?.endBalanceKIP ? data?.endBalanceKIP : 0
                               )}{" "}
                               ກີບ
                             </td>
@@ -392,15 +378,27 @@ export default function ListAllExpenses() {
                                   <>
                                     {data?.extraType === "INCOME" ? (
                                       <>
-                                        <EditAddIncome _data={data} />
+                                        <EditAddIncome
+                                          getData={data}
+                                          onSuccess={(e) => {
+                                            setNewLoadData(!newLoadData);
+                                          }}
+                                        />
                                       </>
                                     ) : (
                                       <>
-                                        <UpdateEx _data={data} />
+                                        <UpdateEx
+                                          getData={data}
+                                          onSuccess={(e) => {
+                                            setNewLoadData(!newLoadData);
+                                          }}
+                                        />
                                       </>
                                     )}
                                   </>
-                                ) : null}
+                                ) : (
+                                  <>ອານຸມັດແລ້ວ</>
+                                )}
                                 {data?.confirmStatus === "UNCONFIRMED" ? (
                                   <>
                                     <button
