@@ -387,7 +387,6 @@ export default function ListAllExpenses() {
                                     />
                                   </>
                                 )}
-
                                 {!data?.confirmDate |
                                 (!data?.confirmStatus === "CONFIRMED") ? (
                                   <>
