@@ -6,46 +6,6 @@ mutation CreateAccountingSummary($data: AccountingSummaryInput!) {
   }
 }
 `;
-// error
-export const QUERY_BRANCH = gql`
-  query Data(
-    $where: BranchWhereInput
-    $skip: Int
-    $limit: Int
-    $orderBy: OrderByInput
-  ) {
-    branches(where: $where, skip: $skip, limit: $limit, orderBy: $orderBy) {
-      data {
-        id_branch
-        branch_name
-        branch_address
-        branch_code
-        address_info
-        provinceID {
-          id_state
-          provinceName
-          provinceCode
-          province_map_lat
-          province_map_lng
-          addressInfo
-        }
-        mainBranches
-        districtName
-        public
-        sameday_public
-        branch_type
-        districtNextDay {
-          id_district
-          districtName
-        }
-        percentOfCOD
-        percentOfPickup
-        percentOfCom
-      }
-      total
-    }
-  }
-`;
 
 export const QUERY_SUMMARY_ACCOUNT = gql`
   query AccountingSummaries($where: AccountingSummaryWhereInput, $limit: Int, $skip: Int, $orderBy: OrderByInput) {

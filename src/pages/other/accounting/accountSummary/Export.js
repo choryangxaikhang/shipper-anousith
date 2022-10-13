@@ -1,16 +1,15 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Modal, Row } from "react-bootstrap";
 import { useReactToPrint } from "react-to-print";
+import { useLazyQuery } from "@apollo/client";
 import _ from "lodash";
-import "./utils/index.css";
 import moment from "moment";
 import useReactRouter from "use-react-router";
 import {
   getStaffLogin,
   currency,
-  formatDateDash,
-  formatDateTime,
   houseStatus,
+  formatDateDash,
 } from "../../../../helper";
 function Export({ _Data }) {
   const jsonObj = getStaffLogin();
@@ -26,9 +25,9 @@ function Export({ _Data }) {
 
   // sumBy packagePriceKIP
   const SumMoney = {
-    incomeKIP: _.sumBy(_Data?.accountingSummaries?.data, "incomeKIP"),
-    expenseKIP: _.sumBy(_Data?.accountingSummaries?.data, "expenseKIP"),
-    endBalanceKIP: _.sumBy(_Data?.accountingSummaries?.data, "endBalanceKIP"),
+    incomeKIP: _.sumBy(_Data?.extraExpenses?.data, "incomeKIP"),
+    expenseKIP: _.sumBy(_Data?.extraExpenses?.data, "expenseKIP"),
+    endBalanceKIP: _.sumBy(_Data?.extraExpenses?.data, "endBalanceKIP"),
   };
 
   return (
@@ -44,23 +43,26 @@ function Export({ _Data }) {
         </button>
       </div>
 
-      <Modal show={show} onHide={() => setShow(false)} animation={false}>
-        <Modal.Header closeButton>
-          <Modal.Title className="primary modal-container custom-map-modal">
-            ພີມລາຍການທັງໝົດ
-          </Modal.Title>
+      <Modal
+        show={show}
+        onHide={() => setShow(false)}
+        animation={false}
+        size="xl"
+      >
+        <Modal.Header>
+          ພີມລາຍລາຍງານ
+          <a
+            href="javaScript:void(0)"
+            className="pull-right ms-2  float-end"
+            style={{ textDecoration: "none" }}
+            onClick={() => setShow(false)}
+          >
+            <i className="icon-x fa-2x text-danger" />
+          </a>
         </Modal.Header>
         <div className="p-2">
           <Row>
             <div className="col-md-12 ">
-              <a
-                href="javaScript:void(0)"
-                className="pull-right ms-2 "
-                style={{ textDecoration: "none" }}
-                onClick={() => setShow(false)}
-              >
-                <i className="icon-x fa-2x text-danger" />
-              </a>
               <button
                 onClick={handlePrint}
                 type="button"
@@ -85,7 +87,7 @@ function Export({ _Data }) {
             >
               <thead>
                 <tr>
-                  <td colSpan={6} style={{ textAlign: "left", color: "black" }}>
+                  <td colSpan={4} style={{ textAlign: "left", color: "black" }}>
                     <img
                       // src={logo}
                       style={{
@@ -108,7 +110,7 @@ function Export({ _Data }) {
                     ໂທ:{" "}
                     {_Data?.accountingSummaries?.data[0]?.house?.contactPhone}
                   </td>
-                  <td colSpan={6} className="text-end text-black">
+                  <td colSpan={4} className="text-end text-black">
                     ວັນທີ:{formatDateDash(today)}
                   </td>
                 </tr>
@@ -129,7 +131,6 @@ function Export({ _Data }) {
                   <td className="textCenter text-nowrap text-center">
                     ລົງວັນທີ່
                   </td>
-                  <td className="textCenter text-nowrap">ເນື້ອໃນລາຍການ</td>
                   <td className="textCenter text-nowrap"> ລາຍຮັບ</td>
                   <td className="textCenter text-nowrap">ລາຍຈ່າຍ</td>
                   <td className="textCenter text-nowrap">ຍອດຄົງເຫຼືອ</td>
@@ -161,26 +162,56 @@ function Export({ _Data }) {
                           ? formatDateDash(data?.accountingDate)
                           : "-"}
                       </td>
-
-                      <td className=" border  text-black">
-                        {data?.detail ? data?.detail : "-"}
+                      <td className="text-nowrap border text-end fs-5 text-black">
+                        <div>
+                          {currency(data?.incomeKIP ? data?.incomeKIP : 0)} ກີບ
+                        </div>
+                        <div className=" mt-1">
+                          {currency(data?.incomeTHB ? data?.incomeTHB : 0)} ບາດ
+                        </div>
+                        <div className=" mt-1">
+                          {currency(data?.incomeUSD ? data?.incomeUSD : 0)} ໂດລາ
+                        </div>
                       </td>
-                      <td className="text-nowrap border text-end text-black">
-                        {currency(data?.incomeKIP ? data?.incomeKIP : 0)} ກີບ
+                      <td className="text-nowrap border text-end fs-5 text-black">
+                        <div>
+                          {currency(data?.expenseKIP ? data?.expenseKIP : 0)}{" "}
+                          ກີບ
+                        </div>
+                        <div />
+                        <div className="mt-1 ">
+                          {currency(data?.expenseTHB ? data?.expenseTHB : 0)}{" "}
+                          ບາດ
+                        </div>
+                        <div className=" mt-1">
+                          {currency(data?.expenseUSD ? data?.expenseUSD : 0)}{" "}
+                          ໂດລາ
+                        </div>
                       </td>
-                      <td className="text-nowrap border text-end text-black">
-                        {currency(data?.expenseKIP ? data?.expenseKIP : 0)} ກີບ
-                      </td>
-                      <td className="text-nowrap border text-end text-black">
-                        {currency(
-                          data?.endBalanceKIP ? data?.endBalanceKIP : 0
-                        )}{" "}
-                        ກີບ
+                      <td className="text-nowrap border text-end fs-5 text-black">
+                        <div className="  ">
+                          {currency(
+                            data?.endBalanceKIP ? data?.endBalanceKIP : 0
+                          )}{" "}
+                          ກີບ
+                        </div>
+                        <div className=" mt-1">
+                          {currency(
+                            data?.endBalanceTHB ? data?.endBalanceTHB : 0
+                          )}{" "}
+                          ບາດ
+                        </div>
+                        <div className=" mt-1">
+                          {currency(
+                            data?.endBalanceUSD ? data?.endBalanceUSD : 0
+                          )}{" "}
+                          ໂດລາ
+                        </div>
                       </td>
                     </tr>
                   ))}
                 <tr style={{ backgroundColor: "#fafafa" }}>
-                  <td colSpan={4} className="border">
+                  <td colSpan={3} className="border">
                     <h3 className="text-center">ລວມ:</h3>
                   </td>
                   <td className="border text-end">
@@ -207,7 +238,7 @@ function Export({ _Data }) {
                   <td colSpan={2} className=" text-center p-4">
                     <h4 className="text-center">ເຊັນເຈົ້າຂອງກິດຈະການ</h4>
                   </td>
-                  <td className=" text-end p-4" colSpan={4}>
+                  <td className=" text-end p-4" colSpan={3}>
                     <h4>ເຊັນພະນັກງານ</h4>
                   </td>
                 </tr>

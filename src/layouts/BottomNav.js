@@ -1,9 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { getStaffLogin } from "../helper";
 import { OTHER, PROFILES, ROOM_SERVICES } from "../routes/app";
 // import "./bottomNav.css";
 
 export default function BottomNav() {
+  const userState = getStaffLogin();
+  const userInfo = userState?.data;
+
+  console.log("userInfo", userInfo?.role);
+
   return (
     <div
       className="appBottomMenu pb-2"
@@ -13,25 +19,37 @@ export default function BottomNav() {
         backgroundColor: "#ffff",
       }}
     >
-      <NavLink
-        className="item"
-        to={`${OTHER}`}
-        style={{ borderTopLeftRadius: 25, marginLeft: -10 }}
-      >
-        <div className="col pt-1" style={{ borderTopLeftRadius: 20 }}>
-          <i className="icon-sort text-secondary" style={{ fontSize: 25 }} />
-          <strong className="text-secondary" style={{ fontSize: 15 }}>
-            ບໍລິການອື່ນໆ
-          </strong>
-        </div>
-      </NavLink>
+      {userInfo?.role == "BRANCH_DIRECTOR" ||
+      userInfo?.role === "IT" ||
+      userInfo?.role === "SUPER_ADMIN" ||
+      userInfo?.role === "ADMIN" ||
+      userInfo?.role === "FINANCE" ||
+      userInfo?.role === "ACCOUNTANT" ? (
+        <>
+          <NavLink
+            className="item"
+            to={`${OTHER}`}
+            style={{ borderTopLeftRadius: 25, marginLeft: -10 }}
+          >
+            <div className="col pt-1" style={{ borderTopLeftRadius: 20 }}>
+              <i
+                className="icon-sort text-secondary"
+                style={{ fontSize: 25 }}
+              />
+              <strong className="text-secondary" style={{ fontSize: 15 }}>
+                ບໍລິການອື່ນໆ
+              </strong>
+            </div>
+          </NavLink>
+        </>
+      ) : null}
       <NavLink
         className="item"
         to={`${ROOM_SERVICES}`}
         style={{ borderTopLeftRadius: 25, marginLeft: -10 }}
       >
         <div className="col pt-1" style={{ borderTopLeftRadius: 20 }}>
-          <i className="fa-solid fa-city text-secondary"  />
+          <i className="fa-solid fa-city text-secondary" />
           <strong className="text-secondary" style={{ fontSize: 15 }}>
             ຫ້ອງ
           </strong>

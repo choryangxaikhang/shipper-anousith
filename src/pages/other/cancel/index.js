@@ -269,7 +269,7 @@ export default function BookingCancel() {
                         style={{ marginTop: -8, marginRight: -10 }}
                       >
                         <i
-                          className="fa-solid fa-trash text-danger"
+                          className="icon-trash text-danger"
                           onClick={(e) => {
                             _delete(data?._id);
                           }}

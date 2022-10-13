@@ -273,7 +273,7 @@ export default function Booking() {
                         style={{ marginTop: -8, marginRight: -10 }}
                       >
                         <i
-                          className="icon-trash text-danger"
+                          className="icon-x-circle text-danger"
                           onClick={(e) => {
                             _cancel(
                               data?._id,

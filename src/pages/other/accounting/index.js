@@ -401,14 +401,22 @@ export default function ListAllExpenses() {
                                 )}
                                 {data?.confirmStatus === "UNCONFIRMED" ? (
                                   <>
-                                    <button
-                                      className="btn btn-sm  ms-2"
-                                      onClick={() =>
-                                        _handleDelete(data?.id_list)
-                                      }
-                                    >
-                                      <i className="icon-trash text-danger" />
-                                    </button>
+                                    {userData?.role === "ADMIN" ||
+                                    userData?.role === "SUPER_ADMIN" ||
+                                    userData?.role === "BRANCH_DIRECTOR" ||
+                                    userData?.role === "ACCOUNTANT" ||
+                                    userData?.role === "FINANCE" ? (
+                                      <>
+                                        <button
+                                          className="btn btn-sm  ms-2"
+                                          onClick={() =>
+                                            _handleDelete(data?.id_list)
+                                          }
+                                        >
+                                          <i className="icon-trash text-danger" />
+                                        </button>
+                                      </>
+                                    ) : null}
                                   </>
                                 ) : null}
                               </div>

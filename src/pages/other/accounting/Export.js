@@ -162,9 +162,11 @@ function Export({ _Data }) {
                       </td>
                       <td className="text-nowrap border text-center text-black">
                         <span>
-                          {data?.confirmBy?.firstName +
-                            " " +
-                            data?.confirmBy?.lastName}
+                          {data?.confirmBy?.firstName
+                            ? data?.confirmBy?.firstName
+                            : "" + " " + data?.confirmBy?.lastName
+                            ? data?.confirmBy?.lastName
+                            : ""}
                         </span>
                         {data?.confirmDate ? (
                           <>

@@ -49,8 +49,8 @@ export default function SummaryAccount() {
     let whereDate = {};
     if (startDate && endDate) {
       whereDate = {
-        accountingDate_gte: createdAt_gte(startDate),
-        accountingDate_lt: createdAt_lt(endDate),
+        createdAt_gte: createdAt_gte(startDate),
+        createdAt_lt: createdAt_lt(endDate),
       };
     } else {
       whereDate = {};
@@ -108,194 +108,170 @@ export default function SummaryAccount() {
         <div className="content__wrap">
           <div className="row">
             <div className="col-md-12">
-              <div className="card">
-                <div className="card-header">
-                  <div className="row">
-                    <div className="col-md-6">
-                      {/* <AddAccountSummary
-                        onSuccess={() => {
-                          setNewLoadData(!newLoadData);
+              <div className="p-2">
+                <div className="row mb-2">
+                  <div className="col-md-4">
+                    <div className="input-group">
+                      <input
+                        type="date"
+                        onChange={(e) => {
+                          history.push({
+                            search: setParams(`startDate`, e.target.value),
+                          });
                         }}
-                      /> */}
-                      f
+                        className="form-control"
+                        value={startDate}
+                      />
+                      <input
+                        type="date"
+                        value={endDate}
+                        className="form-control"
+                        onChange={(e) => {
+                          history.push({
+                            search: setParams(`endDate`, e.target.value),
+                          });
+                        }}
+                      />
                     </div>
                   </div>
-                  <hr />
-                  <div className="row mb-2">
-                    <div className="col-md-4">
-                      <div className="input-group">
-                        <input
-                          type="date"
-                          onChange={(e) => {
-                            history.push({
-                              search: setParams(`startDate`, e.target.value),
-                            });
-                          }}
-                          className="form-control"
-                          value={startDate}
-                        />
-                        <input
-                          type="date"
-                          value={endDate}
-                          className="form-control"
-                          onChange={(e) => {
-                            history.push({
-                              search: setParams(`endDate`, e.target.value),
-                            });
-                          }}
-                        />
-                      </div>
-                    </div>
 
-                    <div className="col-md-4 text-center">
-                      {loading ? loadingData(25) : false}
-                    </div>
+                  <div className="col-md-4 text-center">
+                    {loading ? loadingData(25) : false}
                   </div>
                 </div>
-                <TotalSummaryAccount startDate={startDate} endDate={endDate} />
-                <div className="card-body">
-                  <div className="table-responsive">
-                    <Table className="table  table-sm text-black">
-                      <thead>
-                        <tr>
-                          <th className="text-nowrap">ລຳດັບ</th>
-                          <th className="text-nowrap">ລົງວັນທີ່</th>
-                          <th className="text-nowrap text-end">ລາຍຮັບ</th>
-                          <th className="text-nowrap text-end">ລາຍຈ່າຍ</th>
-                          <th className="text-nowrap text-end">ຍອດຄົົງເຫລືອ</th>
-                          <th className="text-nowrap text-center">
-                            ພະນັກງານສະຫລຸບ
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {extraExpenseData?.accountingSummaries?.data?.map(
-                          (data, index) => (
-                            <tr
-                              key={index}
-                              className={
-                                data?.confirmStatus === "CONFIRMED"
-                                  ? "table-success"
-                                  : ""
-                              }
-                            >
-                              <td className="text-nowrap">{NO(index)}</td>
+              </div>
+              <TotalSummaryAccount startDate={startDate} endDate={endDate} />
+              <div className="card-body">
+                <div className="table-responsive">
+                  <Table className="table  table-sm text-black">
+                    <thead>
+                      <tr>
+                        <th className="text-nowrap">ລຳດັບ</th>
+                        <th className="text-nowrap">ລົງວັນທີ່</th>
+                        <th className="text-nowrap text-end">ລາຍຮັບ</th>
+                        <th className="text-nowrap text-end">ລາຍຈ່າຍ</th>
+                        <th className="text-nowrap text-end">ຍອດຄົງເຫລືອ</th>
+                        <th className="text-nowrap text-center">
+                          ພະນັກງານສະຫລຸບ
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {extraExpenseData?.accountingSummaries?.data?.map(
+                        (data, index) => (
+                          <tr
+                            key={index}
+                            className={
+                              data?.confirmStatus === "CONFIRMED"
+                                ? "table-success"
+                                : ""
+                            }
+                          >
+                            <td className="text-nowrap">{NO(index)}</td>
 
-                              <td className="text-nowrap">
-                                {data?.accountingDate
-                                  ? formatDateDash(data?.accountingDate)
+                            <td className="text-nowrap">
+                              {data?.createdAt
+                                ? formatDateDash(data?.createdAt)
+                                : "-"}
+                            </td>
+                            <td className="text-nowrap text-end fs-5">
+                              <div>
+                                {currency(
+                                  data?.incomeKIP ? data?.incomeKIP : 0
+                                )}{" "}
+                                ກີບ
+                              </div>
+                              <div className=" mt-1">
+                                {currency(
+                                  data?.incomeTHB ? data?.incomeTHB : 0
+                                )}{" "}
+                                ບາດ
+                              </div>
+                              <div className=" mt-1">
+                                {currency(
+                                  data?.incomeUSD ? data?.incomeUSD : 0
+                                )}{" "}
+                                ໂດລາ
+                              </div>
+                            </td>
+                            <td className="text-nowrap text-end fs-5">
+                              <div>
+                                {currency(
+                                  data?.expenseKIP ? data?.expenseKIP : 0
+                                )}{" "}
+                                ກີບ
+                              </div>
+                              <div />
+                              <div className="mt-1 ">
+                                {currency(
+                                  data?.expenseTHB ? data?.expenseTHB : 0
+                                )}{" "}
+                                ບາດ
+                              </div>
+                              <div className=" mt-1">
+                                {currency(
+                                  data?.expenseUSD ? data?.expenseUSD : 0
+                                )}{" "}
+                                ໂດລາ
+                              </div>
+                            </td>
+                            <td className="text-nowrap text-end fs-5">
+                              <div className="  ">
+                                {currency(
+                                  data?.endBalanceKIP ? data?.endBalanceKIP : 0
+                                )}{" "}
+                                ກີບ
+                              </div>
+                              <div className=" mt-1">
+                                {currency(
+                                  data?.endBalanceTHB ? data?.endBalanceTHB : 0
+                                )}{" "}
+                                ບາດ
+                              </div>
+                              <div className=" mt-1">
+                                {currency(
+                                  data?.endBalanceUSD ? data?.endBalanceUSD : 0
+                                )}{" "}
+                                ໂດລາ
+                              </div>
+                            </td>
+                            <td className="text-nowrap text-center">
+                              <span>
+                                {data?.createdBy?.firstName
+                                  ? data?.createdBy?.firstName
+                                  : "-" + " " + data?.createdBy?.lastName
+                                  ? data?.createdBy?.lastName
                                   : "-"}
-                              </td>
-                              <td className="text-nowrap text-end fs-5">
-                                <b className="mt-2">
-                                  {currency(
-                                    data?.incomeKIP ? data?.incomeKIP : 0
-                                  )}{" "}
-                                  ກີບ
-                                </b>
-                                <br />
-                                <b className="mt-2">
-                                  {currency(
-                                    data?.incomeTHB ? data?.incomeTHB : 0
-                                  )}{" "}
-                                  ບາດ
-                                </b>
-                                <br />
-                                <b>
-                                  {currency(
-                                    data?.incomeUSD ? data?.incomeUSD : 0
-                                  )}{" "}
-                                  ໂດລາ
-                                </b>
-                              </td>
-                              <td className="text-nowrap text-end fs-5">
-                                <b className="mt-2">
-                                  {currency(
-                                    data?.expenseKIP ? data?.expenseKIP : 0
-                                  )}{" "}
-                                  ກີບ
-                                </b>
-                                <br />
-                                <b className="mt-2">
-                                  {currency(
-                                    data?.expenseTHB ? data?.expenseTHB : 0
-                                  )}{" "}
-                                  ບາດ
-                                </b>
-                                <br />
-                                <b>
-                                  {currency(
-                                    data?.expenseUSD ? data?.expenseUSD : 0
-                                  )}{" "}
-                                  ໂດລາ
-                                </b>
-                              </td>
-                              <td className="text-nowrap text-end fs-5">
-                                <b className="mt-2">
-                                  {currency(
-                                    data?.endBalanceKIP
-                                      ? data?.endBalanceKIP
-                                      : 0
-                                  )}{" "}
-                                  ກີບ
-                                </b>
-                                <br />
-                                <b className="mt-2">
-                                  {currency(
-                                    data?.endBalanceTHB
-                                      ? data?.endBalanceTHB
-                                      : 0
-                                  )}{" "}
-                                  ບາດ
-                                </b>
-                                <br />
-                                <b>
-                                  {currency(
-                                    data?.endBalanceUSD
-                                      ? data?.endBalanceUSD
-                                      : 0
-                                  )}{" "}
-                                  ໂດລາ
-                                </b>
-                              </td>
-                              <td className="text-nowrap text-center">
-                                <span>
-                                  {data?.createdBy?.firstName
-                                    ? data?.createdBy?.firstName
-                                    : "-" + " " + data?.createdBy?.lastName
-                                    ? data?.createdBy?.lastName
-                                    : "-"}
-                                </span>
-                              </td>
-                            </tr>
-                          )
-                        )}
-                      </tbody>
-                    </Table>
-                  </div>
-                  <div
-                    style={{
-                      position: "fixed",
-                      bottom: 50,
-                      right: 25,
-                      opacity: 0.7,
-                    }}
-                  >
-                    <Export _Data={extraExpenseData} />
-                  </div>
-                  {extraExpenseData?.accountingSummaries?.data?.total > 100 && (
-                    <Pagination
-                      className="mt-2"
-                      pageTotal={countPage}
-                      currentPage={numberPage}
-                      onPageChange={(page) => {
-                        history.push({
-                          search: setParams(`page`, page),
-                        });
-                      }}
-                    />
-                  )}
+                              </span>
+                            </td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </Table>
                 </div>
+                <div
+                  style={{
+                    position: "fixed",
+                    bottom: 50,
+                    right: 25,
+                    opacity: 0.7,
+                  }}
+                >
+                  <Export _Data={extraExpenseData} />
+                </div>
+                {extraExpenseData?.accountingSummaries?.data?.total > 100 && (
+                  <Pagination
+                    className="mt-2"
+                    pageTotal={countPage}
+                    currentPage={numberPage}
+                    onPageChange={(page) => {
+                      history.push({
+                        search: setParams(`page`, page),
+                      });
+                    }}
+                  />
+                )}
               </div>
             </div>
           </div>

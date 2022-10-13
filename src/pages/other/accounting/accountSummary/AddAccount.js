@@ -348,7 +348,7 @@ export default function AddAccountSummary({ onSuccess }) {
                 >
                   <OutlinedInput
                     startAdornment={
-                      <InputAdornment position="start">ວັນທີ່</InputAdornment>
+                      <InputAdornment position="start">ວັນທີ່ລົງ</InputAdornment>
                     }
                     type="date"
                     value={startDate}

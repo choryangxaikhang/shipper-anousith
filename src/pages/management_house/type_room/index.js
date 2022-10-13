@@ -123,7 +123,7 @@ export default function TypeRoom() {
                     style={{ marginTop: -8, marginRight: -10 }}
                   >
                     <i
-                      className="fa-solid fa-trash"
+                      className="icon-trash text-danger"
                       onClick={(e) => {
                         _delete(data?._id);
                       }}
