@@ -76,7 +76,7 @@ export default function AddIncome({ onSuccess }) {
         return errors;
       },
       onSubmit: async (values) => {
-       loadingScreen();
+        loadingScreen();
         try {
           const { data: _create } = await createIncome({
             variables: {
@@ -124,12 +124,20 @@ export default function AddIncome({ onSuccess }) {
         className="bg-success col-6 btn btn-block p-2 rounded"
         onClick={() => setShow(true)}
       >
-        <i className="fa-solid fa-hand-holding-dollar me-1"/>ລົງລາຍຮັບ
+        <i className="fa-solid fa-hand-holding-dollar me-1" />
+        ລົງລາຍຮັບ
       </div>
 
       <Modal show={show} onHide={() => setShow(false)} size="lg">
-        <Modal.Header closeButton>
+        <Modal.Header>
           <h3>ຟອມລົງລາຍຮັບ</h3>
+          <a
+            className="pull-right float-end "
+            style={{ textDecoration: "none", marginTop: -10 }}
+            onClick={() => setShow(false)}
+          >
+            <i className="icon-x fa-2x text-danger" />
+          </a>
         </Modal.Header>
         <div className="p-2">
           <div className="form-row  mt-1">
@@ -152,7 +160,7 @@ export default function AddIncome({ onSuccess }) {
 
           <div className="form-row">
             <div className="col-md-12 mt-1">
-               <SelectIncomeType
+              <SelectIncomeType
                 style={{ minWidth: 200 }}
                 value={getTypeIncome?.id_income}
                 onChange={(obj) => {

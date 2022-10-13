@@ -123,10 +123,9 @@ export default function EditAddIncome({ onSuccess }) {
       <button className=" btn btn-sm" onClick={() => setShow(true)}>
         <i className="fas fa-edit" />
       </button>
-
       <Modal show={show} onHide={() => setShow(false)} size="lg">
         <Modal.Header closeButton>
-          <h3>ຟອມລົງລາຍຮັບ</h3>
+          <h3>ຟອມແກ້ໄຂລົງລາຍຮັບ</h3>
         </Modal.Header>
         <div className="p-2">
           <div className="form-row  mt-1">

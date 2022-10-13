@@ -24,7 +24,7 @@ import {
 } from "@mui/material";
 import SelectExpressTypes from "../../../../helper/components/SelectExpressTypes";
 import { s3Client } from "../../../../helper/s3Client";
-export default function Expenses({ getData, onSuccess }) {
+export default function UpdateEx({ getData, onSuccess }) {
   const [show, setShow] = useState(false);
   const [createIncome] = useMutation(CREATE_EXPENSES);
   const [userData, setUserData] = useState({});
@@ -77,7 +77,7 @@ export default function Expenses({ getData, onSuccess }) {
         return errors;
       },
       onSubmit: async (values) => {
-        loadingScreen();;
+        loadingScreen();
         try {
           const { data: _create } = await createIncome({
             variables: {
@@ -122,17 +122,17 @@ export default function Expenses({ getData, onSuccess }) {
   const _data = getData?.extraExpenses?.data[0]?.endBalanceKIP;
   return (
     <>
-      <div
-        className="bg-primary col-6 btn btn-block p-2 rounded"
+      <button
+        className="btn btn-sm"
         onClick={() => setShow(true)}
         style={{ marginTop: -1 }}
       >
-        <i className="fa-brands fa-amazon-pay"></i> ລົງລາຍຈ່າຍ
-      </div>
+        <i className="fas fa-edit"></i>
+      </button>
 
       <Modal show={show} onHide={() => setShow(false)} size="lg">
         <Modal.Header>
-          <h3>ຟອມລົງລາຍຈ່າຍ</h3>
+          <h3>ຟອມແກ້ໄຂລົງລາຍຈ່າຍ</h3>
           <a
             className="pull-right float-end "
             style={{ textDecoration: "none", marginTop: -10 }}

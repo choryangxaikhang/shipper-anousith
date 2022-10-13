@@ -13,13 +13,12 @@ function PreviewImage({ image }) {
       <Modal
         size="xl"
         show={show}
-        onHide={() => setShow(false)}
         animation={false}
       >
-        <Modal.Body className="">
+        <div className="p-2">
           <a
             href="javaScript:void(0)"
-            className="pull-right"
+            className="pull-right float-end"
             style={{ textDecoration: "none" }}
             onClick={() => setShow(false)}
           >
@@ -32,7 +31,7 @@ function PreviewImage({ image }) {
           ) : (
             <img src={aws_url_images + image} className="w-100" />
           )}
-        </Modal.Body>
+        </div>
       </Modal>
     </React.Fragment>
   );
