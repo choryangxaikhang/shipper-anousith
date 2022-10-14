@@ -108,7 +108,7 @@ export default function GenerateBill() {
                     <span className="text-center mb-2">
                       {loading ? loadingData(25) : ""}
                     </span>
-                    <div className="table-responsive">
+                    <div className="table-responsive border">
                       <table className="table   table-sm mb-0">
                         <thead>
                           <tr>

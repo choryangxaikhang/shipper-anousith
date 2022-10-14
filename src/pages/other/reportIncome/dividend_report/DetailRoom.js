@@ -2,6 +2,7 @@ import { useLazyQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import {
+  aws_url_images,
   currency,
   formatDateDash,
   loadingData,
@@ -9,6 +10,7 @@ import {
 } from "../../../../helper";
 import TypeHouse from "../../TypeHouse";
 import { QUERY_REPORT_BOOKING } from "./apollo";
+import placeholder from "../../../../img/placeholder.png";
 import "./utils/index.css";
 export default function DetailRoom({ _id, onHide }) {
   const [show, setShow] = useState(false);
@@ -41,7 +43,7 @@ export default function DetailRoom({ _id, onHide }) {
         <Modal.Header style={{ marginTop: -20 }}>
           <Modal.Title>ຂໍ້ມູນຫ້ອງ</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="p-2  mr-4">
+        <Modal.Body className="p-2  me-1">
           <div className="text-center">{loading && loadingData(25)}</div>
           {setData?.bookings?.total > 0 ? (
             <>
@@ -130,6 +132,16 @@ export default function DetailRoom({ _id, onHide }) {
                     </span>
                     <br />
                   </div>
+                  <div className=" bill-item-list pt-2" id="border">
+                    <img
+                      src={
+                        data?.images
+                          ? aws_url_images + data?.images
+                          : placeholder
+                      }
+                      className="w-100"
+                    />
+                  </div>
                 </>
               ))}
             </>
@@ -140,13 +152,13 @@ export default function DetailRoom({ _id, onHide }) {
           )}
         </Modal.Body>
         <button
-          className="btn text-black me-1 border-top"
+          className="btn text-white me-1 border-top btn-primary"
           onClick={(e) => {
             setShow(false);
             if (onHide) onHide(e);
           }}
         >
-          <i className="icon-close mr-1 text-primary" />
+          <i className="icon-close mr-1 text-white" />
           ປິດ
         </button>
       </Modal>

@@ -4,7 +4,7 @@ import useReactRouter from "use-react-router";
 import {
   getStaffLogin,
   currency,
-  startOfMonth,
+  startMonth,
   getLocalHouse,
   createdAt_gte,
   createdAt_lt,
@@ -28,7 +28,7 @@ export default function SumTotalBooking() {
   const [searchValue, setSearchValue] = useState("");
   const [newLoadData, setNewLoadData] = useState(false);
   const [getRoomValue, setGetRoomValue] = useState("");
-  const [startDate, setStartDate] = useState(startOfMonth());
+  const [startDate, setStartDate] = useState(startMonth());
   const [endDate, setEndDate] = useState(endOfMonth());
 
   const [localHouse, setLocalHouse] = useState("");
@@ -92,7 +92,7 @@ export default function SumTotalBooking() {
     const page = query.get("page");
     const _startDate = query.get("startDate");
     const _endDate = query.get("endDate");
-    setStartDate(_startDate || startOfMonth());
+    setStartDate(_startDate || startMonth());
     setEndDate(_endDate || endOfMonth());
     if (page) {
       setNumberPage(parseInt(page));
@@ -152,7 +152,7 @@ export default function SumTotalBooking() {
                 </div>
                 <div className="card-body">
                   <div className="table-responsive">
-                    <table className="table  table-sm">
+                    <table className="table  table-sm text-black">
                       <thead>
                         <tr>
                           <th className="text-nowrap">ລຳດັບ</th>

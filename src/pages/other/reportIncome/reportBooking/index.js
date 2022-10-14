@@ -6,7 +6,7 @@ import {
   ITEM_PER_PAGE,
   currency,
   formatDateDash,
-  startOfMonth,
+  startMonth,
   getLocalHouse,
   createdAt_gte,
   createdAt_lt,
@@ -30,7 +30,7 @@ export default function ReportBooking() {
   const [searchValue, setSearchValue] = useState("");
   const [newLoadData, setNewLoadData] = useState(false);
   const [listRoom, setListRoom] = useState("");
-  const [startDate, setStartDate] = useState(startOfMonth());
+  const [startDate, setStartDate] = useState(startMonth());
   const [endDate, setEndDate] = useState(endOfMonth());
   const [detailRoom, setDetailRoom] = useState();
   const toDay = new Date();
@@ -102,7 +102,7 @@ export default function ReportBooking() {
     const page = query.get("page");
     const _startDate = query.get("startDate");
     const _endDate = query.get("endDate");
-    setStartDate(_startDate || startOfMonth());
+    setStartDate(_startDate || startMonth());
     setEndDate(_endDate || endOfMonth());
     if (page) {
       setNumberPage(parseInt(page));
@@ -150,12 +150,13 @@ export default function ReportBooking() {
                         />
                       </div>
                     </div>
-                    <div className="col-md-3"
-                     style={{
-                      position: "fixed",
-                      zIndex: 100,
-                      top: 57,
-                    }}
+                    <div
+                      className="col-md-3"
+                      style={{
+                        position: "fixed",
+                        zIndex: 100,
+                        top: 57,
+                      }}
                     >
                       <SearchRoom
                         style={{ with: "100%", heigh: "200px" }}
@@ -168,7 +169,7 @@ export default function ReportBooking() {
                   </div>
                 </div>
                 <div className="card-body ">
-                  <div className="table-responsive">
+                  <div className="table-responsive border">
                     <table className="table table-sm">
                       <thead>
                         <tr>
@@ -213,10 +214,7 @@ export default function ReportBooking() {
                               </>
                             )
                           )}
-                        <tr
-                          className="bg-light"
-                          style={{ backgroundColor: "#d1fc97" }}
-                        >
+                        <tr style={{ backgroundColor: "#e6eef0" }}>
                           <td
                             className="text-nowrap text-center"
                             colSpan={2}

@@ -194,7 +194,7 @@ export default function History() {
             <div className="text-center">{loading ? loadingData(25) : ""}</div>
             {setData?.billEquiment?.total > 0 ? (
               <>
-                <div className="table-responsive mt-2">
+                <div className="table-responsive mt-2 ">
                   <table className="table table-sm mb-0">
                     <thead>
                       <tr>

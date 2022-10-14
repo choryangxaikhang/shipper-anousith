@@ -14,7 +14,7 @@ import {
   messageConfirm,
   messageSuccess,
   setParams,
-  startOfMonth,
+  startMonth,
 } from "../../helper";
 import { ROOM_SERVICES } from "../../routes/app";
 import NoData from "../../helper/components/NoData";
@@ -30,7 +30,7 @@ export default function PeopleCheckout() {
   const [numberPage, setNumberPage] = useState(1);
   const [numberRow, setNumberRow] = useState(100);
   const [reloadData, setReloadData] = useState(false);
-  const [startDate, setStartDate] = useState(startOfMonth());
+  const [startDate, setStartDate] = useState(startMonth());
   const [endDate, setEndDate] = useState(endOfMonth());
   const [localHouse, setLocalHouse] = useState("");
   const [listRoom, setListRoom] = useState();
@@ -73,7 +73,7 @@ export default function PeopleCheckout() {
     const page = query.get("page");
     const _startDate = query.get("startDate");
     const _endDate = query.get("endDate");
-    setStartDate(_startDate || startOfMonth());
+    setStartDate(_startDate || startMonth());
     setEndDate(_endDate || endOfMonth());
     if (page) {
       setNumberPage(parseInt(page));

@@ -6,7 +6,7 @@ import {
   ITEM_PER_PAGE,
   currency,
   formatDateDash,
-  startOfMonth,
+  startMonth,
   getLocalHouse,
   createdAt_gte,
   createdAt_lt,
@@ -30,7 +30,7 @@ export default function ReportCheckIn() {
   const [searchValue, setSearchValue] = useState("");
   const [newLoadData, setNewLoadData] = useState(false);
   const [listRoom, setListRoom] = useState("");
-  const [startDate, setStartDate] = useState(startOfMonth());
+  const [startDate, setStartDate] = useState(startMonth());
   const [endDate, setEndDate] = useState(endOfMonth());
   const [detailRoom, setDetailRoom] = useState();
   const [houseID, setHouseID] = useState(getLocalHouse());
@@ -102,7 +102,7 @@ export default function ReportCheckIn() {
     const page = query.get("page");
     const _startDate = query.get("startDate");
     const _endDate = query.get("endDate");
-    setStartDate(_startDate || startOfMonth());
+    setStartDate(_startDate || startMonth());
     setEndDate(_endDate || endOfMonth());
     if (page) {
       setNumberPage(parseInt(page));
@@ -171,7 +171,7 @@ export default function ReportCheckIn() {
                   </div>
                 </div>
                 <div className="card-body ">
-                  <div className="table-responsive">
+                  <div className="table-responsive border">
                     <table className="table table-sm">
                       <thead>
                         <tr>
@@ -249,10 +249,7 @@ export default function ReportCheckIn() {
                               </>
                             )
                           )}
-                        <tr
-                          className="bg-light"
-                          style={{ backgroundColor: "#d1fc97" }}
-                        >
+                        <tr style={{ backgroundColor: "#e6eef0" }}>
                           <td
                             className="text-nowrap text-center"
                             colSpan={2}
@@ -261,11 +258,21 @@ export default function ReportCheckIn() {
                             <h4>ຍອດລວມ</h4>
                           </td>
                           <td className="text-nowrap text-end">
-                            
-                            <h4>{currency(_sumFeeBooking)} ກີບ</h4>
-                            <h4>{currency(_sumIncomeKip)} ກີບ</h4>
-                            <h4>{currency(_sumIncomeTHB)} ບາດ</h4>
-                            <h4>{currency(_sumIncomeUSD)} ໂດລາ</h4>
+                            {_sumIncomeKip >= 1 && (
+                              <>
+                                <h4>{currency(_sumIncomeKip)} ກີບ</h4>
+                              </>
+                            )}
+                            {_sumIncomeTHB >= 1 && (
+                              <>
+                                <h4>{currency(_sumIncomeTHB)} ບາດ</h4>
+                              </>
+                            )}
+                            {_sumIncomeUSD >= 1 && (
+                              <>
+                                <h4>{currency(_sumIncomeUSD)} ໂດລາ</h4>
+                              </>
+                            )}
                           </td>
                           <td></td>
                         </tr>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
 import { Button, Col } from "react-bootstrap";
 import { OTHER } from "../../../routes/app";
-import { getLocalHouse } from "../../../helper";
+import { getLocalHouse, getStaffLogin } from "../../../helper";
 import "./util/index.css";
 import ReportBooking from "./reportBooking";
 import ReportCheckIn from "./reportCheckIn";
@@ -12,6 +12,8 @@ import SumTotalBooking from "./sumTotalBooking";
 export default function TabMenuIncome() {
   const { history, location } = useReactRouter();
   const params = new URLSearchParams(location?.search);
+  const userState = getStaffLogin();
+  const userData = userState?.data;
   //useState
   const [tabActive, setTabActive] = useState("reportBooking");
   const [houseId, setLocalHouse] = useState("");
@@ -82,15 +84,20 @@ export default function TabMenuIncome() {
           >
             ຍອດຫ້ອງແຂກອອກແລ້ວ
           </Button>
-          <Button
-            className={`item-tab ${
-              tabActive === "dividendReport" ? "clickActives" : "Actives"
-            }`}
-            variant=""
-            onClick={() => history.push({ search: "?tab=dividendReport" })}
-          >
-            ຍອດປັນຜົນ
-          </Button>
+          {userData?.role === "SUPER_ADMIN" || userData?.role === "IT" ? (
+            <>
+              <Button
+                className={`item-tab ${
+                  tabActive === "dividendReport" ? "clickActives" : "Actives"
+                }`}
+                variant=""
+                onClick={() => history.push({ search: "?tab=dividendReport" })}
+              >
+                ຍອດປັນຜົນ
+              </Button>
+            </>
+          ) : null}
+
           <Button
             className={`item-tab ${
               tabActive === "sumTotalBooking" ? "clickActives" : "Actives"
@@ -106,8 +113,8 @@ export default function TabMenuIncome() {
         {tabActive === "reportBooking" && <ReportBooking />}
         {tabActive === "reportAll" && <ReportCheckIn />}
         {tabActive === "checkout" && <ReportCheckOut />}
-        {tabActive === "dividendReport" &&<DividendReport />}
-        {tabActive === "sumTotalBooking" &&<SumTotalBooking />}
+        {tabActive === "dividendReport" && <DividendReport />}
+        {tabActive === "sumTotalBooking" && <SumTotalBooking />}
       </div>
     </>
   );

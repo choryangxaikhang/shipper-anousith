@@ -133,13 +133,13 @@ export default function Detail({ _id, onHide }) {
           )}
         </Modal.Body>
         <button
-          className="btn text-black me-1 border-top"
+          className="btn text-white me-1 border-top btn-primary"
           onClick={(e) => {
             setShow(false);
             if (onHide) onHide(e);
           }}
         >
-          <i className="icon-close mr-1 text-primary" />
+          <i className="icon-close mr-1 text-white" />
           ປິດ
         </button>
       </Modal>

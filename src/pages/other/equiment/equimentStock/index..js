@@ -177,7 +177,7 @@ export default function EquimentStock() {
                 </div>
                 {setData?.equimentStocks?.total > 0 ? (
                   <>
-                    <div className="table-responsive mt-2">
+                    <div className="table-responsive mt-2 ">
                       <table className="table  table-sm mb-0">
                         <thead>
                           <tr>

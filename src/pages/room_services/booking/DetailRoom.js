@@ -45,7 +45,7 @@ export default function DetailRoom({ _id, onHide }) {
         <Modal.Header style={{ marginTop: -20 }}>
           <Modal.Title>ຂໍ້ມູນຫ້ອງ</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="p-2  mr-4">
+        <Modal.Body className="p-2  me-2">
           <div className="text-center">{loading && loadingData(25)}</div>
           {setData?.bookings?.total > 0 ? (
             <>
@@ -154,13 +154,13 @@ export default function DetailRoom({ _id, onHide }) {
           )}
         </Modal.Body>
         <button
-          className="btn text-black me-1 border-top"
+          className="btn text-white me-1 border-top btn-primary"
           onClick={(e) => {
             setShow(false);
             if (onHide) onHide(e);
           }}
         >
-          <i className="icon-close mr-1 text-primary" />
+          <i className="icon-close mr-1 text-white" />
           ປິດ
         </button>
       </Modal>

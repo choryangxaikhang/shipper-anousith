@@ -165,7 +165,7 @@ export default function EquiType() {
                 <div className="row gx-2">
                   {expenseTypeData?.equimentTypes?.total > 0 ? (
                     <>
-                      <div className="table-responsive">
+                      <div className="table-responsive ">
                         <Table className="table  table-sm mb-0">
                           <thead>
                             <tr>
