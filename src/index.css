@@ -46,7 +46,7 @@
   background-color: #cccccc;
   padding: 0.5em;
   height: 46px;
-  color: f54f02;
+  color: f0341b;
 }
 .custom-modal-body div,
 .custom-modal-body span {
@@ -67,7 +67,7 @@ label {
 }
 
 .invalid {
-  color: f54f02;
+  color: f0341b;
   font-size: small;
   font-style: italic;
   margin-top: 6px;

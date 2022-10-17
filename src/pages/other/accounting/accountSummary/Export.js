@@ -125,7 +125,7 @@ function Export({ _Data }) {
                     </span>
                   </td>
                 </tr>
-                <tr style={{ backgroundColor: "#f54f02", color: "white" }}>
+                <tr style={{ backgroundColor: "#f0341b", color: "white" }}>
                   <td className="textCenter text-nowrap">ລຳດັບ</td>
                   <td className="textCenter text-nowrap">ພະນັກງານ</td>
                   <td className="textCenter text-nowrap text-center">

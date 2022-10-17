@@ -13,7 +13,7 @@ export const newSound = new Audio(sound);
 export const socketServer = io("https://api.bit-houses.com");
 // export const TOKEN = "ANS_COD";
 export const FONT_SIZE = { fontSize: "15px" };
-export const PRIMARY_COLOR = "#f54f02";
+export const PRIMARY_COLOR = "#f0341b";
 export const TOKEN = "BIT-HOUSE-ADMIN-USER";
 
 //get staff login
@@ -267,7 +267,7 @@ export const unixTimeFormat = (x) => {
 export const loadingScreen = () => {
   return Loading.hourglass({
     backgroundColor: "rgba(245, 74, 7,0.2)",
-    svgColor: "#f54f02",
+    svgColor: "#f0341b",
   });
 };
 export const closeLoadingScreen = () => {

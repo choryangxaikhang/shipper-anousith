@@ -35,7 +35,7 @@
 .downloading-status {
   width: 0px;
   height: 2px;
-  background-color: f54f02;
+  background-color: f0341b;
   display: block;
   margin-top: 0.8rem;
   animation-name: downloading;

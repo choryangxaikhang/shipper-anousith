@@ -108,7 +108,7 @@ function Export({ _Data }) {
                     </span>
                   </td>
                 </tr>
-                <tr style={{ backgroundColor: "#f54f02", color: "white" }}>
+                <tr style={{ backgroundColor: "#f0341b", color: "white" }}>
                   <td className="textCenter text-nowrap">ລວມຍອດຄັ້ງຈອງ</td>
                   <td className="textCenter text-nowrap">ລວມຍອດເງິນຈອງ</td>
                   <td className="textCenter text-nowrap">ລວມຍອດເງິນຊົ່ວຄາວ</td>

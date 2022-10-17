@@ -41,7 +41,7 @@ export default function Pagination({
       {pageTotal?.length > limit && (
         <select
           className="form-select py-0"
-          style={{ width: 80, color: "#f54f02" }}
+          style={{ width: 80, color: "#f0341b" }}
           onChange={(e) => {
             let value = e.target.value;
             if (value) {

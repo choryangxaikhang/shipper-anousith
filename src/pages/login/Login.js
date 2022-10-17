@@ -4,14 +4,14 @@ import { Formik } from "formik";
 import { useMutation } from "@apollo/client";
 import "./login.css";
 import { LOGIN_USER } from "./gql";
-import Notiflix, { Loading } from "notiflix";
+import  Loading  from "notiflix";
 import {
   loadingScreen,
   messageError,
   messageWarning,
   TOKEN,
 } from "../../helper";
-import Imglogo from "../../img/app-icon.png";
+import Imglogo from "../../img/icon.png";
 import { FormControl, InputAdornment, OutlinedInput } from "@mui/material";
 export default function Login({ history }) {
   window.history.forward();
@@ -76,11 +76,8 @@ export default function Login({ history }) {
         {({
           values,
           errors,
-          touched,
-          handleChange,
-          handleBlur,
+          handleChange,  
           handleSubmit,
-          isSubmitting,
         }) => (
           <>
             <div className="header-bg header-bg-1 text-white" />
@@ -91,29 +88,27 @@ export default function Login({ history }) {
                   alt="logo"
                   className="logo p-2"
                   style={{
-                    marginTop: -70,
-                    width: 120,
-                    height: 120,
-                    borderRadius: "40%",
-                    border: "2px solid f54f02",
+                    marginTop: 0,
+                    width: '80%',
+                    height: 250,
+                    borderRadius: "10%",
+                    border: "2px solid f0341b",
                   }}
                 />
+                 <h2>shiper-anousith</h2>
               </center>
-              <div className="container">
-                <center>
-                  <h2>ເຂົ້າສູ່ລະບົບ</h2>
-                </center>
-                <div className="authentication-form mt-5">
+              <div className="container">            
+                <div className="authentication-form mt-2">
                   <form>
                     <div className="form-group">
+                      <label>ເບີໂທ</label>
                       <FormControl fullWidth sx={{ m: 0 }}>
                         <OutlinedInput
                           value={values.phoneNumber}
                           onChange={handleChange("phoneNumber")}
                           startAdornment={
                             <InputAdornment position="start">
-                              {/* <i className="icon-phone  fs-3" /> */}
-                              +85620:
+                              <i className="icon-phone  fs-3" />
                             </InputAdornment>
                           }
                           error={errors.phoneNumber}
@@ -131,13 +126,13 @@ export default function Login({ history }) {
                     </div>
                     <div className="form-group pb-15">
                       <FormControl fullWidth sx={{ m: 0 }}>
+                        <label>ລະຫັດຜ່ານ</label>
                         <OutlinedInput
                           value={values.password}
                           onChange={handleChange("password")}
                           startAdornment={
                             <InputAdornment position="start">
-                              {/* <i className="fa-sharp fa-solid fa-key"/> */}
-                              ລະຫັດຜ່ານ:
+                              <i className="fa-sharp fa-solid fa-key fs-3"/>                           
                             </InputAdornment>
                           }
                           error={errors.phoneNumber}
@@ -170,12 +165,12 @@ export default function Login({ history }) {
                     <button
                       type="button"
                       onClick={handleSubmit}
-                      style={{ backgroundColor: "#f54f02" }}
-                      className="btn btn-block btn-lg text-white rounded mb-10"
+                      style={{ backgroundColor: "#f0341b" }}
+                      className="btn btn-block btn-lg text-white mb-10"
                     >
                       <i class="fa-sharp fa-solid fa-angles-right me-2"></i>
                       ເຂົ້າສູ່ລະບົບ
-                    </button>
+                    </button>                   
                   </form>
                 </div>
               </div>

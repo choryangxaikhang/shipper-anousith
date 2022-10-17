@@ -129,7 +129,7 @@ function Export({ _data }) {
                     </span>
                   </td>
                 </tr>
-                <tr style={{ backgroundColor: "#f54f02", color: "white" }}>
+                <tr style={{ backgroundColor: "#f0341b", color: "white" }}>
                   <td className="border text-nowrap">ລຳດັບ</td>
                   <td className="border text-center">ເບີກວັນທີ່</td>
                   <td className="border text-nowrap">ລາຍການ</td>

@@ -90,7 +90,7 @@ export default function Profile({ history }) {
                 width: 120,
                 height: 120,
                 borderRadius: "40%",
-                border: "2px solid f54f02",
+                border: "2px solid f0341b",
               }}
             />
             <br />

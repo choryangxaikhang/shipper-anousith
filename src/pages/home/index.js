@@ -106,12 +106,13 @@ export default function Home() {
       <div
         id="appCapsule"
         style={{
-          backgroundColor: "#f54f02",
+          backgroundColor: "#f0341b",
           marginBottom: 0,
           paddingBottom: 0,
           whidth: "100vh",
         }}
       >
+
         <div className="appHeader  border-0 ">
           <div style={{ flex: 1 }} className="text-left">
             <button
@@ -143,6 +144,8 @@ export default function Home() {
               {house?.houseName ? house?.houseName : "ໜ້າຫຼັກ"}
             </b>
           )}
+
+          
           <div
             className="text-white pageTitle text-center text-nowrap pr-0"
             style={{ flex: 1 }}
@@ -169,14 +172,14 @@ export default function Home() {
           </div>
         </div>
         <div className="body-content body-content-lg ">
-          <div className="container">
+          <div className="container-min">
             <div
               className="add-card section-to-header mb-30"
               style={{ marginTop: -140 }}
             >
               <div className="add-card-inner">
                 <div className="add-card-item add-card-info">
-                  <p>ຫ້ອງກຳລັງຈອງ</p>
+                  <p>ອໍເດີກຳລັງສັ່ງ</p>
                   {loadingBooking ? (
                     loadingData(25)
                   ) : (
@@ -184,17 +187,17 @@ export default function Home() {
                       <b className="text-danger fs-4">
                         {setBooking?.summaryBookingTotal?.bookingTotal > 0
                           ? currency(
-                              setBooking?.summaryBookingTotal?.bookingTotal
-                            )
+                            setBooking?.summaryBookingTotal?.bookingTotal
+                          )
                           : 0}{" "}
                       </b>
-                      ຫ້ອງ
+                      ລາຍການ
                     </>
                   )}
                 </div>
                 <div className="add-card-item add-balance">
                   <a href="javascript:void(0)" className="p-1">
-                    <b className="fs-4">ໄອດີ: {userData?._id}</b>
+                    <b className="fs-4">ລະຫັດ: {userData?._id}</b>
                   </a>
                 </div>
               </div>
@@ -204,14 +207,14 @@ export default function Home() {
                 <div className="col-6 pb-15">
                   <div
                     className="option-card card"
-                    style={{ borderTop: "1px solid #f54f02" }}
+                    style={{ borderTop: "1px solid #f0341b" }}
                   >
                     <a
                       href="javascript:void(0)"
                       data-bs-toggle="modal"
                       data-bs-target="#withdraw"
                     >
-                      <p>ຫ້ອງກຳລັງເປີດ</p>
+                      <p>ອໍເດີຍັງບໍ່ໄດ້ຮັບ</p>
                       <div className="option-card-icon text-black">
                         {loadingCheckIn ? (
                           loadingData(25)
@@ -219,14 +222,14 @@ export default function Home() {
                           <>
                             <b className="text-danger fs-4">
                               {CheckInHouse?.summaryBookingTotal?.bookingTotal >
-                              0
+                                0
                                 ? currency(
-                                    CheckInHouse?.summaryBookingTotal
-                                      ?.bookingTotal
-                                  )
+                                  CheckInHouse?.summaryBookingTotal
+                                    ?.bookingTotal
+                                )
                                 : 0}{" "}
                             </b>
-                            ຫ້ອງ
+                            ລາຍການ
                           </>
                         )}
                       </div>
@@ -237,10 +240,10 @@ export default function Home() {
                 <div className="col-6 pb-15">
                   <div
                     className="option-card  card "
-                    style={{ borderTop: "1px solid #f54f02" }}
+                    style={{ borderTop: "1px solid #f0341b" }}
                   >
                     <a href="javascript:void(0)">
-                      <p>ຫ້ອງແຂກອອກມື້ນີ້</p>
+                      <p>ອໍເດີໄດ້ຮັບແລ້ວ</p>
                       <div className="option-card-icon text-black">
                         {loading ? (
                           loadingData(25)
@@ -249,11 +252,11 @@ export default function Home() {
                             <b className="text-danger fs-4">
                               {outHouse?.summaryBookingTotal?.bookingTotal > 0
                                 ? currency(
-                                    outHouse?.summaryBookingTotal?.bookingTotal
-                                  )
+                                  outHouse?.summaryBookingTotal?.bookingTotal
+                                )
                                 : 0}{" "}
                             </b>
-                            ຫ້ອງ
+                            ລາຍການ
                           </>
                         )}
                       </div>
