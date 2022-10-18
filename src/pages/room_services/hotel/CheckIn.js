@@ -254,17 +254,17 @@ export default function CheckIn({
           </h3>
           {/* <RegisterCustomerOfHotel /> */}
           <a
-            className="pull-right ms-2 "
+            classNameName="pull-right ms-2 "
             style={{ textDecoration: "none" }}
             onClick={() => CloseModalChange()}
           >
-            <i className="icon-x fa-2x text-danger" />
+            <i classNameName="icon-x fa-2x text-danger" />
           </a>
         </Modal.Header>
         {/* <Modal.Body style={{ height: "150%" }}> */}
-        <div className="row bg-color">
-          <div className=" col-md-12">
-            {/* <div className="form-row mt-3 col-11 ms-2  mb-2 me-2">
+        <div classNameName="row bg-color">
+          <div classNameName=" col-md-12">
+            {/* <div classNameName="form-row mt-3 col-11 ms-2  mb-2 me-2">
               <SearchCustomer
                 response={(obj) => {
                   setCustomerId(obj);
@@ -272,16 +272,16 @@ export default function CheckIn({
                 error={errors.customer}
                 roomID={getId}
               />
-              <div className="text-danger fs-5">{errors?.customer}</div>
+              <div classNameName="text-danger fs-5">{errors?.customer}</div>
             </div> */}
-            <div className="card-body">
-              {/* <div className="form-row mt-3">
+            <div classNameName="card-body">
+              {/* <div classNameName="form-row mt-3">
                 <FormControl
                   fullWidth
                   sx={{ m: 0, backgroundColor: "#e3e0de" }}
                 >
                   <InputLabel
-                    className="inputLabel"
+                    classNameName="inputLabel"
                     htmlFor="outlined-adornment-amount"
                   >
                     ຊື່ ແລະ ນາມສະກຸມ {valiDate()}
@@ -290,7 +290,7 @@ export default function CheckIn({
                     value={customerId?.fullName}
                     startAdornment={
                       <InputAdornment position="start">
-                        <i className="fa-solid fa-user text-secondary me-1" />
+                        <i classNameName="fa-solid fa-user text-secondary me-1" />
                       </InputAdornment>
                     }
                     label="ຊື່ ແລະ ນາມສະກຸມ"
@@ -301,13 +301,13 @@ export default function CheckIn({
                   />
                 </FormControl>
               </div> */}
-              {/* <div className="form-row mt-3">
+              {/* <div classNameName="form-row mt-3">
                 <FormControl
                   fullWidth
                   sx={{ m: 0, backgroundColor: "#e3e0de" }}
                 >
                   <InputLabel
-                    className="inputLabel"
+                    classNameName="inputLabel"
                     htmlFor="outlined-adornment-amount"
                   >
                     ເບີໂທ {valiDate()}
@@ -317,7 +317,7 @@ export default function CheckIn({
                     disabled={true}
                     startAdornment={
                       <InputAdornment position="start">
-                        <i className="fa-solid fa-phone text-secondary me-1" />
+                        <i classNameName="fa-solid fa-phone text-secondary me-1" />
                       </InputAdornment>
                     }
                     type="tel"
@@ -327,12 +327,12 @@ export default function CheckIn({
                 </FormControl>
               </div> */}
               <div
-                className="btn-group btn-lg "
+                classNameName="btn-group btn-lg "
                 style={{ marginLeft: -25, marginTop: 10 }}
               >
                 <button
                   type="button"
-                  className={
+                  classNameName={
                     bookingStatus === "HALF"
                       ? "btn btn-lg btn-primary"
                       : "btn btn-outline-primary"
@@ -343,7 +343,7 @@ export default function CheckIn({
                 >
                   {bookingStatus === "HALF" ? (
                     <>
-                      <i className="icon-check" /> ຊົ່ວຄາວ
+                      <i classNameName="icon-check" /> ຊົ່ວຄາວ
                     </>
                   ) : (
                     "ຊົ່ວຄາວ"
@@ -351,7 +351,7 @@ export default function CheckIn({
                 </button>
                 <button
                   type="button"
-                  className={
+                  classNameName={
                     bookingStatus === "FULL"
                       ? "btn btn-lg btn-primary "
                       : "btn btn-outline-primary "
@@ -362,7 +362,7 @@ export default function CheckIn({
                 >
                   {bookingStatus === "FULL" ? (
                     <>
-                      <i className="icon-check" /> ຄ້າງຄືນ
+                      <i classNameName="icon-check" /> ຄ້າງຄືນ
                     </>
                   ) : (
                     "ຄ້າງຄືນ"
@@ -370,10 +370,10 @@ export default function CheckIn({
                 </button>
               </div>
               {bookingStatus === "FULL" ? (
-                <div className="form-row mt-3">
+                <div classNameName="form-row mt-3">
                   <FormControl fullWidth>
                     <InputLabel
-                      className="inputLabel text-black"
+                      classNameName="inputLabel text-black"
                       htmlFor="outlined-adornment-amount"
                     >
                       ຈຳນວນມື້ {valiDate()}
@@ -392,10 +392,10 @@ export default function CheckIn({
                   </FormControl>
                 </div>
               ) : (
-                <div className="form-row mt-3">
+                <div classNameName="form-row mt-3">
                   <FormControl fullWidth>
                     <InputLabel
-                      className="inputLabel text-black"
+                      classNameName="inputLabel text-black"
                       htmlFor="outlined-adornment-amount"
                     >
                       ຈຳນວນຊົ່ວໂມງ {valiDate()}
@@ -415,10 +415,10 @@ export default function CheckIn({
                 </div>
               )}
 
-              <div className="form-row mt-3">
+              <div classNameName="form-row mt-3">
                 <FormControl fullWidth>
                   <InputLabel
-                    className="inputLabel text-black"
+                    classNameName="inputLabel text-black"
                     htmlFor="outlined-adornment-amount"
                   >
                     ລາຄາຫ້ອງ
@@ -451,21 +451,21 @@ export default function CheckIn({
                   />
                 </FormControl>
               </div>
-              <div className="form-row mt-3">
+              <div classNameName="form-row mt-3">
                 <FormControl fullWidth>
                   <InputLabel
-                    className="inputLabel text-black"
+                    classNameName="inputLabel text-black"
                     htmlFor="outlined-adornment-amount"
                   >
                     ເງິນທີ່ຄວນເກັບ
                   </InputLabel>
                   <OutlinedInput
                     startAdornment={
-                      <h2 className="fw-bold text-success">LAK</h2>
+                      <h2 classNameName="fw-bold text-success">LAK</h2>
                     }
                     type="text"
                     id="Number"
-                    className="fs-2 text-center text-success"
+                    classNameName="fs-2 text-center text-success"
                     disabled={true}
                     value={
                       bookingStatus === "FULL"
@@ -477,17 +477,17 @@ export default function CheckIn({
                   />
                 </FormControl>
               </div>
-              <div className="form-row mt-3">
+              <div classNameName="form-row mt-3">
                 <FormControl fullWidth>
                   <InputLabel
-                    className="inputLabel text-black"
+                    classNameName="inputLabel text-black"
                     htmlFor="outlined-adornment-amount"
                   >
                     ເງິນໄດ້ຮັບຕົວຈິງ(ກີບ)
                   </InputLabel>
                   <OutlinedInput
                     startAdornment={
-                      <h2 className="fw-bold text-primary">LAK</h2>
+                      <h2 classNameName="fw-bold text-primary">LAK</h2>
                     }
                     type="number"
                     id="Number"
@@ -499,20 +499,20 @@ export default function CheckIn({
                     label="ເງິນໄດ້ຮັບຕົວຈິງ(ກີບ)"
                     error={errors.incomeKIP}
                   />
-                  <div className="text-danger fs-5">{errors?.incomeKIP}</div>
+                  <div classNameName="text-danger fs-5">{errors?.incomeKIP}</div>
                 </FormControl>
               </div>
-              <div className="form-row mt-3">
+              <div classNameName="form-row mt-3">
                 <FormControl fullWidth>
                   <InputLabel
-                    className="inputLabel text-black"
+                    classNameName="inputLabel text-black"
                     htmlFor="outlined-adornment-amount"
                   >
                     ເງິນໄດ້ຮັບຕົວຈິງ(ບາດ)
                   </InputLabel>
                   <OutlinedInput
                     startAdornment={
-                      <h2 className="fw-bold text-primary">THB</h2>
+                      <h2 classNameName="fw-bold text-primary">THB</h2>
                     }
                     type="number"
                     id="Number"
@@ -525,17 +525,17 @@ export default function CheckIn({
                   />
                 </FormControl>
               </div>
-              <div className="form-row mt-3">
+              <div classNameName="form-row mt-3">
                 <FormControl fullWidth>
                   <InputLabel
-                    className="inputLabel text-black"
+                    classNameName="inputLabel text-black"
                     htmlFor="outlined-adornment-amount"
                   >
                     ເງິນໄດ້ຮັບຕົວຈິງ(ໂດລ່າ)
                   </InputLabel>
                   <OutlinedInput
                     startAdornment={
-                      <h2 className="fw-bold text-primary">USD</h2>
+                      <h2 classNameName="fw-bold text-primary">USD</h2>
                     }
                     type="number"
                     id="Number"
@@ -548,21 +548,21 @@ export default function CheckIn({
                   />
                 </FormControl>
               </div>
-              <div className="form-row mt-3">
+              <div classNameName="form-row mt-3">
                 <FormControl fullWidth>
                   <InputLabel
-                    className="inputLabel text-black"
+                    classNameName="inputLabel text-black"
                     htmlFor="outlined-adornment-amount"
                   >
                     ເງິນທອນ
                   </InputLabel>
                   <OutlinedInput
                     startAdornment={
-                      <h2 className="fw-bold text-danger">LAK</h2>
+                      <h2 classNameName="fw-bold text-danger">LAK</h2>
                     }
                     type="text"
                     id="Number"
-                    className="fs-2 text-center"
+                    classNameName="fs-2 text-center"
                     disabled={true}
                     value={currency(exChangeTotal)}
                     label="ເງິນທອນ"
@@ -576,7 +576,7 @@ export default function CheckIn({
         <Modal.Footer>
           <button
             type="button"
-            className="btn btn-success btn-lg  mt-2 w-100"
+            classNameName="btn btn-success btn-lg  mt-2 w-100"
             // onClick={() => handleSubmit()}
             onClick={() => {
               if (!creating) {
@@ -587,7 +587,7 @@ export default function CheckIn({
               return false;
             }}
           >
-            <i className="icon-save" style={{ marginRight: 3 }} />
+            <i classNameName="icon-save" style={{ marginRight: 3 }} />
             ບັນທຶກ
           </button>
         </Modal.Footer>

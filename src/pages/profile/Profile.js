@@ -11,14 +11,14 @@ import {
 } from "../../helper";
 import BottomNav from "../../layouts/BottomNav";
 import { useLazyQuery } from "@apollo/client";
-import Imglogo from "../../img/app-icon.png";
+import Imglogo from "../../img/icon.png";
 import { LOGIN } from "../../routes/app";
 import { USERS } from "./apollo";
-export default function Profile({ history }) {
+export default function Profile() {
   const [listData, setListData] = useState({});
   const userState = getStaffLogin();
   const userData = userState?.data;
-  const [fetchData, { data: dataStaff, loading }] = useLazyQuery(USERS, {
+  const [fetchData, { data: dataStaff }] = useLazyQuery(USERS, {
     fetchPolicy: "cache-and-network",
   });
 
@@ -58,13 +58,7 @@ export default function Profile({ history }) {
     <>
       <div id="appCapsule">
         <div className="appHeader text-white border-0 ">
-          <div style={{ flex: 1 }} className="text-left">
-            {/* <button
-              className="btn text-white mr-2"
-              onClick={() => history.goBack()}
-            >
-              <i className="icon-x fs-4" />
-            </button> */}
+          <div style={{ flex: 1 }} className="text-left">       
           </div>
           ໂປຣໄຟລ໌
           <div
@@ -90,7 +84,7 @@ export default function Profile({ history }) {
                 width: 120,
                 height: 120,
                 borderRadius: "40%",
-                border: "2px solid f0341b",
+                border: "2px solid de0a0af2",
               }}
             />
             <br />

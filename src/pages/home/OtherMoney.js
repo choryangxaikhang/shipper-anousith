@@ -120,7 +120,7 @@ export default function SummaryMoney() {
           <div className="progress-card-info">
             <div className="circular-progress" data-note={25}>
               <div style={{ width: 50, height: 50, color: "#b1b5b2" }}>
-                <i class="fa-solid fa-circle-left fa-2x"></i>
+                <i className="fa-solid fa-circle-left fa-2x"></i>
               </div>
             </div>
             <div className="progress-info-text">

@@ -114,28 +114,28 @@ export default function TurnOffHouse() {
   return (
     <React.Fragment>
       <div
-        className="p-1 text-black border-bottom"
+        classNameName="p-1 text-black border-bottom"
         onClick={() => setShow(true)}
       >
-        <i className="fa-solid fa-chevron-right me-2" />
+        <i classNameName="fa-solid fa-chevron-right me-2" />
         ຕັ້ງຄ່າເປີດ ແລະ ປິດກິດຈະການ
       </div>
       <Modal show={show} animation={false} size="xl">
         <Modal.Header>
           ຕັ້ງຄ່າເປີດ ແລະ ປິດກິດຈະກໍາ
           <a
-            className="pull-right ms-2"
+            classNameName="pull-right ms-2"
             style={{ textDecoration: "none" }}
             onClick={() => setShow(false)}
           >
-            <i className="icon-x fa-2x text-danger" />
+            <i classNameName="icon-x fa-2x text-danger" />
           </a>
         </Modal.Header>
         <Modal.Body>
-          <div className="input-group mt-1">
+          <div classNameName="input-group mt-1">
             <input
               type="search"
-              className="form-control form-control-lg"
+              classNameName="form-control form-control-lg"
               placeholder="ຊື່ກິດຈະການ..."
               onChange={(e) => setSearchValue(e.target.value)}
               onKeyPress={_handleKeypress}
@@ -144,21 +144,21 @@ export default function TurnOffHouse() {
             <button
               type="button"
               onClick={() => _onSearch()}
-              className="btn btn-primary btn-lg"
+              classNameName="btn btn-primary btn-lg"
             >
-              <i className="icon-search1" />
+              <i classNameName="icon-search1" />
             </button>
           </div>
           {loading ? (
             loadingData(23, "ກຳລັງໂຫຼດຂໍ້ມູນ")
           ) : (
-            <div className="table-responsive mt-1">
-              <table className="table table-bordered table-sm text-black">
+            <div classNameName="table-responsive mt-1">
+              <table classNameName="table table-bordered table-sm text-black">
                 <thead>
                   <tr>
-                    <th className="text-center">#</th>
-                    <th className="text-nowrap">ຊື່ກິດຈະການ</th>
-                    <th className="text-nowrap" width="30">
+                    <th classNameName="text-center">#</th>
+                    <th classNameName="text-nowrap">ຊື່ກິດຈະການ</th>
+                    <th classNameName="text-nowrap" width="30">
                       ຈັດການ
                     </th>
                   </tr>
@@ -167,12 +167,12 @@ export default function TurnOffHouse() {
                   {house &&
                     house?.map((item, index) => (
                       <tr key={index}>
-                        <td className="text-center">{index + 1}</td>
+                        <td classNameName="text-center">{index + 1}</td>
                         <td>{item?.houseName ? item?.houseName : "-"}</td>
-                        <div className="form-check form-switch">
+                        <div classNameName="form-check form-switch">
                           <input
                             id="_dm-dbOfflineContact"
-                            className="form-check-input ms-2"
+                            classNameName="form-check-input ms-2"
                             type="checkbox"
                             checked={item?.public === "ACTIVE" ? "ACTIVE" : ""}
                             onChange={

@@ -38,55 +38,55 @@ export default function DetailRoom({ _id, onHide }) {
         }}
         animation={true}
         show={show}
-        className="modal action-sheet"
+        classNameName="modal action-sheet"
         tabindex="-1"
         role="dialog"
       >
         <Modal.Header style={{ marginTop: -20 }}>
           <Modal.Title>ຂໍ້ມູນຫ້ອງ</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="p-2  me-2">
-          <div className="text-center">{loading && loadingData(25)}</div>
+        <Modal.Body classNameName="p-2  me-2">
+          <div classNameName="text-center">{loading && loadingData(25)}</div>
           {setData?.bookings?.total > 0 ? (
             <>
               {setData?.bookings?.data?.map((data, index) => (
                 <>
-                  <div className=" bill-item-list pt-2" id="border">
+                  <div classNameName=" bill-item-list pt-2" id="border">
                     <span>ຫ້ອງ</span>
-                    <span className="text-black text-end">
+                    <span classNameName="text-black text-end">
                       {data?.room?.title_lao}
                     </span>
                     <br />
                   </div>
-                  <div className=" bill-item-list pt-2" id="border">
+                  <div classNameName=" bill-item-list pt-2" id="border">
                     <span>ປະເພດກິດຈະການ</span>
                     <TypeHouse getId={data?.house?._id} />
                     <br />
                   </div>
-                  <div className=" bill-item-list pt-2" id="border">
+                  <div classNameName=" bill-item-list pt-2" id="border">
                     <span>ຊື່ກິດຈະການ</span>
-                    <span className="text-black text-end">
+                    <span classNameName="text-black text-end">
                       {data?.house?.houseName}
                     </span>
                     <br />
                   </div>
-                  <div className=" bill-item-list pt-2" id="border">
+                  <div classNameName=" bill-item-list pt-2" id="border">
                     <span>ຊື່ລູກຄ້າ</span>
-                    <span className="text-black text-end">
+                    <span classNameName="text-black text-end">
                       {data?.customer?.fullName}
                     </span>
                     <br />
                   </div>
-                  <div className=" bill-item-list pt-2" id="border">
+                  <div classNameName=" bill-item-list pt-2" id="border">
                     <span>ເວລາຈອງ</span>
-                    <span className="text-black text-end">
+                    <span classNameName="text-black text-end">
                       {data?.bookTime}
                     </span>
                     <br />
                   </div>
-                  <div className=" bill-item-list pt-2" id="border">
+                  <div classNameName=" bill-item-list pt-2" id="border">
                     <span>ວັນທີຈອງ</span>
-                    <span className="text-black text-end">
+                    <span classNameName="text-black text-end">
                       {formatDateDash(data?.bookDate)}
                     </span>
                     <br />
@@ -94,9 +94,9 @@ export default function DetailRoom({ _id, onHide }) {
 
                   {data?.bookingType === "FULL" ? (
                     <>
-                      <div className=" bill-item-list pt-2" id="border">
+                      <div classNameName=" bill-item-list pt-2" id="border">
                         <span>ຈຳນວນມື້</span>
-                        <span className="text-black text-end">
+                        <span classNameName="text-black text-end">
                           {currency(data?.inTime)}
                         </span>
                         <br />
@@ -104,44 +104,44 @@ export default function DetailRoom({ _id, onHide }) {
                     </>
                   ) : (
                     <>
-                      <div className=" bill-item-list pt-2" id="border">
+                      <div classNameName=" bill-item-list pt-2" id="border">
                         <span>ຊົ່ວໂມພັກ</span>
-                        <span className="text-black text-end">
+                        <span classNameName="text-black text-end">
                           {currency(data?.inTime)}
                         </span>
                         <br />
                       </div>
                     </>
                   )}
-                  <div className=" bill-item-list pt-2" id="border">
+                  <div classNameName=" bill-item-list pt-2" id="border">
                     <span>ພັກຄ້າງຄືນ</span>
-                    <span className="text-black text-end">
+                    <span classNameName="text-black text-end">
                       {currency(data?.fullPriceTotal)}
                     </span>
                     <br />
                   </div>
-                  <div className=" bill-item-list pt-2" id="border">
+                  <div classNameName=" bill-item-list pt-2" id="border">
                     <span>ພັກຊົ່ວຄາວ</span>
-                    <span className="text-black text-end">
+                    <span classNameName="text-black text-end">
                       {currency(data?.halfPriceTotal)}
                     </span>
                     <br />
                   </div>
-                  <div className=" bill-item-list pt-2" id="border">
+                  <div classNameName=" bill-item-list pt-2" id="border">
                     <span>ຊຳລະ</span>
-                    <span className="text-black text-end">
+                    <span classNameName="text-black text-end">
                       {paiStatus(data?.paidStatus)}
                     </span>
                     <br />
                   </div>
-                  <div className=" bill-item-list pt-2" id="border">
+                  <div classNameName=" bill-item-list pt-2" id="border">
                     <img
                       src={
                         data?.images
                           ? aws_url_images + data?.images
                           : placeholder
                       }
-                      className="w-100"
+                      classNameName="w-100"
                     />
                   </div>
                 </>
@@ -149,18 +149,18 @@ export default function DetailRoom({ _id, onHide }) {
             </>
           ) : (
             <>
-              <p className="text-danger">ບໍ່ມີຂໍ້ມູນ</p>
+              <p classNameName="text-danger">ບໍ່ມີຂໍ້ມູນ</p>
             </>
           )}
         </Modal.Body>
         <button
-          className="btn text-white me-1 border-top btn-primary"
+          classNameName="btn text-white me-1 border-top btn-primary"
           onClick={(e) => {
             setShow(false);
             if (onHide) onHide(e);
           }}
         >
-          <i className="icon-close mr-1 text-white" />
+          <i classNameName="icon-close mr-1 text-white" />
           ປິດ
         </button>
       </Modal>

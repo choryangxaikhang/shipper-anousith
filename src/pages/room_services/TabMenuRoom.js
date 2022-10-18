@@ -52,7 +52,7 @@ export default function TabMenuRoom() {
     //sidebar min
     const localSideBarMini = localStorage.getItem("SIDEBAR_MINI");
     if (localSideBarMini === "true") {
-      document.body.classList.add("sidebar-collapse");
+      document.body.classNameList.add("sidebar-collapse");
     }
   }, []);
   // end
@@ -98,15 +98,15 @@ export default function TabMenuRoom() {
   return (
     <>
       <div>
-        <div className="appHeader  border-0 mr-0">
-          <div style={{ flex: 1 }} className="text-left">
+        <div classNameName="appHeader  border-0 mr-0">
+          <div style={{ flex: 1 }} classNameName="text-left">
             <button
-              className="btn text-white"
+              classNameName="btn text-white"
               onClick={(e) => {
                 setButton(!clickButton);
               }}
             >
-              <i className="fa-solid fa-magnifying-glass fa-2 ms-2" />
+              <i classNameName="fa-solid fa-magnifying-glass fa-2 ms-2" />
             </button>
           </div>
           {clickButton === true ? (
@@ -125,38 +125,38 @@ export default function TabMenuRoom() {
               />
             </>
           ) : (
-            <b className="text-white">
+            <b classNameName="text-white">
               {house?.houseName ? house?.houseName : "ຈັດການບໍລິການອື່ນໆ"}
             </b>
           )}
           <div
-            className="text-white pageTitle text-right text-nowrap pr-0"
+            classNameName="text-white pageTitle text-right text-nowrap pr-0"
             style={{ flex: 1 }}
           ></div>
         </div>
         <div id="appCapsule" style={{ marginTop: -10 }}>
-          <div className="section wallet-card-section">
-            <div className="session-list mt-1" ng-controller="home">
+          <div classNameName="section wallet-card-section">
+            <div classNameName="session-list mt-1" ng-controller="home">
               <div
-                className="wallet-card"
+                classNameName="wallet-card"
                 style={{ borderBottom: "1px solid red" }}
               >
-                <div className="wallet-footer">
-                  <div className="item">
+                <div classNameName="wallet-footer">
+                  <div classNameName="item">
                     <a
                       href="javascript:void(0)"
                       onClick={() => history.push(`${ROUTES.HOTEL}/1`)}
                     >
-                      <div className="icon-wrapper">
-                        <i className="fa-sharp fa-solid fa-person-booth fa-2x" />
+                      <div classNameName="icon-wrapper">
+                        <i classNameName="fa-sharp fa-solid fa-person-booth fa-2x" />
                       </div>
                       <h5>ເປີດຫ້ອງ</h5>
                     </a>
                   </div>
-                  <div className="item">
+                  <div classNameName="item">
                     {loading ? (
                       <span
-                        className="ms-2"
+                        classNameName="ms-2"
                         style={{
                           position: "fixed",
                           marginTop: -10,
@@ -169,7 +169,7 @@ export default function TabMenuRoom() {
                       </span>
                     ) : setData?.bookings?.total > 0 ? (
                       <span
-                        className="badge badge-success ms-2"
+                        classNameName="badge badge-success ms-2"
                         style={{
                           position: "fixed",
                           marginTop: -10,
@@ -178,7 +178,7 @@ export default function TabMenuRoom() {
                           zIndex: 1000,
                         }}
                       >
-                        <small className="p-1">
+                        <small classNameName="p-1">
                           {setData?.bookings?.total}
                         </small>
                       </span>
@@ -187,16 +187,16 @@ export default function TabMenuRoom() {
                       href="javascript:void(0)"
                       onClick={() => history.push(`${ROUTES.BOOKING}/1`)}
                     >
-                      <div className="icon-wrapper">
-                        <i className="fa-solid fa-circle-down fa-2x" />
+                      <div classNameName="icon-wrapper">
+                        <i classNameName="fa-solid fa-circle-down fa-2x" />
                       </div>
                       <h5>ຫ້ອງກຳລັງຈອງ</h5>
                     </a>
                   </div>
-                  <div className="item">
+                  <div classNameName="item">
                     {loadingFull ? (
                       <span
-                        className="ms-2"
+                        classNameName="ms-2"
                         style={{
                           position: "fixed",
                           marginTop: -10,
@@ -209,7 +209,7 @@ export default function TabMenuRoom() {
                       </span>
                     ) : setDataFull?.bookings?.total > 0 ? (
                       <span
-                        className="badge badge-success ms-2"
+                        classNameName="badge badge-success ms-2"
                         style={{
                           position: "fixed",
                           marginTop: -10,
@@ -218,7 +218,7 @@ export default function TabMenuRoom() {
                           zIndex: 1000,
                         }}
                       >
-                        <small className="p-1">
+                        <small classNameName="p-1">
                           {setDataFull?.bookings?.total}
                         </small>
                       </span>
@@ -226,8 +226,8 @@ export default function TabMenuRoom() {
                     <a
                       onClick={(e) => history.push(`${ROUTES.HOTEL_CHECKOUT}`)}
                     >
-                      <div className="icon-wrapper">
-                        <i className="fa-solid fa-share-from-square fa-2x" />
+                      <div classNameName="icon-wrapper">
+                        <i classNameName="fa-solid fa-share-from-square fa-2x" />
                       </div>
                       <h5>ແຂກອອກ</h5>
                     </a>

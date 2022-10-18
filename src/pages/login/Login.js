@@ -80,27 +80,27 @@ export default function Login({ history }) {
           handleSubmit,
         }) => (
           <>
-            <div className="header-bg header-bg-1 text-white" />
-            <div className="body-content bg-white">
+            <div classNameName="header-bg header-bg-1 text-white" />
+            <div classNameName="body-content bg-white">
               <center>
                 <img
                   src={Imglogo}
                   alt="logo"
-                  className="logo p-2"
+                  classNameName="logo p-2"
                   style={{
                     marginTop: 0,
                     width: '80%',
                     height: 250,
                     borderRadius: "10%",
-                    border: "2px solid f0341b",
+                    border: "2px solid de0a0af2",
                   }}
                 />
                  <h2>shiper-anousith</h2>
               </center>
-              <div className="container">            
-                <div className="authentication-form mt-2">
+              <div classNameName="container">            
+                <div classNameName="authentication-form mt-2">
                   <form>
-                    <div className="form-group">
+                    <div classNameName="form-group">
                       <label>ເບີໂທ</label>
                       <FormControl fullWidth sx={{ m: 0 }}>
                         <OutlinedInput
@@ -108,7 +108,7 @@ export default function Login({ history }) {
                           onChange={handleChange("phoneNumber")}
                           startAdornment={
                             <InputAdornment position="start">
-                              <i className="icon-phone  fs-3" />
+                              <i classNameName="icon-phone  fs-3" />
                             </InputAdornment>
                           }
                           error={errors.phoneNumber}
@@ -124,7 +124,7 @@ export default function Login({ history }) {
                         />
                       </FormControl>
                     </div>
-                    <div className="form-group pb-15">
+                    <div classNameName="form-group pb-15">
                       <FormControl fullWidth sx={{ m: 0 }}>
                         <label>ລະຫັດຜ່ານ</label>
                         <OutlinedInput
@@ -132,7 +132,7 @@ export default function Login({ history }) {
                           onChange={handleChange("password")}
                           startAdornment={
                             <InputAdornment position="start">
-                              <i className="fa-sharp fa-solid fa-key fs-3"/>                           
+                              <i classNameName="fa-sharp fa-solid fa-key fs-3"/>                           
                             </InputAdornment>
                           }
                           error={errors.phoneNumber}
@@ -150,7 +150,7 @@ export default function Login({ history }) {
                               style={{ marginRight: -3 }}
                             >
                               <i
-                                class="fa-sharp fa-solid fa-eye"
+                                className="fa-sharp fa-solid fa-eye"
                                 onClick={() =>
                                   showPassword === "password"
                                     ? setShowPassword("text")
@@ -165,10 +165,10 @@ export default function Login({ history }) {
                     <button
                       type="button"
                       onClick={handleSubmit}
-                      style={{ backgroundColor: "#f0341b" }}
-                      className="btn btn-block btn-lg text-white mb-10"
+                      style={{ backgroundColor: "#de0a0af2" }}
+                      classNameName="btn btn-block btn-lg text-white mb-10"
                     >
-                      <i class="fa-sharp fa-solid fa-angles-right me-2"></i>
+                      <i className="fa-sharp fa-solid fa-angles-right me-2"></i>
                       ເຂົ້າສູ່ລະບົບ
                     </button>                   
                   </form>

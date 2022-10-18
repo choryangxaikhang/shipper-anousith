@@ -15,8 +15,8 @@ export default function Sidebar({ show = false, onHide, history, location }) {
   const userData = userState?.data;
 
   const containerClick = (e) => {
-    const hashClass = e.target.closest(".sidebar-container");
-    if (!hashClass && onHide) onHide();
+    const hashclassName = e.target.closest(".sidebar-container");
+    if (!hashclassName && onHide) onHide();
   };
 
   const handleClick = (path) => {
@@ -59,12 +59,12 @@ export default function Sidebar({ show = false, onHide, history, location }) {
   return (
     <div
       id="sidebar-menu"
-      className={`sidebar-menu ${show ? "slide-show-sidebar" : null}`}
+      classNameName={`sidebar-menu ${show ? "slide-show-sidebar" : null}`}
       onClick={containerClick}
     >
-      <div className="sidebar-container p-0">
-        <div className="profileBox pt-2 pb-2">
-          <div className="image-wrapper">
+      <div classNameName="sidebar-container p-0">
+        <div classNameName="profileBox pt-2 pb-2">
+          <div classNameName="image-wrapper">
             <img
               src={
                 userData?.image
@@ -74,98 +74,98 @@ export default function Sidebar({ show = false, onHide, history, location }) {
                   : female
               }
               alt="image"
-              className="imaged  w36"
+              classNameName="imaged  w36"
             />
           </div>
-          <div className="in">
+          <div classNameName="in">
             <strong>{userData?.fullName}</strong>
-            <div className="text-muted">ID:{userData?.id_list}</div>
+            <div classNameName="text-muted">ID:{userData?.id_list}</div>
           </div>
           <div
-            className="btn  btn-icon sidebar-close"
+            classNameName="btn  btn-icon sidebar-close"
             data-dismiss="modal"
           >
             <ion-icon name="close-outline" />
           </div>
         </div>
-        <div className="sidebar-balance">
-          <div className="listview-title">ຍອດ COD ທີ່ຈະໄດ້ຮັບ</div>
-          <div className="in">
-            <span className="text-white">
+        <div classNameName="sidebar-balance">
+          <div classNameName="listview-title">ຍອດ COD ທີ່ຈະໄດ້ຮັບ</div>
+          <div classNameName="in">
+            <span classNameName="text-white">
               ຈຳນວນ {currency(sumMoney?.AmountOfItem)} ອໍເດີ່
             </span>
-            <h3 className="amount">
+            <h3 classNameName="amount">
               ມູນຄ່າ {currency(sumMoney?.IncomingBalanceInKip)} LAK
             </h3>
-            <h3 className="amount">
+            <h3 classNameName="amount">
               ມູນຄ່າ {currency(sumMoney?.IncomingBalanceInBaht)} THB
             </h3>
-            <h3 className="amount">
+            <h3 classNameName="amount">
               ມູນຄ່າ {currency(sumMoney?.IncomingBalanceInDollar)} USD
             </h3>
           </div>
         </div>
-        <div className="listview-title mt-1">ປະຫວັດການເຄື່ອນໄຫວ</div>
-        <ul className="listview flush transparent no-line image-listview">
+        <div classNameName="listview-title mt-1">ປະຫວັດການເຄື່ອນໄຫວ</div>
+        <ul classNameName="listview flush transparent no-line image-listview">
           <li>
             <a
               href="javaScript:void(0)"
               onClick={() => history.push(`/history/list`)}
-              className="item"
+              classNameName="item"
             >
-              <div className="icon-boxs bg-primary">
-                <i className="icon-restore" style={{ fontSize: 25 }} />
+              <div classNameName="icon-boxs bg-primary">
+                <i classNameName="icon-restore" style={{ fontSize: 25 }} />
               </div>
-              <div className="in">ປະຫວັດການຝາກພັດສະດຸ</div>
+              <div classNameName="in">ປະຫວັດການຝາກພັດສະດຸ</div>
             </a>
           </li>
           <li>
             <a
               href="javaScript:void(0)"
-              className="item"
+              classNameName="item"
               onClick={() => history.push(`/management_cod/history_Cod`)}
             >
-              <div className="icon-boxs bg-primary">
-                <i className="icon-local_atm" style={{ fontSize: 25 }} />
+              <div classNameName="icon-boxs bg-primary">
+                <i classNameName="icon-local_atm" style={{ fontSize: 25 }} />
               </div>
-              <div className="in">ປະຫວັດການຢືນຢັນ COD</div>
+              <div classNameName="in">ປະຫວັດການຢືນຢັນ COD</div>
             </a>
           </li>
           <li>
             <a
               href="javaScript:void(0)"
-              className="item"
+              classNameName="item"
               onClick={() => history.push(`/tracking_bill/0`)}
             >
-              <div className="icon-boxs bg-primary">
-                <i className="icon-receipt" style={{ fontSize: 25 }} />
+              <div classNameName="icon-boxs bg-primary">
+                <i classNameName="icon-receipt" style={{ fontSize: 25 }} />
               </div>
-              <div className="in">ບິນຝາກເຄື່ອງທັງໝົດ</div>
+              <div classNameName="in">ບິນຝາກເຄື່ອງທັງໝົດ</div>
             </a>
           </li>
           <li>
             <a
               href="javaScript:void(0)"
-              className="item"
+              classNameName="item"
               onClick={() => history.push(`/readme`)}
             >
-              <div className="icon-boxs bg-primary">
-                {/* <i class="fa-solid fa-comment-dots" style={{ fontSize: 20 }}></i> */}
-                <i className="fa-solid fa-book"></i>
+              <div classNameName="icon-boxs bg-primary">
+                {/* <i className="fa-solid fa-comment-dots" style={{ fontSize: 20 }}></i> */}
+                <i classNameName="fa-solid fa-book"></i>
               </div>
-              <div className="in">ຄູ່ມືການໃຊ້ງານແອັບ</div>
+              <div classNameName="in">ຄູ່ມືການໃຊ້ງານແອັບ</div>
             </a>
           </li>
           <li>
             <a
               href="javaScript:void(0)"
-              className="item border-top"
+              classNameName="item border-top"
               onClick={() => history.push(`/report_bug`)}
             >
-              <div className="icon-boxs bg-primary">
-                <i class="fa-solid fa-comment-dots" style={{ fontSize: 20 }}></i>
+              <div classNameName="icon-boxs bg-primary">
+                <i className="fa-solid fa-comment-dots" style={{ fontSize: 20 }}></i>
               </div>
-              <div className="in">ຮ້ອງຮຽນບັນຫາ</div>
+              <div classNameName="in">ຮ້ອງຮຽນບັນຫາ</div>
             </a>
           </li>
         </ul>

@@ -112,30 +112,30 @@ export default function UserList() {
 
   return (
     <React.Fragment>
-      <div className=" p-1 text-black border-top" onClick={() => setShow(true)}>
-        <i className="fa-solid fa-chevron-right me-2" />
+      <div classNameName=" p-1 text-black border-top" onClick={() => setShow(true)}>
+        <i classNameName="fa-solid fa-chevron-right me-2" />
         ເພີ່ມພະນັກງານ
       </div>
       <Modal show={show} animation={false} size="xl">
-        <Modal.Header className="text-black">
+        <Modal.Header classNameName="text-black">
           <AddUserStaff
             onSuccess={() => {
               setNewLoadData(!newLoadData);
             }}
           />
           <a
-            className="pull-right ms-2 "
+            classNameName="pull-right ms-2 "
             style={{ textDecoration: "none" }}
             onClick={() => setShow(false)}
           >
-            <i className="icon-x fa-2x text-danger" />
+            <i classNameName="icon-x fa-2x text-danger" />
           </a>
         </Modal.Header>
         <Modal.Body>
-          <div className="input-group mb-3">
+          <div classNameName="input-group mb-3">
             <input
               type="text"
-              className="form-control form-control-lg"
+              classNameName="form-control form-control-lg"
               placeholder="ຊື່ພະນັກງານ..."
               onChange={(e) => setSearchValue(e.target.value)}
               style={{ border: "1px solid #c2c1be" }}
@@ -144,11 +144,11 @@ export default function UserList() {
           {loading ? (
             loadingData(23, "ກຳລັງໂຫຼດຂໍ້ມູນ")
           ) : (
-            <div className="table-responsive">
-              <table className="table table-bordered table-sm text-black">
+            <div classNameName="table-responsive">
+              <table classNameName="table table-bordered table-sm text-black">
                 <thead>
                   <tr>
-                    <th className="text-center">#</th>
+                    <th classNameName="text-center">#</th>
                     <th>ຊື່ ແລະ ນາມສະກຸນ</th>
                     <th>ເບີໂທ</th>
                     <th>ທີ່ຢູ່</th>
@@ -159,15 +159,15 @@ export default function UserList() {
                 <tbody>
                   {dataUserStaff?.map((item, index) => (
                     <tr key={index}>
-                      <td className="text-center">{index + 1}</td>
-                      <td className="text-nowrap">
+                      <td classNameName="text-center">{index + 1}</td>
+                      <td classNameName="text-nowrap">
                         {item?.firstName ? item?.firstName : "-"}{" "}
                         {item?.lastName ? item?.lastName : "-"}
                       </td>
-                      <td className="text-nowrap">
+                      <td classNameName="text-nowrap">
                         {item?.phoneNumber ? item?.phoneNumber : "-"}{" "}
                       </td>
-                      <td className="text-nowrap">
+                      <td classNameName="text-nowrap">
                         {item?.province?.provinceName
                           ? item?.province?.provinceName
                           : "-"}
@@ -177,10 +177,10 @@ export default function UserList() {
                         {item?.village?.title ? item?.village?.title : "-"}
                         <br />
                       </td>
-                      <td className="text-nowrap">
+                      <td classNameName="text-nowrap">
                         {userStatus(item?.role ? item?.role : "-")}
                       </td>
-                      <td className="text-nowrap">
+                      <td classNameName="text-nowrap">
                         {userStatus(
                           item?.house?.houseName ? item?.house?.houseName : "-"
                         )}

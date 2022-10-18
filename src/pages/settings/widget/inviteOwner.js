@@ -83,8 +83,8 @@ export default function InviteOwner() {
   };
   return (
     <React.Fragment>
-      <div className="p-1 text-black border-bottom" onClick={() => setShow(true)}>
-        <i className="fa-solid fa-chevron-right me-2" />
+      <div classNameName="p-1 text-black border-bottom" onClick={() => setShow(true)}>
+        <i classNameName="fa-solid fa-chevron-right me-2" />
         ບັນຈຸເຈົ້າຂອງກິດຈະການ
       </div>
       <Modal
@@ -94,18 +94,18 @@ export default function InviteOwner() {
         <Modal.Header>
           ບັນຈຸເຈົ້າຂອງກິດຈະການ
           <a
-            className="pull-right ms-2 "
+            classNameName="pull-right ms-2 "
             style={{ textDecoration: "none" }}
             onClick={() => setShow(false)}
           >
-            <i className="icon-x fa-2x text-danger" />
+            <i classNameName="icon-x fa-2x text-danger" />
           </a>
         </Modal.Header>
         <Modal.Body >
-          <div className="input-group mb-3">
+          <div classNameName="input-group mb-3">
             <input
               type="text"
-              className="form-control form-control-lg"
+              classNameName="form-control form-control-lg"
               placeholder="ຊື່ກິດຈະການ..."
               onChange={(e) => setSearchValue(e.target.value)}
               onKeyPress={_handleKeypress}
@@ -114,24 +114,24 @@ export default function InviteOwner() {
             <button
               type="button"
               onClick={() => _onSearch()}
-              className="btn btn-primary btn-lg"
+              classNameName="btn btn-primary btn-lg"
             >
-              <i className="icon-search1" />
+              <i classNameName="icon-search1" />
             </button>
           </div>
           {loading ? (
             loadingData(23, "ກຳລັງໂຫຼດຂໍ້ມູນ")
           ) : (
-            <div className="table-responsive">
-              <table className="table table-bordered table-sm text-black">
+            <div classNameName="table-responsive">
+              <table classNameName="table table-bordered table-sm text-black">
                 <thead>
                   <tr>
-                    <th className="text-center">#</th>
-                    <th className="text-nowrap">ຊື່ກິດຈະການ</th>
-                    <th className="text-nowrap" width="200">
+                    <th classNameName="text-center">#</th>
+                    <th classNameName="text-nowrap">ຊື່ກິດຈະການ</th>
+                    <th classNameName="text-nowrap" width="200">
                       ລາຍຊື່ສະມາຊິກ
                     </th>
-                    <th className="text-nowrap" width="120">
+                    <th classNameName="text-nowrap" width="120">
                       ຈັດການ
                     </th>
                   </tr>
@@ -140,11 +140,11 @@ export default function InviteOwner() {
                   {house &&
                     house?.map((item, index) => (
                       <tr key={index}>
-                        <td className="text-center">{index + 1}</td>
-                        <td className="text-nowrap">
+                        <td classNameName="text-center">{index + 1}</td>
+                        <td classNameName="text-nowrap">
                           {item?.houseName ? item?.houseName : "-"}
                         </td>
-                        <td className="text-nowrap">
+                        <td classNameName="text-nowrap">
                           {item?._id === itemID ? (
                             <ListUser
                               getData={(data) => {
@@ -166,18 +166,18 @@ export default function InviteOwner() {
                           {item?._id === itemID ? (
                             <button
                               type="button"
-                              className="btn btn-success btn-sm"
+                              classNameName="btn btn-success btn-sm"
                               onClick={() => _handleSubmit(item?._id)}
                             >
-                              <i className="icon-check" /> ຢືນຢັນ
+                              <i classNameName="icon-check" /> ຢືນຢັນ
                             </button>
                           ) : (
                             <button
                               type="button"
-                              className="btn btn-light btn-sm"
+                              classNameName="btn btn-light btn-sm"
                               onClick={() => setItemID(item?._id)}
                             >
-                              <i className="icon-edit" /> ແກ້ໄຂ
+                              <i classNameName="icon-edit" /> ແກ້ໄຂ
                             </button>
                           )}
                         </td>

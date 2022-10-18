@@ -85,26 +85,26 @@ export default function BlockUser() {
 
   return (
     <React.Fragment>
-      <div className="p-1 text-black " onClick={() => setShow(true)}>
-        <i className="fa-solid fa-chevron-right me-2" />
+      <div classNameName="p-1 text-black " onClick={() => setShow(true)}>
+        <i classNameName="fa-solid fa-chevron-right me-2" />
         ບລ໋ອກ User
       </div>
       <Modal show={show} animation={false} size="xl">
-        <Modal.Header className="text-black">
+        <Modal.Header classNameName="text-black">
           ບລ໋ອກ User
           <a
-            className="pull-right ms-2 "
+            classNameName="pull-right ms-2 "
             style={{ textDecoration: "none", marginTop: -10 }}
             onClick={() => setShow(false)}
           >
-            <i className="icon-x fa-2x text-danger" />
+            <i classNameName="icon-x fa-2x text-danger" />
           </a>
         </Modal.Header>
         <Modal.Body>
-          <div className="input-group mb-3">
+          <div classNameName="input-group mb-3">
             <input
               type="text"
-              className="form-control form-control-lg"
+              classNameName="form-control form-control-lg"
               placeholder="ຊື່ພະນັງານ..."
               onChange={(e) => setSearchValue(e.target.value)}
               onKeyPress={_handleKeypress}
@@ -113,40 +113,40 @@ export default function BlockUser() {
             <button
               type="button"
               onClick={() => _onSearch()}
-              className="btn btn-primary btn-lg"
+              classNameName="btn btn-primary btn-lg"
             >
-              <i className="icon-search1" />
+              <i classNameName="icon-search1" />
             </button>
           </div>
           {loading ? (
             loadingData(23, "ກຳລັງໂຫຼດຂໍ້ມູນ")
           ) : (
-            <div className="table-responsive">
-              <table className="table table-bordered table-sm">
+            <div classNameName="table-responsive">
+              <table classNameName="table table-bordered table-sm">
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th className="text-nowrap">ຊື່ ແລະ ນາມສະກຸນ</th>
-                    <th className="text-nowrap">ບລ໋ອກ</th>
+                    <th classNameName="text-nowrap">ຊື່ ແລະ ນາມສະກຸນ</th>
+                    <th classNameName="text-nowrap">ບລ໋ອກ</th>
                   </tr>
                 </thead>
                 <tbody>
                   {users &&
                     users?.map((item, index) => (
                       <tr key={index}>
-                        <td className="">{index + 1}</td>
-                        <td className="text-nowrap">
+                        <td classNameName="">{index + 1}</td>
+                        <td classNameName="text-nowrap">
                           {item?.firstName ? item?.firstName : "-"}{" "}
                           {item?.lastName ? item?.lastName : "-"}
                         </td>
                         <td
                           style={{ textAlign: "center" }}
-                          className="text-nowrap"
+                          classNameName="text-nowrap"
                         >
-                          <div className="form-check form-switch">
+                          <div classNameName="form-check form-switch">
                             <input
                               id="_dm-dbOfflineContact"
-                              className="form-check-input"
+                              classNameName="form-check-input"
                               type="checkbox"
                               checked={
                                 item?.status === "ACTIVE" ? "ACTIVE" : ""
@@ -164,19 +164,19 @@ export default function BlockUser() {
                   {users &&
                     users?.map((item, index) => (
                       <tr key={index}>
-                        <td className="text-center">{index + 1}</td>
-                        <td className="text-nowrap">
+                        <td classNameName="text-center">{index + 1}</td>
+                        <td classNameName="text-nowrap">
                           {item?.firstName ? item?.firstName : "-"}{" "}
                           {item?.lastName ? item?.lastName : "-"}
                         </td>
                         <td
                           style={{ textAlign: "center" }}
-                          className="text-nowrap"
+                          classNameName="text-nowrap"
                         >
-                          <div className="form-check form-switch">
+                          <div classNameName="form-check form-switch">
                             <input
                               id="_dm-dbOfflineContact"
-                              className="form-check-input"
+                              classNameName="form-check-input"
                               type="checkbox"
                               checked={
                                 item?.status === "ACTIVE" ? "ACTIVE" : ""

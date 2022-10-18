@@ -55,26 +55,26 @@ export default function DetailProfile() {
 
   return (
     <>
-      <div className="content__header content__boxed overlapping">
-        <div className="content__wrap">
-          <h3 className="page-title mb-2 text-white">
+      <div classNameName="content__header content__boxed overlapping">
+        <div classNameName="content__wrap">
+          <h3 classNameName="page-title mb-2 text-white">
             ລາຍລະອຽດໂປຮໄຟລ໌ພະນັກງານ
           </h3>
         </div>
       </div>
-      <div className="content__boxed">
-        <div className="content__wrap">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="row card">
-                <div className="card-body">
-                  <div className="table-responsive">
-                    <table className="table table-striped table-sm">
+      <div classNameName="content__boxed">
+        <div classNameName="content__wrap">
+          <div classNameName="row">
+            <div classNameName="col-md-12">
+              <div classNameName="row card">
+                <div classNameName="card-body">
+                  <div classNameName="table-responsive">
+                    <table classNameName="table table-striped table-sm">
                       <tbody>
                         {resUserStaffData?.users?.data &&
                           resUserStaffData?.users?.data?.map((data, index) => (
                             <>
-                              <div className="col-md-2">
+                              <div classNameName="col-md-2">
                                 {data?.profileImage ? (
                                   <></>
                                 ) : (
@@ -90,27 +90,27 @@ export default function DetailProfile() {
                                 )}
                               </div>
                               <tr>
-                                <td className="text-left">ຊື ແລະ ນາມສະກຸມ</td>
-                                <td className="text-end">
+                                <td classNameName="text-left">ຊື ແລະ ນາມສະກຸມ</td>
+                                <td classNameName="text-end">
                                   {data?.firstName ? data?.firstName : "-"}{" "}
                                   {data?.lastName ? data?.lastName : "-"}
                                 </td>
                               </tr>
                               <tr>
                                 <td>ເພດ:</td>
-                                <td className="text-end">
+                                <td classNameName="text-end">
                                   {setGender(data?.gender ? data?.gender : "-")}
                                 </td>
                               </tr>
                               <tr>
                                 <td>ອາຍຸ:</td>
-                                <td className="text-end">
+                                <td classNameName="text-end">
                                   {data?.phoneNumber ? data?.phoneNumber : "-"}
                                 </td>
                               </tr>
                               <tr>
                                 <td>ແຂວງ:</td>
-                                <td className="text-end">
+                                <td classNameName="text-end">
                                   {data?.province?.provinceName
                                     ? data?.province?.provinceName
                                     : "-"}
@@ -118,7 +118,7 @@ export default function DetailProfile() {
                               </tr>
                               <tr>
                                 <td>ເມືອງ:</td>
-                                <td className="text-end">
+                                <td classNameName="text-end">
                                   {data?.district?.title
                                     ? data?.district?.title
                                     : "-"}
@@ -126,7 +126,7 @@ export default function DetailProfile() {
                               </tr>
                               <tr>
                                 <td>ບ້ານ:</td>
-                                <td className="text-end">
+                                <td classNameName="text-end">
                                   {data?.village?.title
                                     ? data?.village?.title
                                     : "-"}
@@ -134,19 +134,19 @@ export default function DetailProfile() {
                               </tr>
                               <tr>
                                 <td>ບັດປະຈຳຕົວ ຫລື ສຳມະໂນຄົວ:</td>
-                                <td className="text-end">
+                                <td classNameName="text-end">
                                   {data?.carSign ? data?.carSign : "-"}
                                 </td>
                               </tr>
                               <tr>
                                 <td>ຕຳແຫນ່ງ:</td>
-                                <td className="text-end">
+                                <td classNameName="text-end">
                                   {userStatus(data?.role ? data?.role : "-")}
                                 </td>
                               </tr>
                               <tr>
                                 <td>ເງິນເດືອນພື້ນຖານ:</td>
-                                <td className="text-end">
+                                <td classNameName="text-end">
                                   {currency(
                                     data?.basicSalary ? data?.basicSalary : 0
                                   )}
@@ -154,7 +154,7 @@ export default function DetailProfile() {
                               </tr>
                               <tr>
                                 <td>ວັນທີ່ເລີ່ມງານ:</td>
-                                <td className="text-end">
+                                <td classNameName="text-end">
                                   {formatDateDash(
                                     data?.startWorkTime
                                       ? data?.startWorkTime
@@ -164,7 +164,7 @@ export default function DetailProfile() {
                               </tr>
                               <tr>
                                 <td>ວັນທີອອກວຽກ:</td>
-                                <td className="text-end">
+                                <td classNameName="text-end">
                                   {formatDateDash(
                                     data?.endWorkTime ? data?.endWorkTime : 0
                                   )}

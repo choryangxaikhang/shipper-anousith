@@ -14,7 +14,7 @@ const QUERY = gql`
   }
 `;
 export default function SearchEquimentType({
-  className,
+  classNameName,
   style,
   onChange,
   disabled,
@@ -70,7 +70,7 @@ export default function SearchEquimentType({
     <div style={{ minWidth: 200, color: "black", fontSize: 16 }}>
       <Select
         styles={style}
-        className={className}
+        classNameName={classNameName}
         isDisabled={disabled}
         value={selectedOption}
         placeholder={loading ? "ກຳລັງໂຫຼດ..." : "ເລືອກຫມວດຊັບສິນ"}

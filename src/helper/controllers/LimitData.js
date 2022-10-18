@@ -29,7 +29,7 @@ export default function LimitData({
   return (
     <>
       <div
-        className={
+        classNameName={
           hiddenSearch === "HideSearch" ? "col-md-4 pt-2" : "col-md-5 pt-2"
         }
       >
@@ -39,14 +39,14 @@ export default function LimitData({
           ລາຍການ
         </span>
       </div>
-      <div className={`col-${col}`}></div>
+      <div classNameName={`col-${col}`}></div>
       {hiddenSearch === "HideSearch" ? null : (
         <>
-          <div className="col-md-3">
-            <div className="input-group">
+          <div classNameName="col-md-3">
+            <div classNameName="input-group">
               <input
                 type="search"
-                className="form-control form-control-lg"
+                classNameName="form-control form-control-lg"
                 placeholder="ຄົ້ນຫາ..."
                 onChange={(e) => {
                   setOnSearch(e.target.value);
@@ -56,19 +56,19 @@ export default function LimitData({
               <button
                 type="button"
                 onClick={() => _onSearch()}
-                className="btn btn-primary btn-sm"
+                classNameName="btn btn-primary btn-sm"
               >
-                <i className="icon-search1" />
+                <i classNameName="icon-search1" />
               </button>
             </div>
           </div>
         </>
       )}
 
-      <div className="col-md-2">
+      <div classNameName="col-md-2">
         <select
           id="sel-rows"
-          className="form-control form-control-lg"
+          classNameName="form-control form-control-lg"
           onChange={(e) => {
             onChangeRows(e);
           }}

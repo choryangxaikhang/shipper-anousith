@@ -14,7 +14,7 @@ const QUERY = gql`
   }
 `;
 export default function SelectIncomeType({
-  className,
+  classNameName,
   style,
   onChange,
   disabled,
@@ -70,7 +70,7 @@ export default function SelectIncomeType({
     <div style={{ width: "100%", color: "black", fontSize: 16 }}>
       <Select
         styles={style}
-        className={className}
+        classNameName={classNameName}
         isDisabled={disabled}
         value={selectedOption}
         placeholder={loading ? "ກຳລັງໂຫຼດ..." : "ເລືອກປະເພດລາຍຣັບ"}

@@ -85,26 +85,26 @@ export default function ChangeRole() {
 
   return (
     <React.Fragment>
-      <div className=" p-1 text-black border-top" onClick={() => setShow(true)}>
-        <i className="fa-solid fa-chevron-right me-2" />
+      <div classNameName=" p-1 text-black border-top" onClick={() => setShow(true)}>
+        <i classNameName="fa-solid fa-chevron-right me-2" />
         ກຳນົດສິດການນຳໃຊ້ລະບົບ
       </div>
       <Modal show={show} animation={false} size="xl">
-        <Modal.Header className="text-black">
+        <Modal.Header classNameName="text-black">
           ກຳນົດສິດການນຳໃຊ້ລະບົບ
           <a
-            className="pull-right ms-2 "
+            classNameName="pull-right ms-2 "
             style={{ textDecoration: "none" }}
             onClick={() => setShow(false)}
           >
-            <i className="icon-x fa-2x text-danger" />
+            <i classNameName="icon-x fa-2x text-danger" />
           </a>
         </Modal.Header>
         <Modal.Body>
-          <div className="input-group mb-3">
+          <div classNameName="input-group mb-3">
             <input
               type="text"
-              className="form-control form-control-lg"
+              classNameName="form-control form-control-lg"
               placeholder="ຊື່ພະນັກງານ..."
               onChange={(e) => setSearchValue(e.target.value)}
               onKeyPress={_handleKeypress}
@@ -113,19 +113,19 @@ export default function ChangeRole() {
             <button
               type="button"
               onClick={() => _onSearch()}
-              className="btn btn-primary btn-lg"
+              classNameName="btn btn-primary btn-lg"
             >
-              <i className="icon-search1" />
+              <i classNameName="icon-search1" />
             </button>
           </div>
           {loading ? (
             loadingData(23, "ກຳລັງໂຫຼດຂໍ້ມູນ")
           ) : (
-            <div className="table-responsive">
-              <table className="table table-bordered table-sm text-black">
+            <div classNameName="table-responsive">
+              <table classNameName="table table-bordered table-sm text-black">
                 <thead>
                   <tr>
-                    <th className="text-center">#</th>
+                    <th classNameName="text-center">#</th>
                     <th>ຊື່ ແລະ ນາມສະກຸນ</th>
                     <th>ສິດການໃຊ້ລະບົບ</th>
                     <th>ຈັດການ</th>
@@ -135,15 +135,15 @@ export default function ChangeRole() {
                   {users &&
                     users?.map((item, index) => (
                       <tr key={index}>
-                        <td className="text-center">{index + 1}</td>
-                        <td className="text-nowrap">
+                        <td classNameName="text-center">{index + 1}</td>
+                        <td classNameName="text-nowrap">
                           {item?.firstName ? item?.firstName : "-"}{" "}
                           {item?.lastName ? item?.lastName : "-"}
                         </td>
-                        <td className="text-nowrap">
+                        <td classNameName="text-nowrap">
                           {editStatus && getIndex === item?._id ? (
                             <select
-                              className="form-control"
+                              classNameName="form-control"
                               onChange={(e) => setText(e.target.value)}
                             >
                               <option defaultValue="">
@@ -231,7 +231,7 @@ export default function ChangeRole() {
                               onClick={() => _changeRole(item?._id)}
                               style={{ textDecoration: "none" }}
                             >
-                              <i className="icon-check text-success fa-2x" />
+                              <i classNameName="icon-check text-success fa-2x" />
                             </a>
                           ) : (
                             <a
@@ -243,7 +243,7 @@ export default function ChangeRole() {
                               }}
                               style={{ textDecoration: "none" }}
                             >
-                              <i className="icon-edit text-primary" />
+                              <i classNameName="icon-edit text-primary" />
                             </a>
                           )}
                         </td>

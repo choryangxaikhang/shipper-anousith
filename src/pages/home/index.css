@@ -40,7 +40,7 @@ body {
   height: 90px !important;
   width: 70px !important;
   border-radius: 8px !important;
-  border: 3px solid f0341b;
+  border: 3px solid f54f02;
   margin: 5px;
   font-size: 75px;
   font-family: "Impact";
@@ -50,7 +50,7 @@ body {
   height: 25px;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: f0341b;
+  background-color: f54f02;
   color: aliceblue;
   border-top-left-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -58,12 +58,12 @@ body {
   text-align: center;
 }
 .rand-box {
-  background-color: f0341b;
+  background-color: f54f02;
 }
 
 .hover-title:hover::after {
   content: attr(title);
-  color: f0341b;
+  color: f54f02;
   position: absolute;
   left: 0;
   bottom: 0;

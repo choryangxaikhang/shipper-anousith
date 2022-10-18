@@ -169,39 +169,39 @@ export default function Booking() {
   return (
     <div style={{ marginTop: -80 }}>
       <div id="appCapsule">
-        <div className="justify-content-md-center">
-          <div className="appHeader text-light border-0">
-            <div style={{ flex: 1 }} className="text-left">
+        <div classNameName="justify-content-md-center">
+          <div classNameName="appHeader text-light border-0">
+            <div style={{ flex: 1 }} classNameName="text-left">
               <button
-                className="btn text-white"
+                classNameName="btn text-white"
                 onClick={() => history.push(ROOM_SERVICES)}
               >
-                <i className="fa fa-chevron-left fs-4" />
+                <i classNameName="fa fa-chevron-left fs-4" />
               </button>
             </div>
             ຢືນຢັນແຂກຈອງ
             <div
-              className="text-white pageTitle text-right text-nowrap pr-0"
+              classNameName="text-white pageTitle text-right text-nowrap pr-0"
               style={{ flex: 1 }}
             >
               <button
-                className="btn text-white mr-0"
+                classNameName="btn text-white mr-0"
                 onClick={() => setReloadData(!reloadData)}
               >
-                {loading ? loadingData(23) : <i className="icon-cycle fs-4" />}
+                {loading ? loadingData(23) : <i classNameName="icon-cycle fs-4" />}
               </button>
             </div>
           </div>
           <br />
           <br />
-          <div className="option-section">
+          <div classNameName="option-section">
             <br />
-            <div className="row col-md-12  mt-1">
-              <div className="col-6">
-                <div className="option-card">
+            <div classNameName="row col-md-12  mt-1">
+              <div classNameName="col-6">
+                <div classNameName="option-card">
                   <TextField
                     type="date"
-                    className="inputLabel"
+                    classNameName="inputLabel"
                     variant="outlined"
                     value={formatDateDash(startDate)}
                     onChange={(e) => {
@@ -218,15 +218,15 @@ export default function Booking() {
                 </div>
               </div>
               <div
-                className="col-6"
+                classNameName="col-6"
                 style={{
                   right: -15,
                 }}
               >
-                <div className="option-card">
+                <div classNameName="option-card">
                   <TextField
                     type="date"
-                    className="inputLabel"
+                    classNameName="inputLabel"
                     variant="outlined"
                     value={formatDateDash(endDate)}
                     onChange={(e) => {
@@ -244,14 +244,14 @@ export default function Booking() {
               </div>
             </div>
           </div>
-          <div className="section  mb-2 mt-1">
-            <div className="transactions">
-              <div className="row">
+          <div classNameName="section  mb-2 mt-1">
+            <div classNameName="transactions">
+              <div classNameName="row">
                 <FormControl fullWidth sx={{ m: 0 }}>
                   <OutlinedInput
                     startAdornment={
                       <InputAdornment position="start">
-                        <i className="fa-solid fa-magnifying-glass" />
+                        <i classNameName="fa-solid fa-magnifying-glass" />
                       </InputAdornment>
                     }
                     onWheel={(e) => e.target.blur()}
@@ -261,19 +261,19 @@ export default function Booking() {
                   />
                 </FormControl>
               </div>
-              <div className="text-center">
+              <div classNameName="text-center">
                 {loading ? loadingData(25) : ""}
               </div>
               {setData?.bookings?.total > 0 ? (
-                <div className="listView mt-2">
+                <div classNameName="listView mt-2">
                   {setData?.bookings?.data?.map((data, index) => (
                     <>
                       <b
-                        className="float-end"
+                        classNameName="float-end"
                         style={{ marginTop: -8, marginRight: -10 }}
                       >
                         <i
-                          className="icon-x-circle text-danger"
+                          classNameName="icon-x-circle text-danger"
                           onClick={(e) => {
                             _cancel(
                               data?._id,
@@ -286,18 +286,18 @@ export default function Booking() {
                       </b>
                       <a
                         href="javascript:void(0)"
-                        className="item pr-0 "
+                        classNameName="item pr-0 "
                         key={index}
                         style={{ borderTop: "1px solid #ed6b0e" }}
                       >
                         <div
-                          className="detail col-md-10"
+                          classNameName="detail col-md-10"
                           onClick={() => setDetailRoom(data?._id)}
                         >
                           <div>
                             <strong>ລະຫັດຈອງ: BH-{data?._id}</strong>
                             <strong>ຫ້ອງ: {data?.room?.title_lao}</strong>
-                            <b className="text-black">
+                            <b classNameName="text-black">
                               ລາຄາ:{" "}
                               {data?.room?.priceFull
                                 ? currency(data?.room?.priceFull)
@@ -308,7 +308,7 @@ export default function Booking() {
                                 : 0}{" "}
                             </b>
                             <br />
-                            <b className="text-black">
+                            <b classNameName="text-black">
                               ເຂົ້າພັກ:{" "}
                               {data?.bookingType === "FULL" ? (
                                 <>
@@ -323,7 +323,7 @@ export default function Booking() {
                               )}
                             </b>
                             <br />
-                            <b className="text-black">
+                            <b classNameName="text-black">
                               ເກັບໄດ້:{" "}
                               {data?.fullPriceTotal > 0 ? (
                                 <>
@@ -341,9 +341,9 @@ export default function Booking() {
                             </b>
                           </div>
                         </div>
-                        <div className="right">
+                        <div classNameName="right">
                           <button
-                            className="btn btn-primary btn-sm action-button"
+                            classNameName="btn btn-primary btn-sm action-button"
                             onClick={(e) => {
                               updateStatus(
                                 data?._id,
@@ -352,7 +352,7 @@ export default function Booking() {
                               );
                             }}
                           >
-                            <i className="icon-check-circle me-1 " /> ຢືນຢັນ
+                            <i classNameName="icon-check-circle me-1 " /> ຢືນຢັນ
                           </button>
                         </div>
                       </a>
@@ -364,7 +364,7 @@ export default function Booking() {
               )}
               {setData?.bookings?.total > 100 && (
                 <Pagination
-                  className="mt-2"
+                  classNameName="mt-2"
                   pageTotal={countPage}
                   currentPage={numberPage}
                   onPageChange={(page) => {

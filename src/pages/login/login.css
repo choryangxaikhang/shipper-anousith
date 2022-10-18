@@ -1,6 +1,6 @@
 .hero{
   padding-top: 70px;
-  background-color: f0341b!important;
+  background-color: de0a0af2!important;
   margin-top: -70px;
   margin-left: -20px;
   margin-right: -20px;
@@ -41,7 +41,7 @@
   margin-bottom: 20px;
 }
 .title_name {
-  color: f0341b;
+  color: de0a0af2;
   font-size: 64px;
   margin-bottom: 50px;
 }
@@ -62,7 +62,7 @@
   /* border-radius: 20px; */
 }
 .in-valid{
-  border-color: f0341b!important;
+  border-color: de0a0af2!important;
 }
 body{
   background-color: rgb(242, 238, 238)!important;

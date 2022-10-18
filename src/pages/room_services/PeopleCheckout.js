@@ -114,39 +114,39 @@ export default function PeopleCheckout() {
   return (
     <div style={{ marginTop: -80 }}>
       <div id="appCapsule">
-        <div className="justify-content-md-center">
-          <div className="appHeader text-light border-0">
-            <div style={{ flex: 1 }} className="text-left">
+        <div classNameName="justify-content-md-center">
+          <div classNameName="appHeader text-light border-0">
+            <div style={{ flex: 1 }} classNameName="text-left">
               <button
-                className="btn text-white"
+                classNameName="btn text-white"
                 onClick={() => history.push(ROOM_SERVICES)}
               >
-                <i className="fa fa-chevron-left fs-4" />
+                <i classNameName="fa fa-chevron-left fs-4" />
               </button>
             </div>
             ຢືນຢັນແຂກອອກຫ້ອງ
             <div
-              className="text-white pageTitle text-right text-nowrap pr-0"
+              classNameName="text-white pageTitle text-right text-nowrap pr-0"
               style={{ flex: 1 }}
             >
               <button
-                className="btn text-white mr-0"
+                classNameName="btn text-white mr-0"
                 onClick={() => setReloadData(!reloadData)}
               >
-                {loading ? loadingData(23) : <i className="icon-cycle fs-4" />}
+                {loading ? loadingData(23) : <i classNameName="icon-cycle fs-4" />}
               </button>
             </div>
           </div>
           <br />
           <br />
-          <div className="option-section">
+          <div classNameName="option-section">
             <br />
-            <div className="row col-md-12  mt-1">
-              <div className="col-6">
-                <div className="option-card">
+            <div classNameName="row col-md-12  mt-1">
+              <div classNameName="col-6">
+                <div classNameName="option-card">
                   <input
                     type="date"
-                    className=" form-control form-control-lg"
+                    classNameName=" form-control form-control-lg"
                     style={{ marginLeft: 6 }}
                     value={formatDateDash(startDate)}
                     onChange={(e) => {
@@ -158,15 +158,15 @@ export default function PeopleCheckout() {
                 </div>
               </div>
               <div
-                className="col-6"
+                classNameName="col-6"
                 style={{
                   right: -10,
                 }}
               >
-                <div className="option-card">
+                <div classNameName="option-card">
                   <input
                     type="date"
-                    className=" form-control form-control-lg"
+                    classNameName=" form-control form-control-lg"
                     value={formatDateDash(endDate)}
                     onChange={(e) => {
                       history.push({
@@ -178,10 +178,10 @@ export default function PeopleCheckout() {
               </div>
             </div>
           </div>
-          <div className="section  mb-2 mt-1">
-            <div className="transactions">
-              <div className="row">
-                <div className="col-md-12 w-100">
+          <div classNameName="section  mb-2 mt-1">
+            <div classNameName="transactions">
+              <div classNameName="row">
+                <div classNameName="col-md-12 w-100">
                   <SearchRoom
                     style={{ with: "100%", heigh: "200px" }}
                     value={listRoom?._id}
@@ -191,23 +191,23 @@ export default function PeopleCheckout() {
                   />
                 </div>
               </div>
-              <div className="text-center">
+              <div classNameName="text-center">
                 {loading ? loadingData(25) : ""}
               </div>
               {setData?.bookings?.total > 0 ? (
-                <div className="listView mt-1">
+                <div classNameName="listView mt-1">
                   {setData?.bookings?.data?.map((data, index) => (
                     <>
                       <a
                         href="javascript:void(0)"
-                        className="item pr-0 "
+                        classNameName="item pr-0 "
                         key={index}
                         style={{ borderTop: "1px solid #ed6b0e" }}
                       >
-                        <div className="detail col-md-10">
+                        <div classNameName="detail col-md-10">
                           <div>
                             <strong>ຫ້ອງ: {data?.room?.title_lao}</strong>
-                            <b className="text-black">
+                            <b classNameName="text-black">
                               ລາຄາ:{" "}
                               {data?.room?.priceFull
                                 ? currency(data?.room?.priceFull)
@@ -218,7 +218,7 @@ export default function PeopleCheckout() {
                                 : 0}{" "}
                             </b>
                             <br />
-                            <b className="text-black">
+                            <b classNameName="text-black">
                               ເຂົ້າພັກ:{" "}
                               {data?.bookingType === "FULL" ? (
                                 <>
@@ -233,7 +233,7 @@ export default function PeopleCheckout() {
                               )}
                             </b>
                             <br />
-                            <b className="text-black">
+                            <b classNameName="text-black">
                               ເກັບໄດ້:{" "}
                               {data?.fullPriceTotal > 0 ? (
                                 <>
@@ -250,16 +250,16 @@ export default function PeopleCheckout() {
                               )}
                             </b>
                             <br />
-                            <b className="text-black">
+                            <b classNameName="text-black">
                               ເງິນທອນ:{" "}
                               {currency(data?.exChange ? data?.exChange : 0)}{" "}
                               ກີບ
                             </b>
                           </div>
                         </div>
-                        <div className="">
+                        <div classNameName="">
                           <button
-                            className="btn btn-primary btn-sm btn-block"
+                            classNameName="btn btn-primary btn-sm btn-block"
                             onClick={(e) => {
                               updateStatus(data?._id, data?.room?._id);
                             }}
@@ -268,7 +268,7 @@ export default function PeopleCheckout() {
                             }}
                             style={{ marginRight: 50 }}
                           >
-                            <i className="icon-check-circle mr-1" /> ຢືນຢັນອອກ
+                            <i classNameName="icon-check-circle mr-1" /> ຢືນຢັນອອກ
                           </button>
                         </div>
                       </a>
@@ -280,7 +280,7 @@ export default function PeopleCheckout() {
               )}
               {setData?.bookings?.total > 100 && (
                 <Pagination
-                  className="mt-2"
+                  classNameName="mt-2"
                   pageTotal={countPage}
                   currentPage={numberPage}
                   onPageChange={(page) => {

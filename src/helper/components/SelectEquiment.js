@@ -13,7 +13,7 @@ const QUERY = gql`
   }
 `;
 export default function SelectEquiment({
-  className,
+  classNameName,
   style,
   onChange,
   disabled,
@@ -71,7 +71,7 @@ export default function SelectEquiment({
     >
       <Select
         styles={style}
-        className={className}
+        classNameName={classNameName}
         isDisabled={disabled}
         value={selectedOption}
         placeholder={loading ? "ກຳລັງໂຫຼດ..." : "ເລືອກຊື່ຊັບສິນ"}

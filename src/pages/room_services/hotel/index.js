@@ -52,7 +52,7 @@ export default function Hotel() {
     //sidebar min
     const localSideBarMini = localStorage.getItem("SIDEBAR_MINI");
     if (localSideBarMini === "true") {
-      document.body.classList.add("sidebar-collapse");
+      document.body.classNameList.add("sidebar-collapse");
     }
   }, []);
   // end
@@ -108,13 +108,13 @@ export default function Hotel() {
 
   return (
     <>
-      <div className="appHeader text-light border-0 mr-0">
-        <div style={{ flex: 1 }} className="text-left">
+      <div classNameName="appHeader text-light border-0 mr-0">
+        <div style={{ flex: 1 }} classNameName="text-left">
           <button
-            className="btn text-white"
+            classNameName="btn text-white"
             onClick={() => history.push(ROOM_SERVICES)}
           >
-            <i className="fa fa-chevron-left fs-4" />
+            <i classNameName="fa fa-chevron-left fs-4" />
           </button>
         </div>
         {clickButton === true ? (
@@ -133,29 +133,29 @@ export default function Hotel() {
             />
           </>
         ) : (
-          <b className="text-white">ເປີດບ້ານພັກ</b>
+          <b classNameName="text-white">ເປີດບ້ານພັກ</b>
         )}
         <div
-          className="text-white pageTitle text-right text-nowrap pr-0"
+          classNameName="text-white pageTitle text-right text-nowrap pr-0"
           style={{ flex: 1 }}
         >
           <button
-            className="btn text-white"
+            classNameName="btn text-white"
             onClick={(e) => {
               setButton(!clickButton);
             }}
           >
-            <i className="fa-solid fa-magnifying-glass fa-2 ms-2" />
+            <i classNameName="fa-solid fa-magnifying-glass fa-2 ms-2" />
           </button>
         </div>
       </div>
 
-      <div className=" body-content-lg ms-1 me-1 " style={{ marginTop: 50 }}>
-        <div className="option-section">
+      <div classNameName=" body-content-lg ms-1 me-1 " style={{ marginTop: 50 }}>
+        <div classNameName="option-section">
           <br />
-          <div className="row col-md-12  ms-3 mt-4">
+          <div classNameName="row col-md-12  ms-3 mt-4">
             <div
-              className="col-6"
+              classNameName="col-6"
               style={{
                 position: "fixed",
                 right: 0.1,
@@ -163,10 +163,10 @@ export default function Hotel() {
                 top: 57,
               }}
             >
-              <div className="option-card">
+              <div classNameName="option-card">
                 <input
                   type="search"
-                  className="form-control form-control-lg text-black"
+                  classNameName="form-control form-control-lg text-black"
                   placeholder="ຄົ້ນຫາຫ້ອງ"
                   value={searchValue}
                   style={{ border: " 1px solid #cccfc8" }}
@@ -175,7 +175,7 @@ export default function Hotel() {
               </div>
             </div>
             <div
-              className="col-6 "
+              classNameName="col-6 "
               style={{
                 position: "fixed",
                 left: 0.1,
@@ -183,7 +183,7 @@ export default function Hotel() {
                 top: 57,
               }}
             >
-              <div className="option-card">
+              <div classNameName="option-card">
                 <SearchTypeRoom
                   style={{ height: "100%", backgroundColor: "red" }}
                   value={typeDataRoom?._id}
@@ -195,24 +195,24 @@ export default function Hotel() {
             </div>
           </div>
         </div>
-        <div className="option-section">
-          <div className="row gx-2">
+        <div classNameName="option-section">
+          <div classNameName="row gx-2">
             {setDataRoom?.rooms?.total > 0 ? (
               <>
                 {setDataRoom?.rooms?.data?.map((data, index) => (
                   <>
-                    <div className="col-6 mt-1">
+                    <div classNameName="col-6 mt-1">
                       <div
-                        className="card border"
+                        classNameName="card border"
                         style={{ backgroundColor: "#f0edeb" }}
                         onClick={() => _onClick(data?._id)}
                         key={index}
                       >
-                        <div className="border-bottom text-black text-center">
+                        <div classNameName="border-bottom text-black text-center">
                           {data?.title_lao} / {data?.title_eng}
                         </div>
                         <div
-                          className="card-body text-black"
+                          classNameName="card-body text-black"
                           style={{ marginTop: -10 }}
                         >
                           <b style={{ color: "#949492" }}>
@@ -234,7 +234,7 @@ export default function Hotel() {
             )}
             {setDataRoom?.rooms?.total > 100 && (
               <Pagination
-                className="mt-2"
+                classNameName="mt-2"
                 pageTotal={countPage}
                 currentPage={numberPage}
                 onPageChange={(page) => {

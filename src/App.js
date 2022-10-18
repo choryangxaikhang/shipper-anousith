@@ -103,7 +103,7 @@ export default function App() {
       }}
     >
       <ApolloProvider client={client}>
-        <div className="app-container">
+        <div classNameName="app-container">
           <Routes />
         </div>
       </ApolloProvider>

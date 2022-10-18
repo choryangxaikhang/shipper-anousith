@@ -4,7 +4,7 @@ import { Pagination as Page } from "react-bootstrap";
 export default function Pagination({
   style,
   onPageChange,
-  className,
+  classNameName,
   pageTotal = [1],
   limit = 6,
   currentPage,
@@ -14,7 +14,7 @@ export default function Pagination({
     if (onPageChange) onPageChange(page);
   };
   return (
-    <Page className={`justify-content-center  ${className}`} style={style}>
+    <Page classNameName={`justify-content-center  ${classNameName}`} style={style}>
       <Page.Prev
         onClick={() => {
           if (currentPage <= 1) {
@@ -40,8 +40,8 @@ export default function Pagination({
       ))}
       {pageTotal?.length > limit && (
         <select
-          className="form-select py-0"
-          style={{ width: 80, color: "#f0341b" }}
+          classNameName="form-select py-0"
+          style={{ width: 80, color: "#de0a0af2" }}
           onChange={(e) => {
             let value = e.target.value;
             if (value) {

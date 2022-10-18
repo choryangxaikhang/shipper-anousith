@@ -13,7 +13,7 @@ export const newSound = new Audio(sound);
 export const socketServer = io("https://api.bit-houses.com");
 // export const TOKEN = "ANS_COD";
 export const FONT_SIZE = { fontSize: "15px" };
-export const PRIMARY_COLOR = "#f0341b";
+export const PRIMARY_COLOR = "#de0a0af2";
 export const TOKEN = "BIT-HOUSE-ADMIN-USER";
 
 //get staff login
@@ -267,7 +267,7 @@ export const unixTimeFormat = (x) => {
 export const loadingScreen = () => {
   return Loading.hourglass({
     backgroundColor: "rgba(245, 74, 7,0.2)",
-    svgColor: "#f0341b",
+    svgColor: "#de0a0af2",
   });
 };
 export const closeLoadingScreen = () => {
@@ -317,7 +317,7 @@ export const SortBy = ({ sort }) => {
         cursor: "pointer",
       }}
     >
-      <i className="fa fa-sort"></i>
+      <i classNameName="fa fa-sort"></i>
     </div>
   );
 };
@@ -398,8 +398,8 @@ export const messageWarning = (e) => {
 };
 export const startSpriner = (color) => {
   return (
-    <div className={`spinner-border text-${color}`} role="status">
-      <span className="sr-only">ກຳລັງໂຫຼດຂໍ້ມູນ...</span>
+    <div classNameName={`spinner-border text-${color}`} role="status">
+      <span classNameName="sr-only">ກຳລັງໂຫຼດຂໍ້ມູນ...</span>
     </div>
   );
 };

@@ -6,7 +6,7 @@ import { loadingData } from "..";
 import { QUERY_TYPE_ROOM } from "./apollo";
 export default function TypeRoom({
   style,
-  className,
+  classNameName,
   defaultValue,
   size,
   getData,
@@ -56,17 +56,17 @@ export default function TypeRoom({
     <React.Fragment>
       <input
         type={"button"}
-        className={`form-control text-left ${inputSize} ${className}`}
+        classNameName={`form-control text-left ${inputSize} ${classNameName}`}
         style={{ textAlign: "left" }}
         value={defaultValue ? defaultValue : "ເລືອກປະເພດຫ້ອງ..."}
         onClick={() => setShow(true)}
       />
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
-          <Modal.Title className="fs-5">ເລືອກປະເພດຫ້ອງ</Modal.Title>
+          <Modal.Title classNameName="fs-5">ເລືອກປະເພດຫ້ອງ</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="form-group mb-2">
+          <div classNameName="form-group mb-2">
             <Paper
               component="form"
               sx={{
@@ -81,7 +81,7 @@ export default function TypeRoom({
                 sx={{ p: "10px" }}
                 aria-label="directions"
               >
-                <i className="fas fa-search text-secondary" />
+                <i classNameName="fas fa-search text-secondary" />
               </IconButton>
               <InputBase
                 sx={{
@@ -101,16 +101,16 @@ export default function TypeRoom({
           {loading ? (
             <center>{loadingData(25, "ກຳລັງໂຫຼດຂໍ້ມູນ...")}</center>
           ) : (
-            <div className="mt-1 ">
+            <div classNameName="mt-1 ">
               {data?.typeRooms?.data?.map((data, index) => (
                 <div
-                  className="d-flex py-2 border-bottom"
+                  classNameName="d-flex py-2 border-bottom"
                   key={index}
                   onClick={() => handleClick(data?.title_lao)}
                 >
-                  <span className="text-black">
+                  <span classNameName="text-black">
                     {" "}
-                    <i class="fa-solid fa-hotel me-1" />
+                    <i className="fa-solid fa-hotel me-1" />
                     {data?.title_lao}
                   </span>
                 </div>

@@ -6,7 +6,7 @@ import { USER } from "./apollo";
 
 export default function ListUser({
   style,
-  className,
+  classNameName,
   defaultValue,
   size,
   getData,
@@ -58,7 +58,7 @@ export default function ListUser({
     <React.Fragment>
       <input
         type={"button"}
-        className={`form-control ${inputSize} ${className}`}
+        classNameName={`form-control ${inputSize} ${classNameName}`}
         style={{ textAlign: "left" }}
         value={defaultValue ? defaultValue : "ຄົ້ນຫາ..."}
         onClick={() => setShow(true)}
@@ -67,17 +67,17 @@ export default function ListUser({
         show={show}
         centered
         style={style}
-        className={className}
+        classNameName={classNameName}
         animation={false}
       >
         <Modal.Header>
-          <Modal.Title className="fs-5">ເລືອກພະນັກງານ</Modal.Title>
+          <Modal.Title classNameName="fs-5">ເລືອກພະນັກງານ</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="custom-modal-body">
-          <div className="form-group">
+        <Modal.Body classNameName="custom-modal-body">
+          <div classNameName="form-group">
             <input
               type={"search"}
-              className="form-control form-control-lg"
+              classNameName="form-control form-control-lg"
               onChange={(e) => setSearchValue(e.target.value)}
               onInput={(e) => {
                 if (!e.target.value && getData) getData();
@@ -88,16 +88,16 @@ export default function ListUser({
           {loading ? (
             <center>{loadingData(25, "ກຳລັງໂຫຼດຂໍ້ມູນ...")}</center>
           ) : (
-            <div className="mt-1">
+            <div classNameName="mt-1">
 
               {data?.users?.data?.map((data, index) => (
                 <div
-                  className="d-flex py-2 border-bottom align-items-center text-black"
+                  classNameName="d-flex py-2 border-bottom align-items-center text-black"
                   key={index}
                   onClick={() => handleClick(data?.firstName)}
                 >
                   <span>
-                    <i className="fa fa-user text-danger mr-2" />{" "}
+                    <i classNameName="fa fa-user text-danger mr-2" />{" "}
                     {data?.firstName}
                   </span>
                 </div>
@@ -108,10 +108,10 @@ export default function ListUser({
         <Modal.Footer>
           <button
             type="button"
-            className="btn btn-block btn-danger"
+            classNameName="btn btn-block btn-danger"
             onClick={() => setShow(false)}
           >
-            <i className="icon-x" /> ຍົກເລີກ
+            <i classNameName="icon-x" /> ຍົກເລີກ
           </button>
         </Modal.Footer>
       </Modal>

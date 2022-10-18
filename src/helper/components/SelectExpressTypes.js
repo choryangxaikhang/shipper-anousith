@@ -14,7 +14,7 @@ const QUERY = gql`
 }
 `;
 export default function SelectExpressTypes({
-  className,
+  classNameName,
   style,
   onChange,
   disabled,
@@ -69,7 +69,7 @@ export default function SelectExpressTypes({
     <div style={{ width: "100%", color: "black", fontSize: 16 }}>
       <Select
         styles={style}
-        className={className}
+        classNameName={classNameName}
         isDisabled={disabled}
         value={selectedOption}
         placeholder={loading ? "ກຳລັງໂຫຼດ..." : "ເລືອກປະເພດລາຍຈ່າຍ"}

@@ -15,7 +15,7 @@ const SELECT_ROOM = gql`
   }
 `;
 export default function SearchRoom({
-  className,
+  classNameName,
   style,
   onChange,
   disabled,
@@ -73,7 +73,7 @@ export default function SearchRoom({
     <div style={{ width: "100%", fontSize: 16, color: "black",heigh:"100%" }}>
       <Select
         styles={style}
-        className={className}
+        classNameName={classNameName}
         value={selectedOption}
         placeholder={loading ? "ກຳລັງໂຫຼດ..." : "ເລືອກຫ້ອງ"}
         onChange={(res) => {

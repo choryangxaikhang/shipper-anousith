@@ -104,8 +104,8 @@ export default function RegisterCustomerOfHotel() {
 
   return (
     <>
-      <b className="float-end text-info" onClick={() => setShow(true)}>
-        <i className="icon-user-plus" />
+      <b classNameName="float-end text-info" onClick={() => setShow(true)}>
+        <i classNameName="icon-user-plus" />
         ເພີ່ມລູກຄ້າ
       </b>
       <Modal
@@ -118,18 +118,18 @@ export default function RegisterCustomerOfHotel() {
           <h3>ເພີ່ມລູກຄ້າ</h3>
           <RegisterCustomerOfHotel />
           <a
-            className="pull-right ms-2 "
+            classNameName="pull-right ms-2 "
             style={{ textDecoration: "none" }}
             onClick={() => setShow(false)}
           >
-            <i className="icon-x fa-2x text-danger" />
+            <i classNameName="icon-x fa-2x text-danger" />
           </a>
         </Modal.Header>
         {/* <Modal.Body style={{ height: "150%" }}> */}
-        <div className="row ">
-          <div className=" col-md-12">
-            <div className="card-body">
-              <div className="form-row">
+        <div classNameName="row ">
+          <div classNameName=" col-md-12">
+            <div classNameName="card-body">
+              <div classNameName="form-row">
                 <SelectProvince
                   style={{ width: "100%", fontSize: 14 }}
                   value={provinceData?._id}
@@ -140,9 +140,9 @@ export default function RegisterCustomerOfHotel() {
                     }
                   }}
                 />
-                <div className="text-danger fs-5">{errors.province}</div>
+                <div classNameName="text-danger fs-5">{errors.province}</div>
               </div>
-              <div className="form-row mt-3">
+              <div classNameName="form-row mt-3">
                 <SelectDistrict
                   style={{ width: "100%", fontSize: 14 }}
                   provinceId={provinceData?._id}
@@ -151,24 +151,24 @@ export default function RegisterCustomerOfHotel() {
                       setDistrictData(obj);
                   }}
                 />
-                <div className="text-danger fs-5">{errors.district}</div>
+                <div classNameName="text-danger fs-5">{errors.district}</div>
               </div>
-              <div className="form-row mt-3">
+              <div classNameName="form-row mt-3">
                 <label>ຊື່ບ້ານ {valiDate()}</label>
                 <input
                   type="text"
-                  className="form-control form-control-lg"
+                  classNameName="form-control form-control-lg"
                   name="village"
                   value={values.village}
                   onChange={handleChange}
                   placeholder="ປ້ອນຊື່ບ້ານ"
                 />
               </div>
-              <div className="form-row mt-3">
+              <div classNameName="form-row mt-3">
                 <label>ຊື່ ແລະ ນາມສະກຸນ {valiDate()}</label>
                 <input
                   type="text"
-                  className={
+                  classNameName={
                     errors.fullName
                       ? "form-control is-invalid"
                       : "form-control invalid"
@@ -179,10 +179,10 @@ export default function RegisterCustomerOfHotel() {
                   placeholder="ຊື່ ແລະ ນາມສະກຸນ"
                 />
               </div>{" "}
-              <div className="form-row mt-3">
+              <div classNameName="form-row mt-3">
                 <label>ເພດ {valiDate()}</label>
                 <select
-                  className={
+                  classNameName={
                     errors.gender
                       ? "form-control is-invalid"
                       : "form-control invalid"
@@ -196,13 +196,13 @@ export default function RegisterCustomerOfHotel() {
                   <option value="FEMALE">ຍິງ</option>
                   <option value="OTHER">ອື່ນໆ</option>
                 </select>
-                <div className="text-danger fs-5">{errors.gender}</div>
+                <div classNameName="text-danger fs-5">{errors.gender}</div>
               </div>
-              <div className="form-row mt-3">
+              <div classNameName="form-row mt-3">
                 <label>ອາຍຸ {valiDate()}</label>
                 <input
                   type="number"
-                  className={
+                  classNameName={
                     errors.age
                       ? "form-control is-invalid"
                       : "form-control invalid"
@@ -213,13 +213,13 @@ export default function RegisterCustomerOfHotel() {
                   onChange={handleChange}
                   placeholder="ປ້ອນອາຍຸ"
                 />
-                <div className="text-danger fs-5">{errors.age}</div>
+                <div classNameName="text-danger fs-5">{errors.age}</div>
               </div>
-              <div className="form-row mt-3">
+              <div classNameName="form-row mt-3">
                 <label>ເບີໂທ(+856 20) {valiDate()}</label>
                 <input
                   type="number"
-                  className={
+                  classNameName={
                     errors.phoneNumber
                       ? "form-control is-invalid"
                       : "form-control invalid"
@@ -231,13 +231,13 @@ export default function RegisterCustomerOfHotel() {
                   placeholder="ເບີໂທ"
                   maxLength={8}
                 />
-                <div className="text-danger fs-5">{errors.phoneNumber}</div>
+                <div classNameName="text-danger fs-5">{errors.phoneNumber}</div>
               </div>
-              <div className="form-row mt-3">
+              <div classNameName="form-row mt-3">
                 <label>ລະຫັດຜ່ານ{valiDate()}</label>
                 <input
                   type="password"
-                  className={
+                  classNameName={
                     errors.password
                       ? "form-control is-invalid"
                       : "form-control invalid"
@@ -247,13 +247,13 @@ export default function RegisterCustomerOfHotel() {
                   onChange={handleChange}
                   placeholder="ລະຫັດຜ່ານ"
                 />
-                <div className="text-danger fs-5">{errors.password}</div>
+                <div classNameName="text-danger fs-5">{errors.password}</div>
               </div>
-              <div className="form-row mt-3">
+              <div classNameName="form-row mt-3">
                 <label>ບັດປະຈຳຕົວ{valiDate()}</label>
                 <input
                   type="text"
-                  className={
+                  classNameName={
                     errors.cardID
                       ? "form-control is-invalid"
                       : "form-control invalid"
@@ -263,7 +263,7 @@ export default function RegisterCustomerOfHotel() {
                   onChange={handleChange}
                   placeholder="ປ້ອນເລັກບັດເອກະສານ"
                 />
-                <div className="text-danger fs-5">{errors.cardID}</div>
+                <div classNameName="text-danger fs-5">{errors.cardID}</div>
               </div>
             </div>
           </div>
@@ -271,10 +271,10 @@ export default function RegisterCustomerOfHotel() {
         <Modal.Footer>
           <button
             type="button"
-            className="btn btn-success btn-lg  mt-2 w-100"
+            classNameName="btn btn-success btn-lg  mt-2 w-100"
             onClick={() => handleSubmit()}
           >
-            <i className="icon-save" style={{ marginRight: 3 }} />
+            <i classNameName="icon-save" style={{ marginRight: 3 }} />
             ບັນທຶກ
           </button>
         </Modal.Footer>

@@ -17,7 +17,7 @@ const QUERY = gql`
   }
 `;
 export default function SelectLocalHouse({
-  className,
+  classNameName,
   style,
   onChange,
   value,
@@ -80,7 +80,7 @@ export default function SelectLocalHouse({
     <div style={{ width: "100%", color: "black", fontSize: 16 }}>
       <Select
         styles={style}
-        className={className}
+        classNameName={classNameName}
         value={selectedOption}
         placeholder={loading ? "ກຳລັງໂຫຼດ..." : "ເລືອກຊື່ກິດຈະການ"}
         onChange={(res) => {

@@ -16,7 +16,7 @@ const SELECT_ROOM = gql`
   }
 `;
 export default function SearchTypeRoom({
-  className,
+  classNameName,
   style,
   onChange,
   disabled,
@@ -79,7 +79,7 @@ export default function SearchTypeRoom({
     >
       <Select
         styles={style}
-        className={className}
+        classNameName={classNameName}
         isDisabled={disabled}
         value={selectedOption}
         placeholder={loading ? "ກຳລັງໂຫຼດ..." : "ເລືອກປະເພດຫ້ອງ"}

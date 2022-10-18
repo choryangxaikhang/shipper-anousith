@@ -1,14 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { getStaffLogin } from "../helper";
-import { OTHER, PROFILES, ROOM_SERVICES } from "../routes/app";
-// import "./bottomNav.css";
+import { ITEM_LIST_DATA, PROFILES } from "../routes/app";
 
 export default function BottomNav() {
   const userState = getStaffLogin();
   const userInfo = userState?.data;
-
-  console.log("userInfo", userInfo?.role);
 
   return (
     <div
@@ -28,37 +25,30 @@ export default function BottomNav() {
         <>
           <NavLink
             className="item"
-            to={`${OTHER}`}
+            to={`${ITEM_LIST_DATA}/1`}
             style={{ borderTopLeftRadius: 25, marginLeft: -10 }}
           >
             <div className="col pt-1" style={{ borderTopLeftRadius: 20 }}>
               <i
                 className="icon-sort text-secondary"
-                style={{ fontSize: 25 }}
+                style={{ fontSize: 25}}
+                
               />
-              <strong className="text-secondary" style={{ fontSize: 15 }}>
-                ບໍລິການອື່ນໆ
+              <strong className="text-secondary"
+               style={{ 
+                fontSize: 15,           
+              }}
+               >
+                ລາຍງານ
               </strong>
             </div>
           </NavLink>
         </>
       ) : null}
-      <NavLink
-        className="item"
-        to={`${ROOM_SERVICES}`}
-        style={{ borderTopLeftRadius: 25, marginLeft: -10 }}
-      >
-        <div className="col pt-1" style={{ borderTopLeftRadius: 20 }}>
-          <i className="fa-solid fa-city text-secondary" />
-          <strong className="text-secondary" style={{ fontSize: 15 }}>
-            ຫ້ອງ
-          </strong>
-        </div>
-      </NavLink>
       <NavLink className="item" to="/home">
         <div className="col pt-1">
           <i className="icon-home text-secondary" style={{ fontSize: 25 }} />
-          <strong className="text-secondary " style={{ fontSize: 15 }}>
+          <strong className="text-w" style={{ fontSize: 15 }}>
             ໜ້າຫຼັກ
           </strong>
         </div>

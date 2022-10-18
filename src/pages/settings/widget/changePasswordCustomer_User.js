@@ -96,8 +96,8 @@ export default function ChangePasswordCustomer_User() {
 
   return (
     <React.Fragment>
-      <div className="card-body text-black " onClick={() => setShow(true)}>
-        <i className="fa-solid fa-chevron-right me-2" />
+      <div classNameName="card-body text-black " onClick={() => setShow(true)}>
+        <i classNameName="fa-solid fa-chevron-right me-2" />
         ປ່ຽນລະຫັດຜ່ານລູກຄ້າ
       </div>
       {/* <a
@@ -106,27 +106,27 @@ export default function ChangePasswordCustomer_User() {
           event.stopPropagation()
           setShow(true)
         }}
-        className="h6 d-block mb-1 stretched-link text-decoration-none"
+        classNameName="h6 d-block mb-1 stretched-link text-decoration-none"
       >
         ປ່ຽນລະຫັດຜ່ານລູກຄ້າ
       </a> */}
       <Modal show={show} animation={false} size="xl">
         <Modal.Header closeButton>
-          <Modal.Title className="fs-5">
-            <i className="icon-sliders" /> ປ່ຽນລະຫັດຜ່ານລູກຄ້າດດ
+          <Modal.Title classNameName="fs-5">
+            <i classNameName="icon-sliders" /> ປ່ຽນລະຫັດຜ່ານລູກຄ້າດດ
           </Modal.Title>
         </Modal.Header>
-        <div className="input-group mb-3">
+        <div classNameName="input-group mb-3">
           <input
             type="number"
-            className="form-control"
+            classNameName="form-control"
             placeholder="ໄອດີ..."
             onChange={(e) => setSearchValueID(e.target.value)}
             onKeyPress={_handleKeypress}
           />
           <input
             type="number"
-            className="form-control"
+            classNameName="form-control"
             placeholder="ເບີໂທ..."
             onChange={(e) => setSearchValuePhone(e.target.value)}
             onKeyPress={_handleKeypress}
@@ -134,44 +134,44 @@ export default function ChangePasswordCustomer_User() {
           <button
             type="button"
             onClick={() => _onSearch()}
-            className="btn btn-primary btn-sm"
+            classNameName="btn btn-primary btn-sm"
           >
-            <i className="icon-search1" />
+            <i classNameName="icon-search1" />
           </button>
         </div>
         {loading ? (
           loadingData(23, "ກຳລັງໂຫຼດຂໍ້ມູນ")
         ) : (
-          <div className="table-responsive">
-            <table className="table table-bordered table-sm">
+          <div classNameName="table-responsive">
+            <table classNameName="table table-bordered table-sm">
               <thead>
                 <tr>
-                  <th className="text-center">#</th>
-                  <th className="text-nowrap">ID</th>
-                  <th className="text-nowrap">ຊື່ ແລະ ນາມສະກຸນ</th>
-                  <th className="text-nowrap">ເບີໂທ</th>
-                  <th className="text-nowrap">ລະຫັດຜ່ານ</th>
-                  <th className="text-nowrap">ຈັດການ</th>
+                  <th classNameName="text-center">#</th>
+                  <th classNameName="text-nowrap">ID</th>
+                  <th classNameName="text-nowrap">ຊື່ ແລະ ນາມສະກຸນ</th>
+                  <th classNameName="text-nowrap">ເບີໂທ</th>
+                  <th classNameName="text-nowrap">ລະຫັດຜ່ານ</th>
+                  <th classNameName="text-nowrap">ຈັດການ</th>
                 </tr>
               </thead>
               <tbody>
                 {users &&
                   users?.map((item, index) => (
                     <tr key={index}>
-                      <td className="text-center">{index + 1}</td>
-                      <td className="text-center">{item?.id_list}</td>
-                      <td className="text-nowrap">
+                      <td classNameName="text-center">{index + 1}</td>
+                      <td classNameName="text-center">{item?.id_list}</td>
+                      <td classNameName="text-nowrap">
                         {item?.full_name ? item?.full_name : "-"}{" "}
                       </td>
-                      <td className="text-nowrap">
+                      <td classNameName="text-nowrap">
                         {item?.contact_info ? item?.contact_info : "-"}
                       </td>
-                      <td className="text-center text-nowrap">
+                      <td classNameName="text-center text-nowrap">
                         {editStatus && getIndex === item?.id_list ? (
                           <input
                             type="text"
                             onChange={(e) => setText(e.target.value)}
-                            className="form-control text-center"
+                            classNameName="form-control text-center"
                             defaultValue={item?.password}
                           />
                         ) : (
@@ -181,7 +181,7 @@ export default function ChangePasswordCustomer_User() {
 
                       <td
                         style={{ textAlign: "center" }}
-                        className="text-nowrap"
+                        classNameName="text-nowrap"
                       >
                         {editStatus && getIndex === item?.id_list ? (
                           <a
@@ -189,7 +189,7 @@ export default function ChangePasswordCustomer_User() {
                             onClick={() => _changeRole(item?.id_list)}
                             style={{ textDecoration: "none" }}
                           >
-                            <i className="icon-check text-success fa-2x" />
+                            <i classNameName="icon-check text-success fa-2x" />
                           </a>
                         ) : (
                           <a
@@ -201,7 +201,7 @@ export default function ChangePasswordCustomer_User() {
                             }}
                             style={{ textDecoration: "none" }}
                           >
-                            <i className="icon-edit text-primary" />
+                            <i classNameName="icon-edit text-primary" />
                           </a>
                         )}
                       </td>
@@ -213,10 +213,10 @@ export default function ChangePasswordCustomer_User() {
         )}
         <Modal.Footer>
           <button
-            className="btn btn-danger btn-block btn-lg"
+            classNameName="btn btn-danger btn-block btn-lg"
             onClick={() => handleClose()}
           >
-            <i className="icon-x" style={{ marginRight: 3 }} />
+            <i classNameName="icon-x" style={{ marginRight: 3 }} />
             ປິດ
           </button>
         </Modal.Footer>

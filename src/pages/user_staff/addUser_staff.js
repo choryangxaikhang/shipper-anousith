@@ -138,10 +138,10 @@ export default function AddUserStaff({ onSuccess, getData }) {
     <React.Fragment>
       <button
         type="button"
-        className="btn btn-light btn-lg"
+        classNameName="btn btn-light btn-lg"
         onClick={() => setShow(true)}
       >
-        <i className="icon-plus-circle me-1" />  ເພີ່ມ
+        <i classNameName="icon-plus-circle me-1" />  ເພີ່ມ
       </button>
       <Modal
         show={show}
@@ -150,23 +150,23 @@ export default function AddUserStaff({ onSuccess, getData }) {
         size="xl"
       >
         <Modal.Header closeButton>
-          <Modal.Title className="fs-5">
-            <i className="icon-sliders" /> ເພີ່ມພະນັກງານ
+          <Modal.Title classNameName="fs-5">
+            <i classNameName="icon-sliders" /> ເພີ່ມພະນັກງານ
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="row mt-1">
-            <div className="form-group">
-              <label className="control-label">ອັບໂຫຼດຮູບໂປຣໄຟຣ໌</label>
+          <div classNameName="row mt-1">
+            <div classNameName="form-group">
+              <label classNameName="control-label">ອັບໂຫຼດຮູບໂປຣໄຟຣ໌</label>
               <div style={{ textAlign: "center" }} for="file-upload">
                 <input
                   type="file"
                   id="file-upload"
-                  className="bg-danger"
+                  classNameName="bg-danger"
                   onChange={handleUpload}
                   hidden
                 />
-                <label htmlFor="file-upload" className="long-border">
+                <label htmlFor="file-upload" classNameName="long-border">
                   {file ? (
                     <img
                       src={URL.createObjectURL(file)}
@@ -183,11 +183,11 @@ export default function AddUserStaff({ onSuccess, getData }) {
               </div>
             </div>
 
-            <div className="form-group mt-1">
+            <div classNameName="form-group mt-1">
               <label>ຊື່ {valiDate()}</label>
               <input
                 type="text"
-                className={
+                classNameName={
                   errors.firstName
                     ? "form-control mb-3 is-invalid"
                     : "form-control mb-3 invalid"
@@ -198,11 +198,11 @@ export default function AddUserStaff({ onSuccess, getData }) {
                 placeholder="ຊື່"
               />
             </div>
-            <div className="form-group mb-2">
+            <div classNameName="form-group mb-2">
               <label>ນາມສະກຸນ {valiDate()}</label>
               <input
                 type="text"
-                className={
+                classNameName={
                   errors.lastName
                     ? "form-control mb-3 is-invalid"
                     : "form-control mb-3 invalid"
@@ -214,19 +214,19 @@ export default function AddUserStaff({ onSuccess, getData }) {
               />
             </div>
           </div>
-          <div className="form-group">
+          <div classNameName="form-group">
             <div>
               <label htmlFor="">ເພດ {valiDate()}</label>
             </div>
             <Gender onClick={(value) => setGender(value)} value={gender} />
-            <span className="invalid">{errors?.gender}</span>
+            <span classNameName="invalid">{errors?.gender}</span>
           </div>
-          <div className="row mt-1">
-            <div className="form-group">
+          <div classNameName="row mt-1">
+            <div classNameName="form-group">
               <label>ເບີໂທ(+856 20) {valiDate()}</label>
               <input
                 type="number"
-                className={
+                classNameName={
                   errors.phoneNumber
                     ? "form-control  is-invalid"
                     : "form-control  invalid"
@@ -237,11 +237,11 @@ export default function AddUserStaff({ onSuccess, getData }) {
                 placeholder="7678XXXX"
               />
             </div>
-            <div className="form-group">
+            <div classNameName="form-group">
               <label>ບັດປະຈຳຕົວ</label>
               <input
                 type="text"
-                className={
+                classNameName={
                   errors.carSign
                     ? "form-control  is-invalid"
                     : "form-control  invalid"
@@ -253,8 +253,8 @@ export default function AddUserStaff({ onSuccess, getData }) {
               />
             </div>
           </div>
-          <div className="form-row mt-1">
-            <div className="col-md-12">
+          <div classNameName="form-row mt-1">
+            <div classNameName="col-md-12">
               <div>
                 <SelectProvince
                   size={"lg"}
@@ -263,14 +263,14 @@ export default function AddUserStaff({ onSuccess, getData }) {
                     setDistrictData({});
                   }}
                   defaultValue={provinceData?.provinceName}
-                  className={errors.province ? "is-invalid" : ""}
+                  classNameName={errors.province ? "is-invalid" : ""}
                 />
-                <div className="text-danger">{errors.province}</div>
+                <div classNameName="text-danger">{errors.province}</div>
               </div>
             </div>
           </div>
-          <div className="form-row mt-1">
-            <div className="col-md-12">
+          <div classNameName="form-row mt-1">
+            <div classNameName="col-md-12">
               <SelectDistrict
                 size={"lg"}
                 getData={(data) => {
@@ -279,13 +279,13 @@ export default function AddUserStaff({ onSuccess, getData }) {
                 }}
                 provinceId={{ _id: provinceData?._id }}
                 defaultValue={districtData?.title}
-                className={errors?.district ? "is-invalid" : ""}
+                classNameName={errors?.district ? "is-invalid" : ""}
               />
-              <div className="text-danger">{errors.district}</div>
+              <div classNameName="text-danger">{errors.district}</div>
             </div>
           </div>
-          <div className="form-row mt-1">
-            <div className="col-md-12">
+          <div classNameName="form-row mt-1">
+            <div classNameName="col-md-12">
               <SelectVillage
                 size={"lg"}
                 getData={(data) => {
@@ -293,13 +293,13 @@ export default function AddUserStaff({ onSuccess, getData }) {
                 }}
                 districtId={{ _id: districtData?._id }}
                 defaultValue={viLLage?.title}
-                className={errors?.village ? "is-invalid" : ""}
+                classNameName={errors?.village ? "is-invalid" : ""}
               />
             </div>
           </div>
-          <div className="row">
-            <div className="col-md-12 mt-1">
-              <div className="form-group mb-2">
+          <div classNameName="row">
+            <div classNameName="col-md-12 mt-1">
+              <div classNameName="form-group mb-2">
                 <SelectLocalHouse
                   size={"lg"}
                   getData={(data) => {
@@ -307,16 +307,16 @@ export default function AddUserStaff({ onSuccess, getData }) {
                   }}
                   provinceId={{ _id: provinceData?._id }}
                   defaultValue={getHouse?.houseName}
-                  className={errors.house ? "is-invalid" : ""}
+                  classNameName={errors.house ? "is-invalid" : ""}
                 />
-                <div className="text-danger">{errors.house}</div>
+                <div classNameName="text-danger">{errors.house}</div>
               </div>
             </div>
           </div>
-          <div className="form-group mt-1">
+          <div classNameName="form-group mt-1">
             <label>ເລືອກຕຳແຫນ່ງ {valiDate()}</label>
             <select
-              className="form-select"
+              classNameName="form-select"
               value={role}
               onChange={(e) => setRole(e.target.value)}
             >
@@ -327,11 +327,11 @@ export default function AddUserStaff({ onSuccess, getData }) {
               ))}
             </select>
           </div>
-          <div className="form-group mt-1">
+          <div classNameName="form-group mt-1">
             <label>ວັນທີ່ເລີ່ມງານ</label>
             <input
               type="date"
-              className="form-control form-control-lg"
+              classNameName="form-control form-control-lg"
               name="startWorkTime"
               value={formatDateDash(startWorkTime)}
               onChange={(e) => setStartDate(e.target.value)}
@@ -342,10 +342,10 @@ export default function AddUserStaff({ onSuccess, getData }) {
         <Modal.Footer>
           <button
             type="button"
-            className="btn btn-primary btn-block btn-lg"
+            classNameName="btn btn-primary btn-block btn-lg"
             onClick={() => handleSubmit()}
           >
-            <i className="icon-save" style={{ marginRight: 3 }} />
+            <i classNameName="icon-save" style={{ marginRight: 3 }} />
             ບັນທຶກ
           </button>
         </Modal.Footer>

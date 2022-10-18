@@ -42,7 +42,7 @@ export default function SearchCustomer({ response, error, roomID }) {
     <>
       {/* <TextField
             type="search"
-            className="inputLabel"
+            classNameName="inputLabel"
             label="ປ້ອນເບີໂທ" variant="outlined"
             onKeyUp={(e) => {
               if (e.key === "Enter") {
@@ -72,7 +72,7 @@ export default function SearchCustomer({ response, error, roomID }) {
           }}
           type={"search"}
           placeholder="ຄົ້ນຫາ"
-          className="ms-2"
+          classNameName="ms-2"
           onWheel={(e) => e.target.blur()}
           onChange={(e) => setPhoneNumber(e.target.value)}
           value={phoneNumber || ""}
@@ -93,7 +93,7 @@ export default function SearchCustomer({ response, error, roomID }) {
           {loadingPhone ? (
             loadingData(20)
           ) : (
-            <i className="icon-search1  me-1" />
+            <i classNameName="icon-search1  me-1" />
           )}{" "}
           ຄົ້ນຫາ
         </IconButton>

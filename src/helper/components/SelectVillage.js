@@ -14,7 +14,7 @@ const QUERY = gql`
 `;
 
 export default function SelectVillage({
-  className,
+  classNameName,
   style,
   onChange,
   disabled,
@@ -66,7 +66,7 @@ export default function SelectVillage({
     <div style={{ width: "100%", color: "black", fontSize: 16 }}>
       <Select
         styles={style}
-        className={className}
+        classNameName={classNameName}
         isDisabled={disabled}
         value={selectedOption}
         placeholder={loading ? "ກຳລັງໂຫຼດ..." : "ເລືອກບ້ານ"}

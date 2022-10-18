@@ -101,29 +101,29 @@ export default function ChangePasswordStaff() {
   return (
     <React.Fragment>
       <div
-        className="p-1 text-black border-bottom"
+        classNameName="p-1 text-black border-bottom"
         onClick={() => setShow(true)}
       >
-        <i className="fa-solid fa-chevron-right me-2" />
+        <i classNameName="fa-solid fa-chevron-right me-2" />
         ປ່ຽນລະຫັດຜ່ານພະນັກງານ
       </div>
       <Modal show={show}  animation={false} size="xl">
-        <Modal.Header className="text-black">
+        <Modal.Header classNameName="text-black">
           {" "}
           ປ່ຽນລະຫັດຜ່ານພະນັກງານ
           <a
-            className="pull-right ms-2 "
+            classNameName="pull-right ms-2 "
             style={{ textDecoration: "none" }}
             onClick={() => setShow(false)}
           >
-            <i className="icon-x fa-2x text-danger" />
+            <i classNameName="icon-x fa-2x text-danger" />
           </a>
         </Modal.Header>
         <Modal.Body>
-          <div className="input-group mb-3">
+          <div classNameName="input-group mb-3">
             <input
               type="search"
-              className="form-control form-control-lg"
+              classNameName="form-control form-control-lg"
               placeholder="ຊື່..."
               onChange={(e) => setSearchValue(e.target.value)}
               onKeyPress={_handleKeypress}
@@ -131,7 +131,7 @@ export default function ChangePasswordStaff() {
             />
             <input
               type="number"
-              className="form-control form-control-lg"
+              classNameName="form-control form-control-lg"
               placeholder="ເບີໂທ..."
               onChange={(e) => setSearchValuePhone(e.target.value)}
               onKeyPress={_handleKeypress}
@@ -141,43 +141,43 @@ export default function ChangePasswordStaff() {
             <button
               type="button"
               onClick={() => _onSearch()}
-              className="btn btn-primary btn-lg"
+              classNameName="btn btn-primary btn-lg"
             >
-              <i className="icon-search1" />
+              <i classNameName="icon-search1" />
             </button>
           </div>
           {loading ? (
             loadingData(23, "ກຳລັງໂຫຼດຂໍ້ມູນ")
           ) : (
-            <div className="table-responsive">
-              <table className="table table-bordered table-sm text-black">
+            <div classNameName="table-responsive">
+              <table classNameName="table table-bordered table-sm text-black">
                 <thead>
                   <tr>
-                    <th className="text-center">#</th>
-                    <th className="text-nowrap">ຊື່ ແລະ ນາມສະກຸນ</th>
-                    <th className="text-nowrap">ເບີໂທ</th>
-                    <th className="text-nowrap">ລະຫັດຜ່ານ</th>
-                    <th className="text-nowrap">ຈັດການ</th>
+                    <th classNameName="text-center">#</th>
+                    <th classNameName="text-nowrap">ຊື່ ແລະ ນາມສະກຸນ</th>
+                    <th classNameName="text-nowrap">ເບີໂທ</th>
+                    <th classNameName="text-nowrap">ລະຫັດຜ່ານ</th>
+                    <th classNameName="text-nowrap">ຈັດການ</th>
                   </tr>
                 </thead>
                 <tbody>
                   {users &&
                     users?.map((item, index) => (
                       <tr key={index}>
-                        <td className="text-center">{index + 1}</td>
-                        <td className="text-nowrap">
+                        <td classNameName="text-center">{index + 1}</td>
+                        <td classNameName="text-nowrap">
                           {item?.firstName ? item?.firstName : "-"}{" "}
                           {item?.lastName ? item?.lastName : "-"}
                         </td>
-                        <td className="text-nowrap">
+                        <td classNameName="text-nowrap">
                           {item?.phoneNumber ? item?.phoneNumber : "-"}
                         </td>
-                        <td className="text-center text-nowrap">
+                        <td classNameName="text-center text-nowrap">
                           {editStatus && getIndex === item?._id ? (
                             <input
                               type="text"
                               onChange={(e) => setText(e.target.value)}
-                              className="form-control text-center"
+                              classNameName="form-control text-center"
                               placeholder="* * * * * *"
                             />
                           ) : (
@@ -187,7 +187,7 @@ export default function ChangePasswordStaff() {
 
                         <td
                           style={{ textAlign: "center" }}
-                          className="text-nowrap"
+                          classNameName="text-nowrap"
                         >
                           {editStatus && getIndex === item?._id ? (
                             <a
@@ -195,7 +195,7 @@ export default function ChangePasswordStaff() {
                               onClick={() => _changeRole(item?._id)}
                               style={{ textDecoration: "none" }}
                             >
-                              <i className="icon-check text-success fa-2x" />
+                              <i classNameName="icon-check text-success fa-2x" />
                             </a>
                           ) : (
                             <a
@@ -207,7 +207,7 @@ export default function ChangePasswordStaff() {
                               }}
                               style={{ textDecoration: "none" }}
                             >
-                              <i className="icon-edit text-primary" />
+                              <i classNameName="icon-edit text-primary" />
                             </a>
                           )}
                         </td>

@@ -41,7 +41,7 @@ export default function TypeHouse({ getId }) {
 
   return (
     <>
-        <td className="text-end text-black">
+        <td classNameName="text-end text-black">
           {getData?.type?.title_lao ? getData?.type?.title_lao : "-"}
         </td>
     </>
