@@ -17,6 +17,7 @@ export default function ItemCompleted() {
   const [house, setHouse] = useState("");
   const [userData, setUserData] = useState({});
   const [clickButton, setButton] = useState(false);
+  
 
   // data HouseLoca
   useEffect(() => {
@@ -39,41 +40,7 @@ export default function ItemCompleted() {
 
   return (
     <>
-      <div className="appHeader text-light border-0 mr-0">
-        <div style={{ flex: 1 }} className="text-left">
-          <button
-            className="btn text-white"
-            onClick={() => history.push(HOME_PAGE)}
-          >
-            <i className="fa fa-chevron-left fs-4" />
-          </button>
-        </div>
-        {clickButton === true ? (
-          <>
-            <select className="form-control-sm">
-              <option className="#">--ເລືອກຄ່າເລີ່ມຕົ້ນ--</option>
-              <option className="#">ສົ່ງໄລຍະໃກ້</option>
-              <option className="#">ສົ່ງໄລຍະທົ່ວໄປ</option>
-              <option className="#">ສົ່ງໄລຍະໄກ</option>
-            </select>
-          </>
-        ) : (
-          <b className="text-white">ອໍເດີສົ່ງສຳເລັດ</b>
-        )}
-        <div
-          className="text-white pageTitle text-right text-nowrap pr-0"
-          style={{ flex: 1 }}
-        >
-          <button
-            className="btn text-white"
-            onClick={(e) => {
-              setButton(!clickButton);
-            }}
-          >
-            <i className="fa-solid fa-search fa-2 ms-2" />
-          </button>
-        </div>
-      </div>
+     
       <div className=" body-content-lg" style={{ marginTop: 60 }}>
         <div className="option-section">
           <div className="col-12">
@@ -86,6 +53,7 @@ export default function ItemCompleted() {
                 className="form-control form-control-sm"
                 placeholder="tracking" />
             </div>
+						<p className="title mt-1">ສະແດງ 1 - 50 ລາຍການ</p>
           </div>
         </div>
       </div>

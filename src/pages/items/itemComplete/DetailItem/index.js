@@ -3,7 +3,7 @@ import _ from "lodash";
 import useReactRouter from "use-react-router";
 import Imglogo from "../../../../img/anousith.png";
 import SelectLocalHouse from "../../../../helper/components/SelectLocalHouse";
-import { ITEM_COMPLETED } from "../../../../routes/app";
+import { TAB_MENU_COMPLETED } from "../../../../routes/app";
 
 export default function DetailICompleted() {
 	const { location, history, match } = useReactRouter();
@@ -17,28 +17,12 @@ export default function DetailICompleted() {
 				<div style={{ flex: 1 }} className="text-left">
 					<button
 						className="btn text-white"
-						onClick={() => history.push(`${ITEM_COMPLETED}/1`)}
+						onClick={() => history.push(`${TAB_MENU_COMPLETED}/1`)}
 					>
 						<i className="fa fa-chevron-left fs-4" />
 					</button>
 				</div>
-				{clickButton === true ? (
-					<>
-						<SelectLocalHouse
-							style={{ width: "100%" }}
-							value={localHouse?._id}
-							onChange={(obj) => {
-								if (obj?._id) {
-									setLocalHouse(obj);
-									localStorage.setItem("HOUSE", JSON.stringify(obj));
-									window.location.reload();
-								}
-							}}
-						/>
-					</>
-				) : (
-					<b className="text-white">ລາຍງານ</b>
-				)}
+				<b className="text-white">ລາຍງານ</b>
 				<div
 					className="text-white pageTitle text-right text-nowrap pr-0"
 					style={{ flex: 1 }}
@@ -92,8 +76,8 @@ export default function DetailICompleted() {
 								<strong>ຂະໜາດ:</strong>
 								<span>150 cm</span> |
 								<strong>ນ້ຳໜັກ:</strong>
-								<span>14 Kg</span> 
-								
+								<span>14 Kg</span>
+
 							</li>
 							<li>
 								<strong>ຄ່າບໍລິການ:</strong>
@@ -108,7 +92,7 @@ export default function DetailICompleted() {
 							</li>
 							<li>
 								<strong>ລວມທັງໝົດ: </strong>
-								<h3>500000 ກີບ</h3>						
+								<h3>500000 ກີບ</h3>
 							</li>
 						</ul>
 					</div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { getStaffLogin } from "../helper";
-import { ITEM_LIST_DATA, PROFILES } from "../routes/app";
+import { TAB_MENU_LIST, PROFILES } from "../routes/app";
 
 export default function BottomNav() {
   const userState = getStaffLogin();
@@ -25,7 +25,7 @@ export default function BottomNav() {
         <>
           <NavLink
             className="item"
-            to={`${ITEM_LIST_DATA}/1`}
+            to={`${TAB_MENU_LIST}/1`}
             style={{ borderTopLeftRadius: 25, marginLeft: -10 }}
           >
             <div className="col pt-1" style={{ borderTopLeftRadius: 20 }}>

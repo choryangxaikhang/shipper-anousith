@@ -2,13 +2,12 @@
 import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
 import { detectPhoneNumber, getLocalHouse, getStaffLogin } from "../../../helper";
-import SelectLocalHouse from "../../../helper/components/SelectLocalHouse";
-import { DETAIL_ITEMS, HOME_PAGE } from "../../../routes/app";
+import { DETAIL_ITEMS } from "../../../routes/app";
 import BottomNav from "../../../layouts/BottomNav";
 import whatsapp from "../../../icon/whatsapp.svg";
 
 
-export default function ItemIn() {
+export default function ItemDistances() {
 	const { history, location, match } = useReactRouter();
 	const jsonObj = getStaffLogin();
 	const [localHouse, setLocalHouse] = useState("");
@@ -64,12 +63,12 @@ export default function ItemIn() {
 									onClick={() => history.push(`${DETAIL_ITEMS}/1`)}
 								/>
 								<div>
-									<strong>ANS-3939484245</strong>
-									<p>ເຄື່ອງທົ່ວໄປ</p>
-									<p>ຊື່ລູກຄ້າ: ດວງດີ</p>
+									<strong>ANS-55333333</strong>
+									<p>fgdfdg</p>
+									<p>ຊື່ລູກຄ້າ: ດວງໃຈ</p>
 									<p>
 										<a className="text-link" target="_blank" href={url}>
-											<img style={{ width: 20 }} src={whatsapp} alt="" /> 5241524
+											<img style={{ width: 20 }} src={whatsapp} alt="" /> 54411144
 										</a>
 									</p>
 								</div>

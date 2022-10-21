@@ -3,7 +3,7 @@ import _ from "lodash";
 import useReactRouter from "use-react-router";
 import Imglogo from "../../../../img/anousith.png";
 import SelectLocalHouse from "../../../../helper/components/SelectLocalHouse";
-import { ITEM_LIST_DATA } from "../../../../routes/app";
+import { TAB_MENU_LIST } from "../../../../routes/app";
 
 export default function DetailDataList() {
 	const { location, history, match } = useReactRouter();
@@ -17,7 +17,7 @@ export default function DetailDataList() {
 				<div style={{ flex: 1 }} className="text-left">
 					<button
 						className="btn text-white"
-						onClick={() => history.push(`${ITEM_LIST_DATA}/1`)}
+						onClick={() => history.push(`${TAB_MENU_LIST}/1`)}
 					>
 						<i className="fa fa-chevron-left fs-4" />
 					</button>

@@ -1,11 +1,5 @@
 @charset "UTF-8";
 
-/*!
-* Bootstrap v4.3.1 (https://getbootstrap.com/)
-* Copyright 2011-2019 The Bootstrap Authors
-* Copyright 2011-2019 Twitter, Inc.
-* Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
-*/
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "material-icons/iconfont/material-icons.css";
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600&amp;display=swap");
@@ -13,6 +7,38 @@
   background-color: #de0a0af2 !important;
   color: white;
 }
+.clickActive {
+  background-color: #de0a0af2 !important;
+  color: #c2bebe
+}
+
+.nav-tabs-item {
+  overflow-y: hidden;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  /* for Internet Explorer, Edge */
+  scrollbar-width: none;
+  /* for Firefox */
+  overflow-y: scroll;
+  min-height: 30px !important;
+  border-bottom: none;
+  background-color: #fafafa;
+  padding-bottom: 0;
+}
+
+.nav-tabs-item::-webkit-scrollbar {
+  display: none;
+  /* for Chrome, Safari, and Opera */
+}
+
+
+
+.item-tab.active {
+  color: #b51818 !important;
+  border-bottom: 2px solid #b51818;
+
+}
+
 :root {
   --blue: #de0a0af2;
   --indigo: #6610f2;

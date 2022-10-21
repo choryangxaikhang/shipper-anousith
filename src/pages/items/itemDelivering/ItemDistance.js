@@ -2,13 +2,12 @@
 import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
 import { detectPhoneNumber, getLocalHouse, getStaffLogin } from "../../../helper";
-import SelectLocalHouse from "../../../helper/components/SelectLocalHouse";
-import { DETAIL_ITEMS, HOME_PAGE } from "../../../routes/app";
+import { DETAIL_ITEMS_DELIVERING } from "../../../routes/app";
 import BottomNav from "../../../layouts/BottomNav";
 import whatsapp from "../../../icon/whatsapp.svg";
 
 
-export default function ItemIn() {
+export default function ItemDistances() {
 	const { history, location, match } = useReactRouter();
 	const jsonObj = getStaffLogin();
 	const [localHouse, setLocalHouse] = useState("");
@@ -51,7 +50,6 @@ export default function ItemIn() {
 								className="form-control form-control-sm"
 								placeholder="tracking" />
 						</div>
-						<p className="title mt-1">ສະແດງ 1 - 50 ລາຍການ</p>
 					</div>
 				</div>
 			</div>
@@ -61,15 +59,15 @@ export default function ItemIn() {
 						<a href="#" className="item">
 							<div className="detail">
 								<i className="fa-solid fa-cart-arrow-down fs-1 mr-2"
-									onClick={() => history.push(`${DETAIL_ITEMS}/1`)}
+									onClick={() => history.push(`${DETAIL_ITEMS_DELIVERING}/1`)}
 								/>
 								<div>
-									<strong>ANS-3939484245</strong>
-									<p>ເຄື່ອງທົ່ວໄປ</p>
-									<p>ຊື່ລູກຄ້າ: ດວງດີ</p>
+									<strong>ANS-55333333</strong>
+									<p>fgdfdg</p>
+									<p>ຊື່ລູກຄ້າ: ດວງໃຈ</p>
 									<p>
 										<a className="text-link" target="_blank" href={url}>
-											<img style={{ width: 20 }} src={whatsapp} alt="" /> 5241524
+											<img style={{ width: 20 }} src={whatsapp} alt="" /> 54411144
 										</a>
 									</p>
 								</div>
@@ -84,7 +82,7 @@ export default function ItemIn() {
 						<a href="#" className="item">
 							<div className="detail">
 								<i className="fa-solid fa-cart-arrow-down fs-1 mr-2"
-									onClick={() => history.push(`${DETAIL_ITEMS}/1`)}
+									onClick={() => history.push(`${DETAIL_ITEMS_DELIVERING}/1`)}
 								/>
 								<div>
 									<strong>Apple</strong>
@@ -107,7 +105,7 @@ export default function ItemIn() {
 						<a href="#" className="item">
 							<div className="detail">
 								<i className="fa-solid fa-cart-arrow-down fs-1 mr-2"
-									onClick={() => history.push(`${DETAIL_ITEMS}/1`)}
+									onClick={() => history.push(`${DETAIL_ITEMS_DELIVERING}/1`)}
 								/>
 								<div>
 									<strong>ANS-524515245</strong>
@@ -130,7 +128,7 @@ export default function ItemIn() {
 						<a href="#" className="item">
 							<div className="detail">
 								<i className="fa-solid fa-cart-arrow-down fs-1 mr-2"
-									onClick={() => history.push(`${DETAIL_ITEMS}/1`)}
+									onClick={() => history.push(`${DETAIL_ITEMS_DELIVERING}/1`)}
 								/>
 								<div>
 									<strong>ANS-562412546</strong>

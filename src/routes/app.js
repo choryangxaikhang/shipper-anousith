@@ -17,7 +17,10 @@ export const DETAIL_DATA_LIST = "/item/listItem/Detail"
 export const COMMITION_SHIPER = "/commition"
 
 //TabMenuitemIN
-export const TAB_MENU_ITEM_IN = "/item/listInItem"
+export const TAB_MENU_ITEM_IN = "/item/itemIn/tabMenu"
+export const TAB_MENU_DELIVERING = "/item/itemDelivering/tabMenu"
+export const TAB_MENU_COMPLETED = "/item/itemCompleted/tabMenu"
+export const TAB_MENU_LIST = "/item/itemList/tabMenu"
 
 
 // setting

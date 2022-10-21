@@ -2,13 +2,12 @@
 import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
 import { detectPhoneNumber, getLocalHouse, getStaffLogin } from "../../../helper";
-import SelectLocalHouse from "../../../helper/components/SelectLocalHouse";
-import { DETAIL_ITEMS, HOME_PAGE } from "../../../routes/app";
+import { DETAIL_ITEMS_COMPLETED } from "../../../routes/app";
 import BottomNav from "../../../layouts/BottomNav";
 import whatsapp from "../../../icon/whatsapp.svg";
 
 
-export default function ItemIn() {
+export default function ItemRanges() {
 	const { history, location, match } = useReactRouter();
 	const jsonObj = getStaffLogin();
 	const [localHouse, setLocalHouse] = useState("");
@@ -61,30 +60,30 @@ export default function ItemIn() {
 						<a href="#" className="item">
 							<div className="detail">
 								<i className="fa-solid fa-cart-arrow-down fs-1 mr-2"
-									onClick={() => history.push(`${DETAIL_ITEMS}/1`)}
+									onClick={() => history.push(`${DETAIL_ITEMS_COMPLETED}/1`)}
 								/>
 								<div>
-									<strong>ANS-3939484245</strong>
-									<p>ເຄື່ອງທົ່ວໄປ</p>
+									<strong>ANS-555555555</strong>
+									<p>fgdfdg</p>
 									<p>ຊື່ລູກຄ້າ: ດວງດີ</p>
 									<p>
 										<a className="text-link" target="_blank" href={url}>
-											<img style={{ width: 20 }} src={whatsapp} alt="" /> 5241524
+											<img style={{ width: 20 }} src={whatsapp} alt="" /> 54411144
 										</a>
 									</p>
 								</div>
 							</div>
 							<div className="right">
-								<button className="btn btn-dark btn-sm">
-									<i className="fa-solid fa-share-from-square mr-1" />
-									ຈັດສົ່ງ
+								<button className="btn btn-success btn-sm">
+									<i className="fa-solid fa-circle-check mr-1" />
+									ຢືນຢັນ
 								</button>
 							</div>
 						</a>
 						<a href="#" className="item">
 							<div className="detail">
 								<i className="fa-solid fa-cart-arrow-down fs-1 mr-2"
-									onClick={() => history.push(`${DETAIL_ITEMS}/1`)}
+									onClick={() => history.push(`${DETAIL_ITEMS_COMPLETED}/1`)}
 								/>
 								<div>
 									<strong>Apple</strong>
@@ -98,16 +97,16 @@ export default function ItemIn() {
 								</div>
 							</div>
 							<div classNames="right">
-								<button className="btn btn-dark btn-sm">
-									<i className="fa-solid fa-share-from-square mr-1" />
-									ຈັດສົ່ງ
+								<button className="btn btn-success btn-sm">
+									<i className="fa-solid fa-circle-check mr-1" />
+									ຢືນຢັນ
 								</button>
 							</div>
 						</a>
 						<a href="#" className="item">
 							<div className="detail">
 								<i className="fa-solid fa-cart-arrow-down fs-1 mr-2"
-									onClick={() => history.push(`${DETAIL_ITEMS}/1`)}
+									onClick={() => history.push(`${DETAIL_ITEMS_COMPLETED}/1`)}
 								/>
 								<div>
 									<strong>ANS-524515245</strong>
@@ -121,16 +120,16 @@ export default function ItemIn() {
 								</div>
 							</div>
 							<div className="right">
-								<button className="btn btn-dark btn-sm">
-									<i className="fa-solid fa-share-from-square mr-1" />
-									ຈັດສົ່ງ
+								<button className="btn btn-success btn-sm">
+									<i className="fa-solid fa-circle-check mr-1" />
+									ຢືນຢັນ
 								</button>
 							</div>
 						</a>
 						<a href="#" className="item">
 							<div className="detail">
 								<i className="fa-solid fa-cart-arrow-down fs-1 mr-2"
-									onClick={() => history.push(`${DETAIL_ITEMS}/1`)}
+									onClick={() => history.push(`${DETAIL_ITEMS_COMPLETED}/1`)}
 								/>
 								<div>
 									<strong>ANS-562412546</strong>
@@ -144,9 +143,9 @@ export default function ItemIn() {
 								</div>
 							</div>
 							<div className="right">
-								<button className="btn btn-dark btn-sm">
-									<i className="fa-solid fa-share-from-square mr-1" />
-									ຈັດສົ່ງ
+								<button className="btn btn-success btn-sm">
+									<i className="fa-solid fa-circle-check mr-1" />
+									ຢືນຢັນ
 								</button>
 							</div>
 						</a>

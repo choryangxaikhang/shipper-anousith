@@ -3,12 +3,12 @@ import useReactRouter from "use-react-router";
 import { Button } from "react-bootstrap";
 import { getLocalHouse } from "../../../helper";
 import { HOME_PAGE } from "../../../routes/app";
-import ItemIn from ".";
 import ItemRanges from "./ItemRange";
 import ItemMiddles from "./ItemMiddle";
 import ItemDistances from "./ItemDistance";
+import ItemDelivering from ".";
 
-export default function TabMenuItems() {
+export default function TabMenuDelivering() {
   const { history, location } = useReactRouter();
   const params = new URLSearchParams(location?.search);
   const [tabActive, setTabActive] = useState("itemAll");
@@ -46,7 +46,7 @@ export default function TabMenuItems() {
           </button>
         </div>
         {/* {houseId?.houseName ? houseId?.houseName : "ລາຍງານຂໍ້ມູນ"} */}
-					<b className="text-white">ອໍເດີຮັບເຂົ້າ</b>
+					<b className="text-white">ອໍເດີກຳລັງຈັດສົ່ງ</b>
 
         <div
           className="text-white pageTitle text-right text-nowrap pr-0"
@@ -95,7 +95,7 @@ export default function TabMenuItems() {
       </div>
       <div id="appCapsule" className="extra-header-activeClick">
         {tabActive === "itemRange" && <ItemRanges />}
-        {tabActive === "itemAll" && <ItemIn />}   
+        {tabActive === "itemAll" && <ItemDelivering />}   
         {tabActive === "ItemMiddles" && <ItemMiddles />}
         {tabActive === "ItemDistances" && <ItemDistances />}
       </div>

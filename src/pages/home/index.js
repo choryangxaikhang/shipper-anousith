@@ -5,7 +5,7 @@ import BottomNav from "../../layouts/BottomNav";
 import {
   loadingData,
 } from "../../helper";
-import { COMMITION_SHIPER, ITEM_COMPLETED, ITEM_DELIVERING, TAB_MENU_ITEM_IN } from "../../routes/app";
+import { COMMITION_SHIPER, TAB_MENU_COMPLETED, TAB_MENU_DELIVERING, TAB_MENU_ITEM_IN } from "../../routes/app";
 import SelectLocalHouse from "../../helper/components/SelectLocalHouse";
 export default function Home() {
   const { history } = useReactRouter();
@@ -130,7 +130,7 @@ export default function Home() {
                 {/* ) : null} */}
                 <a
                   href="javascript:void(0)"
-                  onClick={() => history.push(`${ITEM_DELIVERING}/1`)}
+                  onClick={() => history.push(`${TAB_MENU_DELIVERING}/1`)}
                 >
                   <div className="icon-wrapper">
                     <i className="fa-solid fa-circle-down fa-2x" />
@@ -169,7 +169,7 @@ export default function Home() {
                 </span>
                 {/* ) : null} */}
                 <a
-                  onClick={(e) => history.push(`${ITEM_COMPLETED}/1`)}
+                  onClick={(e) => history.push(`${TAB_MENU_COMPLETED}/1`)}
                 >
                   <div className="icon-wrapper">
                     <i className="fas fa-circle-check fa-2x" />
