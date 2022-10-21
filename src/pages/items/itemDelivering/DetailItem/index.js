@@ -1,15 +1,12 @@
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
 import _ from "lodash";
 import useReactRouter from "use-react-router";
 import Imglogo from "../../../../img/anousith.png";
 import SelectLocalHouse from "../../../../helper/components/SelectLocalHouse";
 import { ITEM_DELIVERING } from "../../../../routes/app";
 
-export default function DetailItems() {
+export default function DetailListDelivering() {
 	const { location, history, match } = useReactRouter();
-	const query = new URLSearchParams(location.search);
-	const [show, setShow] = useState(false);
 	const [localHouse, setLocalHouse] = useState("");
 	const [clickButton, setButton] = useState(false);
 
@@ -21,7 +18,6 @@ export default function DetailItems() {
 					<button
 						className="btn text-white"
 						onClick={() => history.push(`${ITEM_DELIVERING}/1`)}
-
 					>
 						<i className="fa fa-chevron-left fs-4" />
 					</button>
@@ -92,15 +88,32 @@ export default function DetailItems() {
 								<strong>ເບີໂທ</strong>
 								<span>54562542</span>
 							</li>
-							
-							
 							<li>
-								<strong>ຄ່າຂົນສົ່ງ</strong>
-								<h3 className="m-0">25000</h3>
+								<strong>ຂະໜາດ:</strong>
+								<span>150 cm</span> |
+								<strong>ນ້ຳໜັກ:</strong>
+								<span>14 Kg</span> 
+								
+							</li>
+							<li>
+								<strong>ຄ່າບໍລິການ:</strong>
+								<h3 className="m-0">25000 ກີບ</h3> |
+								<span>ຈ່າຍປາຍທາງ</span>
+							</li>
+							<li>
+								<strong>ເງິນ COD: </strong>
+								<span>500000 ກີບ</span> |
+								<span>2500 ບາດ</span> |
+								<span>100 ໂດລາ</span>
+							</li>
+							<li>
+								<strong>ລວມທັງໝົດ: </strong>
+								<h3>500000 ກີບ</h3>						
 							</li>
 						</ul>
 					</div>
 				</div>
+				<h3 className="text-center mt-3">ຂອບໃຈທີ່ໃຊ້ບໍລິການ </h3>
 			</div>
 		</>
 	);

@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import { useMutation } from "@apollo/client";
 import "./login.css";
 import { LOGIN_USER } from "./gql";
-import  Loading  from "notiflix";
+import Loading from "notiflix";
 import {
   loadingScreen,
   messageError,
@@ -76,17 +76,17 @@ export default function Login({ history }) {
         {({
           values,
           errors,
-          handleChange,  
+          handleChange,
           handleSubmit,
         }) => (
           <>
-            <div classNameName="header-bg header-bg-1 text-white" />
-            <div classNameName="body-content bg-white">
+            <div className="header-bg header-bg-1 text-white" />
+            <div className="body-content bg-white">
               <center>
                 <img
                   src={Imglogo}
                   alt="logo"
-                  classNameName="logo p-2"
+                  className="logo p-2"
                   style={{
                     marginTop: 0,
                     width: '80%',
@@ -95,12 +95,12 @@ export default function Login({ history }) {
                     border: "2px solid de0a0af2",
                   }}
                 />
-                 <h2>shiper-anousith</h2>
+                <h2>shiper-anousith</h2>
               </center>
-              <div classNameName="container">            
-                <div classNameName="authentication-form mt-2">
+              <div className="container">
+                <div className="authentication-form mt-2">
                   <form>
-                    <div classNameName="form-group">
+                    <div className="form-group">
                       <label>ເບີໂທ</label>
                       <FormControl fullWidth sx={{ m: 0 }}>
                         <OutlinedInput
@@ -108,7 +108,7 @@ export default function Login({ history }) {
                           onChange={handleChange("phoneNumber")}
                           startAdornment={
                             <InputAdornment position="start">
-                              <i classNameName="icon-phone  fs-3" />
+                              <i className="icon-phone  fs-3" />
                             </InputAdornment>
                           }
                           error={errors.phoneNumber}
@@ -124,7 +124,7 @@ export default function Login({ history }) {
                         />
                       </FormControl>
                     </div>
-                    <div classNameName="form-group pb-15">
+                    <div className="form-group pb-15">
                       <FormControl fullWidth sx={{ m: 0 }}>
                         <label>ລະຫັດຜ່ານ</label>
                         <OutlinedInput
@@ -132,7 +132,7 @@ export default function Login({ history }) {
                           onChange={handleChange("password")}
                           startAdornment={
                             <InputAdornment position="start">
-                              <i classNameName="fa-sharp fa-solid fa-key fs-3"/>                           
+                              <i className="fa-sharp fa-solid fa-key fs-3" />
                             </InputAdornment>
                           }
                           error={errors.phoneNumber}
@@ -166,11 +166,11 @@ export default function Login({ history }) {
                       type="button"
                       onClick={handleSubmit}
                       style={{ backgroundColor: "#de0a0af2" }}
-                      classNameName="btn btn-block btn-lg text-white mb-10"
+                      className="btn btn-block btn-lg text-white mb-10"
                     >
                       <i className="fa-sharp fa-solid fa-angles-right me-2"></i>
                       ເຂົ້າສູ່ລະບົບ
-                    </button>                   
+                    </button>
                   </form>
                 </div>
               </div>

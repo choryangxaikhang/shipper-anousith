@@ -20,6 +20,11 @@ import ItemDelivering from "../pages/items/itemDelivering";
 import DataListItem from "../pages/items/listItem";
 import ItemCompleted from "../pages/items/itemComplete";
 import DetailItems from "../pages/items/itemIn/DetailItem";
+import DetailListDelivering from "../pages/items/itemDelivering/DetailItem";
+import DetailICompleted from "../pages/items/itemComplete/DetailItem";
+import DetailDataList from "../pages/items/listItem/DetailItem";
+import Commition_ShiPer from "../pages/commition";
+import TabMenuItems from "../pages/items/itemIn/TabMenu";
 export default function Routes() {
   const { userDispatch } = useContext(AppContext);
   const _local = localStorage.getItem(TOKEN);
@@ -76,7 +81,7 @@ export default function Routes() {
                 />
                 <Route
                   exact
-                  path={`${ROUTES.ITEM_LIST_DATA}/:page`}
+                  path={`${ROUTES.ITEM_LIST_DATA}/:_id`}
                   component={(props) => <DataListItem {...props} />}
                 />
                 <Route
@@ -84,13 +89,38 @@ export default function Routes() {
                   path={`${ROUTES.DETAIL_ITEMS}/:_id`}
                   component={(props) => <DetailItems {...props} />}
                 />
-
+                <Route
+                  exact
+                  path={`${ROUTES.DETAIL_ITEMS_DELIVERING}/:_id`}
+                  component={(props) => <DetailListDelivering {...props} />}
+                />
+                <Route
+                  exact
+                  path={`${ROUTES.DETAIL_ITEMS_COMPLETED}/:_id`}
+                  component={(props) => <DetailICompleted {...props} />}
+                />
+                <Route
+                  exact
+                  path={`${ROUTES.DETAIL_DATA_LIST}/:_id`}
+                  component={(props) => <DetailDataList {...props} />}
+                />             
+                <Route
+                  exact
+                  path={`${ROUTES.COMMITION_SHIPER}/:_id`}
+                  component={(props) => <Commition_ShiPer {...props} />}
+                />
+                <Route
+                  exact
+                  path={`${ROUTES.TAB_MENU_ITEM_IN}/:_id`}
+                  component={(props) => <TabMenuItems {...props} />}
+                />
 
                 <Route
                   exact
                   path={`${ROUTES.PROFILES}`}
                   component={(props) => <Profile {...props} />}
                 />
+
 
                 {/* setting */}
                 <PrivateRoute

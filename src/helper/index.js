@@ -27,6 +27,14 @@ export const clearLocalStorage = () => {
   localStorage.removeItem(TOKEN);
 };
 
+export const detectPhoneNumber = (phon) => {
+  if (phon?.length >= 8) {
+    return "85620" + phon;
+  } else {
+    return "85630" + phon;
+  }
+};
+
 // year
 export const getYearCustom = () => {
   let getYearCustom = [];

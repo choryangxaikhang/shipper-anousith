@@ -5,7 +5,7 @@ import BottomNav from "../../layouts/BottomNav";
 import {
   loadingData,
 } from "../../helper";
-import { ITEM_COMPLETED, ITEM_DELIVERING, ITEM_IN } from "../../routes/app";
+import { COMMITION_SHIPER, ITEM_COMPLETED, ITEM_DELIVERING, TAB_MENU_ITEM_IN } from "../../routes/app";
 import SelectLocalHouse from "../../helper/components/SelectLocalHouse";
 export default function Home() {
   const { history } = useReactRouter();
@@ -54,7 +54,7 @@ export default function Home() {
           >
             <a
               className="mr-3 float-right"
-              // onClick={() => history.push(`${BOOKING}/1`)}
+            // onClick={() => history.push(`${BOOKING}/1`)}
             >
               <i className="icon-bell" style={{ fontSize: 20 }} />
               {/* {loadingBooking ? ( */}
@@ -90,7 +90,7 @@ export default function Home() {
               <div className="item">
                 <a
                   href="javascript:void(0)"
-                  onClick={() => history.push(`${ITEM_IN}/1`)}
+                  onClick={() => history.push(`${TAB_MENU_ITEM_IN}/1`)}
                 >
                   <div className="icon-wrapper">
                     <i className="fa-solid fa fa-cart-plus fa-2x" />
@@ -175,6 +175,20 @@ export default function Home() {
                     <i className="fas fa-circle-check fa-2x" />
                   </div>
                   <h5>ສົ່ງສຳເລັດ</h5>
+                </a>
+              </div>
+            </div>
+
+            <div className="wallet-footer">
+              <div className="item">
+                <a
+                  href="javascript:void(0)"
+                  onClick={() => history.push(`${COMMITION_SHIPER}/1`)}
+                >
+                  <div className="icon-wrapper">
+                    <i className="fa-solid fa-money-bill-wave fa-2x" />
+                  </div>
+                  <h5>ສ່ວນແບ່ງ</h5>
                 </a>
               </div>
             </div>

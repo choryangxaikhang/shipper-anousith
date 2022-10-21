@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
-import { getLocalHouse, getStaffLogin } from "../../../helper";
+import { detectPhoneNumber, getLocalHouse, getStaffLogin } from "../../../helper";
 import SelectLocalHouse from "../../../helper/components/SelectLocalHouse";
 import { DETAIL_ITEMS, HOME_PAGE } from "../../../routes/app";
 import BottomNav from "../../../layouts/BottomNav";
-import DetailItems from "./DetailItem";
+import whatsapp from "../../../icon/whatsapp.svg";
+
 
 export default function ItemIn() {
 	const { history, location, match } = useReactRouter();
@@ -29,6 +30,13 @@ export default function ItemIn() {
 		}
 	}, []);
 
+	const message = "ສະບາຍດີ"
+	const url = encodeURI(
+		`https://wa.me/${detectPhoneNumber(76968194
+			//   item?.receiverPhone
+		)}?text=${message?.replace(/<br\s*[\/]?>/gi, " ")}`
+	);
+
 	return (
 		<>
 			<div className="appHeader text-light border-0 mr-0">
@@ -42,18 +50,12 @@ export default function ItemIn() {
 				</div>
 				{clickButton === true ? (
 					<>
-						<SelectLocalHouse
-							style={{ width: "100%" }}
-							value={localHouse?._id}
-							onChange={(obj) => {
-								if (obj?._id) {
-									setLocalHouse(obj);
-									localStorage.setItem("HOUSE", JSON.stringify(obj));
-									window.location.reload();
-								}
-							}}
-							ownerId={userData?._id}
-						/>
+						<select className="form-control-sm">
+							<option className="#">--ເລືອກຄ່າເລີ່ມຕົ້ນ--</option>
+							<option className="#">ສົ່ງໄລຍະໃກ້</option>
+							<option className="#">ສົ່ງໄລຍະທົ່ວໄປ</option>
+							<option className="#">ສົ່ງໄລຍະໄກ</option>
+						</select>
 					</>
 				) : (
 					<b className="text-white">ອໍເດີຮັບເຂົ້າ</b>
@@ -68,7 +70,7 @@ export default function ItemIn() {
 							setButton(!clickButton);
 						}}
 					>
-						<i className="fa-solid fa-magnifying-glass fa-2 ms-2" />
+						<i className="fa-solid fa-search fa-2 ms-2" />
 					</button>
 				</div>
 			</div>
@@ -88,74 +90,95 @@ export default function ItemIn() {
 				</div>
 			</div>
 			<div className="mt-2">
-				<div className="section">
-					<div className="section-heading">
-						<strong className="title">ລາຍງານ</strong>
-					</div>
+				<div className="section">					
 					<div className="transactions">
-						<a href="app-transaction-detail.html" className="item">
+						<a href="#" className="item">
 							<div className="detail">
-								<i className="icon-shopping-cart1 fs-1 mr-2"
+								<i className="fa-solid fa-cart-arrow-down fs-1 mr-2"
 									onClick={() => history.push(`${DETAIL_ITEMS}/1`)}
 								/>
 								<div>
 									<strong>ANS-3939484245</strong>
 									<p>ເຄື່ອງທົ່ວໄປ</p>
+									<p>ຊື່ລູກຄ້າ: ດວງດີ</p>
+									<p>
+										<a className="text-link" target="_blank" href={url}>
+											<img style={{ width: 20 }} src={whatsapp} alt="" /> 5241524
+										</a>
+									</p>
 								</div>
 							</div>
 							<div className="right">
-								<button className="btn btn-primary btn-sm">
+								<button className="btn btn-dark btn-sm">
 									<i className="fa-solid fa-share-from-square mr-1" />
 									ຈັດສົ່ງ
 								</button>
 							</div>
 						</a>
-						<a href="app-transaction-detail.html" className="item">
+						<a href="#" className="item">
 							<div className="detail">
-								<i className="icon-shopping-cart1 fs-1 mr-2"
+								<i className="fa-solid fa-cart-arrow-down fs-1 mr-2"
 									onClick={() => history.push(`${DETAIL_ITEMS}/1`)}
 								/>
 								<div>
 									<strong>Apple</strong>
 									<p>Appstore Purchase</p>
+									<p>ຊື່ລູກຄ້າ: ດວງດີ</p>
+									<p>
+										<a className="text-link" target="_blank" href={url}>
+											<img style={{ width: 20 }} src={whatsapp} alt="" /> 5241524
+										</a>
+									</p>
 								</div>
 							</div>
 							<div classNames="right">
-								<button className="btn btn-primary btn-sm">
+								<button className="btn btn-dark btn-sm">
 									<i className="fa-solid fa-share-from-square mr-1" />
 									ຈັດສົ່ງ
 								</button>
 							</div>
 						</a>
-						<a href="app-transaction-detail.html" className="item">
+						<a href="#" className="item">
 							<div className="detail">
-								<i className="icon-shopping-cart1 fs-1 mr-2"
+								<i className="fa-solid fa-cart-arrow-down fs-1 mr-2"
 									onClick={() => history.push(`${DETAIL_ITEMS}/1`)}
 								/>
 								<div>
-									<strong>Alex Ljung</strong>
+									<strong>ANS-524515245</strong>
 									<p>Transfer</p>
+									<p>ຊື່ລູກຄ້າ: ດວງດີ</p>
+									<p>
+										<a className="text-link" target="_blank" href={url}>
+											<img style={{ width: 20 }} src={whatsapp} alt="" /> 5241524
+										</a>
+									</p>
 								</div>
 							</div>
 							<div className="right">
-								<button className="btn btn-primary btn-sm">
+								<button className="btn btn-dark btn-sm">
 									<i className="fa-solid fa-share-from-square mr-1" />
 									ຈັດສົ່ງ
 								</button>
 							</div>
 						</a>
-						<a href="app-transaction-detail.html" className="item">
+						<a href="#" className="item">
 							<div className="detail">
-								<i className="icon-shopping-cart1 fs-1 mr-2"
+								<i className="fa-solid fa-cart-arrow-down fs-1 mr-2"
 									onClick={() => history.push(`${DETAIL_ITEMS}/1`)}
 								/>
 								<div>
-									<strong>Beatriz Brito</strong>
+									<strong>ANS-562412546</strong>
 									<p>Transfer</p>
+									<p>ຊື່ລູກຄ້າ: ດວງດີ</p>
+									<p>
+										<a className="text-link" target="_blank" href={url}>
+											<img style={{ width: 20 }} src={whatsapp} alt="" /> 5241524
+										</a>
+									</p>
 								</div>
 							</div>
 							<div className="right">
-								<button className="btn btn-primary btn-sm">
+								<button className="btn btn-dark btn-sm">
 									<i className="fa-solid fa-share-from-square mr-1" />
 									ຈັດສົ່ງ
 								</button>

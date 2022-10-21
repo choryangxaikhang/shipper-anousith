@@ -1,14 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
-
-import { Row, Table } from "react-bootstrap";
-import Pagination from "../../../helper/controllers/Pagination";
-import { FormControl, InputAdornment, OutlinedInput } from "@mui/material";
-import { getLocalHouse, getStaffLogin } from "../../../helper";
+import { detectPhoneNumber, getLocalHouse, getStaffLogin } from "../../../helper";
 import SelectLocalHouse from "../../../helper/components/SelectLocalHouse";
-import { HOME_PAGE } from "../../../routes/app";
+import { DETAIL_DATA_LIST, HOME_PAGE } from "../../../routes/app";
 import BottomNav from "../../../layouts/BottomNav";
+import whatsapp from "../../../icon/whatsapp.svg";
+
 
 export default function DataListItem() {
 	const { history, location, match } = useReactRouter();
@@ -32,6 +30,13 @@ export default function DataListItem() {
 		}
 	}, []);
 
+	const message = "ສະບາຍດີ"
+	const url = encodeURI(
+		`https://wa.me/${detectPhoneNumber(76968194
+			//   item?.receiverPhone
+		)}?text=${message?.replace(/<br\s*[\/]?>/gi, " ")}`
+	);
+
 	return (
 		<>
 			<div className="appHeader text-light border-0 mr-0">
@@ -45,18 +50,12 @@ export default function DataListItem() {
 				</div>
 				{clickButton === true ? (
 					<>
-						<SelectLocalHouse
-							style={{ width: "100%" }}
-							value={localHouse?._id}
-							onChange={(obj) => {
-								if (obj?._id) {
-									setLocalHouse(obj);
-									localStorage.setItem("HOUSE", JSON.stringify(obj));
-									window.location.reload();
-								}
-							}}
-							ownerId={userData?._id}
-						/>
+						<select className="form-control-sm">
+							<option className="#">--ເລືອກຄ່າເລີ່ມຕົ້ນ--</option>
+							<option className="#">ສົ່ງໄລຍະໃກ້</option>
+							<option className="#">ສົ່ງໄລຍະທົ່ວໄປ</option>
+							<option className="#">ສົ່ງໄລຍະໄກ</option>
+						</select>
 					</>
 				) : (
 					<b className="text-white">ອໍເດີສົ່ງສຳເລັດທັງໝົດ</b>
@@ -71,7 +70,7 @@ export default function DataListItem() {
 							setButton(!clickButton);
 						}}
 					>
-						<i className="fa-solid fa-magnifying-glass fa-2 ms-2" />
+						<i className="fa-solid fa-search fa-2 ms-2" />
 					</button>
 				</div>
 			</div>
@@ -102,172 +101,83 @@ export default function DataListItem() {
 									</div>
 								</div>
 							</div>
-							<div className="option-section mt-1">
-								<div className="row gx-2">
-									<small style={{ textAlign: 'right' }}>ສະແດງ1-50 ລາຍການ</small>
-									<div className="table-responsive">
-										<Table className="table  table-sm mb-0">
-											<thead>
-												<tr>
-													<th className="text-start text-nowrap">
-														<small>
-															ລຳດັບ
-														</small>
-													</th>
-													<th className="text-nowrap text-start">
-														<small>
-															ລະຫັດພັດສະດຸ
-														</small>
-													</th>
-													<th className="text-nowrap text-start">
-														<small>
-															ສາຂາ
-														</small>
-													</th>
-													<th className="text-nowrap text-start">
-														<small>
-															ວັນທີ່
-														</small>
-													</th>
-													{/* {userInfo?.role === "SUPER_ADMIN" ||
-														userInfo?.role === "IT" ? ( */}
-													<th
-														className="text-nowrap text-center"
-														width={100}
-													>
-														<small>
-															ຈັດການ
-														</small>
-													</th>
-													{/* ) : null} */}
-												</tr>
-											</thead>
-											<tbody>
-												<tr className="text-black">
-													<td className="text-start text-nowrap">1</td>
-													<td className="text-nowrap text-start">
-														<small>
-															ANS-12345678
-														</small>
-													</td>
-													<td className="text-center text-nowrap">
-														<small>
-															ສຳນັກງານໃຫຍ່
-														</small>
-													</td>
-													<td className="text-nowrap" style={{ textAlign: 'left' }}>
-														<small>17/10/2022</small>
-
-													</td>
-													<td className="text-center text-nowrap">
-														<small className="btn btn-danger btn-sm">
-															<i className="fa-solid fa-xmark me-2" />
-															ຍົກເລິກ</small>
-													</td>
-												</tr>
-												<tr className="text-black">
-													<td className="text-start text-nowrap">1</td>
-													<td className="text-nowrap text-start">
-														<small>
-															ANS-12345678
-														</small>
-													</td>
-													<td className="text-center text-nowrap">
-														<small>
-															ສຳນັກງານໃຫຍ່
-														</small>
-													</td>
-													<td className="text-nowrap" style={{ textAlign: 'left' }}>
-														<small>17/10/2022</small>
-
-													</td>
-													<td className="text-center text-nowrap">
-														<small className="btn btn-danger btn-sm">
-															<i className="fa-solid fa-xmark me-2" />
-															ຍົກເລິກ</small>
-													</td>
-												</tr>
-												<tr className="text-black">
-													<td className="text-start text-nowrap">1</td>
-													<td className="text-nowrap text-start">
-														<small>
-															ANS-12345678
-														</small>
-													</td>
-													<td className="text-center text-nowrap">
-														<small>
-															ສຳນັກງານໃຫຍ່
-														</small>
-													</td>
-													<td className="text-nowrap" style={{ textAlign: 'left' }}>
-														<small>17/10/2022</small>
-
-													</td>
-													<td className="text-center text-nowrap">
-														<small className="btn btn-danger btn-sm">
-															<i className="fa-solid fa-xmark me-2" />
-															ຍົກເລິກ</small>
-													</td>
-												</tr>
-												<tr className="text-black">
-													<td className="text-start text-nowrap">1</td>
-													<td className="text-nowrap text-start">
-														<small>
-															ANS-12345678
-														</small>
-													</td>
-													<td className="text-center text-nowrap">
-														<small>
-															ສຳນັກງານໃຫຍ່
-														</small>
-													</td>
-													<td className="text-nowrap" style={{ textAlign: 'left' }}>
-														<small>17/10/2022</small>
-
-													</td>
-													<td className="text-center text-nowrap">
-														<small className="btn btn-danger btn-sm">
-															<i className="fa-solid fa-xmark me-2" />
-															ຍົກເລິກ</small>
-													</td>
-												</tr>
-												<tr className="text-black">
-													<td className="text-start text-nowrap">1</td>
-													<td className="text-nowrap text-start">
-														<small>
-															ANS-12345678
-														</small>
-													</td>
-													<td className="text-center text-nowrap">
-														<small>
-															ສຳນັກງານໃຫຍ່
-														</small>
-													</td>
-													<td className="text-nowrap" style={{ textAlign: 'left' }}>
-														<small>17/10/2022</small>
-
-													</td>
-													<td className="text-center text-nowrap">
-														<small className="btn btn-danger btn-sm">
-															<i className="fa-solid fa-xmark me-2" />
-															ຍົກເລິກ</small>
-													</td>
-												</tr>
-											</tbody>
-										</Table>
+						</div>
+					</div>
+				</div>
+				<div className="mt-2">
+					<div className="section">
+						<div className="section-heading">
+							<p className="title">ສະແດງ 1 - 50 ລາຍການ</p>
+						</div>
+						<div className="transactions">
+							<a href="#" className="item">
+								<div className="detail">
+									<i className="fa-solid fa-cart-arrow-down fa-2x mr-2"
+										onClick={() => history.push(`${DETAIL_DATA_LIST}/1`)}
+									/>
+									<div className="text-nowrap">
+										<strong>ANS-3939484245</strong>
+										<p>ເຄື່ອງທົ່ວໄປ</p>
+										<p>ຊື່: ດວງດີrerrerefdf</p>
+										<p>
+											<a className="text-link" target="_blank" href={url}>
+												<img style={{ width: 20 }} src={whatsapp} alt="" /> 5241524
+											</a>
+										</p>
 									</div>
-									{/* <Pagination
-										className="mt-2"
-										pageTotal={countPage}
-										currentPage={numberPage}
-										onPageChange={(page) => {
-											history.push({
-												search: setParams(`page`, page),
-											});
-										}}
-									/> */}
 								</div>
-							</div>
+							</a>
+							<a href="#" className="item">
+								<div className="detail">
+									<i className="fa-solid fa-cart-arrow-down fa-2x mr-2"
+										onClick={() => history.push(`${DETAIL_DATA_LIST}/1`)}
+									/>
+									<div className="text-nowrap">
+										<strong>ANS-3939484245</strong>
+										<p>ເຄື່ອງທົ່ວໄປ</p>
+										<p>ຊື່: ດວງດີrerrerefdf</p>
+										<p>
+											<a className="text-link" target="_blank" href={url}>
+												<img style={{ width: 20 }} src={whatsapp} alt="" /> 5241524
+											</a>
+										</p>
+									</div>
+								</div>
+							</a>
+							<a href="#" className="item">
+								<div className="detail">
+									<i className="fa-solid fa-cart-arrow-down fa-2x mr-2"
+										onClick={() => history.push(`${DETAIL_DATA_LIST}/1`)}
+									/>
+									<div className="text-nowrap">
+										<strong>ANS-3939484245</strong>
+										<p>ເຄື່ອງທົ່ວໄປ</p>
+										<p>ຊື່: ດວງດີrerrerefdf</p>
+										<p>
+											<a className="text-link" target="_blank" href={url}>
+												<img style={{ width: 20 }} src={whatsapp} alt="" /> 5241524
+											</a>
+										</p>
+									</div>
+								</div>
+							</a>
+							<a href="#" className="item">
+								<div className="detail">
+									<i className="fa-solid fa-cart-arrow-down fa-2x mr-2"
+										onClick={() => history.push(`${DETAIL_DATA_LIST}/1`)}
+									/>
+									<div className="text-nowrap">
+										<strong>ANS-3939484245</strong>
+										<p>ເຄື່ອງທົ່ວໄປ</p>
+										<p>ຊື່: ດວງດີrerrerefdf</p>
+										<p>
+											<a className="text-link" target="_blank" href={url}>
+												<img style={{ width: 20 }} src={whatsapp} alt="" /> 5241524
+											</a>
+										</p>
+									</div>
+								</div>
+							</a>
 						</div>
 					</div>
 				</div>
