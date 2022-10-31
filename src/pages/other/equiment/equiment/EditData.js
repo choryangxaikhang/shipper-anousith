@@ -80,7 +80,7 @@ export default function EditData({ data, onSuccess }) {
               size: String(values?.size),
               price: parseInt(values?.price),
               details: values?.details,
-              total: 0,
+              total: parseInt(values?.total),
             },
             where: {
               _id: data?._id,
@@ -112,6 +112,7 @@ export default function EditData({ data, onSuccess }) {
     if (!show) {
       return;
     }
+    setFieldValue("total", data?.total ? data?.total : 0, false);
     setListEquimentType(data?.equimentType);
     setFieldValue("title", data?.title ? data?.title : "", false);
     setFieldValue("unit", data?.unit ? data?.unit : "", false);
@@ -206,6 +207,23 @@ export default function EditData({ data, onSuccess }) {
                 onChange={handleChange}
               />
             </FormControl>
+          </div>
+          <div className="form-group mb-2">
+            <TextField
+              variant="outlined"
+              type="number"
+              name="total"
+              hidden
+              disabled={true}
+              onWheel={(e) => e.target.blur()}
+              value={values?.total}
+              onChange={handleChange}
+              sx={{
+                m: 0,
+                width: "100%",
+                backgroundColor: "#ffff",
+              }}
+            />
           </div>
           <div className="form-group mb-2">
             <TextField
