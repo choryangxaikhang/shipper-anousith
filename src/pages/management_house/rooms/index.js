@@ -164,13 +164,17 @@ export default function Rooms() {
                         </strong>
                         <b className="colors">
                           ລາຄາ:{" "}
-                          {currency(data?.priceFull ? data?.priceFull : "-")} /{" "}
-                          {currency(data?.priceFull ? data?.priceFull : "-")}
+                          {currency(data?.priceFull ? data?.priceFull : "-")} / ຄ້າງຄືນ{" "}            
+                        </b>
+                        <br />
+                        <b className="colors">
+                          ລາຄາ:{" "}                    
+                          {currency(data?.priceHalf ? data?.priceHalf : "-")} / ຊົ່ວຄາວ{" "}
                         </b>
                         <br />
                         <b className="colors">
                           ປະເພດຫ້ອງ:{" "}
-                          {currency(data?.priceFull ? data?.priceFull : "-")}
+                          {data?.typeRoom?.title_lao ? data?.typeRoom?.title_lao : "-"}
                         </b>
                         <br />
                         <b className="colors">
