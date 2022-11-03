@@ -52,14 +52,20 @@ query Query($where: ItemWhereInput, $orderBy: OrderByItem, $limit: Int, $skip: I
       originBranch {
         _id
         title
+        map_lat
+        map_long
       }
       destBranch {
         _id
         title
+        map_lat
+        map_long
       }
       sentBranch {
         _id
         title
+        map_lat
+        map_long
       }
       createdBy {
         id_user

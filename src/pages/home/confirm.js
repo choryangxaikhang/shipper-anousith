@@ -30,7 +30,7 @@ export default function ShipperConFirm() {
 		fetchData({
 			variables: {
 				where: {
-					itemStatus: "SHIPPER_CONFIRMED"
+					itemStatus: "REQUESTING"
 				},
 			},
 		})
@@ -41,7 +41,7 @@ export default function ShipperConFirm() {
 	const updateDistance = (id) => {
 		Notiflix.Confirm.show(
 			"ແຈ້ງເຕືອນ",
-			"ທ່ານຕ້ອງການຈັດສົ່ງ ແທ້ ຫຼື ບໍ່?",
+			"ທ່ານຕ້ອງການຢືນຢັນ ແທ້ ຫຼື ບໍ່?",
 			"ຕົກລົງ",
 			"ຍົກເລີກ",
 			async () => {
@@ -49,7 +49,7 @@ export default function ShipperConFirm() {
 					const _updateDistance = await updateListItem({
 						variables: {
 							data: {
-								itemStatus: "ORIGIN_TRANSFERRING"
+								itemStatus: "SHIPPER_CONFIRMED"
 							},
 							where: {
 								_id: parseInt(id),
@@ -73,7 +73,6 @@ export default function ShipperConFirm() {
 	};
 
 	const message = "ສະບາຍດີ"
-
 
 	return (
 		<>
@@ -119,14 +118,15 @@ export default function ShipperConFirm() {
 										onClick={() => history.push(`${DETAIL_ITEMS}/${item?._id} `)}
 									/>
 									<div className="text-nowrap">
-										<strong>{item?.trackingId}</strong>
+										{/* <strong>{item?.trackingId}</strong> */}
+										<strong>ID: {item?.customer?.id_list}</strong>
 										<p>ຊື່: {item?.receiverName}</p>
 										<p>
 											<a className="text-link" target="_blank"
 												href={`https://wa.me/${detectPhoneNumber(item?.receiverPhone
 												)}?text=${message?.replace(/<br\s*[\/]?>/gi, " ")}`}>
 												{/* <img style={{ width: 20 }} src={whatsapp} alt="" /> */}
-												<i className="fas fa-phone"/>
+												<i className="fas fa-phone" />
 												{item?.receiverPhone}
 											</a>
 										</p>

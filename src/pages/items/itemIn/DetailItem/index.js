@@ -136,7 +136,42 @@ export default function DetailItems() {
 							))}
 						</ul>
 					</div>
-
+				</div>
+				<h3 className="text-center mt-3">
+					<i className="fas fa-location-dot fs-2 mr-1 text-danger" />
+					ທີ່ຢູ່ປາຍທາງ </h3>
+				<div className="mapouter">
+					{_item && _item?.map((item) => (
+						<div className="gmap_canvas">
+							<iframe
+								width={"100%"}
+								height={230}
+								id="gmap_canvas"
+								src={`https://maps.google.com/maps?q=${item?.originBranch?.map_lat
+									? item?.originBranch?.map_lat : "-"
+									},${item?.originBranch?.map_long
+										? item?.originBranch?.map_long : "-"
+									}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+								frameBorder={0}
+								scrolling="no"
+								marginHeight={0}
+								marginWidth={0}
+							/>
+							<br />
+							<style
+								dangerouslySetInnerHTML={{
+									__html:
+										".mapouter{position:relative;text-align:right;height:230px;width:100%;}",
+								}}
+							/>
+							<style
+								dangerouslySetInnerHTML={{
+									__html:
+										".gmap_canvas {overflow:hidden;background:none!important;height:230px;width:100%;}",
+								}}
+							/>
+						</div>
+					))}
 				</div>
 			</div>
 		</>

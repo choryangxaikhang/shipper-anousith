@@ -105,7 +105,9 @@ export default function ItemIn() {
 									</div>
 
 									<div className="text-nowrap">
-										<strong>{item?.trackingId}</strong>
+										{/* <strong>{item?.trackingId}</strong> */}
+										<strong>ID: {item?.customer?.id_list}</strong>
+
 										<p>ຊື່: {item?.receiverName}</p>
 										<p>
 											<a className="text-link" target="_blank"
@@ -128,9 +130,9 @@ export default function ItemIn() {
 										</>
 									</div>
 								</div>
-								<div className="center">
+								<div className="right">
 									{item?.itemStatus !== "COMPLETED" ? (
-										<button type="button" className="btn btn-dark rounded mt-1 text-nowrap btn-block"
+										<button type="button" className="btn btn-dark right rounded mt-1 text-nowrap btn-block"
 											onClick={() =>
 												updateDistance(item?._id)
 											}
@@ -139,6 +141,16 @@ export default function ItemIn() {
 											ຈັດສົ່ງ
 										</button>
 									) : null}
+									{/* {item?.itemStatus === "ORIGIN_TRANSFERRING" ? (
+										<button type="button" className="btn btn-success rounded mt-1 text-nowrap btn-block"
+											onClick={() =>
+												updateDistance(item?._id)
+											}
+										>
+											<i className="fa-solid fa-circle-check mr-1" />
+											ຢືນຢັນ
+										</button>
+									) : null} */}
 								</div>
 							</a>
 						))}

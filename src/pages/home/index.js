@@ -31,14 +31,12 @@ export default function Home() {
     fetchData({
       variables: {
         where: {
-          itemStatus: "SHIPPER_CONFIRMED"
+          itemStatus: "REQUESTING"
         },
       },
-    })
+    });  
   }, [result, reloadData]);
   const total = result?.items?.total;
-
-
 
   return (
     <>
@@ -121,35 +119,6 @@ export default function Home() {
                 </a>
               </div>
               <div className="item">
-                {/* {loading ? ( */}
-                <span
-                  className="ms-2"
-                  style={{
-                    position: "fixed",
-                    marginTop: 0,
-                    marginRight: -50,
-                    padding: 0,
-                    zIndex: 1000,
-                  }}
-                >
-                  {loadingData(10)}
-                </span>
-                {/* ) : setData?.bookings?.total > 0 ? ( */}
-                <span
-                  className="badge badge-success ms-2"
-                  style={{
-                    position: "fixed",
-                    marginTop: -10,
-                    marginRight: -50,
-                    padding: 0,
-                    zIndex: 1000,
-                  }}
-                >
-                  <small className="p-1">
-                    {/* {setData?.bookings?.total} */}
-                  </small>
-                </span>
-                {/* ) : null} */}
                 <a
                   href="javascript:void(0)"
                   onClick={() => history.push(`${TAB_MENU_DELIVERING}/1`)}
@@ -161,35 +130,6 @@ export default function Home() {
                 </a>
               </div>
               <div className="item">
-                {/* {loadingFull ? ( */}
-                <span
-                  className="ms-2"
-                  style={{
-                    position: "fixed",
-                    marginTop: -10,
-                    marginRight: -50,
-                    padding: 0,
-                    zIndex: 1000,
-                  }}
-                >
-                  {loadingData(10)}
-                </span>
-                {/* ) : setDataFull?.bookings?.total > 0 ? ( */}
-                <span
-                  className="badge badge-success ms-2"
-                  style={{
-                    position: "fixed",
-                    marginTop: -10,
-                    marginRight: -50,
-                    padding: 0,
-                    zIndex: 1000,
-                  }}
-                >
-                  <small className="p-1">
-                    {/* {setDataFull?.bookings?.total} */}
-                  </small>
-                </span>
-                {/* ) : null} */}
                 <a
                   onClick={(e) => history.push(`${TAB_MENU_COMPLETED}/1`)}
                 >
