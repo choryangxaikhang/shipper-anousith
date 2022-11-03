@@ -16,13 +16,13 @@ export default function BottomNav() {
         backgroundColor: "#ffff",
       }}
     >
-      {userInfo?.role == "BRANCH_DIRECTOR" ||
+      {/* {userInfo?.role == "BRANCH_DIRECTOR" ||
       userInfo?.role === "IT" ||
       userInfo?.role === "SUPER_ADMIN" ||
       userInfo?.role === "ADMIN" ||
       userInfo?.role === "FINANCE" ||
-      userInfo?.role === "ACCOUNTANT" ? (
-        <>
+      userInfo?.role === "ACCOUNTANT" ? ( 
+        <>*/}
           <NavLink
             className="item"
             to={`${TAB_MENU_LIST}/1`}
@@ -43,8 +43,8 @@ export default function BottomNav() {
               </strong>
             </div>
           </NavLink>
-        </>
-      ) : null}
+        {/* </>
+      ) : null} */}
       <NavLink className="item" to="/home">
         <div className="col pt-1">
           <i className="icon-home text-secondary" style={{ fontSize: 25 }} />

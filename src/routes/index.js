@@ -28,6 +28,7 @@ import TabMenuItems from "../pages/items/itemIn/TabMenu";
 import TabMenuDelivering from "../pages/items/itemDelivering/TabMenuDeli";
 import TabMenuCompleted from "../pages/items/itemComplete/TabMenuCom";
 import TabMenuList from "../pages/items/listItem/TabMenuList";
+import ShipperConFirm from "../pages/home/confirm";
 export default function Routes() {
   const { userDispatch } = useContext(AppContext);
   const _local = localStorage.getItem(TOKEN);
@@ -67,6 +68,13 @@ export default function Routes() {
                 </Route>
 
                 {/* ຈັດການອໍເດີ */}
+
+                <Route
+                  exact
+                  path={`${ROUTES.SHIPPER_CONFIRM}/:_id`}
+                  component={(props) => <ShipperConFirm {...props} />}
+                />
+
                 <Route
                   exact
                   path={`${ROUTES.ITEM_IN}/:_id`}

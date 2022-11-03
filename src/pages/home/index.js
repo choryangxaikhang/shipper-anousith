@@ -5,13 +5,40 @@ import BottomNav from "../../layouts/BottomNav";
 import {
   loadingData,
 } from "../../helper";
-import { COMMITION_SHIPER, TAB_MENU_COMPLETED, TAB_MENU_DELIVERING, TAB_MENU_ITEM_IN } from "../../routes/app";
+import {
+  COMMITION_SHIPER,
+  SHIPPER_CONFIRM,
+  TAB_MENU_COMPLETED,
+  TAB_MENU_DELIVERING,
+  TAB_MENU_ITEM_IN
+} from "../../routes/app";
 import SelectLocalHouse from "../../helper/components/SelectLocalHouse";
+import { LIST_SHIPPER_CONFIRMED } from "./apollo";
+import { useEffect } from "react";
+import { useLazyQuery } from "@apollo/client";
 export default function Home() {
   const { history } = useReactRouter();
   const [house, setHouse] = useState("");
   const [userData, setUserData] = useState({});
   const [clickButton, setButton] = useState(false);
+  const [reloadData, setReLoadData] = useState(false);
+
+  const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_CONFIRMED, {
+    fetchPolicy: "cache-and-network",
+  });
+
+  useEffect(() => {
+    fetchData({
+      variables: {
+        where: {
+          itemStatus: "SHIPPER_CONFIRMED"
+        },
+      },
+    })
+  }, [result, reloadData]);
+  const total = result?.items?.total;
+
+
 
   return (
     <>
@@ -54,23 +81,18 @@ export default function Home() {
           >
             <a
               className="mr-3 float-right"
-            // onClick={() => history.push(`${BOOKING}/1`)}
+              onClick={() => history.push(`${SHIPPER_CONFIRM}/1`)}
+
             >
               <i className="icon-bell" style={{ fontSize: 20 }} />
-              {/* {loadingBooking ? ( */}
               <span style={{ position: "absolute", right: 10, top: 10 }}>
                 {loadingData(10)}
               </span>
-              {/* ) : setBooking?.summaryBookingTotal?.bookingTotal > 0 ? ( */}
               <span className="badge badge-success mr-1 p-2">
                 <small>
-                  {/* {setBooking?.summaryBookingTotal?.bookingTotal
-                      ? setBooking?.summaryBookingTotal?.bookingTotal
-                      : 0} */}
-                  12
+                  {total || 0}
                 </small>
               </span>
-              {/* ) : null} */}
             </a>
           </div>
         </div>
@@ -93,7 +115,7 @@ export default function Home() {
                   onClick={() => history.push(`${TAB_MENU_ITEM_IN}/1`)}
                 >
                   <div className="icon-wrapper">
-                    <i className="fa-solid fa fa-cart-plus fa-2x" />
+                    <i className="fa-solid fa-circle-down fa-2x" />
                   </div>
                   <h5>ອໍເດີຮັບແລ້ວ</h5>
                 </a>
@@ -133,7 +155,7 @@ export default function Home() {
                   onClick={() => history.push(`${TAB_MENU_DELIVERING}/1`)}
                 >
                   <div className="icon-wrapper">
-                    <i className="fa-solid fa-circle-down fa-2x" />
+                    <i className="fa-solid fa-truck fa-2x" />
                   </div>
                   <h5>ກຳລັງຈັດສົ່ງ</h5>
                 </a>

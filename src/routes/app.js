@@ -2,6 +2,7 @@ export const HOME_PAGE = "/home";
 export const LOGIN = "/login";
 export const OTHER = "/other";
 export const PROFILES = "/profile";
+export const SHIPPER_CONFIRM = "/confirm";
 //Order
 export const ITEM_IN = "/item/item_In"
 export const ITEM_DELIVERING = "/item/itemDelivering"

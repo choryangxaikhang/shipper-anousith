@@ -45,6 +45,9 @@ body {
   font-size: 75px;
   font-family: "Impact";
 }
+#border-radius {
+color:3px solid red
+}
 .count-reward {
   width: auto;
   height: 25px;

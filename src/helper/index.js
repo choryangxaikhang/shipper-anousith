@@ -28,7 +28,7 @@ export const clearLocalStorage = () => {
 };
 
 export const detectPhoneNumber = (phon) => {
-  if (phon?.length >= 8) {
+  if (String(phon)?.length >= 8) {
     return "85620" + phon;
   } else {
     return "85630" + phon;
@@ -159,6 +159,20 @@ export const paiStatus = (status) => {
     return "ຈ່າຍແລ້ວ";
   } else if (status === 0) {
     return "ຍັງບໍ່ທັນຈ່າຍ";
+  } else {
+    return "-";
+  }
+};
+
+export const chargeOnShop = (chargeOnShop) => {
+  if (chargeOnShop === 1) {
+    return <span className="text-success">
+      <i className="fas fa-circle-check mr-1"/>
+      ຈ່າຍຕົ້ນທາງ</span>;
+  } else if (chargeOnShop === 0) {
+    return <span className="text-danger">
+      <i className="fas fa-exclamation mr-1" />
+      ຈ່າຍປາຍທາງ</span>;
   } else {
     return "-";
   }
@@ -532,11 +546,30 @@ export const randomBillNo = (pr = "B-") => {
   return pr;
 };
 
-export const houseStatus = (house) => {
-  if (house === "GUEST_HOUSE") {
-    return "ກິດຈະການພັກ";
-  } else if (house === "HOTEL") {
-    return "ໂຮມແຮມ";
+export const ItemStatus = (itemStatus) => {
+  if (itemStatus === "CANCELED") {
+    return "ຍົກເລິກ";
+  } else if (itemStatus === "COMPLETED") {
+    return "ສົ່ງສຳເລັດ";
+  } else if (itemStatus === "LOCKED") {
+    return "ລ໋ອກສາຍ";
+  } else if (itemStatus === "ORIGIN_RECEIVED") {
+    return "ສາຂາຕົ້ນທາງ";
+  } else if (itemStatus === "ORIGIN_TRANSFERRING") {
+    return "ກຳລັງເຄື່ອນຍ້າຍ";
+  } else if (itemStatus === "DEST_RECEIVED") {
+    return "ຮອດປາຍທາງ";
+  } else if (itemStatus === "REQUESTING") {
+    return "ກຳລັງຮ້ອງຂໍ";
+  } else if (itemStatus === "ASSIGNING") {
+    return "ການມອບ";
+  } else if (itemStatus === "SHIPPER_CONFIRMED") {
+    return "ໄລເດີກົດຮັບແລ້ວກຳລັງຈົດສົ່ງ";
+  } else if (itemStatus === "DELIVERED") {
+    return "ຈັດສົ່ງແລ້ວ";
+  } else if (itemStatus === "CREATING") {
+    return "ການສ້າງ";
+
   } else {
     return "-";
   }

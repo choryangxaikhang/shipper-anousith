@@ -14484,7 +14484,7 @@ a.text-dark {
 }
 .transactions .item .detail {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: flex-start;
   line-height: 1.2em;
 }

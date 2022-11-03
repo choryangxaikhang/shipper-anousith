@@ -6,21 +6,23 @@ import {
 	ItemStatus,
 	messageError,
 	messageSuccess
-} from "../../../helper";
-import { DETAIL_ITEMS } from "../../../routes/app";
-import BottomNav from "../../../layouts/BottomNav";
-import whatsapp from "../../../icon/whatsapp.svg";
+} from "../../helper";
+import { DETAIL_ITEMS, HOME_PAGE } from "../../routes/app";
+import BottomNav from "../../layouts/BottomNav";
+import whatsapp from "../../icon/whatsapp.svg";
 import Notiflix from "notiflix";
-import { QUERY_LIST_ITEM, UPDATE_LIST_ITEM } from "../listItem/apollo";
+import "./index.css";
 import { useLazyQuery, useMutation } from "@apollo/client";
+import { UPDATE_LIST_ITEM } from "../items/listItem/apollo";
+import { LIST_SHIPPER_CONFIRMED } from "./apollo";
 
 
-export default function ItemIn() {
+export default function ShipperConFirm() {
 	const { history, location, match } = useReactRouter();
 	const [reloadData, setReloadData] = useState(false);
 	const [_item, setResult] = useState();
 	const [updateListItem] = useMutation(UPDATE_LIST_ITEM);
-	const [fetchData, { data: result, }] = useLazyQuery(QUERY_LIST_ITEM, {
+	const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_CONFIRMED, {
 		fetchPolicy: "cache-and-network",
 	});
 
@@ -28,7 +30,7 @@ export default function ItemIn() {
 		fetchData({
 			variables: {
 				where: {
-					// itemStatus: "SHIPPER_CONFIRMED"
+					itemStatus: "SHIPPER_CONFIRMED"
 				},
 			},
 		})
@@ -75,6 +77,22 @@ export default function ItemIn() {
 
 	return (
 		<>
+			<div className="appHeader text-light border-0 mr-0">
+				<div style={{ flex: 1 }} className="text-left">
+					<button
+						className="btn text-white"
+						onClick={() => history.push(HOME_PAGE)}
+					>
+						<i className="fa fa-chevron-left fs-4" />
+					</button>
+				</div>
+				{/* {houseId?.houseName ? houseId?.houseName : "ລາຍງານຂໍ້ມູນ"} */}
+				<b className="text-white">ອໍເດີໃໝ່</b>
+				<div
+					className="text-white pageTitle text-right text-nowrap pr-0"
+					style={{ flex: 1 }}
+				></div>
+			</div>
 			<div className=" body-content-lg" style={{ marginTop: 60 }}>
 				<div className="option-section">
 					<div className="col-12">
@@ -93,17 +111,13 @@ export default function ItemIn() {
 			</div>
 			<div className="mt-2">
 				<div className="section">
-					<div className="transactions ">
+					<div className="transactions">
 						{_item && _item?.map((item) => (
 							<a href="#" className="item">
 								<div className="detail">
-									<div className="align-top"
-									>
-										<i className="fa-solid fa-cart-arrow-down fa-2x mr-1"
-											onClick={() => history.push(`${DETAIL_ITEMS}/${item?._id} `)}
-										/>
-									</div>
-
+									<i className="fa-solid fa-cart-arrow-down fa-2x mr-2"
+										onClick={() => history.push(`${DETAIL_ITEMS}/${item?._id} `)}
+									/>
 									<div className="text-nowrap">
 										<strong>{item?.trackingId}</strong>
 										<p>ຊື່: {item?.receiverName}</p>
@@ -111,7 +125,9 @@ export default function ItemIn() {
 											<a className="text-link" target="_blank"
 												href={`https://wa.me/${detectPhoneNumber(item?.receiverPhone
 												)}?text=${message?.replace(/<br\s*[\/]?>/gi, " ")}`}>
-												<img style={{ width: 20 }} src={whatsapp} alt="" />{item?.receiverPhone}
+												{/* <img style={{ width: 20 }} src={whatsapp} alt="" /> */}
+												<i className="fas fa-phone"/>
+												{item?.receiverPhone}
 											</a>
 										</p>
 
@@ -128,20 +144,23 @@ export default function ItemIn() {
 										</>
 									</div>
 								</div>
-								<div className="center">
+								<div className="right">
 									{item?.itemStatus !== "COMPLETED" ? (
-										<button type="button" className="btn btn-dark rounded mt-1 text-nowrap btn-block"
+										<button type="button"
+											className="btn btn-success w-100 rounded btn-sm"
+											data-dismiss="modal"
 											onClick={() =>
 												updateDistance(item?._id)
 											}
 										>
-											<i className="fa-solid fa-share-from-square mr-1" />
-											ຈັດສົ່ງ
+											<i className="fa-solid fa-circle-check mr-1" />
+											ຢືນຢັນ
 										</button>
 									) : null}
 								</div>
 							</a>
 						))}
+
 					</div>
 				</div>
 			</div>

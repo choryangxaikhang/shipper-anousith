@@ -21,12 +21,12 @@ export default function Login({ history }) {
     <>
       <Formik
         initialValues={{
-          phoneNumber: "",
+          phone_number: "",
           password: "",
         }}
         validate={(values) => {
           const errors = {};
-          if (!values.phoneNumber) errors.phoneNumber = "ກະລຸນາປ້ອນເບີໂທ";
+          if (!values.phone_number) errors.phone_number = "ກະລຸນາປ້ອນເບີໂທ";
           if (!values.password) errors.password = "ກະລຸນາປ້ອນລະຫັດຜ່ານ";
           return errors;
         }}
@@ -35,7 +35,7 @@ export default function Login({ history }) {
             let user = await userLogIn({
               variables: {
                 where: {
-                  phoneNumber: parseInt(values?.phoneNumber),
+                  phone_number: parseInt(values?.phone_number),
                   password: String(values?.password),
                 },
               },
@@ -104,15 +104,15 @@ export default function Login({ history }) {
                       <label>ເບີໂທ</label>
                       <FormControl fullWidth sx={{ m: 0 }}>
                         <OutlinedInput
-                          value={values.phoneNumber}
-                          onChange={handleChange("phoneNumber")}
+                          value={values.phone_number}
+                          onChange={handleChange("phone_number")}
                           startAdornment={
                             <InputAdornment position="start">
                               <i className="icon-phone  fs-3" />
                             </InputAdornment>
                           }
-                          error={errors.phoneNumber}
-                          name="phoneNumber"
+                          error={errors.phone_number}
+                          name="phone_number"
                           onWheel={(e) => e.target.blur()}
                           type="number"
                           placeholder="ປ້ອນເບີໂທ"
@@ -135,7 +135,7 @@ export default function Login({ history }) {
                               <i className="fa-sharp fa-solid fa-key fs-3" />
                             </InputAdornment>
                           }
-                          error={errors.phoneNumber}
+                          error={errors.phone_number}
                           type={showPassword}
                           name="password"
                           placeholder="**********"

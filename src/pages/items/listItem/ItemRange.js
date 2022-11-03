@@ -1,10 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
-import { detectPhoneNumber, getLocalHouse, getStaffLogin } from "../../../helper";
-import { DETAIL_ITEMS } from "../../../routes/app";
+import { detectPhoneNumber, getLocalHouse, getStaffLogin, ItemStatus, messageError, messageSuccess } from "../../../helper";
+import { DETAIL_DATA_LIST, DETAIL_ITEMS } from "../../../routes/app";
 import BottomNav from "../../../layouts/BottomNav";
 import whatsapp from "../../../icon/whatsapp.svg";
+import Notiflix from "notiflix";
+import { QUERY_LIST_ITEM, UPDATE_LIST_ITEM } from "./apollo";
+import { useLazyQuery, useMutation } from "@apollo/client";
 
 
 export default function ItemRanges() {
@@ -12,10 +15,9 @@ export default function ItemRanges() {
 	const jsonObj = getStaffLogin();
 	const [localHouse, setLocalHouse] = useState("");
 	const userInfo = jsonObj?.data;
-	const [numberPage, setNumberPage] = useState(1);
-	const [house, setHouse] = useState("");
 	const [userData, setUserData] = useState({});
-	const [clickButton, setButton] = useState(false);
+	const [_item, setResult] = useState();
+	const [reloadData, setReloadData] = useState(false);
 
 	// data HouseLoca
 	useEffect(() => {
@@ -30,11 +32,56 @@ export default function ItemRanges() {
 	}, []);
 
 	const message = "ສະບາຍດີ"
-	const url = encodeURI(
-		`https://wa.me/${detectPhoneNumber(76968194
-			//   item?.receiverPhone
-		)}?text=${message?.replace(/<br\s*[\/]?>/gi, " ")}`
-	);
+
+	const [updateListItem] = useMutation(UPDATE_LIST_ITEM);
+	const [fetchData, { data: result, }] = useLazyQuery(QUERY_LIST_ITEM, {
+		fetchPolicy: "cache-and-network",
+	});
+
+	useEffect(() => {
+		fetchData({
+			variables: {
+				where: {
+					// isDeleted: 1,
+				},
+			},
+		})
+		setResult(result?.items?.data)
+	}, [result, reloadData]);
+
+	const updateDistance = (id) => {
+		Notiflix.Confirm.show(
+			"ແຈ້ງເຕືອນ",
+			"ທ່ານຕ້ອງການຈັດສົ່ງ ແທ້ ຫຼື ບໍ່?",
+			"ຕົກລົງ",
+			"ຍົກເລີກ",
+			async () => {
+				try {
+					const _updateDistance = await updateListItem({
+						variables: {
+							data: {
+								itemStatus: "ORIGIN_TRANSFERRING"
+							},
+							where: {
+								_id: parseInt(id),
+							},
+						},
+					});
+
+					if (_updateDistance) {
+						messageSuccess("ດຳເນີນການສຳເລັດ");
+						setReloadData(!reloadData);
+					}
+				} catch (error) {
+					console.log(error)
+					messageError("ດຳເນີນການບໍ່ສຳເລັດ");
+				}
+			},
+			() => {
+				return false;
+			}
+		);
+	};
 
 	return (
 		<>
@@ -57,98 +104,50 @@ export default function ItemRanges() {
 			<div className="mt-2">
 				<div className="section">
 					<div className="transactions">
-						<a href="#" className="item">
-							<div className="detail">
-								<i className="fa-solid fa-cart-arrow-down fs-1 mr-2"
-									onClick={() => history.push(`${DETAIL_ITEMS}/1`)}
-								/>
-								<div>
-									<strong>ANS-555555555</strong>
-									<p>fgdfdg</p>
-									<p>ຊື່ລູກຄ້າ: ດວງດີ</p>
-									<p>
-										<a className="text-link" target="_blank" href={url}>
-											<img style={{ width: 20 }} src={whatsapp} alt="" /> 54411144
-										</a>
-									</p>
+					{_item && _item?.map((item) => (
+							<a href="#" className="item">
+								<div className="detail">
+									<i className="fa-solid fa-cart-arrow-down fa-2x mr-2"
+										onClick={() => history.push(`${DETAIL_DATA_LIST}/${item?._id} `)}
+									/>
+									<div className="text-nowrap">
+										<strong>{item?.trackingId}</strong>
+										<p>ຊື່: {item?.receiverName}</p>
+										<p>
+											<a className="text-link" target="_blank"
+												href={`https://wa.me/${detectPhoneNumber(item?.receiverPhone
+												)}?text=${message?.replace(/<br\s*[\/]?>/gi, " ")}`}>
+												<img style={{ width: 20 }} src={whatsapp} alt="" />{item?.receiverPhone}
+											</a>
+										</p>
+
+										<>
+											{item?.itemStatus === "COMPLETED" ? (
+												<small className="text-success">
+													{ItemStatus(item?.itemStatus)}
+												</small>
+											) : (
+												<small className="text-danger">
+													{ItemStatus(item?.itemStatus)}
+												</small>
+											)}
+										</>
+									</div>
 								</div>
-							</div>
-							<div className="right">
-								<button className="btn btn-dark btn-sm">
-									<i className="fa-solid fa-share-from-square mr-1" />
-									ຈັດສົ່ງ
-								</button>
-							</div>
-						</a>
-						<a href="#" className="item">
-							<div className="detail">
-								<i className="fa-solid fa-cart-arrow-down fs-1 mr-2"
-									onClick={() => history.push(`${DETAIL_ITEMS}/1`)}
-								/>
-								<div>
-									<strong>Apple</strong>
-									<p>Appstore Purchase</p>
-									<p>ຊື່ລູກຄ້າ: ດວງດີ</p>
-									<p>
-										<a className="text-link" target="_blank" href={url}>
-											<img style={{ width: 20 }} src={whatsapp} alt="" /> 5241524
-										</a>
-									</p>
+								<div className="right">
+									{item?.itemStatus !== "COMPLETED" ? (
+										<button type="button" className="btn btn-dark w-100 rounded btn-sm"
+											onClick={() =>
+												updateDistance(item?._id)
+											}
+										>
+											<i className="fa-solid fa-share-from-square mr-1" />
+											ຈັດສົ່ງ
+										</button>
+									) : null}
 								</div>
-							</div>
-							<div classNames="right">
-								<button className="btn btn-dark btn-sm">
-									<i className="fa-solid fa-share-from-square mr-1" />
-									ຈັດສົ່ງ
-								</button>
-							</div>
-						</a>
-						<a href="#" className="item">
-							<div className="detail">
-								<i className="fa-solid fa-cart-arrow-down fs-1 mr-2"
-									onClick={() => history.push(`${DETAIL_ITEMS}/1`)}
-								/>
-								<div>
-									<strong>ANS-524515245</strong>
-									<p>Transfer</p>
-									<p>ຊື່ລູກຄ້າ: ດວງດີ</p>
-									<p>
-										<a className="text-link" target="_blank" href={url}>
-											<img style={{ width: 20 }} src={whatsapp} alt="" /> 5241524
-										</a>
-									</p>
-								</div>
-							</div>
-							<div className="right">
-								<button className="btn btn-dark btn-sm">
-									<i className="fa-solid fa-share-from-square mr-1" />
-									ຈັດສົ່ງ
-								</button>
-							</div>
-						</a>
-						<a href="#" className="item">
-							<div className="detail">
-								<i className="fa-solid fa-cart-arrow-down fs-1 mr-2"
-									onClick={() => history.push(`${DETAIL_ITEMS}/1`)}
-								/>
-								<div>
-									<strong>ANS-562412546</strong>
-									<p>Transfer</p>
-									<p>ຊື່ລູກຄ້າ: ດວງດີ</p>
-									<p>
-										<a className="text-link" target="_blank" href={url}>
-											<img style={{ width: 20 }} src={whatsapp} alt="" /> 5241524
-										</a>
-									</p>
-								</div>
-							</div>
-							<div className="right">
-								<button className="btn btn-dark btn-sm">
-									<i className="fa-solid fa-share-from-square mr-1" />
-									ຈັດສົ່ງ
-								</button>
-							</div>
-						</a>
+							</a>
+						))}			
 					</div>
 				</div>
 			</div>
