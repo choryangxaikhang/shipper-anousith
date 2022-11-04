@@ -12,12 +12,10 @@ export default function CODCompleted({ getData, loadData, data }) {
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
 	const [updateListItem] = useMutation(UPDATE_LIST_ITEM);
-
 	const [valueKIP, setValueKIP] = useState(data?.itemValueKIP)
 	const [valueTHB, setValueTHB] = useState(data?.itemValueTHB)
 	const [valueUSD, setValueUSD] = useState(data?.itemValueUSD)
-
-
+	
 	const updateDistance = (id) => {
 		Notiflix.Confirm.show(
 			"ແຈ້ງເຕືອນ",

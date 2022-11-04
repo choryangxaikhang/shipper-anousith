@@ -44,23 +44,7 @@ export default function DetailICompleted() {
 						<i className="fa fa-chevron-left fs-4" />
 					</button>
 				</div>
-				{clickButton === true ? (
-					<>
-						<SelectLocalHouse
-							style={{ width: "100%" }}
-							value={localHouse?._id}
-							onChange={(obj) => {
-								if (obj?._id) {
-									setLocalHouse(obj);
-									localStorage.setItem("HOUSE", JSON.stringify(obj));
-									window.location.reload();
-								}
-							}}
-						/>
-					</>
-				) : (
-					<b className="text-white">ລາຍລະອຽດ</b>
-				)}
+				<b className="text-white">ລາຍລະອຽດ</b>
 				<div
 					className="text-white pageTitle text-right text-nowrap pr-0"
 					style={{ flex: 1 }}
@@ -94,6 +78,10 @@ export default function DetailICompleted() {
 										<span>{formatDateTime(item?.createdDate) || " "}</span>
 									</li>
 									<li>
+										<strong>ວັນທີ່ສົ່ງສຳເລັດ</strong>
+										<span>{formatDateTime(item?.deliveryCompletedDate) || " "}</span>
+									</li>
+									<li>
 										<strong>ສາຂາຕົ້ນທາງ</strong>
 										<span>{item?.originBranch?.title || " "}</span>
 									</li>
@@ -102,12 +90,20 @@ export default function DetailICompleted() {
 										<span>{item?.destBranch?.title || " "}</span>
 									</li>
 									<li>
-										<strong>ຊື່ຜູ້ຮັບ</strong>
-										<span className="text-success">{item?.receiverName || " "}</span>
+										<span>
+											<i className="fas fa-user" />
+											ID: {item?.customer?.id_list || " "}
+										</span> |
+										<span>
+											<i className="fas fa-phone" /> {" "}
+											{item?.customer?.contact_info || " "}</span>
 									</li>
 									<li>
-										<strong>ເບີໂທ</strong>
-										<span>{item?.receiverPhone || " "}</span>
+										<span>
+											<i className="fas fa-user" />
+											ຊື່ຜູ້ຮັບ: {item?.receiverName || " "} </span> |
+										<span><i className="fas fa-phone" /> {" "}
+											{item?.receiverPhone || " "}</span>
 									</li>
 									<li>
 										<strong>ຂະໜາດ:</strong>

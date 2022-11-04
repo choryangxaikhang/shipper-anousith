@@ -46,16 +46,11 @@ export default function Login({ history }) {
                 TOKEN,
                 JSON.stringify(user?.data?.staffLogin)
               );
-              const userRole = user?.data?.staffLogin?.data?.role;
+              const userRole = user?.data?.staffLogin;
+              console.log(userRole)
+
               if (
-                userRole === "SUPER_ADMIN" ||
-                userRole === "IT" ||
-                userRole === "ADMIN" ||
-                userRole === "ACCOUNTANT" ||
-                userRole === "FINANCE" ||
-                userRole === "CALL_CENTER" ||
-                userRole === "BRANCH_DIRECTOR" ||
-                userRole === "HR"
+                userRole
               ) {
                 loadingScreen();
                 setTimeout(() => {
@@ -66,7 +61,7 @@ export default function Login({ history }) {
                 messageError("ທ່ານບໍ່ມີສິດໃນການເຂົ້າໃຊ້ລະບົບນີ້");
               }
             } else {
-              messageWarning("ເບີໂທ ຫຼື ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ");
+              messageWarning("ເບີໂທ ຫຼື ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ2222");
             }
           } catch (error) {
             messageWarning("ເບີໂທ ຫຼື ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ");

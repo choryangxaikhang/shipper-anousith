@@ -28,7 +28,7 @@ export default function ItemIn() {
 		fetchData({
 			variables: {
 				where: {
-					// itemStatus: "SHIPPER_CONFIRMED"
+					itemStatus: "SHIPPER_CONFIRMED"
 				},
 			},
 		})

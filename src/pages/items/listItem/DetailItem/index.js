@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import _ from "lodash";
 import useReactRouter from "use-react-router";
 import Imglogo from "../../../../img/anousith.png";
-import SelectLocalHouse from "../../../../helper/components/SelectLocalHouse";
 import { TAB_MENU_LIST } from "../../../../routes/app";
 import { useLazyQuery } from "@apollo/client";
 import { useEffect } from "react";
@@ -42,28 +41,11 @@ export default function DetailDataList() {
 						<i className="fa fa-chevron-left fs-4" />
 					</button>
 				</div>
-				{clickButton === true ? (
-					<>
-						<SelectLocalHouse
-							style={{ width: "100%" }}
-							value={localHouse?._id}
-							onChange={(obj) => {
-								if (obj?._id) {
-									setLocalHouse(obj);
-									localStorage.setItem("HOUSE", JSON.stringify(obj));
-									window.location.reload();
-								}
-							}}
-						/>
-					</>
-				) : (
-					<b className="text-white">ລາຍງານ</b>
-				)}
+				<b className="text-white">ລາຍລະອຽດ</b>
 				<div
 					className="text-white pageTitle text-right text-nowrap pr-0"
 					style={{ flex: 1 }}
 				>
-
 				</div>
 			</div>
 			<div className="container-min">
@@ -71,7 +53,6 @@ export default function DetailDataList() {
 					<div className="col-12">
 						<div style={{ paddingBottom: "10px" }} />
 						<div className="listed-detail mt-5">
-
 							<img
 								src={Imglogo}
 								alt="logo"
@@ -81,10 +62,8 @@ export default function DetailDataList() {
 									height: 60,
 								}}
 							/>
-							<h3 className="text-center">ບິນຝາກເຄື່ອງ</h3>
+							
 						</div>
-
-
 						<ul className="listview flush transparent simple-listview no-space mt-1">
 							{_item && _item?.map((item) => (
 								<>
@@ -97,6 +76,10 @@ export default function DetailDataList() {
 										<span>{formatDateTime(item?.createdDate) || " "}</span>
 									</li>
 									<li>
+										<strong>ວັນທີ່ສົ່ງສຳເລັດ</strong>
+										<span>{formatDateTime(item?.deliveryCompletedDate) || " "}</span>
+									</li>
+									<li>
 										<strong>ສາຂາຕົ້ນທາງ</strong>
 										<span>{item?.originBranch?.title || " "}</span>
 									</li>
@@ -105,29 +88,36 @@ export default function DetailDataList() {
 										<span>{item?.destBranch?.title || " "}</span>
 									</li>
 									<li>
-										<strong>ຊື່ຜູ້ຮັບ</strong>
-										<span className="text-success">{item?.receiverName || " "}</span>
+										<span>
+											<i className="fas fa-user" />
+											ID: {item?.customer?.id_list || " "}
+										</span> |
+										<span>
+											<i className="fas fa-phone" />{" "}
+											{item?.customer?.contact_info || " "}</span>
 									</li>
 									<li>
-										<strong>ເບີໂທ</strong>
-										<span>{item?.receiverPhone || " "}</span>
+										<span>
+											<i className="fas fa-user" />
+											ຊື່ຜູ້ຮັບ: {item?.receiverName || " "} </span> |
+										<span><i className="fas fa-phone" /> {" "}
+											{item?.receiverPhone || " "}</span>
 									</li>
 									<li>
-										<strong>ຂະໜາດ:</strong>
-										<span>{item?.width || " "}</span> |
-										<strong>ນ້ຳໜັກ:</strong>
-										<span>{item?.weight || " "}</span>
+										<strong>ຂະໜາດ: {item?.width || " "}</strong> |
+										<strong>ນ້ຳໜັກ:{item?.weight || " "}</strong>
 									</li>
 									<li>
 										<strong>ຄ່າບໍລິການ:</strong>
-										<h3 className="m-0">{currency(item?.deliveryPrice || 0)} ກີບ</h3> |
+										<h3 className="m-0">
+											{currency(item?.deliveryPrice || 0)} ກີບ</h3> |
 										<span>{chargeOnShop(item?.chargeOnShop)}</span>
 									</li>
 									<li>
 										<strong>ເງິນ COD: </strong>
-										<span>{currency(item?.itemValueKIP || 0)} ກີບ</span> |
-										<span>{currency(item?.itemValueTHB || 0)} ບາດ</span> |
-										<span>{currency(item?.itemValueUSD || 0)} ໂດລາ</span>
+										<h3 className="m-0">{currency(item?.itemValueKIP || 0)} ກີບ</h3> |
+										<h3 className="m-0">{currency(item?.itemValueTHB || 0)} ບາດ</h3> |
+										<h3 className="m-0">{currency(item?.itemValueUSD || 0)} ໂດລາ</h3>
 									</li>
 									<li>
 										<strong>ລວມທັງໝົດ: </strong>

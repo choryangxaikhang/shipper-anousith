@@ -15,16 +15,19 @@ import "./index.css";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { UPDATE_LIST_ITEM } from "../items/apollo";
 import { LIST_SHIPPER_CONFIRMED } from "./apollo";
+import moment from "moment";
 
 
 export default function ShipperConFirm() {
 	const { history, location, match } = useReactRouter();
 	const [reloadData, setReloadData] = useState(false);
+	const today = moment().format("YYY-MM-DD, HH:mm")
 	const [_item, setResult] = useState();
 	const [updateListItem] = useMutation(UPDATE_LIST_ITEM);
 	const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_CONFIRMED, {
 		fetchPolicy: "cache-and-network",
 	});
+	console.log(today)
 
 	useEffect(() => {
 		fetchData({
@@ -49,7 +52,7 @@ export default function ShipperConFirm() {
 					const _updateDistance = await updateListItem({
 						variables: {
 							data: {
-								itemStatus: "SHIPPER_CONFIRMED"
+								itemStatus: "SHIPPER_CONFIRMED",
 							},
 							where: {
 								_id: parseInt(id),

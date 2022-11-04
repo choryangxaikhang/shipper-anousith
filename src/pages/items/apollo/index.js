@@ -25,6 +25,7 @@ query Query($where: ItemWhereInput, $orderBy: OrderByItem, $limit: Int, $skip: I
       customer {
         id_list
         full_name
+        contact_info
       }
       isSummary
       shipper

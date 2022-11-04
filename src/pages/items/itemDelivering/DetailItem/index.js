@@ -103,12 +103,20 @@ export default function DetailListDelivering() {
 										<span>{item?.destBranch?.title || " "}</span>
 									</li>
 									<li>
-										<strong>ຊື່ຜູ້ຮັບ</strong>
-										<span className="text-success">{item?.receiverName || " "}</span>
+										<span>
+											<i className="fas fa-user" />
+											ID: {item?.customer?.id_list || " "}
+										</span> |
+										<span>
+											<i className="fas fa-phone" /> {" "}
+											{item?.customer?.contact_info || " "}</span>
 									</li>
 									<li>
-										<strong>ເບີໂທ</strong>
-										<span>{item?.receiverPhone || " "}</span>
+										<span>
+											<i className="fas fa-user" />
+											ຊື່ຜູ້ຮັບ: {item?.receiverName || " "} </span> |
+										<span><i className="fas fa-phone" /> {" "}
+											{item?.receiverPhone || " "}</span>
 									</li>
 									<li>
 										<strong>ຂະໜາດ:</strong>

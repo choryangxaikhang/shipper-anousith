@@ -13,8 +13,6 @@ import { TOKEN } from "../helper";
 import * as ROUTES from "./app";
 import Profile from "../pages/profile/Profile";
 import SettingsScreen from "../pages/settings";
-import UserList from "../pages/user_staff";
-import DetailProfile from "../pages/user_staff/DetailProfile";
 import ItemIn from "../pages/items/itemIn";
 import ItemDelivering from "../pages/items/itemDelivering";
 import DataListItem from "../pages/items/listItem";
@@ -153,26 +151,11 @@ export default function Routes() {
                   component={(props) => <Profile {...props} />}
                 />
 
-
-                {/* setting */}
                 <PrivateRoute
                   path={`${ROUTES.SETTING}/:_id`}
                   exact
                   component={(props) => <SettingsScreen {...props} />}
-                />
-                {/* user */}
-                <PrivateRoute
-                  path={`${ROUTES.USERS}/:page`}
-                  exact
-                  component={(props) => <UserList {...props} />}
-                />
-                <PrivateRoute
-                  path={`${ROUTES.DETAIL_USER}/:_id`}
-                  exact
-                  component={(props) => <DetailProfile {...props} />}
-                />
-                {/* equiment */}
-
+                />              
 
                 <Route
                   render={({ location, history }) => (

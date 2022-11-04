@@ -95,6 +95,10 @@ export default function DetailItems() {
 										<span>{formatDateTime(item?.createdDate) || " "}</span>
 									</li>
 									<li>
+										<strong>ວັນທີ່ຮັບເຂົ້າ</strong>
+										<span>{formatDateTime(item?.shipperConfirmDate) || " "}</span>
+									</li>
+									<li>
 										<strong>ສາຂາຕົ້ນທາງ</strong>
 										<span>{item?.originBranch?.title || " "}</span>
 									</li>
@@ -103,12 +107,20 @@ export default function DetailItems() {
 										<span>{item?.destBranch?.title || " "}</span>
 									</li>
 									<li>
-										<strong>ຊື່ຜູ້ຮັບ</strong>
-										<span className="text-success">{item?.receiverName || " "}</span>
+										<span>
+											<i className="fas fa-user" />
+											ID: {item?.customer?.id_list || " "}
+										</span> |
+										<span>
+											<i className="fas fa-phone" />: {" "}
+											{item?.customer?.contact_info || " "}</span>
 									</li>
 									<li>
-										<strong>ເບີໂທ</strong>
-										<span>{item?.receiverPhone || " "}</span>
+										<span>
+											<i className="fas fa-user" />
+											ຊື່ຜູ້ຮັບ: {item?.receiverName || " "} </span> |
+										<span><i className="fas fa-phone" />: {" "}
+											{item?.receiverPhone || " "}</span>
 									</li>
 									<li>
 										<strong>ຂະໜາດ:</strong>
