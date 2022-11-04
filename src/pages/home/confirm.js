@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
 import {
@@ -7,13 +7,13 @@ import {
 	messageError,
 	messageSuccess
 } from "../../helper";
-import { DETAIL_ITEMS, HOME_PAGE } from "../../routes/app";
+import { DETAIL_CONFIRM, HOME_PAGE } from "../../routes/app";
 import BottomNav from "../../layouts/BottomNav";
 import whatsapp from "../../icon/whatsapp.svg";
 import Notiflix from "notiflix";
 import "./index.css";
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { UPDATE_LIST_ITEM } from "../items/listItem/apollo";
+import { UPDATE_LIST_ITEM } from "../items/apollo";
 import { LIST_SHIPPER_CONFIRMED } from "./apollo";
 
 
@@ -41,7 +41,7 @@ export default function ShipperConFirm() {
 	const updateDistance = (id) => {
 		Notiflix.Confirm.show(
 			"ແຈ້ງເຕືອນ",
-			"ທ່ານຕ້ອງການຢືນຢັນ ແທ້ ຫຼື ບໍ່?",
+			"ທ່ານຕ້ອງການຮັບເຂົ້າ ແທ້ ຫຼື ບໍ່?",
 			"ຕົກລົງ",
 			"ຍົກເລີກ",
 			async () => {
@@ -115,7 +115,7 @@ export default function ShipperConFirm() {
 							<a href="#" className="item">
 								<div className="detail">
 									<i className="fa-solid fa-cart-arrow-down fa-2x mr-2"
-										onClick={() => history.push(`${DETAIL_ITEMS}/${item?._id} `)}
+										onClick={() => history.push(`${DETAIL_CONFIRM}/${item?._id} `)}
 									/>
 									<div className="text-nowrap">
 										{/* <strong>{item?.trackingId}</strong> */}

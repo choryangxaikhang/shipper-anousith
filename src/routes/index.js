@@ -29,6 +29,7 @@ import TabMenuDelivering from "../pages/items/itemDelivering/TabMenuDeli";
 import TabMenuCompleted from "../pages/items/itemComplete/TabMenuCom";
 import TabMenuList from "../pages/items/listItem/TabMenuList";
 import ShipperConFirm from "../pages/home/confirm";
+import DetailConfirm from "../pages/home/DetailConfirm";
 export default function Routes() {
   const { userDispatch } = useContext(AppContext);
   const _local = localStorage.getItem(TOKEN);
@@ -73,6 +74,11 @@ export default function Routes() {
                   exact
                   path={`${ROUTES.SHIPPER_CONFIRM}/:_id`}
                   component={(props) => <ShipperConFirm {...props} />}
+                />
+                 <Route
+                  exact
+                  path={`${ROUTES.DETAIL_CONFIRM}/:_id`}
+                  component={(props) => <DetailConfirm {...props} />}
                 />
 
                 <Route

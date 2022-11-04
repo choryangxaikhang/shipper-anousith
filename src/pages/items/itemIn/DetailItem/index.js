@@ -4,10 +4,10 @@ import useReactRouter from "use-react-router";
 import Imglogo from "../../../../img/anousith.png";
 import SelectLocalHouse from "../../../../helper/components/SelectLocalHouse";
 import { TAB_MENU_ITEM_IN } from "../../../../routes/app";
-import { QUERY_LIST_ITEM } from "../../listItem/apollo";
 import { useLazyQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { chargeOnShop, currency, formatDateTime } from "../../../../helper";
+import { QUERY_LIST_ITEM } from "../../apollo";
 
 export default function DetailItems() {
 

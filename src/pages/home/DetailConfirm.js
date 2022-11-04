@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import _ from "lodash";
 import useReactRouter from "use-react-router";
-import Imglogo from "../../../../img/anousith.png";
-import SelectLocalHouse from "../../../../helper/components/SelectLocalHouse";
-import { TAB_MENU_LIST } from "../../../../routes/app";
+import Imglogo from "../../img/anousith.png";
+import SelectLocalHouse from "../../helper/components/SelectLocalHouse";
 import { useLazyQuery } from "@apollo/client";
 import { useEffect } from "react";
-import { chargeOnShop, formatDateTime, currency } from "../../../../helper";
-import { QUERY_LIST_ITEM } from "../../apollo";
+import { chargeOnShop, currency, formatDateTime } from "../../helper";
+import { SHIPPER_CONFIRM } from "../../routes/app";
+import { QUERY_LIST_ITEM } from "../items/apollo";
 
-export default function DetailDataList() {
+export default function DetailConfirm() {
+
 	const { location, history, match } = useReactRouter();
 	const ID = parseInt(match?.params?._id);
 	const [localHouse, setLocalHouse] = useState("");
 	const [clickButton, setButton] = useState(false);
 	const [_item, setResult] = useState();
+
 	const [fetchData, { data: result, }] = useLazyQuery(QUERY_LIST_ITEM, {
 		fetchPolicy: "cache-and-network",
 	});
@@ -37,7 +39,7 @@ export default function DetailDataList() {
 				<div style={{ flex: 1 }} className="text-left">
 					<button
 						className="btn text-white"
-						onClick={() => history.push(`${TAB_MENU_LIST}/1`)}
+						onClick={() => history.push(`${SHIPPER_CONFIRM}/1`)}
 					>
 						<i className="fa fa-chevron-left fs-4" />
 					</button>
@@ -57,13 +59,12 @@ export default function DetailDataList() {
 						/>
 					</>
 				) : (
-					<b className="text-white">ລາຍງານ</b>
+					<b className="text-white">ລາຍລະອຽດ</b>
 				)}
 				<div
 					className="text-white pageTitle text-right text-nowrap pr-0"
 					style={{ flex: 1 }}
 				>
-
 				</div>
 			</div>
 			<div className="container-min">
@@ -81,15 +82,12 @@ export default function DetailDataList() {
 									height: 60,
 								}}
 							/>
-							<h3 className="text-center">ບິນຝາກເຄື່ອງ</h3>
 						</div>
-
-
 						<ul className="listview flush transparent simple-listview no-space mt-1">
 							{_item && _item?.map((item) => (
 								<>
 									<li>
-										<strong>ລະຫັດພັດສະດຸ</strong>
+										<strong>trackingID</strong>
 										<span>{item?.trackingId}</span>
 									</li>
 									<li>
@@ -138,7 +136,42 @@ export default function DetailDataList() {
 						</ul>
 					</div>
 				</div>
-				<h3 className="text-center mt-3">ຂອບໃຈທີ່ໃຊ້ບໍລິການ </h3>
+				<h3 className="text-center mt-3">
+					<i className="fas fa-location-dot fs-2 mr-1 text-danger" />
+					ທີ່ຢູ່ປາຍທາງ </h3>
+				<div className="mapouter">
+					{_item && _item?.map((item) => (
+						<div className="gmap_canvas">
+							<iframe
+								width={"100%"}
+								height={230}
+								id="gmap_canvas"
+								src={`https://maps.google.com/maps?q=${item?.originBranch?.map_lat
+									? item?.originBranch?.map_lat : "-"
+									},${item?.originBranch?.map_long
+										? item?.originBranch?.map_long : "-"
+									}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+								frameBorder={0}
+								scrolling="no"
+								marginHeight={0}
+								marginWidth={0}
+							/>
+							<br />
+							<style
+								dangerouslySetInnerHTML={{
+									__html:
+										".mapouter{position:relative;text-align:right;height:230px;width:100%;}",
+								}}
+							/>
+							<style
+								dangerouslySetInnerHTML={{
+									__html:
+										".gmap_canvas {overflow:hidden;background:none!important;height:230px;width:100%;}",
+								}}
+							/>
+						</div>
+					))}
+				</div>
 			</div>
 		</>
 	);

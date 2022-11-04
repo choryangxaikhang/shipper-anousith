@@ -4,8 +4,8 @@ import { Modal } from "react-bootstrap";
 import _ from "lodash";
 import { useMutation } from "@apollo/client";
 import { messageError, messageSuccess } from "../../../helper";
-import { UPDATE_LIST_ITEM } from "../listItem/apollo";
 import Notiflix from "notiflix";
+import { UPDATE_LIST_ITEM } from "../apollo";
 
 export default function CODCompleted({ getData, loadData, data }) {
 	//form state

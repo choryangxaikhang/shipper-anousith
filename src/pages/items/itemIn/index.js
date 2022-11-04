@@ -11,8 +11,8 @@ import { DETAIL_ITEMS } from "../../../routes/app";
 import BottomNav from "../../../layouts/BottomNav";
 import whatsapp from "../../../icon/whatsapp.svg";
 import Notiflix from "notiflix";
-import { QUERY_LIST_ITEM, UPDATE_LIST_ITEM } from "../listItem/apollo";
 import { useLazyQuery, useMutation } from "@apollo/client";
+import { QUERY_LIST_ITEM, UPDATE_LIST_ITEM } from "../apollo";
 
 
 export default function ItemIn() {

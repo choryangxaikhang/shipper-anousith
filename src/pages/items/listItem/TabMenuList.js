@@ -46,38 +46,12 @@ export default function TabMenuList() {
           >
             <i className="fa fa-chevron-left fs-4" />
           </button>
-        </div>
-        {clickButton === true ? (
-          <>
-            <div className="row">
-              <div className="col-6">
-                <input
-                  type="date"
-                  className="form-control form-control-sm" />
-              </div>
-              <div className="col-6">
-                <input
-                  type="date"
-                  className="form-control form-control-sm" />
-              </div>
-            </div>
-          </>
-        ) : (
-          <b className="text-white">ອໍເດີສົ່ງສຳເລັດທັງໝົດ</b>
-        )}
-
+        </div>   
+          <b className="text-white">ລາຍງານອໍເດີທັງໝົດ</b>
         <div
           className="text-white pageTitle text-right text-nowrap pr-0"
           style={{ flex: 1 }}
-        >
-          <button
-            className="btn text-white"
-            onClick={(e) => {
-              setButton(!clickButton);
-            }}
-          >
-            <i className="fa-solid fa-magnifying-glass fa-2 ms-2" />
-          </button>
+        >      
         </div>
       </div>
       <div className="extraHeaders">

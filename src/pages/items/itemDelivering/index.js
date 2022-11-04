@@ -9,9 +9,9 @@ import { DETAIL_ITEMS_DELIVERING } from "../../../routes/app";
 import BottomNav from "../../../layouts/BottomNav";
 import whatsapp from "../../../icon/whatsapp.svg";
 import Notiflix from "notiflix";
-import { QUERY_LIST_ITEM, UPDATE_LIST_ITEM } from "../listItem/apollo";
 import { useLazyQuery } from "@apollo/client";
 import CODCompleted from "../codCompleted";
+import { QUERY_LIST_ITEM } from "../apollo";
 
 
 export default function ItemDelivering() {
@@ -69,9 +69,8 @@ export default function ItemDelivering() {
 
 									<div className="text-nowrap">
 										{/* <strong>{item?.trackingId}</strong> */}
-										<strong>TK: {item?.trackingId}</strong>
 										<strong>ID: {item?.customer?.id_list}</strong>
-
+										<strong>TK: {item?.trackingId}</strong>
 										<p>ຊື່: {item?.receiverName}</p>
 										<p>
 											<a className="text-link" target="_blank"
