@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import _ from "lodash";
 import useReactRouter from "use-react-router";
-import Imglogo from "../../img/anousith.png";
-import SelectLocalHouse from "../../helper/components/SelectLocalHouse";
+import Imglogo from "../../../img/anousith.png";
+import SelectLocalHouse from "../../../helper/components/SelectLocalHouse";
 import { useLazyQuery } from "@apollo/client";
 import { useEffect } from "react";
-import { chargeOnShop, currency, formatDateTime } from "../../helper";
-import { SHIPPER_CONFIRM } from "../../routes/app";
-import { QUERY_LIST_ITEM } from "../items/apollo";
+import { chargeOnShop, currency, formatDateTime } from "../../../helper";
+import { SHIPPER_CONFIRM } from "../../../routes/app";
+import { QUERY_LIST_ITEM } from "../../items/apollo";
 
 export default function DetailConfirm() {
 
@@ -29,7 +29,7 @@ export default function DetailConfirm() {
 				},
 			},
 		})
-		setResult(result?.items?.data)
+		setResult(result?.pickupOfItems?.data)
 	}, [result]);
 
 	return (
@@ -43,24 +43,8 @@ export default function DetailConfirm() {
 					>
 						<i className="fa fa-chevron-left fs-4" />
 					</button>
-				</div>
-				{clickButton === true ? (
-					<>
-						<SelectLocalHouse
-							style={{ width: "100%" }}
-							value={localHouse?._id}
-							onChange={(obj) => {
-								if (obj?._id) {
-									setLocalHouse(obj);
-									localStorage.setItem("HOUSE", JSON.stringify(obj));
-									window.location.reload();
-								}
-							}}
-						/>
-					</>
-				) : (
+				</div>			
 					<b className="text-white">ລາຍລະອຽດ</b>
-				)}
 				<div
 					className="text-white pageTitle text-right text-nowrap pr-0"
 					style={{ flex: 1 }}

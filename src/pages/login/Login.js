@@ -4,66 +4,49 @@ import { Formik } from "formik";
 import { useMutation } from "@apollo/client";
 import "./login.css";
 import { LOGIN_USER } from "./gql";
-import Loading from "notiflix";
 import {
-  loadingScreen,
   messageError,
   messageWarning,
+  parseJwt,
   TOKEN,
 } from "../../helper";
 import Imglogo from "../../img/icon.png";
 import { FormControl, InputAdornment, OutlinedInput } from "@mui/material";
-export default function Login({ history }) {
-  window.history.forward();
+export default function Login() {
   const [showPassword, setShowPassword] = useState("password");
   const [userLogIn] = useMutation(LOGIN_USER);
   return (
     <>
       <Formik
         initialValues={{
-          phone_number: "",
+          phoneNumber: "",
           password: "",
         }}
         validate={(values) => {
           const errors = {};
-          if (!values.phone_number) errors.phone_number = "ກະລຸນາປ້ອນເບີໂທ";
+          if (!values.phoneNumber) errors.phoneNumber = "ກະລຸນາປ້ອນເບີໂທ";
           if (!values.password) errors.password = "ກະລຸນາປ້ອນລະຫັດຜ່ານ";
           return errors;
         }}
         onSubmit={async (values) => {
           try {
-            let user = await userLogIn({
+            let { data: user } = await userLogIn({
               variables: {
-                where: {
-                  phone_number: parseInt(values?.phone_number),
+                data: {
+                  phoneNumber: parseInt(values?.phoneNumber),
                   password: String(values?.password),
                 },
               },
             });
-
-            if (user) {
-              localStorage.setItem(
-                TOKEN,
-                JSON.stringify(user?.data?.staffLogin)
-              );
-              const userRole = user?.data?.staffLogin;
-              console.log(userRole)
-
-              if (
-                userRole
-              ) {
-                loadingScreen();
-                setTimeout(() => {
-                  Loading.remove();
-                  window.location.href = `/home`;
-                }, 2000);
-              } else {
-                messageError("ທ່ານບໍ່ມີສິດໃນການເຂົ້າໃຊ້ລະບົບນີ້");
-              }
-            } else {
-              messageWarning("ເບີໂທ ຫຼື ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ2222");
+            const _user = parseJwt(user?.userLogin?.accessToken)
+            if (_user?.role !== "SHIPPER") {
+              return messageError("ທ່ານບໍ່ມີສິດໃນການເຂົ້າໃຊ້ລະບົບນີ້");
             }
-          } catch (error) {
+            localStorage.setItem(
+              TOKEN, user?.userLogin?.accessToken
+            );
+            window.location.href = `/home`;
+          } catch (error) {       
             messageWarning("ເບີໂທ ຫຼື ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ");
           }
         }}
@@ -75,7 +58,7 @@ export default function Login({ history }) {
           handleSubmit,
         }) => (
           <>
-            <div className="header-bg header-bg-1 text-white" />
+            <div className="appHeader header-bg-1 text-white" />
             <div className="body-content bg-white">
               <center>
                 <img
@@ -99,15 +82,15 @@ export default function Login({ history }) {
                       <label>ເບີໂທ</label>
                       <FormControl fullWidth sx={{ m: 0 }}>
                         <OutlinedInput
-                          value={values.phone_number}
-                          onChange={handleChange("phone_number")}
+                          value={values.phoneNumber}
+                          onChange={handleChange("phoneNumber")}
                           startAdornment={
                             <InputAdornment position="start">
                               <i className="icon-phone  fs-3" />
                             </InputAdornment>
                           }
-                          error={errors.phone_number}
-                          name="phone_number"
+                          error={errors.phoneNumber}
+                          name="phoneNumber"
                           onWheel={(e) => e.target.blur()}
                           type="number"
                           placeholder="ປ້ອນເບີໂທ"
@@ -130,7 +113,7 @@ export default function Login({ history }) {
                               <i className="fa-sharp fa-solid fa-key fs-3" />
                             </InputAdornment>
                           }
-                          error={errors.phone_number}
+                          error={errors.phoneNumber}
                           type={showPassword}
                           name="password"
                           placeholder="**********"

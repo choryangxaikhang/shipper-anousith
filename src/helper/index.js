@@ -14,12 +14,11 @@ export const socketServer = io("https://api.bit-houses.com");
 // export const TOKEN = "ANS_COD";
 export const FONT_SIZE = { fontSize: "15px" };
 export const PRIMARY_COLOR = "#de0a0af2";
-export const TOKEN = "BIT-HOUSE-ADMIN-USER";
-
+export const TOKEN = "APP-SHIPPER";
 //get staff login
 export const getStaffLogin = () => {
   let json = localStorage.getItem(TOKEN);
-  let staff = JSON.parse(json);
+  let staff = parseJwt(json);
   return staff;
 };
 //clear localStorage
@@ -573,4 +572,34 @@ export const ItemStatus = (itemStatus) => {
   } else {
     return "-";
   }
+};
+export const ShipperStatus = (status) => {
+  if (status === "CANCELED") {
+    return "ຍົກເລິກ";
+  } else if (status === "REQUESTING") {
+    return "ກຳລັງຮ້ອງຂໍ";
+  } else if (status === "RECEIVED") {
+    return "ຮັບອໍເດີແລ້ວ";
+  } else if (status === "DEPARTURE") {
+    return "ກຳລັງຈັດສົ່ງ";
+  } else {
+    return "-";
+  }
+};
+
+// get user role from token
+export const parseJwt = (token) => {
+  var base64Url = token.split(".")[1];
+  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  var jsonPayload = decodeURIComponent(
+    window
+      .atob(base64)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
+
+  return JSON.parse(jsonPayload);
 };

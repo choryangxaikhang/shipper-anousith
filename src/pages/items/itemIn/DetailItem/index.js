@@ -29,7 +29,7 @@ export default function DetailItems() {
 				},
 			},
 		})
-		setResult(result?.items?.data)
+		setResult(result?.pickupOfItems?.data)
 	}, [result]);
 
 	return (

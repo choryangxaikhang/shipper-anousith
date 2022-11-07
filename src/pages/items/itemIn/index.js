@@ -5,7 +5,8 @@ import {
 	detectPhoneNumber,
 	ItemStatus,
 	messageError,
-	messageSuccess
+	messageSuccess,
+	ShipperStatus
 } from "../../../helper";
 import { DETAIL_ITEMS } from "../../../routes/app";
 import BottomNav from "../../../layouts/BottomNav";
@@ -28,13 +29,13 @@ export default function ItemIn() {
 		fetchData({
 			variables: {
 				where: {
-					itemStatus: "SHIPPER_CONFIRMED"
+					status: "RECEIVED"
 				},
 			},
 		})
-		setResult(result?.items?.data)
+		setResult(result?.pickupOfItems?.data)
 	}, [result, reloadData]);
-	const total = result?.items?.total;
+	const total = result?.pickupOfItems?.total;
 
 	const updateDistance = (id) => {
 		Notiflix.Confirm.show(
@@ -47,7 +48,7 @@ export default function ItemIn() {
 					const _updateDistance = await updateListItem({
 						variables: {
 							data: {
-								itemStatus: "ORIGIN_TRANSFERRING"
+								status: "DEPARTURE"
 							},
 							where: {
 								_id: parseInt(id),
@@ -60,7 +61,6 @@ export default function ItemIn() {
 						setReloadData(!reloadData);
 					}
 				} catch (error) {
-					console.log(error)
 					messageError("ດຳເນີນການບໍ່ສຳເລັດ");
 				}
 			},
@@ -105,52 +105,32 @@ export default function ItemIn() {
 									</div>
 
 									<div className="text-nowrap">
-										{/* <strong>{item?.trackingId}</strong> */}
 										<strong>ID: {item?.customer?.id_list}</strong>
-
-										<p>ຊື່: {item?.receiverName}</p>
+										<p>ຊື່: {item?.customer?.full_name}</p>
 										<p>
 											<a className="text-link" target="_blank"
-												href={`https://wa.me/${detectPhoneNumber(item?.receiverPhone
+												href={`https://wa.me/${detectPhoneNumber(item?.customer?.contact_info
 												)}?text=${message?.replace(/<br\s*[\/]?>/gi, " ")}`}>
-												<img style={{ width: 20 }} src={whatsapp} alt="" />{item?.receiverPhone}
+												<i className="fas fa-phone" />
+												{item?.customer?.contact_info}
 											</a>
 										</p>
-
 										<>
-											{item?.itemStatus === "COMPLETED" ? (
-												<small className="text-success">
-													{ItemStatus(item?.itemStatus)}
-												</small>
-											) : (
-												<small className="text-danger">
-													{ItemStatus(item?.itemStatus)}
-												</small>
-											)}
+											<small className="text-success">
+												{ShipperStatus(item?.status)}
+											</small>
 										</>
 									</div>
 								</div>
 								<div className="right">
-									{item?.itemStatus !== "COMPLETED" ? (
-										<button type="button" className="btn btn-dark right rounded mt-1 text-nowrap btn-block"
-											onClick={() =>
-												updateDistance(item?._id)
-											}
-										>
-											<i className="fa-solid fa-share-from-square mr-1" />
-											ຈັດສົ່ງ
-										</button>
-									) : null}
-									{/* {item?.itemStatus === "ORIGIN_TRANSFERRING" ? (
-										<button type="button" className="btn btn-success rounded mt-1 text-nowrap btn-block"
-											onClick={() =>
-												updateDistance(item?._id)
-											}
-										>
-											<i className="fa-solid fa-circle-check mr-1" />
-											ຢືນຢັນ
-										</button>
-									) : null} */}
+									<button type="button" className="btn btn-dark right rounded mt-1 text-nowrap btn-block"
+										onClick={() =>
+											updateDistance(item?._id)
+										}
+									>
+										<i className="fa-solid fa-share-from-square mr-1" />
+										ຈັດສົ່ງ
+									</button>
 								</div>
 							</a>
 						))}

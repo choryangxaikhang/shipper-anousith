@@ -27,9 +27,7 @@ export default function App() {
   });
 
   const authLink = setContext((_, { headers }) => {
-    const _local = localStorage.getItem(TOKEN);
-    let token = JSON.parse(_local);
-    token = token?.accessToken;
+    const token = localStorage.getItem(TOKEN);
     return {
       headers: {
         ...headers,

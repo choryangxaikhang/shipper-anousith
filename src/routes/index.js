@@ -26,18 +26,11 @@ import TabMenuItems from "../pages/items/itemIn/TabMenu";
 import TabMenuDelivering from "../pages/items/itemDelivering/TabMenuDeli";
 import TabMenuCompleted from "../pages/items/itemComplete/TabMenuCom";
 import TabMenuList from "../pages/items/listItem/TabMenuList";
-import ShipperConFirm from "../pages/home/confirm";
-import DetailConfirm from "../pages/home/DetailConfirm";
+import ShipperConFirm from "../pages/home/shipperconfirm/confirm";
+import DetailConfirm from "../pages/home/shipperconfirm/DetailConfirm";
+import { gql, useMutation } from "@apollo/client";
 export default function Routes() {
-  const { userDispatch } = useContext(AppContext);
   const _local = localStorage.getItem(TOKEN);
-
-  useEffect(() => {
-    if (_local) {
-      const data = JSON.parse(_local);
-      userDispatch({ type: "landing", payload: data });
-    }
-  }, [_local]);
 
   return (
     <>
@@ -60,8 +53,10 @@ export default function Routes() {
                   component={(props) => <Login {...props} />}
                 />
               </>
-            ) : (
+            ) : (   
               <>
+              <TokenValidate />
+              
                 <Route exact path="/">
                   <Redirect to="/home" />
                 </Route>
@@ -73,7 +68,7 @@ export default function Routes() {
                   path={`${ROUTES.SHIPPER_CONFIRM}/:_id`}
                   component={(props) => <ShipperConFirm {...props} />}
                 />
-                 <Route
+                <Route
                   exact
                   path={`${ROUTES.DETAIL_CONFIRM}/:_id`}
                   component={(props) => <DetailConfirm {...props} />}
@@ -118,7 +113,7 @@ export default function Routes() {
                   exact
                   path={`${ROUTES.DETAIL_DATA_LIST}/:_id`}
                   component={(props) => <DetailDataList {...props} />}
-                />             
+                />
                 <Route
                   exact
                   path={`${ROUTES.COMMITION_SHIPER}/:_id`}
@@ -129,17 +124,17 @@ export default function Routes() {
                   path={`${ROUTES.TAB_MENU_ITEM_IN}/:_id`}
                   component={(props) => <TabMenuItems {...props} />}
                 />
-                  <Route
+                <Route
                   exact
                   path={`${ROUTES.TAB_MENU_DELIVERING}/:_id`}
                   component={(props) => <TabMenuDelivering {...props} />}
                 />
-                 <Route
+                <Route
                   exact
                   path={`${ROUTES.TAB_MENU_COMPLETED}/:_id`}
                   component={(props) => <TabMenuCompleted {...props} />}
                 />
-                 <Route
+                <Route
                   exact
                   path={`${ROUTES.TAB_MENU_LIST}/:_id`}
                   component={(props) => <TabMenuList {...props} />}
@@ -155,7 +150,7 @@ export default function Routes() {
                   path={`${ROUTES.SETTING}/:_id`}
                   exact
                   component={(props) => <SettingsScreen {...props} />}
-                />              
+                />
 
                 <Route
                   render={({ location, history }) => (
@@ -175,4 +170,25 @@ export default function Routes() {
       </Router>
     </>
   );
+}
+
+const TokenValidate = ()=>{
+  const [tokenValidate] = useMutation(gql`
+  mutation TokenValidation {
+    tokenValidation {
+      valid
+    }
+  }`)
+  useEffect(() => {
+    (async () => {
+      try {
+        await tokenValidate()
+      } catch (error) {
+        localStorage.clear();
+        window.location.href = `/login`;
+      }
+    })();
+  }, [tokenValidate])
+
+  return null
 }

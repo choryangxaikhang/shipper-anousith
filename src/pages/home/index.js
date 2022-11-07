@@ -31,12 +31,12 @@ export default function Home() {
     fetchData({
       variables: {
         where: {
-          itemStatus: "REQUESTING"
+          status: "REQUESTING"
         },
       },
     });  
   }, [result, reloadData]);
-  const total = result?.items?.total;
+  const total = result?.pickupOfItems?.total;
 
   return (
     <>
