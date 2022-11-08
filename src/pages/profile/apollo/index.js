@@ -1,37 +1,37 @@
 import { gql } from "@apollo/client";
 export const USERS = gql`
-  query Users(
-    $orderBy: OrderByInput
-    $skip: Int
-    $limit: Int
-    $where: UserWhereInput
-  ) {
-    users(orderBy: $orderBy, skip: $skip, limit: $limit, where: $where) {
-      data {
+ query Users($where: UserWhereInput, $limit: Int, $skip: Int) {
+  users(where: $where, limit: $limit, skip: $skip) {
+    total
+    data {
+      _id
+      cvID
+      profileImage
+      firstName
+      lastName
+      gender
+      age
+      phoneNumber
+      workStartDate
+      province {
         _id
-        profileImage
-        firstName
-        lastName
-        gender
-        province {
-          provinceName
-        }
-        district {
-          _id
-          title
-        }
-        village {
-          _id
-          title
-        }
-        phoneNumber
-        status
-        carSign
-        basicSalary
-        role
-        startWorkTime
-        endWorkTime
+        title
       }
+      district {
+        _id
+        title
+      }
+      village {
+        _id
+        title
+      }
+      branch {
+        _id
+        title
+      }
+      status
+      role
     }
   }
+}
 `;

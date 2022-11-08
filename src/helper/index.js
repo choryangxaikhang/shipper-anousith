@@ -93,9 +93,9 @@ export const valiDate = () => {
 };
 
 // ກຳນົດ ເພດ
-export const setGender = (SetGender) => {
+export const setGender = (gender) => {
   let res = "";
-  switch (SetGender) {
+  switch (gender) {
     case "MALE":
       res = "ຊາຍ";
       break;
@@ -512,6 +512,8 @@ export const userStatus = (item) => {
     return "ພ/ງ ບໍລິການລູກຄ້າ";
   } else if (item === "DRIVER") {
     return "ໄລເດີ້";
+  } else if (item === "SHIPPER") {
+    return "ພະນັກງານຂົນສົ່ງ";
   } else {
     return "-";
   }

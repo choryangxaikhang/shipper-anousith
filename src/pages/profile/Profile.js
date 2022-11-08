@@ -8,6 +8,7 @@ import {
   loadingScreen,
   setGender,
   TOKEN,
+  formatDateDash,
 } from "../../helper";
 import BottomNav from "../../layouts/BottomNav";
 import { useLazyQuery } from "@apollo/client";
@@ -26,7 +27,8 @@ export default function Profile() {
     fetchData({
       variables: {
         where: {
-          _id: parseInt(userData?._id),
+          role: "SHIPPER"
+          // _id: parseInt(userData?._id),
         },
       },
     });
@@ -121,9 +123,9 @@ export default function Profile() {
                       <div className="in">
                         <div>ວັນທີ່ເລີ່ມວຽກ</div>
                         <div className="custom-control custom-switch user-select-all">
-                          {formatDate(
-                            listData?.startWorkTime
-                              ? listData?.startWorkTime
+                          {formatDateDash(
+                            listData?.workStartDate
+                              ? listData?.workStartDate
                               : "-"
                           )}
                         </div>
@@ -169,8 +171,8 @@ export default function Profile() {
                       <div className="in">
                         <div>ແຂວງ</div>
                         <div className="custom-control custom-switch">
-                          {listData?.province?.provinceName
-                            ? listData?.province?.provinceName
+                          {listData?.province?.title
+                            ? listData?.province?.title
                             : "-"}
                         </div>
                       </div>

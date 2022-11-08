@@ -7,7 +7,7 @@ import { useLazyQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { chargeOnShop, currency, formatDateTime } from "../../../helper";
 import { SHIPPER_CONFIRM } from "../../../routes/app";
-import { QUERY_LIST_ITEM } from "../../items/apollo";
+import { LIST_SHIPPER_ITEM } from "../apollo";
 
 export default function DetailConfirm() {
 
@@ -17,7 +17,7 @@ export default function DetailConfirm() {
 	const [clickButton, setButton] = useState(false);
 	const [_item, setResult] = useState();
 
-	const [fetchData, { data: result, }] = useLazyQuery(QUERY_LIST_ITEM, {
+	const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
 		fetchPolicy: "cache-and-network",
 	});
 
@@ -29,7 +29,7 @@ export default function DetailConfirm() {
 				},
 			},
 		})
-		setResult(result?.pickupOfItems?.data)
+		setResult(result?.items?.data)
 	}, [result]);
 
 	return (

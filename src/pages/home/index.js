@@ -13,7 +13,7 @@ import {
   TAB_MENU_ITEM_IN
 } from "../../routes/app";
 import SelectLocalHouse from "../../helper/components/SelectLocalHouse";
-import { LIST_SHIPPER_CONFIRMED } from "./apollo";
+import { LIST_SHIPPER_CONFIRMED, LIST_SHIPPER_ITEM } from "./apollo";
 import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
 export default function Home() {
@@ -26,6 +26,9 @@ export default function Home() {
   const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_CONFIRMED, {
     fetchPolicy: "cache-and-network",
   });
+  const [fetchResult, { data: resultData, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
+		fetchPolicy: "cache-and-network",
+	});
 
   useEffect(() => {
     fetchData({
@@ -35,8 +38,16 @@ export default function Home() {
         },
       },
     });  
-  }, [result, reloadData]);
+    fetchResult({
+      variables: {
+        where: {
+          itemStatus: "REQUESTING"
+        },
+      },
+    });  
+  }, [result, resultData, reloadData]);
   const total = result?.pickupOfItems?.total;
+  const totalItem = resultData?.items?.total;
 
   return (
     <>
@@ -88,7 +99,7 @@ export default function Home() {
               </span>
               <span className="badge badge-success mr-1 p-2">
                 <small>
-                  {total || 0}
+                  {total + totalItem || 0}
                 </small>
               </span>
             </a>
