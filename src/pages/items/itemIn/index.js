@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
 import {
 	detectPhoneNumber,
+	formatDateDash,
 	ItemStatus,
 	messageError,
 	messageSuccess,
@@ -13,15 +14,22 @@ import BottomNav from "../../../layouts/BottomNav";
 import whatsapp from "../../../icon/whatsapp.svg";
 import Notiflix from "notiflix";
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { QUERY_LIST_ITEM, UPDATE_LIST_ITEM } from "../apollo";
+import { LIST_SHIPPER_ITEM, QUERY_LIST_ITEM, UPDATE_ITEMS, UPDATE_LIST_ITEM } from "../apollo";
 
 
 export default function ItemIn() {
 	const { history, location, match } = useReactRouter();
 	const [reloadData, setReloadData] = useState(false);
 	const [_item, setResult] = useState();
+	const [_dataItem, setData] = useState();
+
 	const [updateListItem] = useMutation(UPDATE_LIST_ITEM);
+	const [updateItem] = useMutation(UPDATE_ITEMS);
+
 	const [fetchData, { data: result, }] = useLazyQuery(QUERY_LIST_ITEM, {
+		fetchPolicy: "cache-and-network",
+	});
+	const [fetchResult, { data: resultData, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
 		fetchPolicy: "cache-and-network",
 	});
 
@@ -33,9 +41,20 @@ export default function ItemIn() {
 				},
 			},
 		})
-		setResult(result?.pickupOfItems?.data)
-	}, [result, reloadData]);
+		fetchResult({
+			variables: {
+				where: {
+					itemStatus: "SHIPPER_CONFIRMED"
+				},
+			},
+		});
+
+		setResult(result?.pickupOfItems?.data);
+		setData(resultData?.items?.data);
+
+	}, [result, reloadData, resultData]);
 	const total = result?.pickupOfItems?.total;
+	const totalResult = resultData?.items?.total;
 
 	const updateDistance = (id) => {
 		Notiflix.Confirm.show(
@@ -70,6 +89,41 @@ export default function ItemIn() {
 		);
 	};
 
+	//ຢືນຢັນຮັບເຄື່ອງ ITEM
+	const _updateItems = (id) => {
+		Notiflix.Confirm.show(
+			"ແຈ້ງເຕືອນ",
+			"ທ່ານຕ້ອງການຮັບເຂົ້າ ແທ້ ຫຼື ບໍ່?",
+			"ຕົກລົງ",
+			"ຍົກເລີກ",
+			async () => {
+				try {
+					const _updateResult = await updateItem({
+						variables: {
+							data: {
+								itemStatus: "SHIPPER_CONFIRMED"
+							},
+							where: {
+								_id: parseInt(id),
+							},
+						},
+					});
+
+					if (_updateResult) {
+						messageSuccess("ດຳເນີນການສຳເລັດ");
+						setReloadData(!reloadData);
+					}
+				} catch (error) {
+					console.log(error)
+					messageError("ດຳເນີນການບໍ່ສຳເລັດ");
+				}
+			},
+			() => {
+				return false;
+			}
+		);
+	};
+
 	const message = "ສະບາຍດີ"
 
 
@@ -94,17 +148,56 @@ export default function ItemIn() {
 			<div className="mt-2">
 				<div className="section">
 					<div className="transactions ">
+						{_dataItem && _dataItem?.map((item) => (
+							<a href="#" className="item">
+								<div className="detail">
+									<i className="fa-solid fa-cart-arrow-down text-black fa-2x mr-2"
+										onClick={() => history.push(`${DETAIL_ITEMS}/${item?._id} `)}
+									/>
+									<div className="text-nowrap">
+										<strong>TK: {item?.trackingId || " "}</strong>
+										<p>ຊື່: {item?.receiverName || " "}</p>
+										<p>
+											<a className="text-link" target="_blank"
+												href={`https://wa.me/${detectPhoneNumber(item?.receiverPhone
+												)}?text=${message?.replace(/<br\s*[\/]?>/gi, " ")}`}>
+												<i className="fas fa-phone" />
+												{item?.receiverPhone}
+											</a>
+										</p>
+										<>
+											<small className="text-danger">
+												{ItemStatus(item?.itemStatus)}
+											</small>
+										</>
+									</div>
+								</div>
+								<div className="right">						
+									<button type="button"
+										className="btn btn-dark right rounded mt-1 text-nowrap btn-block"
+										data-dismiss="modal"
+										onClick={() =>
+											_updateItems(item?._id)
+										}
+									>
+										<i className="fa-solid fa-share-from-square mr-1" />
+										ຈັດສົ່ງ
+									</button>
+								</div>
+							</a>
+						))}
+
 						{_item && _item?.map((item) => (
 							<a href="#" className="item">
 								<div className="detail">
 									<div className="align-top"
 									>
 										<i className="fa-solid fa-cart-arrow-down fa-2x mr-1"
-											onClick={() => history.push(`${DETAIL_ITEMS}/${item?._id} `)}
+											// onClick={() => history.push(`${DETAIL_ITEMS}/${item?._id} `)}
 										/>
 									</div>
 
-									<div className="text-nowrap">
+									<div >
 										<strong>ID: {item?.customer?.id_list}</strong>
 										<p>ຊື່: {item?.customer?.full_name}</p>
 										<p>
@@ -115,6 +208,8 @@ export default function ItemIn() {
 												{item?.customer?.contact_info}
 											</a>
 										</p>
+										<p>ຈຳນວນ: {item?.amount}</p>
+										<p>ວັນທີ່: {formatDateDash(item?.receivedDate || " ")}</p>
 										<>
 											<small className="text-success">
 												{ShipperStatus(item?.status)}

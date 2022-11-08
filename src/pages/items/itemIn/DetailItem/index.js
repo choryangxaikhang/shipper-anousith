@@ -7,7 +7,7 @@ import { TAB_MENU_ITEM_IN } from "../../../../routes/app";
 import { useLazyQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { chargeOnShop, currency, formatDateTime } from "../../../../helper";
-import { QUERY_LIST_ITEM } from "../../apollo";
+import { LIST_SHIPPER_ITEM } from "../../apollo";
 
 export default function DetailItems() {
 
@@ -17,7 +17,7 @@ export default function DetailItems() {
 	const [clickButton, setButton] = useState(false);
 	const [_item, setResult] = useState();
 
-	const [fetchData, { data: result, }] = useLazyQuery(QUERY_LIST_ITEM, {
+	const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
 		fetchPolicy: "cache-and-network",
 	});
 
@@ -29,7 +29,7 @@ export default function DetailItems() {
 				},
 			},
 		})
-		setResult(result?.pickupOfItems?.data)
+		setResult(result?.items?.data)
 	}, [result]);
 
 	return (
@@ -44,23 +44,7 @@ export default function DetailItems() {
 						<i className="fa fa-chevron-left fs-4" />
 					</button>
 				</div>
-				{clickButton === true ? (
-					<>
-						<SelectLocalHouse
-							style={{ width: "100%" }}
-							value={localHouse?._id}
-							onChange={(obj) => {
-								if (obj?._id) {
-									setLocalHouse(obj);
-									localStorage.setItem("HOUSE", JSON.stringify(obj));
-									window.location.reload();
-								}
-							}}
-						/>
-					</>
-				) : (
-					<b className="text-white">ລາຍລະອຽດ</b>
-				)}
+				<b className="text-white">ລາຍລະອຽດ</b>
 				<div
 					className="text-white pageTitle text-right text-nowrap pr-0"
 					style={{ flex: 1 }}

@@ -18,7 +18,6 @@ import { USERS } from "./apollo";
 export default function Profile() {
   const [listData, setListData] = useState({});
   const userState = getStaffLogin();
-  const userData = userState?.data;
   const [fetchData, { data: dataStaff }] = useLazyQuery(USERS, {
     fetchPolicy: "cache-and-network",
   });
@@ -27,8 +26,8 @@ export default function Profile() {
     fetchData({
       variables: {
         where: {
-          role: "SHIPPER"
-          // _id: parseInt(userData?._id),
+          role: "SHIPPER",
+          _id: parseInt(userState?._id),
         },
       },
     });

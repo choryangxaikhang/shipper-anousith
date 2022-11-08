@@ -18,7 +18,6 @@ import { LIST_SHIPPER_CONFIRMED, LIST_SHIPPER_ITEM, UPDATE_ITEMS } from "../apol
 import moment from "moment";
 import InsertAmount from "./amount";
 
-
 export default function ShipperConFirm() {
 	const { history, location, match } = useReactRouter();
 	const [reloadData, setReloadData] = useState(false);
@@ -57,7 +56,7 @@ export default function ShipperConFirm() {
 	}, [reloadData, resultData, result]);
 	const total = result?.pickupOfItems?.total;
 
-		//ຢືນຢັນຮັບເຄື່ອງ PICKUPOFITEMS
+	//ຢືນຢັນຮັບເຄື່ອງ PICKUPOFITEMS
 	const updateDistance = (id) => {
 		Notiflix.Confirm.show(
 			"ແຈ້ງເຕືອນ",
@@ -191,15 +190,8 @@ export default function ShipperConFirm() {
 									</div>
 								</div>
 								<div className="right">
-									{/* <InsertAmount
-										data={item}
-										loadData={reloadData}
-										getData={(data) => {
-											setReloadData(data);
-										}}
-									/> */}
 									<button type="button"
-										className="btn btn-success w-100 rounded"
+										className="btn btn-success right rounded btn-xs"
 										data-dismiss="modal"
 										onClick={() =>
 											_updateItems(item?._id)
@@ -216,9 +208,9 @@ export default function ShipperConFirm() {
 							<a href="#" className="item">
 								<div className="detail">
 									<i className="fa-solid fa-cart-arrow-down fa-2x mr-2"
-										// onClick={() => history.push(`${DETAIL_CONFIRM}/${item?._id} `)}
+									// onClick={() => history.push(`${DETAIL_CONFIRM}/${item?._id} `)}
 									/>
-									<div className="text-nowrap">
+									<div >
 										<strong>ID: {item?.customer?.id_list}</strong>
 										<p>ຊື່: {item?.customer?.full_name}</p>
 										<p>
@@ -237,24 +229,14 @@ export default function ShipperConFirm() {
 										</>
 									</div>
 								</div>
-								<div className="right">
-									{/* <InsertAmount
+								<div className="right">						
+									<InsertAmount
 										data={item}
 										loadData={reloadData}
 										getData={(data) => {
 											setReloadData(data);
 										}}
-									/> */}
-									<button type="button"
-										className="btn btn-success w-100 rounded"
-										data-dismiss="modal"
-										onClick={() =>
-											updateDistance(item?._id)
-										}
-									>
-										<i className="fa-solid fa-circle-check mr-1" />
-										ຢືນຢັນ
-									</button>
+									/>								
 								</div>
 							</a>
 						))}

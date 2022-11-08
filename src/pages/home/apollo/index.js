@@ -116,3 +116,11 @@ mutation UpdateItem($data: ItemInput!, $where: WhereById!) {
 }
 `;
 
+export const CREATE_SIGNATURE = gql`
+mutation Mutation($data: PickupOfItemSignatureInput!) {
+  createPickupOfItemSignature(data: $data) {
+    _id
+  }
+}
+`;
+

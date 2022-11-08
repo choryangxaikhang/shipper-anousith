@@ -1,25 +1,30 @@
 // // import { useLazyQuery } from "@apollo/client";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import _ from "lodash";
 import { useMutation } from "@apollo/client";
-import { messageError, messageSuccess } from "../../../helper";
-import { UPDATE_LIST_ITEM } from "../apollo";
+import {
+	formatDateDash,
+	getStaffLogin,
+	messageError,
+	messageSuccess
+} from "../../../helper";
+import { CREATE_SIGNATURE, UPDATE_LIST_ITEM } from "../apollo";
 import { useFormik, } from "formik";
 import "../index.css";
 import SignatureCanvas from 'react-signature-canvas';
-import { Controller } from "react-hook-form";
 export default function InsertAmount({ getData, loadData, data }) {
 	//form state
 	const [show, setShow] = useState(false);
-	const handleClose = () => setShow(false);
-	const [updateListItem] = useMutation(UPDATE_LIST_ITEM);
-	let sigCanvas = useRef({});
+	const userState = getStaffLogin();
+	const [sigCanvas, setSigCanvas] = useState(null);
 
-	const { handleChange, errors, control, values, handleSubmit, resetForm } =
+	const [updateListItem] = useMutation(UPDATE_LIST_ITEM);
+	const [createSignature] = useMutation(CREATE_SIGNATURE);
+	const { handleChange, errors, values, handleSubmit, resetForm } =
 		useFormik({
 			initialValues: {
-				amount: data?.amount
+				amount: "",
 			},
 			enableReinitialize: false,
 			validate: (values) => {
@@ -27,43 +32,53 @@ export default function InsertAmount({ getData, loadData, data }) {
 				if (!values.amount) {
 					errors.amount = "ປ້ອນຈຳນວນ";
 				}
+				if (sigCanvas?.isEmpty()) {
+					errors.sigCanvas = "ເຊັນເພື່ອເປັນຫຼັກຖານ";
+				}
 				return errors;
 			},
 			onSubmit: async (values) => {
 				try {
-					const { data: inputData } = await updateListItem({
+					const { data: inputData } = await createSignature({
 						variables: {
 							data: {
-								amount: parseFloat(values.amount),
+								pickup: parseInt(data?._id),
+								image: sigCanvas.toDataURL(),
 							},
 						},
 					});
+
+				await	updateListItem({
+						variables: {
+							data: {
+								amount: values.amount,
+								status: "RECEIVED",
+								isSignature: 1,
+							},
+							where: {
+								_id: parseInt(data?._id),
+							},
+						},
+					});
+
 					if (inputData) {
 						messageSuccess("ດຳເນີນການສຳເລັດ");
 						getData(!loadData);
+						sigCanvas.clear();
 						setTimeout(() => {
 							resetForm({ values: "" });
 							window.scrollTo(0, 0);
 						}, 100);
 					} else {
-						messageError("ເປີດຫ້ອງບໍ່ສຳເລັດ");
+						messageError("ດຳເນີນບໍ່ສຳເລັດ");
 					}
 				} catch (error) {
-					messageError("ເປີດຫ້ອງບໍ່ສຳເລັດ");
+					messageError("ດຳເນີນບໍ່ສຳເລັດ");
 				}
 			},
 		});
 
-	const formatIntoPng = () => {
-		if (sigCanvas.current) {
-			const dataURL = sigCanvas.current.toDataURL();
-			return dataURL;
-		}
-	};
-
 	return (
-
-
 		<React.Fragment>
 			<button
 				type="button"
@@ -86,7 +101,7 @@ export default function InsertAmount({ getData, loadData, data }) {
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<form>
+					<form onSubmit={(e) => e.preventDefault()}>
 						<div className="form-group">
 							<label>ຈຳນວນພັດສະດຸ </label>
 							<input
@@ -94,44 +109,51 @@ export default function InsertAmount({ getData, loadData, data }) {
 								name="amount"
 								value={values.amount}
 								onChange={handleChange}
-								className="form-control"
+								className={
+									errors.amount
+										? "form-control mb-3 is-invalid"
+										: "form-control mb-3 invalid"
+								}
 								placeholder="0"
 							/>
+							<i className="text-danger">{errors?.amount}</i>
 						</div>
 						<div className="form-group">
 							<label className="align-top">ລາຍເຊັນ </label>
-							{/* <Controller
-								name="image"
-								control={control}
-								render={({ field }) => ( */}
-									<SignatureCanvas
-										ref={sigCanvas}
-										// onEnd={() => field.onChange(formatIntoPng())}
-										penColor='blue'
-										name="image"
-										control={control}
-										canvasProps={{
-											height: 220,
-											width: 300,									
-											className: 'sigCanvas border btn-block'
-										}}
-									/>
-									{/* )}
-								/> 		 */}
+							<SignatureCanvas
+								canvasProps={{
+									width: 300,
+									height: 200,
+									className: 'sigCanvas border w-100'
+								}}
+								ref={(ref) => setSigCanvas(ref)}
+								penColor="blue"
+							/>
 						</div>
+						<i className="text-danger">{errors?.sigCanvas}</i>
 					</form>
 				</Modal.Body>
 				<Modal.Footer>
-					<button
-						type="button"
-						className="btn btn-success rounded btn-block btn-lg"
-						onClick={() => handleSubmit()}
-					// onClick={handleSubmit(onSubmit)}
-					// disabled={isDisabled}
-					>
-						<i className="fa-solid fa-circle-check mr-1 fs-2" />
-						ຢືນຢືນຮັບເຂົ້າ
-					</button>
+					<div className="btn-group">
+						<button
+							type="button"
+							className="btn btn-success rounded btn-lg mr-2"
+							onClick={handleSubmit}
+						>
+							<i className="fa-solid fa-circle-check mr-1 fs-2" />
+							ຢືນຢັນ
+						</button>
+						<button
+							type="button"
+							className="btn btn-danger rounded btn-lg"
+							onClick={() => {
+								sigCanvas.clear();
+							}}
+						>
+							<i className="fa-solid fa-close mr-1 fs-2" />
+							ຍົກເລິກ
+						</button>
+					</div>
 				</Modal.Footer>
 			</Modal>
 		</React.Fragment>
