@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import _ from "lodash";
 import useReactRouter from "use-react-router";
 import Imglogo from "../../../img/anousith.png";
-import SelectLocalHouse from "../../../helper/components/SelectLocalHouse";
 import { useLazyQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { chargeOnShop, currency, formatDateTime } from "../../../helper";
