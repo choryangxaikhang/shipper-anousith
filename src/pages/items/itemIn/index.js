@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
 import {
+	aws_url_images,
 	detectPhoneNumber,
 	formatDateDash,
 	ItemStatus,
@@ -11,7 +12,7 @@ import {
 } from "../../../helper";
 import { DETAIL_ITEMS } from "../../../routes/app";
 import BottomNav from "../../../layouts/BottomNav";
-import whatsapp from "../../../icon/whatsapp.svg";
+import image from "../../../img/Nodata.png"
 import Notiflix from "notiflix";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { LIST_SHIPPER_ITEM, QUERY_LIST_ITEM, UPDATE_ITEMS, UPDATE_LIST_ITEM } from "../apollo";
@@ -126,7 +127,6 @@ export default function ItemIn() {
 
 	const message = "ສະບາຍດີ"
 
-
 	return (
 		<>
 			<div className=" body-content-lg" style={{ marginTop: 60 }}>
@@ -148,7 +148,7 @@ export default function ItemIn() {
 			<div className="mt-2">
 				<div className="section">
 					<div className="transactions ">
-						{_dataItem && _dataItem?.map((item) => (
+						{/* {_dataItem && _dataItem?.map((item) => (
 							<a href="#" className="item">
 								<div className="detail">
 									<i className="fa-solid fa-cart-arrow-down text-black fa-2x mr-2"
@@ -185,7 +185,7 @@ export default function ItemIn() {
 									</button>
 								</div>
 							</a>
-						))}
+						))} */}
 
 						{_item && _item?.map((item) => (
 							<a href="#" className="item">
@@ -193,7 +193,7 @@ export default function ItemIn() {
 									<div className="align-top"
 									>
 										<i className="fa-solid fa-cart-arrow-down fa-2x mr-1"
-											// onClick={() => history.push(`${DETAIL_ITEMS}/${item?._id} `)}
+											onClick={() => history.push(`${DETAIL_ITEMS}/${item?._id} `)}
 										/>
 									</div>
 
@@ -217,15 +217,32 @@ export default function ItemIn() {
 										</>
 									</div>
 								</div>
-								<div className="right">
-									<button type="button" className="btn btn-dark right rounded mt-1 text-nowrap btn-block"
+								<div className="right border">
+									<img
+										className="img-xl rounded-circle"
+										src={
+											item?.signature?.length
+												? item?.signature[item?.signature?.length - 1]?.image
+												: image
+										}
+										style={{
+											width: 100,
+											height: 100,
+											borderRadius: "40%",
+											border: "2px solid de0a0af2",
+										}}
+									// alt="Profile Picture"
+									// loading="lazy"
+									/>
+
+									{/* <button type="button" className="btn btn-dark right rounded mt-1 text-nowrap btn-block"
 										onClick={() =>
 											updateDistance(item?._id)
 										}
 									>
 										<i className="fa-solid fa-share-from-square mr-1" />
 										ຈັດສົ່ງ
-									</button>
+									</button> */}
 								</div>
 							</a>
 						))}

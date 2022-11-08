@@ -96,6 +96,10 @@ query PickupOfItems($where: PickupOfItemWhereInput, $orderBy: OrderByPickupOfIte
       createdDate
       receivedDate
       canceledDate
+      signature {
+        _id
+        image
+      }
     }
   }
 }
