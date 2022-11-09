@@ -5,17 +5,17 @@ import _ from "lodash";
 import { useMutation } from "@apollo/client";
 import { messageError, messageSuccess } from "../../../helper";
 import Notiflix from "notiflix";
-import { UPDATE_LIST_ITEM } from "../apollo";
+import { UPDATE_ITEMS } from "../apollo";
 
 export default function CODCompleted({ getData, loadData, data }) {
 	//form state
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
-	const [updateListItem] = useMutation(UPDATE_LIST_ITEM);
+	const [updateListItem] = useMutation(UPDATE_ITEMS);
 	const [valueKIP, setValueKIP] = useState(data?.itemValueKIP)
 	const [valueTHB, setValueTHB] = useState(data?.itemValueTHB)
 	const [valueUSD, setValueUSD] = useState(data?.itemValueUSD)
-	
+
 	const updateDistance = (id) => {
 		Notiflix.Confirm.show(
 			"ແຈ້ງເຕືອນ",
@@ -27,7 +27,10 @@ export default function CODCompleted({ getData, loadData, data }) {
 					const _updateDistance = await updateListItem({
 						variables: {
 							data: {
-								itemStatus: "COMPLETED"
+								itemStatus: "COMPLETED",
+								realValueKIP: parseInt(valueKIP),
+								realValueTHB: parseInt(valueTHB),
+								realValueUSD: parseInt(valueUSD),
 							},
 							where: {
 								_id: parseInt(id),
@@ -38,6 +41,7 @@ export default function CODCompleted({ getData, loadData, data }) {
 					if (_updateDistance) {
 						messageSuccess("ດຳເນີນການສຳເລັດ");
 						getData(!loadData);
+						handleClose(!show)
 					}
 				} catch (error) {
 					console.log(error)

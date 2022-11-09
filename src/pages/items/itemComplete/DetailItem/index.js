@@ -2,22 +2,17 @@ import React, { useState } from "react";
 import _ from "lodash";
 import useReactRouter from "use-react-router";
 import Imglogo from "../../../../img/anousith.png";
-import SelectLocalHouse from "../../../../helper/components/SelectLocalHouse";
 import { TAB_MENU_COMPLETED } from "../../../../routes/app";
 import { useLazyQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { chargeOnShop, currency, formatDateTime } from "../../../../helper";
-import { QUERY_LIST_ITEM } from "../../apollo";
+import { LIST_SHIPPER_ITEM } from "../../apollo";
 
 export default function DetailICompleted() {
-
 	const { location, history, match } = useReactRouter();
 	const ID = parseInt(match?.params?._id);
-	const [localHouse, setLocalHouse] = useState("");
-	const [clickButton, setButton] = useState(false);
 	const [_item, setResult] = useState();
-
-	const [fetchData, { data: result, }] = useLazyQuery(QUERY_LIST_ITEM, {
+	const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
 		fetchPolicy: "cache-and-network",
 	});
 
@@ -33,7 +28,6 @@ export default function DetailICompleted() {
 	}, [result]);
 
 	return (
-
 		<>
 			<div className="appHeader text-light border-0 mr-0">
 				<div style={{ flex: 1 }} className="text-left">

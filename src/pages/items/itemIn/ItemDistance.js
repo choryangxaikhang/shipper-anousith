@@ -18,7 +18,6 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 export default function ItemDistances() {
 	const { history, location, match } = useReactRouter();
 	const [reloadData, setReloadData] = useState(false);
-
 	const [_item, setResult] = useState();
 	const [updateListItem] = useMutation(UPDATE_LIST_ITEM);
 	const [fetchData, { data: result, }] = useLazyQuery(QUERY_LIST_ITEM, {

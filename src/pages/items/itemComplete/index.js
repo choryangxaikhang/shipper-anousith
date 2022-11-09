@@ -10,7 +10,7 @@ import {
 import BottomNav from "../../../layouts/BottomNav";
 import whatsapp from "../../../icon/whatsapp.svg";
 import { useLazyQuery } from "@apollo/client";
-import { QUERY_LIST_ITEM } from "../apollo";
+import { LIST_SHIPPER_ITEM } from "../apollo";
 import { DETAIL_ITEMS_COMPLETED } from "../../../routes/app";
 
 export default function ItemCompleted() {
@@ -21,7 +21,7 @@ export default function ItemCompleted() {
   const [searchValue, setValue] = useState()
   const [_item, setResult] = useState();
 
-  const [fetchData, { data: result, }] = useLazyQuery(QUERY_LIST_ITEM, {
+  const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
     fetchPolicy: "cache-and-network",
   });
 

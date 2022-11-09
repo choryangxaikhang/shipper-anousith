@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
 import {
 	detectPhoneNumber,
+	formatDateDash,
 	ItemStatus,
 } from "../../../helper";
 import { DETAIL_ITEMS_DELIVERING } from "../../../routes/app";
@@ -11,14 +12,16 @@ import whatsapp from "../../../icon/whatsapp.svg";
 import Notiflix from "notiflix";
 import { useLazyQuery } from "@apollo/client";
 import CODCompleted from "../codCompleted";
-import { QUERY_LIST_ITEM } from "../apollo";
-
+import { LIST_SHIPPER_ITEM } from "../apollo";
 
 export default function ItemDelivering() {
 	const { history, location, match } = useReactRouter();
 	const [reloadData, setReloadData] = useState(false);
 	const [_item, setResult] = useState();
-	const [fetchData, { data: result, }] = useLazyQuery(QUERY_LIST_ITEM, {
+	const [searchValue, setValue] = useState()
+	const [_search, setOnSearch] = useState("")
+
+	const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
 		fetchPolicy: "cache-and-network",
 	});
 
@@ -26,13 +29,19 @@ export default function ItemDelivering() {
 		fetchData({
 			variables: {
 				where: {
-					itemStatus: "ORIGIN_TRANSFERRING"
+					trackingId: _search ? _search : undefined,
+					itemStatus: "SHIPPER_CONFIRMED"
 				},
 			},
 		})
 		setResult(result?.items?.data)
-	}, [result, reloadData]);
+	}, [result, _search, reloadData]);
 	const total = result?.items?.total;
+
+	//ປຸ່ມກົດຄົ້ນຫາ
+	function onSearch() {
+		setOnSearch(searchValue);
+	}
 
 	const message = "ສະບາຍດີ"
 
@@ -42,12 +51,19 @@ export default function ItemDelivering() {
 				<div className="option-section">
 					<div className="col-12">
 						<div className="input-group">
-							<span className="btn btn-secondary">
-								<i className="icon-search" />
-							</span>
+							<button
+								type="button"
+								className="btn btn-dark"
+								onClick={() => onSearch()}
+							>
+								<i className="icon-search1" />
+							</button>
 							<input
 								type="search"
 								className="form-control form-control-sm"
+								onChange={(e) => {
+									setValue(e.target.value);
+								}}
 								placeholder="tracking" />
 						</div>
 						<p className="title mt-1">ຈຳນວນ {total || 0} ລາຍການ</p>
@@ -69,17 +85,16 @@ export default function ItemDelivering() {
 
 									<div className="text-nowrap">
 										{/* <strong>{item?.trackingId}</strong> */}
-										<strong>ID: {item?.customer?.id_list}</strong>
 										<strong>TK: {item?.trackingId}</strong>
 										<p>ຊື່: {item?.receiverName}</p>
 										<p>
 											<a className="text-link" target="_blank"
 												href={`https://wa.me/${detectPhoneNumber(item?.receiverPhone
-												)}?text=${message?.replace(/<br\s*[\/]?>/gi, " ")}`}>
+												)}?text=${message?.replace(/<br\s*[\/]?>/gi, " ")} trackingID:${item?.trackingId}`}>
 												<img style={{ width: 20 }} src={whatsapp} alt="" />{item?.receiverPhone}
 											</a>
 										</p>
-
+										<p>ວັນທີຮັບ: {formatDateDash(item?.shipperConfirmDate)}</p>
 										<>
 											{item?.itemStatus === "COMPLETED" ? (
 												<small className="text-success">
@@ -93,7 +108,7 @@ export default function ItemDelivering() {
 										</>
 									</div>
 								</div>
-								<div className="center">
+								<div className="right">
 									{item?.itemStatus !== "COMPLETED" ? (
 										<CODCompleted
 											data={item}
