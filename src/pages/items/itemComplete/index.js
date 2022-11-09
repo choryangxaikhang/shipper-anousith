@@ -4,6 +4,7 @@ import useReactRouter from "use-react-router";
 import {
   detectPhoneNumber,
   formatDateDash,
+  getStaffLogin,
   ItemStatus,
   startMonth,
 } from "../../../helper";
@@ -20,6 +21,8 @@ export default function ItemCompleted() {
   const [endDateValue, setEndDateValue] = useState(new Date());
   const [searchValue, setValue] = useState()
   const [_item, setResult] = useState();
+	const userState = getStaffLogin();
+
 
   const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
     fetchPolicy: "cache-and-network",
@@ -29,6 +32,7 @@ export default function ItemCompleted() {
     fetchData({
       variables: {
         where: {
+					// shipper: userState?._id,
           trackingId: searchValue ? searchValue : undefined,
           deliveryCompletedDateBetween: [startDateValue, endDateValue],
           itemStatus: "COMPLETED"

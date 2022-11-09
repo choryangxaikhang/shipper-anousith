@@ -4,6 +4,7 @@ import useReactRouter from "use-react-router";
 import {
 	detectPhoneNumber,
 	formatDateDash,
+	getStaffLogin,
 	ItemStatus,
 } from "../../../helper";
 import { DETAIL_ITEMS_DELIVERING } from "../../../routes/app";
@@ -20,6 +21,7 @@ export default function ItemDelivering() {
 	const [_item, setResult] = useState();
 	const [searchValue, setValue] = useState()
 	const [_search, setOnSearch] = useState("")
+	const userState = getStaffLogin();
 
 	const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
 		fetchPolicy: "cache-and-network",
@@ -29,6 +31,7 @@ export default function ItemDelivering() {
 		fetchData({
 			variables: {
 				where: {
+					// shipper: userState?._id,
 					trackingId: _search ? _search : undefined,
 					itemStatus: "SHIPPER_CONFIRMED"
 				},

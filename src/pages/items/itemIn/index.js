@@ -2,16 +2,14 @@
 import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
 import {
-	aws_url_images,
 	detectPhoneNumber,
 	formatDateDash,
-	ItemStatus,
+	getStaffLogin,
 	messageError,
 	messageSuccess,
 	ShipperStatus,
 	startMonth
 } from "../../../helper";
-import { DETAIL_ITEMS } from "../../../routes/app";
 import BottomNav from "../../../layouts/BottomNav";
 import image from "../../../img/Nodata.png"
 import Notiflix from "notiflix";
@@ -30,6 +28,8 @@ export default function ItemIn() {
 	const [_dataItem, setData] = useState();
 	const [searchValue, setValue] = useState()
 	const [_search, setOnSearch] = useState("")
+	const userState = getStaffLogin();
+	
 	const [startDateValue, setStartDateValue] = useState(startMonth());
 	const [endDateValue, setEndDateValue] = useState(new Date());
 	const [updateListItem] = useMutation(UPDATE_LIST_ITEM);
@@ -43,6 +43,7 @@ export default function ItemIn() {
 		fetchData({
 			variables: {
 				where: {
+					shipper: userState?._id,
 					customer: _search ? _search : undefined,
 					status: "RECEIVED",
 					receivedDateBetween:[startDateValue, endDateValue ]
@@ -151,7 +152,7 @@ export default function ItemIn() {
 								<div className="detail">
 									<div className="align-top"
 									>
-										<i className="fa-solid fa-cart-arrow-down fa-2x mr-1"
+										<i className="fa-solid fa-triangle-exclamation fa-2x mr-1"
 										// onClick={() => history.push(`${DETAIL_ITEMS}/${item?._id} `)}
 										/>
 									</div>

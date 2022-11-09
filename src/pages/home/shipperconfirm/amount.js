@@ -4,7 +4,6 @@ import { Modal } from "react-bootstrap";
 import _ from "lodash";
 import { useMutation } from "@apollo/client";
 import {
-	formatDateDash,
 	getStaffLogin,
 	messageError,
 	messageSuccess
@@ -16,7 +15,6 @@ import SignatureCanvas from 'react-signature-canvas';
 export default function InsertAmount({ getData, loadData, data }) {
 	//form state
 	const [show, setShow] = useState(false);
-	const userState = getStaffLogin();
 	const [sigCanvas, setSigCanvas] = useState(null);
 
 	const [updateListItem] = useMutation(UPDATE_LIST_ITEM);
@@ -48,7 +46,7 @@ export default function InsertAmount({ getData, loadData, data }) {
 						},
 					});
 
-				await	updateListItem({
+					await updateListItem({
 						variables: {
 							data: {
 								amount: values.amount,
@@ -69,6 +67,7 @@ export default function InsertAmount({ getData, loadData, data }) {
 							resetForm({ values: "" });
 							window.scrollTo(0, 0);
 						}, 100);
+						setShow(!show)
 					} else {
 						messageError("ດຳເນີນບໍ່ສຳເລັດ");
 					}

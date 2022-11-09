@@ -6,7 +6,7 @@ import { TAB_MENU_LIST } from "../../../../routes/app";
 import { useLazyQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { chargeOnShop, formatDateTime, currency } from "../../../../helper";
-import { QUERY_LIST_ITEM } from "../../apollo";
+import { LIST_SHIPPER_ITEM } from "../../apollo";
 
 export default function DetailDataList() {
 	const { location, history, match } = useReactRouter();
@@ -14,7 +14,7 @@ export default function DetailDataList() {
 	const [localHouse, setLocalHouse] = useState("");
 	const [clickButton, setButton] = useState(false);
 	const [_item, setResult] = useState();
-	const [fetchData, { data: result, }] = useLazyQuery(QUERY_LIST_ITEM, {
+	const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
 		fetchPolicy: "cache-and-network",
 	});
 

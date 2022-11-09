@@ -6,25 +6,28 @@ import {
 	ShipperStatus,
 	messageError,
 	messageSuccess,
-	ItemStatus
+	ItemStatus,
+	getStaffLogin
 } from "../../../helper";
 import { DETAIL_CONFIRM, HOME_PAGE } from "../../../routes/app";
 import BottomNav from "../../../layouts/BottomNav";
 import Notiflix from "notiflix";
 import "../index.css";
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { UPDATE_LIST_ITEM } from "../../items/apollo";
-import { LIST_SHIPPER_CONFIRMED, LIST_SHIPPER_ITEM, UPDATE_ITEMS } from "../apollo";
-import moment from "moment";
+import {
+	LIST_SHIPPER_CONFIRMED,
+	LIST_SHIPPER_ITEM,
+	UPDATE_ITEMS
+} from "../apollo";
 import InsertAmount from "./amount";
 
 export default function ShipperConFirm() {
-	const { history, location, match } = useReactRouter();
+	const { history } = useReactRouter();
 	const [reloadData, setReloadData] = useState(false);
-	const today = moment().format("YYY-MM-DD, HH:mm")
 	const [_item, setResult] = useState();
 	const [_dataItem, setData] = useState();
-	const [updateListItem] = useMutation(UPDATE_LIST_ITEM);
+	const userState = getStaffLogin();
+
 	const [updateItem] = useMutation(UPDATE_ITEMS);
 	const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_CONFIRMED, {
 		fetchPolicy: "cache-and-network",
@@ -37,6 +40,7 @@ export default function ShipperConFirm() {
 		fetchData({
 			variables: {
 				where: {
+					// shipper: userState?._id,
 					status: "REQUESTING"
 				},
 			},
@@ -45,6 +49,7 @@ export default function ShipperConFirm() {
 		fetchResult({
 			variables: {
 				where: {
+					// shipper: userState?._id,
 					itemStatus: "REQUESTING"
 				},
 			},
@@ -54,42 +59,10 @@ export default function ShipperConFirm() {
 		setData(resultData?.items?.data);
 
 	}, [reloadData, resultData, result]);
+
+	//ຈຳນວນທັງໝົດ
 	const total = result?.pickupOfItems?.total;
-
-	//ຢືນຢັນຮັບເຄື່ອງ PICKUPOFITEMS
-	const updateDistance = (id) => {
-		Notiflix.Confirm.show(
-			"ແຈ້ງເຕືອນ",
-			"ທ່ານຕ້ອງການຮັບເຂົ້າ ແທ້ ຫຼື ບໍ່?",
-			"ຕົກລົງ",
-			"ຍົກເລີກ",
-			async () => {
-				try {
-					const _updateDistance = await updateListItem({
-						variables: {
-							data: {
-								status: "RECEIVED"
-							},
-							where: {
-								_id: parseInt(id),
-							},
-						},
-					});
-
-					if (_updateDistance) {
-						messageSuccess("ດຳເນີນການສຳເລັດ");
-						setReloadData(!reloadData);
-					}
-				} catch (error) {
-					console.log(error)
-					messageError("ດຳເນີນການບໍ່ສຳເລັດ");
-				}
-			},
-			() => {
-				return false;
-			}
-		);
-	};
+	const totalItem = resultData?.items?.total;
 
 	//ຢືນຢັນຮັບເຄື່ອງ ITEM
 	const _updateItems = (id) => {
@@ -158,7 +131,7 @@ export default function ShipperConFirm() {
 								className="form-control form-control-sm"
 								placeholder="tracking" />
 						</div>
-						<p className="title mt-1">ຈຳນວນ {total || 0} ລາຍການ</p>
+						<p className="title mt-1">ຈຳນວນ {total + totalItem || 0} ລາຍການ</p>
 					</div>
 				</div>
 			</div>
@@ -207,7 +180,7 @@ export default function ShipperConFirm() {
 						{_item && _item?.map((item) => (
 							<a href="#" className="item">
 								<div className="detail">
-									<i className="fa-solid fa-cart-arrow-down fa-2x mr-2"
+									<i className="fa-solid fa-triangle-exclamation fa-2x mr-2"
 									// onClick={() => history.push(`${DETAIL_CONFIRM}/${item?._id} `)}
 									/>
 									<div >
@@ -229,14 +202,14 @@ export default function ShipperConFirm() {
 										</>
 									</div>
 								</div>
-								<div className="right">						
+								<div className="right">
 									<InsertAmount
 										data={item}
 										loadData={reloadData}
 										getData={(data) => {
 											setReloadData(data);
 										}}
-									/>								
+									/>
 								</div>
 							</a>
 						))}

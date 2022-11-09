@@ -70,7 +70,7 @@ export default function TabMenuList() {
             variant=""
             onClick={() => history.push({ search: "?item=itemRange" })}
           >
-            ສົ່ງໄລຍະໃກ້
+            ອໍເດີຮັບເຂົ້າ
           </Button>
           <Button
             className={`item-tab text-nowrap ${tabActive === "ItemMiddles" ? "clickActive" : "Actives"
@@ -78,7 +78,7 @@ export default function TabMenuList() {
             variant=""
             onClick={() => history.push({ search: "?item=ItemMiddles" })}
           >
-            ສົ່ງໄລຍະທົ່ວໄປ
+            ອໍເດີຈັດສົ່ງ
           </Button>
           <Button
             className={`item-tab text-nowrap ${tabActive === "ItemDistances" ? "clickActive" : "Actives"
