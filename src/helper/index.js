@@ -565,7 +565,7 @@ export const ItemStatus = (itemStatus) => {
   } else if (itemStatus === "ASSIGNING") {
     return "ການມອບ";
   } else if (itemStatus === "SHIPPER_CONFIRMED") {
-    return "ໄລເດີກົດຮັບແລ້ວກຳລັງຈົດສົ່ງ";
+    return "ກຳລັງຈັດສົ່ງ";
   } else if (itemStatus === "DELIVERED") {
     return "ຈັດສົ່ງແລ້ວ";
   } else if (itemStatus === "CREATING") {
@@ -577,13 +577,13 @@ export const ItemStatus = (itemStatus) => {
 };
 export const ShipperStatus = (status) => {
   if (status === "CANCELED") {
-    return "ຍົກເລິກ";
+    return <span className="text-danger">ລົ້ມແຫຼວ</span>
   } else if (status === "REQUESTING") {
-    return "ກຳລັງຮ້ອງຂໍ";
+    return <span className="text-danger">ກຳລັງຮ້ອງຂໍ</span>
   } else if (status === "RECEIVED") {
-    return "ຮັບອໍເດີແລ້ວ";
+    return <span className="text-success">ຮັບອໍເດີແລ້ວ</span>
   } else if (status === "DEPARTURE") {
-    return "ກຳລັງຈັດສົ່ງ";
+    return <span className="text-success">ກຳລັງຈັດສົ່ງ</span>
   } else {
     return "-";
   }

@@ -4,14 +4,15 @@ import useReactRouter from "use-react-router";
 import {
   detectPhoneNumber,
   formatDateDash,
+  getStaffLogin,
   ItemStatus,
   startMonth,
 } from "../../../helper";
 import BottomNav from "../../../layouts/BottomNav";
 import whatsapp from "../../../icon/whatsapp.svg";
 import { useLazyQuery } from "@apollo/client";
-import { QUERY_LIST_ITEM } from "../apollo";
 import { DETAIL_ITEMS_COMPLETED } from "../../../routes/app";
+import { LIST_SHIPPER_ITEM } from "../../home/apollo";
 
 export default function ItemRanges() {
   const { history, location, match } = useReactRouter();
@@ -20,8 +21,9 @@ export default function ItemRanges() {
   const [endDateValue, setEndDateValue] = useState(new Date());
   const [searchValue, setValue] = useState()
   const [_item, setResult] = useState();
+  const userState = getStaffLogin();
 
-  const [fetchData, { data: result, }] = useLazyQuery(QUERY_LIST_ITEM, {
+  const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
     fetchPolicy: "cache-and-network",
   });
 
@@ -29,6 +31,7 @@ export default function ItemRanges() {
     fetchData({
       variables: {
         where: {
+          shipper: userState?._id,
           trackingId: searchValue ? searchValue : undefined,
           deliveryCompletedDateBetween: [startDateValue, endDateValue],
           itemStatus: "COMPLETED"
@@ -85,7 +88,6 @@ export default function ItemRanges() {
                 }}
                 placeholder="tracking" />
             </div>
-
             <p className="title mt-1">ຈຳນວນ {total || 0} ລາຍການ</p>
           </div>
         </div>
@@ -102,9 +104,7 @@ export default function ItemRanges() {
                       onClick={() => history.push(`${DETAIL_ITEMS_COMPLETED}/${item?._id} `)}
                     />
                   </div>
-
                   <div className="text-nowrap">
-                    {/* <strong>{item?.trackingId}</strong> */}
                     <strong>ID: {item?.customer?.id_list}</strong>
                     <strong>TK: {item?.trackingId}</strong>
                     <p>ຊື່: {item?.receiverName}</p>
@@ -115,8 +115,8 @@ export default function ItemRanges() {
                         <img style={{ width: 20 }} src={whatsapp} alt="" />{item?.receiverPhone}
                       </a>
                     </p>
-
-                    <>
+                    <p>ວັນທີ່: {formatDateDash(item?.deliveryCompletedDate)}</p>
+                    <p>
                       {item?.itemStatus === "COMPLETED" ? (
                         <small className="text-success">
                           {ItemStatus(item?.itemStatus)}
@@ -126,7 +126,7 @@ export default function ItemRanges() {
                           {ItemStatus(item?.itemStatus)}
                         </small>
                       )}
-                    </>
+                    </p>
                   </div>
                 </div>
               </a>

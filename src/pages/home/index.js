@@ -3,13 +3,14 @@ import useReactRouter from "use-react-router";
 import "./index.css";
 import BottomNav from "../../layouts/BottomNav";
 import {
+  getStaffLogin,
   loadingData,
 } from "../../helper";
 import {
   COMMITION_SHIPER,
+  ITEM_DELIVERING,
   SHIPPER_CONFIRM,
   TAB_MENU_COMPLETED,
-  TAB_MENU_DELIVERING,
   TAB_MENU_ITEM_IN
 } from "../../routes/app";
 import SelectLocalHouse from "../../helper/components/SelectLocalHouse";
@@ -22,13 +23,14 @@ export default function Home() {
   const [userData, setUserData] = useState({});
   const [clickButton, setButton] = useState(false);
   const [reloadData, setReLoadData] = useState(false);
+  const userInfo = getStaffLogin();
 
   const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_CONFIRMED, {
     fetchPolicy: "cache-and-network",
   });
-  const [fetchResult, { data: resultData, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
-		fetchPolicy: "cache-and-network",
-	});
+  const [fetchItem, { data: DataItem, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
+    fetchPolicy: "cache-and-network",
+  });
 
   useEffect(() => {
     fetchData({
@@ -37,17 +39,20 @@ export default function Home() {
           status: "REQUESTING"
         },
       },
-    });  
-    fetchResult({
+    });
+
+    fetchItem({
       variables: {
         where: {
-          itemStatus: "REQUESTING"
+          shipper: userInfo?._id,
+          itemStatus: "SHIPPER_CONFIRMED"
         },
       },
-    });  
-  }, [result, resultData, reloadData]);
-  const total = result?.pickupOfItems?.total;
-  const totalItem = resultData?.items?.total;
+    });
+
+  }, [result, reloadData, DataItem]);
+  const totalPickup = result?.pickupOfItems?.total;
+  const totalItem = DataItem?.items?.total;
 
   return (
     <>
@@ -97,11 +102,13 @@ export default function Home() {
               <span style={{ position: "absolute", right: 10, top: 10 }}>
                 {loadingData(10)}
               </span>
-              <span className="badge badge-success mr-1 p-2">
-                <small>
-                  {total + totalItem || 0}
-                </small>
-              </span>
+              {totalPickup !== 0 ? (
+                <span className="badge badge-success mr-1 p-2">
+                  <small>
+                    {totalPickup}
+                  </small>
+                </span>
+              ) : null}
             </a>
           </div>
         </div>
@@ -114,7 +121,6 @@ export default function Home() {
             className="wallet-card"
             style={{
               borderBottom: "1px solid red",
-
             }}
           >
             <div className="wallet-footer">
@@ -130,10 +136,27 @@ export default function Home() {
                 </a>
               </div>
               <div className="item">
+                {totalItem !== 0 ? (
+                  <span
+                    className="badge badge-success ms-2"
+                    style={{
+                      position: "fixed",
+                      marginTop: -10,
+                      marginRight: -50,
+                      padding: 0,
+                      zIndex: 1000,
+                    }}
+                  >
+                    <small className="p-1">
+                      {totalItem || 0}
+                    </small>
+                  </span>
+                ): null}
                 <a
                   href="javascript:void(0)"
-                  onClick={() => history.push(`${TAB_MENU_DELIVERING}/1`)}
+                  onClick={() => history.push(`${ITEM_DELIVERING}/1`)}
                 >
+
                   <div className="icon-wrapper">
                     <i className="fa-solid fa-truck fa-2x" />
                   </div>

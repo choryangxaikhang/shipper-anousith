@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import _ from "lodash";
 import useReactRouter from "use-react-router";
 import Imglogo from "../../../../img/anousith.png";
-import SelectLocalHouse from "../../../../helper/components/SelectLocalHouse";
-import { TAB_MENU_DELIVERING } from "../../../../routes/app";
+import { ITEM_DELIVERING } from "../../../../routes/app";
 import { useLazyQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { chargeOnShop, currency, formatDateTime } from "../../../../helper";
@@ -13,8 +12,6 @@ export default function DetailListDelivering() {
 
 	const { location, history, match } = useReactRouter();
 	const ID = parseInt(match?.params?._id);
-	const [localHouse, setLocalHouse] = useState("");
-	const [clickButton, setButton] = useState(false);
 	const [_item, setResult] = useState();
 
 	const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
@@ -39,7 +36,7 @@ export default function DetailListDelivering() {
 				<div style={{ flex: 1 }} className="text-left">
 					<button
 						className="btn text-white"
-						onClick={() => history.push(`${TAB_MENU_DELIVERING}/1`)}
+						onClick={() => history.push(`${ITEM_DELIVERING}/1`)}
 					>
 						<i className="fa fa-chevron-left fs-4" />
 					</button>

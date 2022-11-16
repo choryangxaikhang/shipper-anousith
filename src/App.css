@@ -14470,7 +14470,7 @@ a.text-dark {
   padding: 20px 15px;
   margin-bottom: 10px;
   display: flex;
-  align-items: center;
+  align-items: right;
   justify-content: space-between;
 }
 .transactions .item:last-child {

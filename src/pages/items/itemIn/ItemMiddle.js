@@ -1,26 +1,26 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
-import useReactRouter from "use-react-router";
 import {
 	detectPhoneNumber,
-	ItemStatus,
-	messageError,
-	messageSuccess
+	formatDateDash,
+	getStaffLogin,
+	ShipperStatus,
+	startMonth
 } from "../../../helper";
-import { DETAIL_ITEMS } from "../../../routes/app";
+import image from "../../../img/Nodata.png"
 import BottomNav from "../../../layouts/BottomNav";
-import whatsapp from "../../../icon/whatsapp.svg";
-import Notiflix from "notiflix";
-import { QUERY_LIST_ITEM, UPDATE_LIST_ITEM } from "../apollo";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { QUERY_LIST_ITEM } from "../apollo";
+import { useLazyQuery } from "@apollo/client";
 
 
 export default function ItemMiddles() {
-	const { history, location, match } = useReactRouter();
+	const userState = getStaffLogin();
 	const [reloadData, setReloadData] = useState(false);
-
 	const [_item, setResult] = useState();
-	const [updateListItem] = useMutation(UPDATE_LIST_ITEM);
+	const [searchValue, setValue] = useState()
+	const [startDateValue, setStartDateValue] = useState(startMonth());
+	const [endDateValue, setEndDateValue] = useState(new Date());
+	const [_search, setOnSearch] = useState("")
 	const [fetchData, { data: result, }] = useLazyQuery(QUERY_LIST_ITEM, {
 		fetchPolicy: "cache-and-network",
 	});
@@ -29,63 +29,72 @@ export default function ItemMiddles() {
 		fetchData({
 			variables: {
 				where: {
-					itemStatus: "SHIPPER_CONFIRMED"
+					customer: _search ? parseInt(_search) : undefined,
+					shipper: userState?._id,
+					status: "CANCELED",
+					createdDateBetween: [startDateValue, endDateValue]
 				},
 			},
 		})
-		setResult(result?.items?.data)
-	}, [result, reloadData]);
-	const total = result?.items?.total;
+	}, [reloadData, startDateValue, endDateValue]);
 
-	const updateDistance = (id) => {
-		Notiflix.Confirm.show(
-			"ແຈ້ງເຕືອນ",
-			"ທ່ານຕ້ອງການຈັດສົ່ງ ແທ້ ຫຼື ບໍ່?",
-			"ຕົກລົງ",
-			"ຍົກເລີກ",
-			async () => {
-				try {
-					const _updateDistance = await updateListItem({
-						variables: {
-							data: {
-								itemStatus: "ORIGIN_TRANSFERRING"
-							},
-							where: {
-								_id: parseInt(id),
-							},
-						},
-					});
-					if (_updateDistance) {
-						messageSuccess("ດຳເນີນການສຳເລັດ");
-						setReloadData(!reloadData);
-					}
-				} catch (error) {
-					console.log(error)
-					messageError("ດຳເນີນການບໍ່ສຳເລັດ");
-				}
-			},
-			() => {
-				return false;
-			}
-		);
-	};
+	useEffect(() => {
+		if (result) {
+			setResult(result?.pickupOfItems?.data);
+		}
+	}, [result]);
 
+	const total = result?.pickupOfItems?.total;
 	const message = "ສະບາຍດີ"
 
+	function onSearch() {
+		setOnSearch(searchValue);
+	}
 
 	return (
 		<>
 			<div className=" body-content-lg" style={{ marginTop: 60 }}>
 				<div className="option-section">
 					<div className="col-12">
+						<div className="listed-detail">
+							<div className="row">
+								<div className="col-6 mb-1">
+									<input
+										type="date"
+										className="form-control form-control-sm"
+										value={formatDateDash(startDateValue)}
+										onChange={(e) => {
+											setStartDateValue(e.target.value);
+										}}
+									/>
+								</div>
+								<div className="col-6 mb-1">
+									<input
+										type="date"
+										className="form-control form-control-sm"
+										value={formatDateDash(endDateValue)}
+										onChange={(e) => {
+											setEndDateValue(e.target.value);
+										}}
+									/>
+								</div>
+							</div>
+						</div>
 						<div className="input-group">
-							<span className="btn btn-secondary">
-								<i className="icon-search" />
-							</span>
+							<button
+								type="button"
+								className="btn btn-dark"
+								onClick={() => onSearch()}
+							>
+								<i className="icon-search1" />
+							</button>
 							<input
 								type="search"
 								className="form-control form-control-sm"
-								placeholder="tracking" />
+								onChange={(e) => {
+									setValue(e.target.value);
+								}}
+								placeholder="ID..." />
 						</div>
 						<p className="title mt-1">ຈຳນວນ {total || 0} ລາຍການ</p>
 					</div>
@@ -93,48 +102,50 @@ export default function ItemMiddles() {
 			</div>
 			<div className="mt-2">
 				<div className="section">
-					<div className="transactions">
+					<div className="transactions ">
 						{_item && _item?.map((item) => (
 							<a href="#" className="item">
 								<div className="detail">
-									<i className="fa-solid fa-cart-arrow-down fa-2x mr-2"
-										onClick={() => history.push(`${DETAIL_ITEMS}/${item?._id} `)}
-									/>
-									<div className="text-nowrap">
-										<strong>{item?.trackingId}</strong>
-										<p>ຊື່: {item?.receiverName}</p>
+									<div className="align-top"
+									>
+										<i className="fa-solid fa-cart-arrow-down fa-2x mr-1" />
+									</div>
+
+									<div >
+										<strong>ID: {item?.customer?.id_list}</strong>
+										<p>ຊື່: {item?.customer?.full_name}</p>
 										<p>
 											<a className="text-link" target="_blank"
-												href={`https://wa.me/${detectPhoneNumber(item?.receiverPhone
+												href={`https://wa.me/${detectPhoneNumber(item?.customer?.contact_info
 												)}?text=${message?.replace(/<br\s*[\/]?>/gi, " ")}`}>
-												<img style={{ width: 20 }} src={whatsapp} alt="" />{item?.receiverPhone}
+												<i className="fas fa-phone" />
+												{item?.customer?.contact_info}
 											</a>
 										</p>
-
+										<p>ຈຳນວນ: {item?.amount}</p>
+										<p>ວັນທີ່: {formatDateDash(item?.receivedDate || " ")}</p>
 										<>
-											{item?.itemStatus === "COMPLETED" ? (
-												<small className="text-success">
-													{ItemStatus(item?.itemStatus)}
-												</small>
-											) : (
-												<small className="text-danger">
-													{ItemStatus(item?.itemStatus)}
-												</small>
-											)}
+											<small >
+												{ShipperStatus(item?.status)}
+											</small>
 										</>
 									</div>
 								</div>
-								<div className="right">
-									{item?.itemStatus !== "COMPLETED" ? (
-										<button type="button" className="btn btn-dark w-100 rounded btn-sm"
-											onClick={() =>
-												updateDistance(item?._id)
-											}
-										>
-											<i className="fa-solid fa-share-from-square mr-1" />
-											ຈັດສົ່ງ
-										</button>
-									) : null}
+								<div className="right border">
+									<img
+										className="img-xl rounded-circle"
+										src={
+											item?.signature?.length
+												? item?.signature[item?.signature?.length - 1]?.image
+												: image
+										}
+										style={{
+											width: 100,
+											height: 100,
+											borderRadius: "40%",
+											border: "2px solid de0a0af2",
+										}}
+									/>
 								</div>
 							</a>
 						))}

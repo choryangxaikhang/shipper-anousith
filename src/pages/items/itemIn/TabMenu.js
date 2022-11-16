@@ -4,14 +4,12 @@ import { Button } from "react-bootstrap";
 import { getLocalHouse } from "../../../helper";
 import { HOME_PAGE } from "../../../routes/app";
 import ItemIn from ".";
-import ItemRanges from "./ItemRange";
 import ItemMiddles from "./ItemMiddle";
-import ItemDistances from "./ItemDistance";
 
 export default function TabMenuItems() {
   const { history, location } = useReactRouter();
   const params = new URLSearchParams(location?.search);
-  const [tabActive, setTabActive] = useState("itemAll");
+  const [tabActive, setTabActive] = useState("itemReceived");
   const [houseId, setLocalHouse] = useState("");
 
   useEffect(() => {
@@ -45,7 +43,6 @@ export default function TabMenuItems() {
             <i className="fa fa-chevron-left fs-4" />
           </button>
         </div>
-        {/* {houseId?.houseName ? houseId?.houseName : "ລາຍງານຂໍ້ມູນ"} */}
 					<b className="text-white">ອໍເດີຮັບເຂົ້າ</b>
 
         <div
@@ -57,47 +54,27 @@ export default function TabMenuItems() {
         <div className="extraHeader pr-0 pl-0 nav-tabs-item">
           <Button
             className={`item-tab text-nowrap ${
-              tabActive === "itemAll" ? "clickActive" : "Actives"
+              tabActive === "itemReceived" ? "clickActive" : "Actives"
             }`}
             variant=""
-            onClick={() => history.push({ search: "?item=itemAll" })}
+            onClick={() => history.push({ search: "?item=itemReceived" })}
           >
-            ທັງໝົດ
-          </Button>
+            ອໍເດີຮັບໄດ້
+          </Button>        
           <Button
             className={`item-tab text-nowrap ${
-              tabActive === "itemRange" ? "clickActive" : "Actives"
+              tabActive === "ItemCancel" ? "clickActive" : "Actives"
             }`}
             variant=""
-            onClick={() => history.push({ search: "?item=itemRange" })}
+            onClick={() => history.push({ search: "?item=ItemCancel" })}
           >
-            ສົ່ງໄລຍະໃກ້
-          </Button>
-          <Button
-            className={`item-tab text-nowrap ${
-              tabActive === "ItemMiddles" ? "clickActive" : "Actives"
-            }`}
-            variant=""
-            onClick={() => history.push({ search: "?item=ItemMiddles" })}
-          >
-            ສົ່ງໄລຍະທົ່ວໄປ
-          </Button>
-          <Button
-            className={`item-tab text-nowrap ${
-              tabActive === "ItemDistances" ? "clickActive" : "Actives"
-            }`}
-            variant=""
-            onClick={() => history.push({ search: "?item=ItemDistances" })}
-          >
-            ສົ່ງໄລຍະໄກ
-          </Button>
+            ອໍເດີຫຼົ້ມແຫຼວ
+          </Button>       
         </div>
       </div>
       <div id="appCapsule" className="extra-header-activeClick">
-        {tabActive === "itemRange" && <ItemRanges />}
-        {tabActive === "itemAll" && <ItemIn />}   
-        {tabActive === "ItemMiddles" && <ItemMiddles />}
-        {tabActive === "ItemDistances" && <ItemDistances />}
+        {tabActive === "itemReceived" && <ItemIn />}   
+        {tabActive === "ItemCancel" && <ItemMiddles />}
       </div>
     </>
   );

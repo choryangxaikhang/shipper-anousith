@@ -71,7 +71,7 @@ export default function TabMenuCompleted() {
             variant=""
             onClick={() => history.push({ search: "?item=itemRange" })}
           >
-            ສົ່ງໄລຍະໃກ້
+            ສົ່ງສຳເລັດ
           </Button>
           <Button
             className={`item-tab text-nowrap ${
@@ -80,9 +80,9 @@ export default function TabMenuCompleted() {
             variant=""
             onClick={() => history.push({ search: "?item=ItemMiddles" })}
           >
-            ສົ່ງໄລຍະທົ່ວໄປ
+            ສົ່ງລົ້ມແຫຼວ
           </Button>
-          <Button
+          {/* <Button
             className={`item-tab text-nowrap ${
               tabActive === "ItemDistances" ? "clickActive" : "Actives"
             }`}
@@ -90,7 +90,7 @@ export default function TabMenuCompleted() {
             onClick={() => history.push({ search: "?item=ItemDistances" })}
           >
             ສົ່ງໄລຍະໄກ
-          </Button>
+          </Button> */}
         </div>
       </div>
       <div id="appCapsule" className="extra-header-activeClick">

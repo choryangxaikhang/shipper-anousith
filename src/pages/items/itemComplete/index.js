@@ -32,7 +32,7 @@ export default function ItemCompleted() {
     fetchData({
       variables: {
         where: {
-					// shipper: userState?._id,
+					shipper: userState?._id,
           trackingId: searchValue ? searchValue : undefined,
           deliveryCompletedDateBetween: [startDateValue, endDateValue],
           itemStatus: "COMPLETED"
@@ -119,8 +119,8 @@ export default function ItemCompleted() {
                         <img style={{ width: 20 }} src={whatsapp} alt="" />{item?.receiverPhone}
                       </a>
                     </p>
-
-                    <>
+                    <p>ວັນທີ່: {formatDateDash(item?.deliveryCompletedDate)}</p>
+                    <p>
                       {item?.itemStatus === "COMPLETED" ? (
                         <small className="text-success">
                           {ItemStatus(item?.itemStatus)}
@@ -130,7 +130,7 @@ export default function ItemCompleted() {
                           {ItemStatus(item?.itemStatus)}
                         </small>
                       )}
-                    </>
+                    </p>
                   </div>
                 </div>
               </a>
