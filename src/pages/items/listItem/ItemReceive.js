@@ -4,17 +4,18 @@ import useReactRouter from "use-react-router";
 import {
   detectPhoneNumber,
   formatDateDash,
-  ItemStatus,
+  getStaffLogin,
+  ShipperStatus,
   startMonth,
 } from "../../../helper";
 import BottomNav from "../../../layouts/BottomNav";
-import whatsapp from "../../../icon/whatsapp.svg";
 import { useLazyQuery } from "@apollo/client";
 import { QUERY_LIST_ITEM } from "../apollo";
-import { DETAIL_DATA_LIST } from "../../../routes/app";
+import image from "../../../img/Nodata.png"
 
-export default function ItemDistances() {
+export default function ItemPickupReceive() {
   const { history, location, match } = useReactRouter();
+  const userState = getStaffLogin();
   const [reloadData, setReloadData] = useState(false);
   const [startDateValue, setStartDateValue] = useState(startMonth());
   const [endDateValue, setEndDateValue] = useState(new Date());
@@ -29,19 +30,20 @@ export default function ItemDistances() {
     fetchData({
       variables: {
         where: {
-          trackingId: searchValue ? searchValue : undefined,
-          deliveryCompletedDateBetween: [startDateValue, endDateValue],
-          itemStatus: "COMPLETED"
+          status: "RECEIVED",
+					customer: searchValue ? parseInt(searchValue) : undefined,
+					shipper: userState?._id,
+					createdDateBetween: [startDateValue, endDateValue]
         },
       },
     })
   }, [searchValue, startDateValue, endDateValue, reloadData]);
 
   useEffect(() => {
-    setResult(result?.items?.data);
+    setResult(result?.pickupOfItems?.data);
   }, [result])
 
-  const total = result?.items?.total;
+  const total = result?.pickupOfItems?.total;
   const message = "ສະບາຍດີ"
 
   return (
@@ -96,40 +98,46 @@ export default function ItemDistances() {
             {_item && _item?.map((item) => (
               <a href="#" className="item">
                 <div className="detail">
-                  <div className="align-top"
-                  >
-                    <i className="fa-solid fa-cart-arrow-down fa-2x mr-1"
-                      onClick={() => history.push(`${DETAIL_DATA_LIST}/${item?._id} `)}
-                    />
+                  <div className="align-top">
+                    <i className="fa-solid fa-cart-arrow-down fa-2x mr-1" />
                   </div>
-
-                  <div className="text-nowrap">
-                    {/* <strong>{item?.trackingId}</strong> */}
+                  <div >
                     <strong>ID: {item?.customer?.id_list}</strong>
-                    <strong>TK: {item?.trackingId}</strong>
-                    <p>ຊື່: {item?.receiverName}</p>
+                    <p>ຊື່: {item?.customer?.full_name}</p>
                     <p>
                       <a className="text-link" target="_blank"
-                        href={`https://wa.me/${detectPhoneNumber(item?.receiverPhone
+                        href={`https://wa.me/${detectPhoneNumber(item?.customer?.contact_info
                         )}?text=${message?.replace(/<br\s*[\/]?>/gi, " ")}`}>
-                        <img style={{ width: 20 }} src={whatsapp} alt="" />{item?.receiverPhone}
+                        <i className="fas fa-phone" />
+                        {item?.customer?.contact_info}
                       </a>
                     </p>
-
+                    <p>ຈຳນວນ: {item?.amount}</p>
+                    <p>ວັນທີ່: {formatDateDash(item?.receivedDate || " ")}</p>
                     <>
-                      {item?.itemStatus === "COMPLETED" ? (
-                        <small className="text-success">
-                          {ItemStatus(item?.itemStatus)}
-                        </small>
-                      ) : (
-                        <small className="text-danger">
-                          {ItemStatus(item?.itemStatus)}
-                        </small>
-                      )}
+                      <small className="text-success">
+                        {ShipperStatus(item?.status)}
+                      </small>
                     </>
                   </div>
                 </div>
-              </a>
+                <div className="right border">
+                  <img
+                    className="img-xl rounded-circle"
+                    src={
+                      item?.signature?.length
+                        ? item?.signature[item?.signature?.length - 1]?.image
+                        : image
+                    }
+                    style={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: "40%",
+                      border: "2px solid de0a0af2",
+                    }}
+                  />
+                </div>
+              </a>            
             ))}
           </div>
         </div>

@@ -24,9 +24,7 @@ export default function ItemDelivering() {
 	const [searchValue, setValue] = useState()
 	const [_search, setOnSearch] = useState("")
 	const userState = getStaffLogin();
-	const [_onClick, setOnClick] = useState(false)
 	const [updateItems] = useMutation(UPDATE_ITEMS)
-	console.log(_onClick)
 	const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
 		fetchPolicy: "cache-and-network",
 	});
@@ -37,12 +35,18 @@ export default function ItemDelivering() {
 				where: {
 					shipper: userState?._id,
 					trackingId: _search ? _search : undefined,
-					itemStatus: "SHIPPER_CONFIRMED"
+					itemStatus: "ASSIGNED_SHIPPER"
 				},
 			},
 		})
-		setResult(result?.items?.data)
-	}, [result, _search, reloadData]);
+	}, [_search, reloadData]);
+
+	useEffect(() => {
+		if (result) {
+			setResult(result?.items?.data);
+		}
+	}, [result])
+
 	const total = result?.items?.total;
 
 	//ປຸ່ມກົດຄົ້ນຫາ
@@ -50,7 +54,7 @@ export default function ItemDelivering() {
 		setOnSearch(searchValue);
 	}
 
-	//ຢືນຢັນຮັບເຄື່ອງ ITEM
+	//ສົ່ງບໍ່ໄດ້
 	const _updateItems = (id) => {
 		Notiflix.Confirm.show(
 			"ແຈ້ງເຕືອນ",
@@ -62,7 +66,43 @@ export default function ItemDelivering() {
 					const _updateResult = await updateItems({
 						variables: {
 							data: {
-								itemStatus: "CANCELED"
+								sentStatus: "UNABLE_SENT"
+							},
+							where: {
+								_id: parseInt(id),
+							},
+						},
+					});
+
+					if (_updateResult) {
+						messageSuccess("ດຳເນີນການສຳເລັດ");
+						setReloadData(!reloadData);
+					}
+				} catch (error) {
+					console.log(error);
+					messageError("ດຳເນີນການບໍ່ສຳເລັດ");
+
+				}
+			},
+			() => {
+				return false;
+			}
+		);
+	};
+
+	//ຕິດຕໍ່ບໍໄດ້
+	const setOnClick = (id) => {
+		Notiflix.Confirm.show(
+			"ແຈ້ງເຕືອນ",
+			"ອໍເດີຂອງທ່ານຕິດຕໍ່ບໍ່ໄດ້ ແທ້ ຫຼື ບໍ່?",
+			"ຕົກລົງ",
+			"ຍົກເລີກ",
+			async () => {
+				try {
+					const _updateResult = await updateItems({
+						variables: {
+							data: {
+								sentStatus: "UNABLE_CONTACTED"
 							},
 							where: {
 								_id: parseInt(id),
@@ -174,34 +214,46 @@ export default function ItemDelivering() {
 									</div>
 								</div>
 								<div className="right">
-									{_onClick !== true ? (
+									{item?.sentStatus === "UNABLE_CONTACTED" ? (
 										<button
 											type="button"
 											className="btn btn-secondary right btn-block rounded btn-xs text-nowrap mt-2"
-											onClick={() => setOnClick(true)}
+											onClick={() => setOnClick(item?._id)}
+											disabled
 										>
 											<i class="fas fa-phone me-1" />
-											ຕິດຕໍ່
+											ຕິດຕໍ່ບໍ່ໄດ້
 										</button>
 									) : (
 										<button
 											type="button"
 											className="btn btn-secondary right btn-block rounded btn-xs text-nowrap mt-2"
 											onClick={() => setOnClick(false)}
-										// disabled
 										>
 											<i class="fas fa-phone me-1" />
-											ຕິດຕໍ່ແລ້ວ
+											ຕິດຕໍ່ບໍ່ໄດ້
 										</button>
 									)}
-									<button
-										type="button"
-										className="btn btn-danger right btn-block rounded btn-xs text-nowrap mt-2"
-										onClick={() => _updateItems(item?._id)}
-									>
-										<i class="fa-solid fa-circle-exclamation me-1" />
-										ສົ່ງບໍ່ໄດ້
-									</button>
+									{item?.sentStatus === "UNABLE_SENT" ? (
+										<button
+											type="button"
+											disabled
+											className="btn btn-danger right btn-block rounded btn-xs text-nowrap mt-2"
+											onClick={() => _updateItems(item?._id)}
+										>
+											<i class="fa-solid fa-circle-exclamation me-1" />
+											ສົ່ງບໍ່ໄດ້
+										</button>
+									) : (
+										<button
+											type="button"
+											className="btn btn-danger right btn-block rounded btn-xs text-nowrap mt-2"
+											onClick={() => _updateItems(item?._id)}
+										>
+											<i class="fa-solid fa-circle-exclamation me-1" />
+											ສົ່ງບໍ່ໄດ້
+										</button>
+									)}
 								</div>
 							</a>
 						))}

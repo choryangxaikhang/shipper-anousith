@@ -104,9 +104,7 @@ export default function ItemIn() {
 			<div className="mt-2">
 				<div className="section">
 					<div className="transactions ">
-						{_item && _item?.map((item) => (
-							// <>
-							// 	{item?.status !== "REQUESTING" ? (
+						{_item && _item?.map((item) => (		
 							<a href="#" className="item">
 								<div className="detail">
 									<div className="align-top">

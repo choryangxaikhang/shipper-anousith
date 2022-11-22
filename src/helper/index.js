@@ -564,7 +564,7 @@ export const ItemStatus = (itemStatus) => {
     return "ກຳລັງຮ້ອງຂໍ";
   } else if (itemStatus === "ASSIGNING") {
     return "ການມອບ";
-  } else if (itemStatus === "SHIPPER_CONFIRMED") {
+  } else if (itemStatus === "ASSIGNED_SHIPPER") {
     return "ກຳລັງຈັດສົ່ງ";
   } else if (itemStatus === "DELIVERED") {
     return "ຈັດສົ່ງແລ້ວ";

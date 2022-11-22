@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useReactRouter from "use-react-router";
 import BlockUser from "./widget/blockUser";
-
 import ChangeRole from "./widget/changeRole";
-
 import ChangePasswordStaff from "./widget/changePasswordStaff";
 import ChangePasswordCustomer from "./widget/changePasswordCustomer";
-
 import TurnOffHouse from "./widget/turnOffhouse";
 import InviteOwner from "./widget/inviteOwner";
 import { OTHER } from "../../routes/app";
 import UserList from "../user_staff";
 export default function SettingsScreen() {
-  const { history, location, match } = useReactRouter();
+  const { history } = useReactRouter();
   return (
     <>
       <div classNameName="appHeader text-light border-0 mr-0">
@@ -35,7 +32,7 @@ export default function SettingsScreen() {
           <div classNameName="card border ms-1">
             <div
               classNameName="p-1 border-bottom  fs-5"
-              style={{ backgroundColor: "#fcfcfc",color:"#9c9695" }}
+              style={{ backgroundColor: "#fcfcfc", color: "#9c9695" }}
             >
               <i
                 classNameName="fa-sharp fa-solid fa-microchip me-2"
@@ -51,7 +48,7 @@ export default function SettingsScreen() {
           <div classNameName="card border ms-1">
             <div
               classNameName="p-1  border-bottom  fs-5"
-              style={{ backgroundColor: "#fcfcfc",color:"#9c9695" }}
+              style={{ backgroundColor: "#fcfcfc", color: "#9c9695" }}
             >
               <i
                 classNameName="fa-sharp fa-solid fa-microchip me-2"
@@ -68,7 +65,7 @@ export default function SettingsScreen() {
           <div classNameName="card border ms-1">
             <div
               classNameName="p-1 border-bottom  fs-5"
-              style={{ backgroundColor: "#fcfcfc", color:"#9c9695" }}
+              style={{ backgroundColor: "#fcfcfc", color: "#9c9695" }}
             >
               <i
                 classNameName="fa-sharp fa-solid fa-microchip me-2"

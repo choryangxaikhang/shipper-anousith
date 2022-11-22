@@ -45,7 +45,7 @@ export default function Home() {
       variables: {
         where: {
           shipper: userInfo?._id,
-          itemStatus: "SHIPPER_CONFIRMED"
+          itemStatus: "ASSIGNED_SHIPPER"
         },
       },
     });

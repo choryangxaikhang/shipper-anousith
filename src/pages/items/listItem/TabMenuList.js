@@ -1,24 +1,15 @@
 import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
 import { Button } from "react-bootstrap";
-import { getLocalHouse } from "../../../helper";
 import { HOME_PAGE } from "../../../routes/app";
-import ItemRanges from "./ItemRange";
-import ItemMiddles from "./ItemMiddle";
-import ItemDistances from "./ItemDistance";
-import DataListItem from ".";
+import ItemPickupReceive from "./ItemReceive";
+import ItemCancel from "./ItemCancel";
+import ItemCompleted from ".";
 
 export default function TabMenuList() {
   const { history, location } = useReactRouter();
   const params = new URLSearchParams(location?.search);
-  const [tabActive, setTabActive] = useState("itemAll");
-  const [houseId, setLocalHouse] = useState("");
-  const [clickButton, setButton] = useState(false);
-
-
-  useEffect(() => {
-    setLocalHouse(getLocalHouse());
-  }, []);
+  const [tabActive, setTabActive] = useState("completed");
 
   useEffect(() => {
     const tab = params.get("item");
@@ -57,45 +48,35 @@ export default function TabMenuList() {
       <div className="extraHeaders">
         <div className="extraHeader pr-0 pl-0 nav-tabs-item">
           <Button
-            className={`item-tab text-nowrap ${tabActive === "itemAll" ? "clickActive" : "actives"
+            className={`item-tab text-nowrap ${tabActive === "completed" ? "clickActive" : "actives"
               }`}
             variant=""
-            onClick={() => history.push({ search: "?item=itemAll" })}
+            onClick={() => history.push({ search: "?item=completed" })}
           >
-            ທັງໝົດ
+            ອໍເດີສົ່ງສຳເລັດ
           </Button>
           <Button
-            className={`item-tab text-nowrap ${tabActive === "itemRange" ? "clickActive" : "Actives"
+            className={`item-tab text-nowrap ${tabActive === "receive" ? "clickActive" : "Actives"
               }`}
             variant=""
-            onClick={() => history.push({ search: "?item=itemRange" })}
+            onClick={() => history.push({ search: "?item=receive" })}
           >
             ອໍເດີຮັບເຂົ້າ
           </Button>
           <Button
-            className={`item-tab text-nowrap ${tabActive === "ItemMiddles" ? "clickActive" : "Actives"
+            className={`item-tab text-nowrap ${tabActive === "cancel" ? "clickActive" : "Actives"
               }`}
             variant=""
-            onClick={() => history.push({ search: "?item=ItemMiddles" })}
+            onClick={() => history.push({ search: "?item=cancel" })}
           >
-            ອໍເດີຈັດສົ່ງ
+            ອໍເດີລົ້ມແຫຼວທັງໝົດ
           </Button>
-          <Button
-            className={`item-tab text-nowrap ${tabActive === "ItemDistances" ? "clickActive" : "Actives"
-              }`}
-            variant=""
-            onClick={() => history.push({ search: "?item=ItemDistances" })}
-          >
-            ສົ່ງໄລຍະໄກ
-          </Button>
-
         </div>
       </div>
       <div id="appCapsule" className="extra-header-activeClick">
-        {tabActive === "itemRange" && <ItemRanges />}
-        {tabActive === "itemAll" && <DataListItem />}
-        {tabActive === "ItemMiddles" && <ItemMiddles />}
-        {tabActive === "ItemDistances" && <ItemDistances />}
+        {tabActive === "receive" && <ItemPickupReceive />}
+        {tabActive === "completed" && <ItemCompleted />}
+        {tabActive === "cancel" && <ItemCancel />}
       </div>
     </>
   );

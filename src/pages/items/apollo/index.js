@@ -60,6 +60,7 @@ query Query($where: ItemWhereInput, $orderBy: OrderByItem, $limit: Int, $skip: I
       realValueTHB
       realValueUSD
       shipperConfirmDate
+      sentStatus
     }
   }
 }
