@@ -54,7 +54,6 @@ query Query($where: ItemWhereInput, $orderBy: OrderByItem, $limit: Int, $skip: I
         full_name
       }
       isSummary
-      shipper
       chargeOnShop
       isDeposit    
       receiverVillage {
@@ -75,6 +74,11 @@ query Query($where: ItemWhereInput, $orderBy: OrderByItem, $limit: Int, $skip: I
       moreExpense
       originReceiveDate
       createdBy {
+        _id
+        firstName
+        lastName
+      }
+      shipper {
         _id
         firstName
         lastName

@@ -25,7 +25,6 @@ query Query($where: ItemWhereInput, $orderBy: OrderByItem, $limit: Int, $skip: I
         contact_info
       }
       isSummary
-      shipper
       chargeOnShop
       isDeposit    
       receiverVillage {
@@ -61,6 +60,11 @@ query Query($where: ItemWhereInput, $orderBy: OrderByItem, $limit: Int, $skip: I
       realValueUSD
       shipperConfirmDate
       sentStatus
+      shipper {
+        _id
+        firstName
+        lastName
+      }
     }
   }
 }
