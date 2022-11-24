@@ -1,15 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import _ from "lodash";
 import useReactRouter from "use-react-router";
-import Imglogo from "../../img/anousith.png";
-import SelectLocalHouse from "../../helper/components/SelectLocalHouse";
 import { HOME_PAGE } from "../../routes/app";
 import BottomNav from "../../layouts/BottomNav";
+import {
+	endOfMonth,
+	formatDateDash,
+	getStaffLogin,
+	startMonth
+} from "../../helper";
+import { useLazyQuery } from "@apollo/client";
+import { QUERY_USER } from "../home/apollo";
 
 export default function Commition_ShiPer() {
 	const { location, history, match } = useReactRouter();
-	const [localHouse, setLocalHouse] = useState("");
 	const [clickButton, setButton] = useState(false);
+	const useInfo = getStaffLogin();
+	const [dataUser, setResult] = useState();
+	const [startDate, setStartDate] = useState(startMonth());
+	const [endDate, setEndDate] = useState(endOfMonth())
+
+	const [fetchData, { data: result, }] = useLazyQuery(QUERY_USER, {
+		fetchPolicy: "cache-and-network",
+	});
+
+	useEffect(() => {
+		fetchData({
+			variables: {
+				where: {
+					status: "ACTIVE",
+					role: "SHIPPER",
+					// _id: parseInt(useInfo?._id)
+				},
+			},
+		});
+	}, [startDate, endDate]);
+
+	useEffect(() => {
+		setResult(result?.managePayroll?.data);
+	}, [result])
+
+	const total = result?.managePayroll?.total;
 
 	return (
 
@@ -26,7 +57,7 @@ export default function Commition_ShiPer() {
 				</div>
 				{clickButton === true ? (
 					<>
-				
+
 					</>
 				) : (
 					<b className="text-white">ຂໍ້ມູນການແບ່ງສ່ວນ</b>
@@ -47,19 +78,28 @@ export default function Commition_ShiPer() {
 								<div className="col-6 mb-2">
 									<input
 										type="date"
+										value={formatDateDash(startDate)}
+										onChange={(e) => {
+											setStartDate(e.target.value);
+										}}
 										className="form-control form-control-sm" />
 								</div>
 								<div className="col-6 mb-2">
 									<input
 										type="date"
+										value={formatDateDash(endDate)}
+										onChange={(e) => {
+											setEndDate(e.target.value);
+										}}
 										className="form-control form-control-sm" />
 								</div>
 							</div>
 						</div>
+						{/* {dataUser && dataUser?.map((item, index)=>( */}
 						<ul className="listview flush transparent simple-listview no-space mt-1">
 							<li>
-								<strong>ລະຫັດພະນັກງານ(ID)</strong>
-								<span>1524</span>
+								<strong>cvID:</strong>
+								{/* <span> {item?.cvID}</span> */}
 							</li>
 							<li>
 								<strong>ເງິນຕຳແໜ່ງ</strong>
@@ -101,11 +141,12 @@ export default function Commition_ShiPer() {
 								<span className="text-success">1,270,500 ກີບ</span>
 							</li>
 						</ul>
+						{/* ))} */}
+
 					</div>
 				</div>
 				<BottomNav />
 			</div>
-
 		</>
 	);
 }

@@ -4,17 +4,17 @@ import useReactRouter from "use-react-router";
 import {
   detectPhoneNumber,
   formatDateDash,
+  getStaffLogin,
   ItemStatus,
   startMonth,
-  getStaffLogin,
 } from "../../../helper";
 import BottomNav from "../../../layouts/BottomNav";
 import whatsapp from "../../../icon/whatsapp.svg";
 import { useLazyQuery } from "@apollo/client";
-import { LIST_SHIPPER_ITEM } from "../apollo";
 import { DETAIL_ITEMS_COMPLETED } from "../../../routes/app";
+import { LIST_SHIPPER_ITEM } from "../../home/apollo";
 
-export default function ItemMiddles() {
+export default function ItemCompleted() {
   const { history, location, match } = useReactRouter();
   const [reloadData, setReloadData] = useState(false);
   const [startDateValue, setStartDateValue] = useState(startMonth());
@@ -34,7 +34,7 @@ export default function ItemMiddles() {
           shipper: userState?._id,
           trackingId: searchValue ? searchValue : undefined,
           deliveryCompletedDateBetween: [startDateValue, endDateValue],
-          itemStatus: "CANCELED"
+          itemStatus: "COMPLETED"
         },
       },
     })
@@ -88,7 +88,6 @@ export default function ItemMiddles() {
                 }}
                 placeholder="tracking" />
             </div>
-
             <p className="title mt-1">ຈຳນວນ {total || 0} ລາຍການ</p>
           </div>
         </div>

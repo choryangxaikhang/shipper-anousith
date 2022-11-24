@@ -1,4 +1,35 @@
 import { gql } from "@apollo/client";
+
+export const QUERY_USER = gql`
+query ManagePayroll($where: ManagePayrollWhereInput, $orderBy: ManagePayrollOrderBy, $limit: Int, $skip: Int) {
+  managePayroll(where: $where, orderBy: $orderBy, limit: $limit, skip: $skip) {
+    total
+    data {
+      _id
+      firstName
+      lastName
+      positionSalary
+      sumExtraAll
+      sumBonusAll
+      sumBorrowAll
+      sumDiligentAll
+      sumOtIncomeAll
+      sumDeductionAll
+      sumExtraUnpaid
+      sumBonusUnpaid
+      sumBorrowUnpaid
+      sumDiligentUnpaid
+      sumOtIncomeUnpaid
+      sumDeductionUnpaid
+      InsuranceExpense
+      status
+      role
+      cvID
+    }
+  }
+}
+`;
+
 export const LIST_SHIPPER_ITEM = gql`
 query Query($where: ItemWhereInput, $orderBy: OrderByItem, $limit: Int, $skip: Int) {
   items(where: $where, orderBy: $orderBy, limit: $limit, skip: $skip) {

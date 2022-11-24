@@ -3,10 +3,9 @@ import useReactRouter from "use-react-router";
 import { Button } from "react-bootstrap";
 import { getLocalHouse } from "../../../helper";
 import { HOME_PAGE } from "../../../routes/app";
-import ItemRanges from "./ItemRange";
-import ItemMiddles from "./ItemMiddle";
-import ItemDistances from "./ItemDistance";
-import ItemCompleted from ".";
+import ItemCompleted from "./ItemCompleted";
+import ItemAll from ".";
+import ItemCancel from "./ItemCancel";
 
 export default function TabMenuCompleted() {
   const { history, location } = useReactRouter();
@@ -66,38 +65,28 @@ export default function TabMenuCompleted() {
           </Button>
           <Button
             className={`item-tab text-nowrap ${
-              tabActive === "itemRange" ? "clickActive" : "Actives"
+              tabActive === "completed" ? "clickActive" : "Actives"
             }`}
             variant=""
-            onClick={() => history.push({ search: "?item=itemRange" })}
+            onClick={() => history.push({ search: "?item=completed" })}
           >
             ສົ່ງສຳເລັດ
           </Button>
           <Button
             className={`item-tab text-nowrap ${
-              tabActive === "ItemMiddles" ? "clickActive" : "Actives"
+              tabActive === "itemCancel" ? "clickActive" : "Actives"
             }`}
             variant=""
-            onClick={() => history.push({ search: "?item=ItemMiddles" })}
+            onClick={() => history.push({ search: "?item=itemCancel" })}
           >
             ສົ່ງລົ້ມແຫຼວ
           </Button>
-          {/* <Button
-            className={`item-tab text-nowrap ${
-              tabActive === "ItemDistances" ? "clickActive" : "Actives"
-            }`}
-            variant=""
-            onClick={() => history.push({ search: "?item=ItemDistances" })}
-          >
-            ສົ່ງໄລຍະໄກ
-          </Button> */}
         </div>
       </div>
       <div id="appCapsule" className="extra-header-activeClick">
-        {tabActive === "itemRange" && <ItemRanges />}
-        {tabActive === "itemAll" && <ItemCompleted />}   
-        {tabActive === "ItemMiddles" && <ItemMiddles />}
-        {tabActive === "ItemDistances" && <ItemDistances />}
+        {tabActive === "completed" && <ItemCompleted />}
+        {tabActive === "itemAll" && <ItemAll />}   
+        {tabActive === "itemCancel" && <ItemCancel />}
       </div>
     </>
   );

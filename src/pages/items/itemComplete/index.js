@@ -14,7 +14,7 @@ import { useLazyQuery } from "@apollo/client";
 import { LIST_SHIPPER_ITEM } from "../apollo";
 import { DETAIL_ITEMS_COMPLETED } from "../../../routes/app";
 
-export default function ItemCompleted() {
+export default function ItemAll() {
   const { history, location, match } = useReactRouter();
   const [reloadData, setReloadData] = useState(false);
   const [startDateValue, setStartDateValue] = useState(startMonth());
@@ -22,7 +22,6 @@ export default function ItemCompleted() {
   const [searchValue, setValue] = useState()
   const [_item, setResult] = useState();
 	const userState = getStaffLogin();
-
 
   const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
     fetchPolicy: "cache-and-network",
