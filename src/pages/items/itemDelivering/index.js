@@ -21,10 +21,9 @@ export default function ItemDelivering() {
 	const { history, location, match } = useReactRouter();
 	const [reloadData, setReloadData] = useState(false);
 	const [_item, setResult] = useState();
-	const [searchValue, setValue] = useState()
-	const [_search, setOnSearch] = useState("")
+	const [searchValue, setValue] = useState();
 	const userState = getStaffLogin();
-	const [updateItems] = useMutation(UPDATE_ITEMS)
+	const [updateItems] = useMutation(UPDATE_ITEMS);
 	const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
 		fetchPolicy: "cache-and-network",
 	});
@@ -34,12 +33,12 @@ export default function ItemDelivering() {
 			variables: {
 				where: {
 					shipper: userState?._id,
-					trackingId: _search ? _search : undefined,
+					trackingId: searchValue ? searchValue : undefined,
 					itemStatus: "ASSIGNED_SHIPPER"
 				},
 			},
 		})
-	}, [_search, reloadData]);
+	}, [searchValue, reloadData]);
 
 	useEffect(() => {
 		if (result) {
@@ -49,10 +48,10 @@ export default function ItemDelivering() {
 
 	const total = result?.items?.total;
 
-	//ປຸ່ມກົດຄົ້ນຫາ
-	function onSearch() {
-		setOnSearch(searchValue);
-	}
+	// //ປຸ່ມກົດຄົ້ນຫາ
+	// function onSearch() {
+	// 	setOnSearch(searchValue);
+	// }
 
 	//ສົ່ງບໍ່ໄດ້
 	const _updateItems = (id) => {
@@ -153,7 +152,7 @@ export default function ItemDelivering() {
 							<button
 								type="button"
 								className="btn btn-dark"
-								onClick={() => onSearch()}
+								// onClick={() => onSearch()}
 							>
 								<i className="icon-search1" />
 							</button>

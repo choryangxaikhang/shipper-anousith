@@ -16,7 +16,6 @@ export default function ItemIn() {
 	const [reloadData, setReloadData] = useState(false);
 	const [_item, setResult] = useState();
 	const [searchValue, setValue] = useState()
-	const [_search, setOnSearch] = useState("")
 	const userState = getStaffLogin();
 	const [startDateValue, setStartDateValue] = useState(startMonth());
 	const [endDateValue, setEndDateValue] = useState(new Date());
@@ -30,13 +29,13 @@ export default function ItemIn() {
 			variables: {
 				where: {
 					status: "RECEIVED",
-					customer: _search ? parseInt(_search) : undefined,
+					customer: searchValue ? parseInt(searchValue) : undefined,
 					shipper: userState?._id,
 					createdDateBetween: [startDateValue, endDateValue]
 				},
 			},
 		})
-	}, [_search, startDateValue, endDateValue, reloadData]);
+	}, [searchValue, startDateValue, endDateValue, reloadData]);
 
 	useEffect(() => {
 		if (result) {
@@ -45,11 +44,6 @@ export default function ItemIn() {
 	}, [result]);
 
 	const total = result?.pickupOfItems?.total;
-
-	//ປຸ່ມກົດຄົ້ນຫາ
-	function onSearch() {
-		setOnSearch(searchValue);
-	}
 	const message = "ສະບາຍດີ"
 
 	return (
@@ -85,7 +79,6 @@ export default function ItemIn() {
 							<button
 								type="button"
 								className="btn btn-dark"
-								onClick={() => onSearch()}
 							>
 								<i className="icon-search1" />
 							</button>

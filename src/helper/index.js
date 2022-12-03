@@ -204,7 +204,7 @@ export const startMonth = () => {
   return moment().clone().startOf("month").format("YYYY-MM-DD");
 };
 
-// ວັນທີເດືອນປີ ທ້າຍວັນທີ ທ້າຍເດືອນ ທ້າຍປີ
+// ວັນທີເດືອນປີ ທ້າຍວັນທີ ທ້າເດືອນ ທ້າຍປີ
 export const endOfMonth = () => {
   return moment().clone().endOf("month").format("YYYY-MM-DD");
 };

@@ -20,7 +20,6 @@ export default function ItemMiddles() {
 	const [searchValue, setValue] = useState()
 	const [startDateValue, setStartDateValue] = useState(startMonth());
 	const [endDateValue, setEndDateValue] = useState(new Date());
-	const [_search, setOnSearch] = useState("")
 	const [fetchData, { data: result, }] = useLazyQuery(QUERY_LIST_ITEM, {
 		fetchPolicy: "cache-and-network",
 	});
@@ -29,14 +28,14 @@ export default function ItemMiddles() {
 		fetchData({
 			variables: {
 				where: {
-					customer: _search ? parseInt(_search) : undefined,
+					customer: searchValue ? parseInt(searchValue) : undefined,
 					shipper: userState?._id,
 					status: "CANCELED",
 					createdDateBetween: [startDateValue, endDateValue]
 				},
 			},
 		})
-	}, [reloadData, startDateValue, endDateValue]);
+	}, [reloadData, startDateValue, searchValue, endDateValue]);
 
 	useEffect(() => {
 		if (result) {
@@ -46,10 +45,6 @@ export default function ItemMiddles() {
 
 	const total = result?.pickupOfItems?.total;
 	const message = "ສະບາຍດີ"
-
-	function onSearch() {
-		setOnSearch(searchValue);
-	}
 
 	return (
 		<>
@@ -84,7 +79,7 @@ export default function ItemMiddles() {
 							<button
 								type="button"
 								className="btn btn-dark"
-								onClick={() => onSearch()}
+								// onClick={() => onSearch()}
 							>
 								<i className="icon-search1" />
 							</button>
