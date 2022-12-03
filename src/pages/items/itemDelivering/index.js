@@ -22,7 +22,10 @@ export default function ItemDelivering() {
 	const [reloadData, setReloadData] = useState(false);
 	const [_item, setResult] = useState();
 	const [searchValue, setValue] = useState();
+	const [_sentStatus, setSentStatus] = useState(null);
 	const userState = getStaffLogin();
+	console.log(userState)
+
 	const [updateItems] = useMutation(UPDATE_ITEMS);
 	const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
 		fetchPolicy: "cache-and-network",
@@ -48,11 +51,6 @@ export default function ItemDelivering() {
 
 	const total = result?.items?.total;
 
-	// //ປຸ່ມກົດຄົ້ນຫາ
-	// function onSearch() {
-	// 	setOnSearch(searchValue);
-	// }
-
 	//ສົ່ງບໍ່ໄດ້
 	const _updateItems = (id) => {
 		Notiflix.Confirm.show(
@@ -65,7 +63,7 @@ export default function ItemDelivering() {
 					const _updateResult = await updateItems({
 						variables: {
 							data: {
-								sentStatus: "UNABLE_SENT"
+								sentStatus: _sentStatus,
 							},
 							where: {
 								_id: parseInt(id),
@@ -152,14 +150,14 @@ export default function ItemDelivering() {
 							<button
 								type="button"
 								className="btn btn-dark"
-								// onClick={() => onSearch()}
+							// onClick={() => onSearch()}
 							>
 								<i className="icon-search1" />
 							</button>
 							<input
 								type="search"
 								className="form-control form-control-sm"
-								onChange={(e) => {
+								onClick={(e) => {
 									setValue(e.target.value);
 								}}
 								placeholder="tracking" />
@@ -203,6 +201,43 @@ export default function ItemDelivering() {
 												</small>
 											)}
 										</p>
+										<p>
+											<input type="radio" className=" mr-2 mb-1"
+												value="NOT_ANSWER_CALL"
+												name="sentStatus"
+												onClick={(e) =>
+													setSentStatus(e.target.value)
+												}
+											/>
+											<i className="fas fa-phone text-info " /> <small>ໂທບໍ່ຮັບສາຍ</small>
+										</p>
+										<p>
+											<input type="radio"
+												value="CAN_NOT_CONTACT"
+												name="sentStatus"
+												onClick={(e) =>
+													setSentStatus(e.target.value)
+
+												}
+												className=" mr-2 mb-1"
+											/>
+											<i className="fas fa-phone text-info " /> <small>ບໍ່ສາມາດຕິດຕໍ່ໄດ້</small>
+										</p>
+										<p>
+											<input type="radio"
+												value="CAN_NOT_SENT"
+												name="sentStatus"
+												onClick={(e) => setSentStatus(e.target.value)
+												}
+												className=" mr-2"
+											/>
+											<i class="fa-solid fa-exclamation text-danger" /> <small>ບໍ່ສາມາດສົ່ງໄດ້</small>
+										</p>
+
+									</div>
+								</div>
+								<div className="right">
+									{_sentStatus === null ? (
 										<CODCompleted
 											data={item}
 											loadData={reloadData}
@@ -210,48 +245,36 @@ export default function ItemDelivering() {
 												setReloadData(data);
 											}}
 										/>
-									</div>
-								</div>
-								<div className="right">
-									{item?.sentStatus === "UNABLE_CONTACTED" ? (
-										<button
-											type="button"
-											className="btn btn-secondary right btn-block rounded btn-xs text-nowrap mt-2"
-											onClick={() => setOnClick(item?._id)}
-											disabled
-										>
-											<i class="fas fa-phone me-1" />
-											ຕິດຕໍ່ບໍ່ໄດ້
-										</button>
 									) : (
-										<button
-											type="button"
-											className="btn btn-secondary right btn-block rounded btn-xs text-nowrap mt-2"
-											onClick={() => setOnClick(false)}
-										>
-											<i class="fas fa-phone me-1" />
-											ຕິດຕໍ່ບໍ່ໄດ້
-										</button>
+										<CODCompleted
+											disabled
+											data={item}
+											loadData={reloadData}
+											getData={(data) => {
+												setReloadData(data);
+											}}
+										/>
 									)}
-									{item?.sentStatus === "UNABLE_SENT" ? (
+									<br />
+									{_sentStatus !== null ? (
+									<button
+										type="button"
+										className="btn btn-secondary w-100 right rounded btn-xs text-nowrap mt-2"
+										onClick={() => _updateItems(item?._id)}
+									>
+										<i class="fa-solid fa-circle-exclamation me-1" />
+										ອັບເດດການສົ່ງ
+									</button>
+									):(
 										<button
-											type="button"
-											disabled
-											className="btn btn-danger right btn-block rounded btn-xs text-nowrap mt-2"
-											onClick={() => _updateItems(item?._id)}
-										>
-											<i class="fa-solid fa-circle-exclamation me-1" />
-											ສົ່ງບໍ່ໄດ້
-										</button>
-									) : (
-										<button
-											type="button"
-											className="btn btn-danger right btn-block rounded btn-xs text-nowrap mt-2"
-											onClick={() => _updateItems(item?._id)}
-										>
-											<i class="fa-solid fa-circle-exclamation me-1" />
-											ສົ່ງບໍ່ໄດ້
-										</button>
+										disabled
+										type="button"
+										className="btn btn-secondary w-100 right rounded btn-xs text-nowrap mt-2"
+										onClick={() => _updateItems(item?._id)}
+									>
+										<i class="fa-solid fa-circle-exclamation me-1" />
+										ອັບເດດການສົ່ງ
+									</button>
 									)}
 								</div>
 							</a>

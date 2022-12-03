@@ -15,7 +15,6 @@ query Query($where: ItemWhereInput, $orderBy: OrderByItem, $limit: Int, $skip: I
       itemValueUSD
       width
       height
-      weight
       itemStatus
       receiverName
       receiverPhone
@@ -58,7 +57,6 @@ query Query($where: ItemWhereInput, $orderBy: OrderByItem, $limit: Int, $skip: I
       realValueKIP
       realValueTHB
       realValueUSD
-      shipperConfirmDate
       sentStatus
       shipper {
         _id

@@ -45,7 +45,6 @@ query Query($where: ItemWhereInput, $orderBy: OrderByItem, $limit: Int, $skip: I
       itemValueUSD
       width
       height
-      weight
       itemStatus
       receiverName
       receiverPhone

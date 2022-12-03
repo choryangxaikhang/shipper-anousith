@@ -8,9 +8,9 @@ import Notiflix from "notiflix";
 import { UPDATE_ITEMS } from "../apollo";
 import { useFormik } from "formik";
 
-export default function CODCompleted({ getData, loadData, data }) {
+export default function CODCompleted({ getData, loadData, data, disabled }) {
 	//form state
-  const client = useApolloClient();
+	const client = useApolloClient();
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
 	const [updateListItem] = useMutation(UPDATE_ITEMS);
@@ -19,43 +19,43 @@ export default function CODCompleted({ getData, loadData, data }) {
 	const [valueUSD, setValueUSD] = useState(data?.itemValueUSD);
 
 	const { handleChange, handleSubmit, values } = useFormik({
-    initialValues: {
+		initialValues: {
 			realValueKIP: 0,
-      realValueTHB: 0,
-      realValueUSD: 0,
-      description: "",
-    },
-    onSubmit: async (values) => {
-      try {
-        await client.mutate({
-          mutation: UPDATE_ITEMS,
-          variables: {
-            data: {    
-							description: values?.description,      
+			realValueTHB: 0,
+			realValueUSD: 0,
+			description: "",
+		},
+		onSubmit: async (values) => {
+			try {
+				await client.mutate({
+					mutation: UPDATE_ITEMS,
+					variables: {
+						data: {
+							description: values?.description,
 							itemStatus: "COMPLETED",
 							realValueKIP: parseInt(valueKIP),
 							realValueTHB: parseInt(valueTHB),
 							realValueUSD: parseInt(valueUSD),
-            },
-            where: { 
+						},
+						where: {
 							_id: parseInt(data?._id),
-							
-						 },
-          },
-        });
+						},
+					},
+				});
 				messageSuccess("ດຳເນີນການສຳເລັດ");
 				getData(!loadData);
 				handleClose(!show)
-      } catch (error) {
-        console.log(error);
-        messageError("ການດຳເນິນງານບໍ່ສຳເລັດ");
-      }
-    },
-  });
+			} catch (error) {
+				console.log(error);
+				messageError("ການດຳເນິນງານບໍ່ສຳເລັດ");
+			}
+		},
+	});
 
 	return (
 		<React.Fragment>
 			<button
+				disabled={disabled}
 				type="button"
 				className="btn btn-success right btn-block rounded btn-xs me-2"
 				onClick={() => setShow(true)}
@@ -90,7 +90,7 @@ export default function CODCompleted({ getData, loadData, data }) {
 						<div className="form-group">
 							<label>ເງິນcod THB </label>
 							<input
-								type="number"								
+								type="number"
 								defaultValue={valueTHB || 0}
 								className="form-control"
 								placeholder="0"
@@ -107,11 +107,11 @@ export default function CODCompleted({ getData, loadData, data }) {
 						</div>
 						<div className="form-group">
 							<label>ລາຍຈ່າຍເພິ່ມເຕີມ  </label>
-							<textarea						
+							<textarea
 								name="description"
 								value={values.description}
-                onChange={handleChange}
-								rows={2}					
+								onChange={handleChange}
+								rows={2}
 								className="form-control"
 								placeholder=" "
 							/>
