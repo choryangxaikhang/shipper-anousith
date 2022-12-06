@@ -1,5 +1,30 @@
 import { gql } from "@apollo/client";
 
+export const LIST_ITEM_DELIVERY = gql`
+query Query($where: ItemDeliveryLogWhereInput, $skip: Int, $limit: Int) {
+  itemDeliveryLogs(where: $where, skip: $skip, limit: $limit) {
+    total
+    data {
+      _id
+      shipper {
+        _id
+        firstName
+        lastName
+      }
+      item {
+        _id
+        trackingId
+        itemName
+        receiverPhone
+        receiverName
+      }
+      status
+      createdDate
+    }
+  }
+}
+`;
+
 export const LIST_SHIPPER_ITEM = gql`
 query Query($where: ItemWhereInput, $orderBy: OrderByItem, $limit: Int, $skip: Int) {
   items(where: $where, orderBy: $orderBy, limit: $limit, skip: $skip) {

@@ -36,6 +36,7 @@ export default function Home() {
     fetchData({
       variables: {
         where: {
+          shipper: userInfo?._id,
           status: "REQUESTING"
         },
       },
@@ -99,9 +100,7 @@ export default function Home() {
 
             >
               <i className="icon-bell" style={{ fontSize: 20 }} />
-              <span style={{ position: "absolute", right: 10, top: 10 }}>
-                {loadingData(10)}
-              </span>
+          
               {totalPickup !== 0 ? (
                 <span className="badge badge-success mr-1 p-2">
                   <small>

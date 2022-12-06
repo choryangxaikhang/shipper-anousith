@@ -125,7 +125,7 @@ export default function DetailListDelivering() {
 						</ul>
 					</div>
 				</div>
-				<h3 className="text-center mt-3">
+				{/* <h3 className="text-center mt-3">
 					<i className="fas fa-location-dot fs-2 mr-1 text-danger" />
 					ທີ່ຢູ່ປາຍທາງ </h3>
 				<div className="mapouter">
@@ -160,7 +160,7 @@ export default function DetailListDelivering() {
 							/>
 						</div>
 					))}
-				</div>
+				</div> */}
 			</div>
 		</>
 	);

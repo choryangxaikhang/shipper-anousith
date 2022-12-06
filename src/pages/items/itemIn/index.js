@@ -31,7 +31,7 @@ export default function ItemIn() {
 					status: "RECEIVED",
 					customer: searchValue ? parseInt(searchValue) : undefined,
 					shipper: userState?._id,
-					createdDateBetween: [startDateValue, endDateValue]
+					receivedDateBetween: [startDateValue, endDateValue]
 				},
 			},
 		})

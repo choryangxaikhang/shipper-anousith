@@ -26,6 +26,8 @@ export default function CODCompleted({ getData, loadData, data, disabled }) {
 			description: "",
 		},
 		onSubmit: async (values) => {
+
+			console.log(values)
 			try {
 				await client.mutate({
 					mutation: UPDATE_ITEMS,
@@ -122,7 +124,6 @@ export default function CODCompleted({ getData, loadData, data, disabled }) {
 					<button
 						type="button"
 						className="btn btn-success rounded btn-block btn-lg"
-						// onClick={() => updateDistance(data?._id)}
 						onClick={handleSubmit}
 					>
 						<i className="fa-solid fa-circle-check mr-1 fs-2" />

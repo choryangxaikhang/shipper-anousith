@@ -39,7 +39,7 @@ export default function ItemCancel() {
         where: {
           customer: searchValue ? parseInt(searchValue) : undefined,
           shipper: userState?._id,
-          createdDateBetween: [startDateValue, endDateValue],
+          canceledDateBetween: [startDateValue, endDateValue],
           status: "CANCELED"
         },
       },

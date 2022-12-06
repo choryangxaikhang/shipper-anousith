@@ -6,20 +6,19 @@ import {
 	ShipperStatus,
 	messageError,
 	messageSuccess,
-	ItemStatus,
 	getStaffLogin
 } from "../../../helper";
-import { DETAIL_CONFIRM, HOME_PAGE } from "../../../routes/app";
+import { HOME_PAGE } from "../../../routes/app";
 import BottomNav from "../../../layouts/BottomNav";
 import Notiflix from "notiflix";
 import "../index.css";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import {
 	LIST_SHIPPER_CONFIRMED,
-	LIST_SHIPPER_ITEM,
 	UPDATE_LIST_ITEM
 } from "../apollo";
 import InsertAmount from "./amount";
+import Locations from "./location";
 
 export default function ShipperConFirm() {
 	const { history } = useReactRouter();
@@ -36,7 +35,7 @@ export default function ShipperConFirm() {
 		fetchData({
 			variables: {
 				where: {
-					// shipper: userState?._id,
+					shipper: userState?._id,
 					status: "REQUESTING"
 				},
 			},
@@ -109,18 +108,7 @@ export default function ShipperConFirm() {
 			</div>
 			<div className=" body-content-lg" style={{ marginTop: 60 }}>
 				<div className="option-section">
-					<div className="col-12">
-						<div className="input-group">
-							<span className="btn btn-secondary">
-								<i className="icon-search" />
-							</span>
-							<input
-								type="search"
-								className="form-control form-control-sm"
-								placeholder="tracking" />
-						</div>
-						<p className="title mt-1">ຈຳນວນ {total || 0} ລາຍການ</p>
-					</div>
+					<p className="title mt-1 mr-1">ຈຳນວນ {total || 0} ລາຍການ</p>
 				</div>
 			</div>
 			<div className="mt-2">
@@ -129,7 +117,7 @@ export default function ShipperConFirm() {
 						{_item && _item?.map((item) => (
 							<a href="#" className="item">
 								<div className="detail">
-									<i className="fa-solid fa-cart-arrow-down fa-2x mr-1"	/>
+									<i className="fa-solid fa-cart-arrow-down fa-2x mr-1" />
 									<div >
 										<strong>ID: {item?.customer?.id_list}</strong>
 										<p>ຊື່: {item?.customer?.full_name}</p>
@@ -147,6 +135,9 @@ export default function ShipperConFirm() {
 												{ShipperStatus(item?.status)}
 											</small>
 										</>
+										<Locations
+											data={item}
+										/>
 									</div>
 								</div>
 								<div className="right">

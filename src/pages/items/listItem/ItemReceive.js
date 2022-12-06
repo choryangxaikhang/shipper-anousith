@@ -33,7 +33,7 @@ export default function ItemPickupReceive() {
           status: "RECEIVED",
 					customer: searchValue ? parseInt(searchValue) : undefined,
 					shipper: userState?._id,
-					createdDateBetween: [startDateValue, endDateValue]
+          receivedDateBetween: [startDateValue, endDateValue]
         },
       },
     })

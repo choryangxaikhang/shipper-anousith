@@ -31,7 +31,7 @@ export default function ItemMiddles() {
 					customer: searchValue ? parseInt(searchValue) : undefined,
 					shipper: userState?._id,
 					status: "CANCELED",
-					createdDateBetween: [startDateValue, endDateValue]
+					canceledDateBetween: [startDateValue, endDateValue]
 				},
 			},
 		})

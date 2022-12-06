@@ -33,7 +33,7 @@ export default function ItemAll() {
         where: {
 					shipper: userState?._id,
           trackingId: searchValue ? searchValue : undefined,
-          // deliveryCompletedDateBetween: [startDateValue, endDateValue],
+          deliveryCompletedDateBetween: [startDateValue, endDateValue],
           itemStatus: "COMPLETED"
         },
       },

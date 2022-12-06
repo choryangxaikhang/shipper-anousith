@@ -10,7 +10,7 @@ export const aws_url_image = "s3://bithose-bucket/image/";
 export const aws_url_images =
   "https://bithouse-bucket.s3.ap-southeast-1.amazonaws.com/images/";
 export const newSound = new Audio(sound);
-export const socketServer = io("https://api.bit-houses.com");
+// export const socketServer = io("https://api.bit-houses.com");
 // export const TOKEN = "ANS_COD";
 export const FONT_SIZE = { fontSize: "15px" };
 export const PRIMARY_COLOR = "#de0a0af2";
@@ -584,6 +584,18 @@ export const ShipperStatus = (status) => {
     return <span className="text-success">ຮັບອໍເດີແລ້ວ</span>
   } else if (status === "DEPARTURE") {
     return <span className="text-success">ກຳລັງຈັດສົ່ງ</span>
+  } else {
+    return "-";
+  }
+};
+
+export const StatusDelivery = (status) => {
+  if (status === "NOT_ANSWER_CALL") {
+    return <span className="text-danger">ໂທບໍ່ຮັບສາຍ</span>
+  } else if (status === "CAN_NOT_CONTACT") {
+    return <span className="text-danger">ບໍ່ສາມາດສົ່ງໄດ້</span>
+  } else if (status === "CAN_NOT_SENT") {
+    return <span className="text-danger">ບໍ່ສາມາດຕິດຕໍ່ໄດ້</span>
   } else {
     return "-";
   }

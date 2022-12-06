@@ -24,12 +24,13 @@ export default function ItemDelivering() {
 	const [searchValue, setValue] = useState();
 	const [_sentStatus, setSentStatus] = useState(null);
 	const userState = getStaffLogin();
-	console.log(userState)
-
 	const [updateItems] = useMutation(UPDATE_ITEMS);
 	const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
 		fetchPolicy: "cache-and-network",
 	});
+
+
+	console.log(_sentStatus?.value)
 
 	useEffect(() => {
 		fetchData({
@@ -63,7 +64,7 @@ export default function ItemDelivering() {
 					const _updateResult = await updateItems({
 						variables: {
 							data: {
-								sentStatus: _sentStatus,
+								sentStatus: _sentStatus?.value,
 							},
 							where: {
 								_id: parseInt(id),
@@ -206,7 +207,7 @@ export default function ItemDelivering() {
 												value="NOT_ANSWER_CALL"
 												name="sentStatus"
 												onClick={(e) =>
-													setSentStatus(e.target.value)
+													setSentStatus({ value: e.target.value, itemID: item?._id })
 												}
 											/>
 											<i className="fas fa-phone text-info " /> <small>ໂທບໍ່ຮັບສາຍ</small>
@@ -216,8 +217,7 @@ export default function ItemDelivering() {
 												value="CAN_NOT_CONTACT"
 												name="sentStatus"
 												onClick={(e) =>
-													setSentStatus(e.target.value)
-
+													setSentStatus({ value: e.target.value, itemID: item?._id })
 												}
 												className=" mr-2 mb-1"
 											/>
@@ -227,37 +227,40 @@ export default function ItemDelivering() {
 											<input type="radio"
 												value="CAN_NOT_SENT"
 												name="sentStatus"
-												onClick={(e) => setSentStatus(e.target.value)
+												onClick={(e) =>
+													setSentStatus({ value: e.target.value, itemID: item?._id })
 												}
 												className=" mr-2"
 											/>
 											<i class="fa-solid fa-exclamation text-danger" /> <small>ບໍ່ສາມາດສົ່ງໄດ້</small>
 										</p>
+										<p>
+											<input type="radio"
+												value={null}
+												name="sentStatus"
+												onClick={(e) =>
+													setSentStatus({ value: e.target.value, itemID: null })
+												}
+												className=" mr-2"
+											/>
+										<i class="fa-solid fa-circle-xmark text-danger"/> <small>ຍົກເລີກ</small>
+										</p>
 
 									</div>
 								</div>
 								<div className="right">
-									{_sentStatus === null ? (
-										<CODCompleted
-											data={item}
-											loadData={reloadData}
-											getData={(data) => {
-												setReloadData(data);
-											}}
-										/>
-									) : (
-										<CODCompleted
-											disabled
-											data={item}
-											loadData={reloadData}
-											getData={(data) => {
-												setReloadData(data);
-											}}
-										/>
-									)}
+									<CODCompleted
+										disabled={_sentStatus?.itemID === item?._id}
+										data={item}
+										loadData={reloadData}
+										getData={(data) => {
+											setReloadData(data);
+										}}
+									/>
+
 									<br />
-									{_sentStatus !== null ? (
 									<button
+										disabled={_sentStatus?.itemID !== item?._id}
 										type="button"
 										className="btn btn-secondary w-100 right rounded btn-xs text-nowrap mt-2"
 										onClick={() => _updateItems(item?._id)}
@@ -265,17 +268,6 @@ export default function ItemDelivering() {
 										<i class="fa-solid fa-circle-exclamation me-1" />
 										ອັບເດດການສົ່ງ
 									</button>
-									):(
-										<button
-										disabled
-										type="button"
-										className="btn btn-secondary w-100 right rounded btn-xs text-nowrap mt-2"
-										onClick={() => _updateItems(item?._id)}
-									>
-										<i class="fa-solid fa-circle-exclamation me-1" />
-										ອັບເດດການສົ່ງ
-									</button>
-									)}
 								</div>
 							</a>
 						))}

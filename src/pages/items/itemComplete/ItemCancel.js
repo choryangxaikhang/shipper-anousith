@@ -7,11 +7,12 @@ import {
   ItemStatus,
   startMonth,
   getStaffLogin,
+  StatusDelivery,
 } from "../../../helper";
 import BottomNav from "../../../layouts/BottomNav";
 import whatsapp from "../../../icon/whatsapp.svg";
 import { useLazyQuery } from "@apollo/client";
-import { LIST_SHIPPER_ITEM } from "../apollo";
+import { LIST_ITEM_DELIVERY } from "../apollo";
 import { DETAIL_ITEMS_COMPLETED } from "../../../routes/app";
 
 export default function ItemCancel() {
@@ -23,7 +24,7 @@ export default function ItemCancel() {
   const [_item, setResult] = useState();
   const userState = getStaffLogin();
 
-  const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_ITEM, {
+  const [fetchData, { data: result, }] = useLazyQuery(LIST_ITEM_DELIVERY, {
     fetchPolicy: "cache-and-network",
   });
 
@@ -33,18 +34,17 @@ export default function ItemCancel() {
         where: {
           shipper: userState?._id,
           trackingId: searchValue ? searchValue : undefined,
-          deliveryCompletedDateBetween: [startDateValue, endDateValue],
-          itemStatus: "CANCELED"
+          dateBetween: [startDateValue, endDateValue],
         },
       },
     })
   }, [searchValue, startDateValue, endDateValue, reloadData]);
 
   useEffect(() => {
-    setResult(result?.items?.data);
+    setResult(result?.itemDeliveryLogs?.data);
   }, [result])
 
-  const total = result?.items?.total;
+  const total = result?.itemDeliveryLogs?.total;
   const message = "ສະບາຍດີ"
 
   return (
@@ -106,28 +106,20 @@ export default function ItemCancel() {
                     />
                   </div>
                   <div className="text-nowrap">
-                    <strong>ID: {item?.customer?.id_list}</strong>
-                    <strong>TK: {item?.trackingId}</strong>
-                    <p>ຊື່: {item?.receiverName}</p>
+
+                    <strong>TK: {item?.item?.trackingId}</strong>
+                    <p>ຊື່ເຄື່ອງ: {item?.item?.itemName}</p>
                     <p>
                       <a className="text-link" target="_blank"
-                        href={`https://wa.me/${detectPhoneNumber(item?.receiverPhone
+                        href={`https://wa.me/${detectPhoneNumber(item?.item?.receiverPhone
                         )}?text=${message?.replace(/<br\s*[\/]?>/gi, " ")}`}>
-                        <img style={{ width: 20 }} src={whatsapp} alt="" />{item?.receiverPhone}
+                        <img style={{ width: 20 }} src={whatsapp} alt="" />{item?.item?.receiverPhone}
                       </a>
                     </p>
-                    <p>ວັນທີ່: {formatDateDash(item?.deliveryCompletedDate)}</p>
-                    <p>
-                      {item?.itemStatus === "COMPLETED" ? (
-                        <small className="text-success">
-                          {ItemStatus(item?.itemStatus)}
-                        </small>
-                      ) : (
-                        <small className="text-danger">
-                          {ItemStatus(item?.itemStatus)}
-                        </small>
-                      )}
-                    </p>
+                    <p>ວັນທີ່: {formatDateDash(item?.createdDate)}</p>
+                    <small className="text-danger">
+                      {StatusDelivery(item?.status)}
+                    </small>
                   </div>
                 </div>
               </a>
