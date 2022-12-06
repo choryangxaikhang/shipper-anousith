@@ -23,7 +23,6 @@ import DetailICompleted from "../pages/items/itemComplete/DetailItem";
 import DetailDataList from "../pages/items/listItem/DetailItem";
 import Commition_ShiPer from "../pages/commition";
 import TabMenuItems from "../pages/items/itemIn/TabMenu";
-import TabMenuDelivering from "../pages/items/itemDelivering/TabMenuDeli";
 import TabMenuCompleted from "../pages/items/itemComplete/TabMenuCom";
 import TabMenuList from "../pages/items/listItem/TabMenuList";
 import ShipperConFirm from "../pages/home/shipperconfirm/confirm";
@@ -123,11 +122,6 @@ export default function Routes() {
                   exact
                   path={`${ROUTES.TAB_MENU_ITEM_IN}/:_id`}
                   component={(props) => <TabMenuItems {...props} />}
-                />
-                <Route
-                  exact
-                  path={`${ROUTES.TAB_MENU_DELIVERING}/:_id`}
-                  component={(props) => <TabMenuDelivering {...props} />}
                 />
                 <Route
                   exact

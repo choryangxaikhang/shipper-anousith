@@ -243,7 +243,7 @@ export default function ItemDelivering() {
 												}
 												className=" mr-2"
 											/>
-										<i class="fa-solid fa-circle-xmark text-danger"/> <small>ຍົກເລີກ</small>
+											<i class="fa-solid fa-circle-xmark text-danger" /> <small>ຍົກເລີກ</small>
 										</p>
 
 									</div>
