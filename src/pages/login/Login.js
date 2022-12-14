@@ -67,13 +67,13 @@ export default function Login() {
                   className="logo p-2"
                   style={{
                     marginTop: 0,
-                    width: '80%',
+                    width: 250,
                     height: 250,
                     borderRadius: "10%",
                     border: "2px solid de0a0af2",
                   }}
                 />
-                <h2>shiper-anousith</h2>
+                <h2>Anousith Shipper</h2>
               </center>
               <div className="container">
                 <div className="authentication-form mt-2">
@@ -144,7 +144,7 @@ export default function Login() {
                       type="button"
                       onClick={handleSubmit}
                       style={{ backgroundColor: "#de0a0af2" }}
-                      className="btn btn-block btn-lg text-white mb-10"
+                      className="btn btn-block btn-lg p-3 text-white mb-10 rounded"
                     >
                       <i className="fa-sharp fa-solid fa-angles-right me-2"></i>
                       ເຂົ້າສູ່ລະບົບ

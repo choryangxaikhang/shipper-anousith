@@ -56,7 +56,7 @@ export default function ItemDelivering() {
 	const _updateItems = (id) => {
 		Notiflix.Confirm.show(
 			"ແຈ້ງເຕືອນ",
-			"ອໍເດີຂອງທ່ານລົ້ມແຫຼວ ແທ້ ຫຼື ບໍ່?",
+			"ອໍເດີຂອງທ່ານລົ້ມເຫຼວ ແທ້ ຫຼື ບໍ່?",
 			"ຕົກລົງ",
 			"ຍົກເລີກ",
 			async () => {

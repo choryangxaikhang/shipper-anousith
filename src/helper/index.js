@@ -577,7 +577,7 @@ export const ItemStatus = (itemStatus) => {
 };
 export const ShipperStatus = (status) => {
   if (status === "CANCELED") {
-    return <span className="text-danger">ລົ້ມແຫຼວ</span>
+    return <span className="text-danger">ລົ້ມເຫຼວ</span>
   } else if (status === "REQUESTING") {
     return <span className="text-danger">ກຳລັງຮ້ອງຂໍ</span>
   } else if (status === "RECEIVED") {
