@@ -1,23 +1,25 @@
 {
   "files": {
     "main.css": "/static/css/main.a44200e7.chunk.css",
-    "main.js": "/static/js/main.202a6270.chunk.js",
-    "main.js.map": "/static/js/main.202a6270.chunk.js.map",
+    "main.js": "/static/js/main.9388389a.chunk.js",
+    "main.js.map": "/static/js/main.9388389a.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.7fa416b9.js",
     "runtime-main.js.map": "/static/js/runtime-main.7fa416b9.js.map",
     "static/css/2.7fc185b2.chunk.css": "/static/css/2.7fc185b2.chunk.css",
-    "static/js/2.accca755.chunk.js": "/static/js/2.accca755.chunk.js",
-    "static/js/2.accca755.chunk.js.map": "/static/js/2.accca755.chunk.js.map",
+    "static/js/2.7e99bb9d.chunk.js": "/static/js/2.7e99bb9d.chunk.js",
+    "static/js/2.7e99bb9d.chunk.js.map": "/static/js/2.7e99bb9d.chunk.js.map",
     "static/js/3.4c729176.chunk.js": "/static/js/3.4c729176.chunk.js",
     "static/js/3.4c729176.chunk.js.map": "/static/js/3.4c729176.chunk.js.map",
     "index.html": "/index.html",
     "static/css/2.7fc185b2.chunk.css.map": "/static/css/2.7fc185b2.chunk.css.map",
     "static/css/main.a44200e7.chunk.css.map": "/static/css/main.a44200e7.chunk.css.map",
-    "static/js/2.accca755.chunk.js.LICENSE.txt": "/static/js/2.accca755.chunk.js.LICENSE.txt",
+    "static/js/2.7e99bb9d.chunk.js.LICENSE.txt": "/static/js/2.7e99bb9d.chunk.js.LICENSE.txt",
     "static/media/Nodata.7f5b854f.png": "/static/media/Nodata.7f5b854f.png",
     "static/media/anousith.f7432ddb.png": "/static/media/anousith.f7432ddb.png",
+    "static/media/female.721cc0fe.png": "/static/media/female.721cc0fe.png",
     "static/media/icon.85e4931a.png": "/static/media/icon.85e4931a.png",
     "static/media/loading.3910906e.gif": "/static/media/loading.3910906e.gif",
+    "static/media/male.33aa3d5d.png": "/static/media/male.33aa3d5d.png",
     "static/media/App.css": "/static/media/material-icons.4d73cb90.woff",
     "static/media/sound.1936d448.wav": "/static/media/sound.1936d448.wav",
     "static/media/index.css": "/static/media/whatsapp.4a15730c.svg",
@@ -26,8 +28,8 @@
   "entrypoints": [
     "static/js/runtime-main.7fa416b9.js",
     "static/css/2.7fc185b2.chunk.css",
-    "static/js/2.accca755.chunk.js",
+    "static/js/2.7e99bb9d.chunk.js",
     "static/css/main.a44200e7.chunk.css",
-    "static/js/main.202a6270.chunk.js"
+    "static/js/main.9388389a.chunk.js"
   ]
 }
