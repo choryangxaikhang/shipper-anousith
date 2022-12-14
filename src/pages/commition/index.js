@@ -7,20 +7,26 @@ import {
 	endOfMonth,
 	formatDateDash,
 	getStaffLogin,
-	startMonth
+	startMonth,
+	currency
 } from "../../helper";
 import { useLazyQuery } from "@apollo/client";
-import { QUERY_USER } from "../home/apollo";
+import { QERY_COMMITION, QUERY_PAYROLL_SUMMARY } from "../home/apollo";
 
 export default function Commition_ShiPer() {
 	const { location, history, match } = useReactRouter();
 	const [clickButton, setButton] = useState(false);
 	const useInfo = getStaffLogin();
 	const [dataUser, setResult] = useState();
+	const [dataSummary, setResultSummary] = useState();
+
 	const [startDate, setStartDate] = useState(startMonth());
 	const [endDate, setEndDate] = useState(endOfMonth())
 
-	const [fetchData, { data: result, }] = useLazyQuery(QUERY_USER, {
+	const [fetchData, { data: result, }] = useLazyQuery(QUERY_PAYROLL_SUMMARY, {
+		fetchPolicy: "cache-and-network",
+	});
+	const [fetchSummary, { data: resultSummary, }] = useLazyQuery(QERY_COMMITION, {
 		fetchPolicy: "cache-and-network",
 	});
 
@@ -28,19 +34,36 @@ export default function Commition_ShiPer() {
 		fetchData({
 			variables: {
 				where: {
-					status: "ACTIVE",
-					role: "SHIPPER",
-					// _id: parseInt(useInfo?._id)
+					empID: parseInt(useInfo?._id)
+				},
+				orderBy: "_idDESC",
+				limit: 1
+			},
+		});
+
+		fetchSummary({
+			variables: {
+				where: {
+					shipper: parseInt(useInfo?._id),
+					dateBetween: [startDate, endDate]
 				},
 			},
 		});
+
 	}, [startDate, endDate]);
 
 	useEffect(() => {
-		setResult(result?.managePayroll?.data);
-	}, [result])
+		setResult(result?.summaryPayroll?.data);
+	}, [result]);
 
-	const total = result?.managePayroll?.total;
+	useEffect(() => {
+		setResultSummary(resultSummary?.summariesShippers);
+	}, [resultSummary]);
+
+	let _total = dataSummary?.sent?.total;
+	const totalCommitsion = _total >= 200 ? 100000 : 0;
+	const totalCommitsion2 = _total >= 240 ? 100000 : 0;
+
 
 	return (
 
@@ -95,54 +118,99 @@ export default function Commition_ShiPer() {
 								</div>
 							</div>
 						</div>
-						{/* {dataUser && dataUser?.map((item, index)=>( */}
-						<ul className="listview flush transparent simple-listview no-space mt-1">
-							<li>
-								<strong>cvID:</strong>
-								{/* <span> {item?.cvID}</span> */}
-							</li>
-							<li>
-								<strong>ເງິນຕຳແໜ່ງ</strong>
-								<span>0 ກີບ</span>
-							</li>
-							<li>
-								<strong>ເງິນເພິ່ມ</strong>
-								<span>0 ກີບ</span>
-							</li>
-							<li>
-								<strong>ອໍເດີສົ່ງສຳເລັດທັງໝົດ</strong>
-								<span>125 / 2,500,000 ກີບ</span>
-							</li>
-							<li>
-								<strong>ສ່ວນແບ່ງໄລຍະໃກ້</strong>
-								<span>50 x 5.500 = 275,000 ກີບ</span>
-							</li>
-							<li>
-								<strong>ສ່ວນແບ່ງໄລຍະກາງ</strong>
-								<span>30 x 7,000 = 210,000 ກີບ</span>
-							</li>
-							<li>
-								<strong>ສ່ວນແບ່ງໄລຍະໄກ</strong>
-								<span>60 x 12,000 = 720,000 ກີບ</span>
-							</li>
-							<li>
-								<strong>ສ່ວນແບ່ງອໍເດີ</strong>
-								<span><b> 125 x 500 = 65.500 ກີບ</b></span>
-							</li>
-							<li>
-								<strong>ລວມສ່ວນແບ່ງ</strong>
-								<span className="text-danger">1,270,500 ກີບ</span>
-							</li>
-							<li>
-								<strong>
-									<i className="fa-solid fa-money-bill-wave mr-1" />
-									ເງິນເດືອນ 10/2022
-								</strong>
-								<span className="text-success">1,270,500 ກີບ</span>
-							</li>
-						</ul>
-						{/* ))} */}
+						{dataUser && dataUser?.map((item, index) => (
+							<ul className="listview flush transparent simple-listview no-space mt-1">
+								<li>
+									<strong>cvID:</strong>
+									<span> {item?.empID?.cvID}</span>
+								</li>
+								<li>
+									<strong>ເງິນເດືອນພື້ນຖານ</strong>
+									<span>{currency(item?.basicSalary || 0)} ກີບ</span>
+								</li>
+								<li>
+									<strong>ເງິນຕຳແໜ່ງ</strong>
+									<span>{currency(item?.positionSalary || 0)} ກີບ</span>
+								</li>
+								{item?.extraIncome !== 0 ? (
+									<li>
+										<strong>ເງິນເພິ່ມ</strong>
+										<span>
+											{currency(item?.extraIncome || 0)} ກີບ
+										</span>
+									</li>
+								) : null}
 
+								{item?.otIncome !== 0 ? (
+									<li>
+										<strong>ເງິນໂອທີ</strong>
+										<span>
+											{currency(item?.otIncome || 0)} ກີບ
+										</span>
+									</li>
+								) : null}
+
+								{item?.bonusIncome !== 0 ? (
+									<li>
+										<strong>ເງິນໂບນັດ</strong>
+										<span>
+											{currency(item?.bonusIncome || 0)} ກີບ
+										</span>
+									</li>
+								) : null}
+
+								{item?.diligentIncome !== 0 ? (
+									<li>
+										<strong>ເງິນຂະຫຍັນ</strong>
+										<span>
+											{currency(item?.diligentIncome || 0)} ກີບ
+										</span>
+									</li>
+								) : null}
+
+								{item?.borrowExpense !== 0 ? (
+									<li>
+										<strong>ເງິນເບິກລ່ວງໜ້າ</strong>
+										<span>
+											{currency(item?.borrowExpense || 0)} ກີບ
+										</span>
+									</li>
+								) : null}
+
+								{item?.deductionExpense !== 0 ? (
+									<li>
+										<strong>ເງິນຫັກ</strong>
+										<span>
+											{currency(item?.deductionExpense || 0)} ກີບ
+										</span>
+									</li>
+								) : null}
+
+								<li>
+									<strong>ອໍເດີສົ່ງສຳເລັດທັງໝົດ</strong>
+									<span>{dataSummary?.sent?.total} / {currency(dataSummary?.sent?.commission)} ກີບ</span>
+								</li>
+								<li>
+									<strong>ອໍເດີຮັບເຂົ້າທັງໝົດ</strong>
+									<span>{dataSummary?.receive?.total} / {currency(dataSummary?.receive?.commission)} ກີບ</span>
+								</li>
+								<li>
+									<strong>ເງິນເປົ້້າ</strong>
+									<span> {totalCommitsion} ກີບ</span>
+								</li>
+								<li>
+									<strong>ຄ່າອາກອນ</strong>
+									<span>{currency(item?.taxIncome || 0)} ກີບ</span>
+								</li>							
+								<li>
+									<strong>
+										<i className="fa-solid fa-money-bill-wave mr-1" />
+										ເງິນເດືອນທີ່ໄດ້ 
+									</strong>
+									<span className="text-success">{ currency(item?.finalIncome || 0)} ກີບ</span>
+								</li>
+							</ul>
+						))}
 					</div>
 				</div>
 				<BottomNav />

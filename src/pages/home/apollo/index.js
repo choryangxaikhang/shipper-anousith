@@ -1,32 +1,84 @@
 import { gql } from "@apollo/client";
 
-export const QUERY_USER = gql`
-query ManagePayroll($where: ManagePayrollWhereInput, $orderBy: ManagePayrollOrderBy, $limit: Int, $skip: Int) {
-  managePayroll(where: $where, orderBy: $orderBy, limit: $limit, skip: $skip) {
+export const LIST_ITEM_DELIVERYS = gql`
+query Query($where: ItemDeliveryLogWhereInput, $skip: Int, $limit: Int) {
+  itemDeliveryLogs(where: $where, skip: $skip, limit: $limit) {
     total
     data {
       _id
-      firstName
-      lastName
-      positionSalary
-      sumExtraAll
-      sumBonusAll
-      sumBorrowAll
-      sumDiligentAll
-      sumOtIncomeAll
-      sumDeductionAll
-      sumExtraUnpaid
-      sumBonusUnpaid
-      sumBorrowUnpaid
-      sumDiligentUnpaid
-      sumOtIncomeUnpaid
-      sumDeductionUnpaid
-      InsuranceExpense
+      shipper {
+        _id
+        firstName
+        lastName
+      }
+      item {
+        _id
+        trackingId
+        itemName
+        receiverPhone
+        receiverName
+      }
       status
-      role
-      cvID
+      createdDate
     }
   }
+}
+`;
+
+export const QERY_COMMITION = gql`
+query Query($where: SummariesShipperWhereInput!) {
+  summariesShippers(where: $where) {
+    receive {
+      total
+      commission
+    }
+    sent {
+      total
+      commission
+    }
+  }
+}
+`;
+
+export const QUERY_PAYROLL_SUMMARY = gql`
+query SummaryPayrollPayment($where: SummaryPayrollWhereInput,
+  $orderBy: SummaryPayrollOrderBy, $skip: Int, $limit: Int) {
+ summaryPayroll(where: $where, orderBy: $orderBy, 
+ skip: $skip, limit: $limit) {
+   total
+   data {
+     _id
+     empID {
+       _id
+       cvID
+       firstName
+       lastName
+     }
+     consolidatedAt  
+     basicSalary
+     positionSalary
+     livingSalary
+     extraIncome
+     otIncome
+     bonusIncome
+     diligentIncome
+     deductionExpense
+     borrowExpense
+     taxIncome
+     InsuranceExpense
+     finalIncome
+     confirmStatus
+     confirmedDate
+     paidStatus
+     paidDate    
+     note  
+     position {
+       _id
+       title_lao
+       title_eng
+     }
+   }
+ }
 }
 `;
 

@@ -12,7 +12,8 @@ import {
 } from "../../helper";
 import BottomNav from "../../layouts/BottomNav";
 import { useLazyQuery } from "@apollo/client";
-import Imglogo from "../../img/icon.png";
+import male from "../../img/male.png";
+import female from "../../img/female.png";
 import { LOGIN } from "../../routes/app";
 import { USERS } from "./apollo";
 export default function Profile() {
@@ -59,7 +60,7 @@ export default function Profile() {
     <>
       <div id="appCapsule">
         <div className="appHeader text-white border-0 ">
-          <div style={{ flex: 1 }} className="text-left">       
+          <div style={{ flex: 1 }} className="text-left">
           </div>
           ໂປຣໄຟລ໌
           <div
@@ -77,17 +78,31 @@ export default function Profile() {
         </div>
         <div className="body-content bg-white" style={{ marginTop: -30 }}>
           <center>
-            <img
-              src={Imglogo}
-              alt="logo"
-              className="logo p-2"
-              style={{
-                width: 120,
-                height: 120,
-                borderRadius: "40%",
-                border: "2px solid de0a0af2",
-              }}
-            />
+            {listData?.gender === "MALE" ? (
+              <img
+                src={listData?.profileImage ? listData?.profileImage : male}
+                alt="logo"
+                className="logo p-2"
+                style={{
+                  width: 120,
+                  height: 120,
+                  borderRadius: "40%",
+                  border: "2px solid de0a0af2",
+                }}
+              />
+            ) : (
+              <img
+                src={listData?.profileImage ? listData?.profileImage : female}
+                alt="logo"
+                className="logo p-2"
+                style={{
+                  width: 120,
+                  height: 120,
+                  borderRadius: "40%",
+                  border: "2px solid de0a0af2",
+                }}
+              />
+            )}
             <br />
             <b>ID-USER: {listData?._id}</b>
           </center>
@@ -113,54 +128,6 @@ export default function Profile() {
                         <div>ເພດ</div>
                         <div className="custom-control custom-switch user-select-all">
                           {setGender(listData?.gender ? listData?.gender : "-")}{" "}
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="item">
-                      <div className="in">
-                        <div>ວັນທີ່ເລີ່ມວຽກ</div>
-                        <div className="custom-control custom-switch user-select-all">
-                          {formatDateDash(
-                            listData?.workStartDate
-                              ? listData?.workStartDate
-                              : "-"
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="item">
-                      <div className="in">
-                        <div>ເບີໂທ</div>
-                        <div className="custom-control custom-switch user-select-all">
-                          {listData?.phoneNumber ? listData?.phoneNumber : "-"}
-                          <br />
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="item">
-                      <div className="in">
-                        <div>ຕຳແຫນ່ງ</div>
-                        <div className="custom-control custom-switch user-select-all">
-                          {userStatus(listData?.role ? listData?.role : "-")}
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="item">
-                      <div className="in">
-                        <div>ເງິນເດືອນພື້ນຖານ</div>
-                        <div className="custom-control custom-switch user-select-all">
-                          {currency(
-                            listData?.basicSalary ? listData?.basicSalary : 0
-                          )}{" "}
-                          ກີບ
                         </div>
                       </div>
                     </div>
@@ -197,6 +164,54 @@ export default function Profile() {
                           {listData?.village?.title
                             ? listData?.village?.title
                             : "-"}
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li>
+                    <div className="item">
+                      <div className="in">
+                        <div>ວັນທີ່ເລີ່ມວຽກ</div>
+                        <div className="custom-control custom-switch user-select-all">
+                          {formatDateDash(
+                            listData?.workStartDate
+                              ? listData?.workStartDate
+                              : "-"
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="item">
+                      <div className="in">
+                        <div>ເບີໂທ</div>
+                        <div className="custom-control custom-switch user-select-all">
+                          {listData?.phoneNumber ? listData?.phoneNumber : "-"}
+                          <br />
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="item">
+                      <div className="in">
+                        <div >ບ່ອນປະຈຳການ:</div>
+                        <div className="custom-control custom-switch">
+                          {listData?.branch?.title
+                            ? listData?.branch?.title
+                            : "-"}
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="item">
+                      <div className="in">
+                        <div>ຕຳແຫນ່ງ</div>
+                        <div className="custom-control custom-switch user-select-all">
+                          {userStatus(listData?.role ? listData?.role : "-")}
                         </div>
                       </div>
                     </div>

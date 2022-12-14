@@ -59,37 +59,11 @@ export default function Home() {
     <>
       <div>
         <div className="appHeader  border-0 ">
-          <div style={{ flex: 1 }} className="text-left">
-            <button
-              className="btn text-white"
-              onClick={(e) => {
-                setButton(!clickButton);
-              }}
-            >
-              <i className="fa-solid fa-magnifying-glass fa-2 ms-2" />
-            </button>
+          <div
+            className="text-white pageTitle text-nowrap pr-0"
+            style={{ flex: 1 }} >
+            ໜ້າຫຼັກ
           </div>
-          {clickButton === true ? (
-            <>
-              <SelectLocalHouse
-                style={{ width: "100%" }}
-                value={house?._id}
-                onChange={(obj) => {
-                  if (obj?._id) {
-                    setHouse(obj);
-                    localStorage.setItem("HOUSE", JSON.stringify(obj));
-                    window.location.reload();
-                  }
-                }}
-                ownerId={userData?._id}
-              />
-            </>
-          ) : (
-            <b className="text-white">
-              {house?.houseName ? house?.houseName : "ໜ້າຫຼັກ"}
-            </b>
-          )}
-
           <div
             className="text-white pageTitle text-center text-nowrap pr-0"
             style={{ flex: 1 }}
@@ -100,7 +74,7 @@ export default function Home() {
 
             >
               <i className="icon-bell" style={{ fontSize: 20 }} />
-          
+
               {totalPickup !== 0 ? (
                 <span className="badge badge-success mr-1 p-2">
                   <small>
@@ -150,7 +124,7 @@ export default function Home() {
                       {totalItem || 0}
                     </small>
                   </span>
-                ): null}
+                ) : null}
                 <a
                   href="javascript:void(0)"
                   onClick={() => history.push(`${ITEM_DELIVERING}/1`)}
