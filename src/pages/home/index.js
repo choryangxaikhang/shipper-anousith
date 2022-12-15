@@ -37,7 +37,7 @@ export default function Home() {
       variables: {
         where: {
           shipper: userInfo?._id,
-          status: "REQUESTING"
+          status: "DEPARTURE"
         },
       },
     });

@@ -36,7 +36,7 @@ export default function ShipperConFirm() {
 			variables: {
 				where: {
 					shipper: userState?._id,
-					status: "REQUESTING"
+					status: "DEPARTURE"
 				},
 			},
 		});
