@@ -25,7 +25,7 @@ query Query($where: ItemDeliveryLogWhereInput, $skip: Int, $limit: Int) {
 }
 `;
 
-export const QERY_COMMITION = gql`
+export const QUERY_COMMISSION = gql`
 query Query($where: SummariesShipperWhereInput!) {
   summariesShippers(where: $where) {
     receive {
@@ -36,6 +36,16 @@ query Query($where: SummariesShipperWhereInput!) {
       total
       commission
     }
+  }
+}
+`;
+
+export const UPDATE_PAYROLL = gql`
+ mutation UpdateSummaryPayroll(
+ $data: SummaryPayrollInput!, 
+ $where: WhereById!) {
+  updateSummaryPayroll(data: $data, where: $where) {
+    _id
   }
 }
 `;

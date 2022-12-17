@@ -154,7 +154,7 @@ export default function ShipperConFirm() {
 										onClick={() => _updateItems(item?._id)}
 									>
 										<i class="fa-solid fa-circle-exclamation me-1" />
-										ລົ້ມແຫຼວ
+										ລົ້ມເຫຼວ
 									</button>
 								</div>
 							</a>

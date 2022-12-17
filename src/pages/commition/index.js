@@ -8,33 +8,40 @@ import {
 	formatDateDash,
 	getStaffLogin,
 	startMonth,
-	currency
+	currency,
+	messageSuccess,
+	messageError
 } from "../../helper";
-import { useLazyQuery } from "@apollo/client";
-import { QERY_COMMITION, QUERY_PAYROLL_SUMMARY } from "../home/apollo";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import {
+	QUERY_COMMISSION,
+	QUERY_PAYROLL_SUMMARY,
+	UPDATE_PAYROLL
+} from "../home/apollo";
+import Notiflix from "notiflix";
 
-export default function Commition_ShiPer() {
-	const { location, history, match } = useReactRouter();
-	const [clickButton, setButton] = useState(false);
+export default function Commission_ShiPer() {
+	const { history } = useReactRouter();
 	const useInfo = getStaffLogin();
-	const [dataUser, setResult] = useState();
+	const [dataUser, setResultPayroll] = useState();
+	const [reloadData, setReloadData] = useState(false);
 	const [dataSummary, setResultSummary] = useState();
-
 	const [startDate, setStartDate] = useState(startMonth());
 	const [endDate, setEndDate] = useState(endOfMonth())
 
-	const [fetchData, { data: result, }] = useLazyQuery(QUERY_PAYROLL_SUMMARY, {
+	const [updatePayroll] = useMutation(UPDATE_PAYROLL);
+	const [fetchPayroll, { data: resultPayroll, }] = useLazyQuery(QUERY_PAYROLL_SUMMARY, {
 		fetchPolicy: "cache-and-network",
 	});
-	const [fetchSummary, { data: resultSummary, }] = useLazyQuery(QERY_COMMITION, {
+	const [fetchSummary, { data: resultSummary, }] = useLazyQuery(QUERY_COMMISSION, {
 		fetchPolicy: "cache-and-network",
 	});
 
 	useEffect(() => {
-		fetchData({
+		fetchPayroll({
 			variables: {
 				where: {
-					empID: parseInt(useInfo?._id)
+					empID: parseInt(useInfo?._id),
 				},
 				orderBy: "_idDESC",
 				limit: 1
@@ -53,17 +60,48 @@ export default function Commition_ShiPer() {
 	}, [startDate, endDate]);
 
 	useEffect(() => {
-		setResult(result?.summaryPayroll?.data);
-	}, [result]);
+		setResultPayroll(resultPayroll?.summaryPayroll?.data);
+	}, [resultPayroll]);
 
 	useEffect(() => {
 		setResultSummary(resultSummary?.summariesShippers);
 	}, [resultSummary]);
 
-	let _total = dataSummary?.sent?.total;
-	const totalCommitsion = _total >= 200 ? 100000 : 0;
-	const totalCommitsion2 = _total >= 240 ? 100000 : 0;
+	let _total = parseInt(dataSummary?.sent?.total || 0);
+	const totalCommission = _total >= (200 || 240) ? 100000 : 0;
+	const totalCommission1 = _total >= 250 ? 150000 : 0;
 
+	const _updateConfirmStatus = (id) => {
+		Notiflix.Confirm.show(
+			"ແຈ້ງເຕືອນ",
+			"ທ່ານຕ້ອງການຢືນຢັນລາຍການ ນີ້ແທ້ ຫຼື ບໍ່?",
+			"ຕົກລົງ",
+			"ຍົກເລີກ",
+			async () => {
+				try {
+					const _updatePayroll = await updatePayroll({
+						variables: {
+							data: {
+								confirmStatus: "CONFIRMED",
+							},
+							where: {
+								_id: parseInt(id),
+							},
+						},
+					});
+					if (_updatePayroll) {
+						messageSuccess("ດຳເນີນການສຳເລັດ");
+						setReloadData(!reloadData);
+					}
+				} catch (error) {
+					messageError("ດຳເນີນການບໍ່ສຳເລັດ");
+				}
+			},
+			() => {
+				return false;
+			}
+		);
+	};
 
 	return (
 
@@ -73,18 +111,11 @@ export default function Commition_ShiPer() {
 					<button
 						className="btn text-white"
 						onClick={() => history.push(`${HOME_PAGE}`)}
-
 					>
 						<i className="fa fa-chevron-left fs-4" />
 					</button>
 				</div>
-				{clickButton === true ? (
-					<>
-
-					</>
-				) : (
-					<b className="text-white">ຂໍ້ມູນການແບ່ງສ່ວນ</b>
-				)}
+				<b className="text-white">ຂໍ້ມູນການແບ່ງສ່ວນ</b>
 				<div
 					className="text-white pageTitle text-right text-nowrap pr-0"
 					style={{ flex: 1 }}
@@ -188,27 +219,56 @@ export default function Commition_ShiPer() {
 
 								<li>
 									<strong>ອໍເດີສົ່ງສຳເລັດທັງໝົດ</strong>
-									<span>{dataSummary?.sent?.total} / {currency(dataSummary?.sent?.commission)} ກີບ</span>
+									<span>{dataSummary?.sent?.total} / {currency(dataSummary?.sent?.commission || 0)} ກີບ</span>
 								</li>
 								<li>
 									<strong>ອໍເດີຮັບເຂົ້າທັງໝົດ</strong>
-									<span>{dataSummary?.receive?.total} / {currency(dataSummary?.receive?.commission)} ກີບ</span>
+									<span>{dataSummary?.receive?.total} / {currency(dataSummary?.receive?.commission || 0)} ກີບ</span>
 								</li>
-								<li>
-									<strong>ເງິນເປົ້້າ</strong>
-									<span> {totalCommitsion} ກີບ</span>
-								</li>
+								{_total >= 250 ? (
+									<li>
+										<strong>ເງິນເປົ້້າ</strong>
+										<span> {totalCommission1} ກີບ</span>
+									</li>
+								) : (
+									<li>
+										<strong>ເງິນເປົ້້າ</strong>
+										<span> {totalCommission} ກີບ</span>
+									</li>
+								)}
 								<li>
 									<strong>ຄ່າອາກອນ</strong>
 									<span>{currency(item?.taxIncome || 0)} ກີບ</span>
-								</li>							
+								</li>
 								<li>
 									<strong>
 										<i className="fa-solid fa-money-bill-wave mr-1" />
-										ເງິນເດືອນທີ່ໄດ້ 
+										ເງິນເດືອນທີ່ໄດ້
 									</strong>
-									<span className="text-success">{ currency(item?.finalIncome || 0)} ກີບ</span>
+									<span className="text-success">{currency(item?.finalIncome || 0)} ກີບ</span>
 								</li>
+								<div className="mb-3 mt-3">
+									{item?.confirmStatus === "CONFIRMED" ? (
+										<button
+											className="btn btn-success btn-block btn-xs rounded-pill"
+											disabled
+											onClick={() =>
+												_updateConfirmStatus(item?._id)
+											}
+										>
+											<i className="fas fa-check " /> ຢືັນຢັນເງິນເດືອນ
+										</button>
+									) : (
+										<button
+											className="btn btn-success btn-block btn-xs rounded-pill"
+											onClick={() =>
+												_updateConfirmStatus(item?._id)
+											}
+										>
+											<i className="fas fa-check " /> ຢືັນຢັນເງິນເດືອນ
+										</button>
+									)}
+								</div>
 							</ul>
 						))}
 					</div>

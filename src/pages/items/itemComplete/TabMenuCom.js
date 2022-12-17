@@ -79,7 +79,7 @@ export default function TabMenuCompleted() {
             variant=""
             onClick={() => history.push({ search: "?item=itemCancel" })}
           >
-            ສົ່ງລົ້ມແຫຼວ
+            ສົ່ງລົ້ມເຫຼວ
           </Button>
         </div>
       </div>
