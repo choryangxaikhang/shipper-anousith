@@ -56,7 +56,7 @@ export default function ShipperConFirm() {
 	const _updateItems = (id) => {
 		Notiflix.Confirm.show(
 			"ແຈ້ງເຕືອນ",
-			"ທ່ານຕ້ອງການຮັບເຂົ້າ ແທ້ ຫຼື ບໍ່?",
+			"ທ່ານຕ້ອງການຍົກເລິກ ແທ້ ຫຼື ບໍ່?",
 			"ຕົກລົງ",
 			"ຍົກເລີກ",
 			async () => {

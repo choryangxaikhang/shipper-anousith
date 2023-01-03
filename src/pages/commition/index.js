@@ -57,7 +57,7 @@ export default function Commission_ShiPer() {
 			},
 		});
 
-	}, [startDate, endDate]);
+	}, [startDate, endDate, reloadData]);
 
 	useEffect(() => {
 		setResultPayroll(resultPayroll?.summaryPayroll?.data);
@@ -74,7 +74,7 @@ export default function Commission_ShiPer() {
 	const _updateConfirmStatus = (id) => {
 		Notiflix.Confirm.show(
 			"ແຈ້ງເຕືອນ",
-			"ທ່ານຕ້ອງການຢືນຢັນລາຍການ ນີ້ແທ້ ຫຼື ບໍ່?",
+			"ທ່ານຕ້ອງການຢືນຢັນແທ້ ຫຼື ບໍ່?",
 			"ຕົກລົງ",
 			"ຍົກເລີກ",
 			async () => {
@@ -232,7 +232,7 @@ export default function Commission_ShiPer() {
 									</li>
 								) : (
 									<li>
-										<strong>ເງິນເປົ້້າ</strong>
+										<strong>ເງິນເປົ້າ</strong>
 										<span> {totalCommission} ກີບ</span>
 									</li>
 								)}
@@ -256,7 +256,7 @@ export default function Commission_ShiPer() {
 												_updateConfirmStatus(item?._id)
 											}
 										>
-											<i className="fas fa-check " /> ຢືັນຢັນເງິນເດືອນ
+											<i class="fa-regular fa-circle-check mr-1" />ຢືັນຢັນເງິນເດືອນ
 										</button>
 									) : (
 										<button
@@ -265,7 +265,7 @@ export default function Commission_ShiPer() {
 												_updateConfirmStatus(item?._id)
 											}
 										>
-											<i className="fas fa-check " /> ຢືັນຢັນເງິນເດືອນ
+											<i class="fa-regular fa-circle-check mr-1" />ຢືັນຢັນເງິນເດືອນ
 										</button>
 									)}
 								</div>
