@@ -31,7 +31,7 @@ export default function ShipperConFirm() {
 	const [fetchData, { data: result, }] = useLazyQuery(LIST_SHIPPER_CONFIRMED, {
 		fetchPolicy: "cache-and-network",
 	});
-	
+
 	useEffect(() => {
 		fetchData({
 			variables: {

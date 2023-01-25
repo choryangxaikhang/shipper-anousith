@@ -56,7 +56,6 @@ export default function Commission_ShiPer() {
 				},
 			},
 		});
-
 	}, [startDate, endDate, reloadData]);
 
 	useEffect(() => {
@@ -120,7 +119,6 @@ export default function Commission_ShiPer() {
 					className="text-white pageTitle text-right text-nowrap pr-0"
 					style={{ flex: 1 }}
 				>
-
 				</div>
 			</div>
 			<div className="container-min">
@@ -152,7 +150,7 @@ export default function Commission_ShiPer() {
 						{dataUser && dataUser?.map((item, index) => (
 							<ul className="listview flush transparent simple-listview no-space mt-1">
 								<li>
-									<strong>cvID:</strong>
+									<strong>ID:</strong>
 									<span> {item?.empID?.cvID}</span>
 								</li>
 								<li>
@@ -219,11 +217,11 @@ export default function Commission_ShiPer() {
 
 								<li>
 									<strong>ອໍເດີສົ່ງສຳເລັດທັງໝົດ</strong>
-									<span>{dataSummary?.sent?.total} / {currency(dataSummary?.sent?.commission || 0)} ກີບ</span>
+									<span>{dataSummary?.sent?.total || 0} / {currency(dataSummary?.sent?.commission || 0)} ກີບ</span>
 								</li>
 								<li>
 									<strong>ອໍເດີຮັບເຂົ້າທັງໝົດ</strong>
-									<span>{dataSummary?.receive?.total} / {currency(dataSummary?.receive?.commission || 0)} ກີບ</span>
+									<span>{dataSummary?.receive?.total || 0} / {currency(dataSummary?.receive?.commission || 0)} ກີບ</span>
 								</li>
 								{_total >= 250 ? (
 									<li>

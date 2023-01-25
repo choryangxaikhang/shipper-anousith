@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Notiflix, { Loading } from "notiflix";
 import {
-  currency,
-  formatDate,
   getStaffLogin,
   userStatus,
   loadingScreen,
@@ -17,8 +15,9 @@ import female from "../../img/female.png";
 import { LOGIN } from "../../routes/app";
 import { USERS } from "./apollo";
 export default function Profile() {
-  const [listData, setListData] = useState({});
+  const [listData, setListData] = useState([]);
   const userState = getStaffLogin();
+
   const [fetchData, { data: dataStaff }] = useLazyQuery(USERS, {
     fetchPolicy: "cache-and-network",
   });
@@ -56,6 +55,7 @@ export default function Profile() {
       }
     );
   };
+
   return (
     <>
       <div id="appCapsule">
@@ -104,11 +104,11 @@ export default function Profile() {
               />
             )}
             <br />
-            <b>ID-USER: {listData?._id}</b>
+            <b>ID: {listData?.cvID}</b>
           </center>
           <div style={{ marginTop: -20 }}>
             <div className="session-list">
-              <div className="listview-title ml-0">ລາຍລະອຽດ</div>
+              <div className="listview-title ml-0 mb-2"></div>
               <>
                 <ul className="listview image-listview text">
                   <li>
