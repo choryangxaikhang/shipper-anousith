@@ -170,7 +170,7 @@ const TokenValidate = ()=>{
   const [tokenValidate] = useMutation(gql`
   mutation TokenValidation {
     tokenValidation {
-      valid
+      status
     }
   }`)
   useEffect(() => {

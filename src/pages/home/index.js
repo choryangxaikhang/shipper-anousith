@@ -31,7 +31,7 @@ export default function Home() {
       variables: {
         where: {
           shipper: userInfo?._id,
-          status: "DEPARTURE"
+          status: "DEPARTURE",
         },
       },
     });
@@ -65,125 +65,127 @@ export default function Home() {
                 className="mr-3 float-right"
                 onClick={() => history.push(`${SHIPPER_CONFIRM}/1`)}
               >
-                <i className="icon-bell" style={{ fontSize: 20 }} />
                 {totalPickup !== 0 ? (
-                  <span className="badge badge-success mr-1 p-2">
-                    <small>{totalPickup}</small>
-                  </span>
+                  <>
+                    <i className="icon-bell" style={{ fontSize: 20 }} />
+                    <span className="badge badge-success mr-1 p-2">
+                      <small>{totalPickup}</small>
+                    </span>
+                  </>
                 ) : null}
               </a>
             </div>
           </div>
         </div>
-          <div
-            className="wallet-card mt-5"
-            style={{
-              borderBottom: "1px solid red",
-            }}
-          >
-            <div className="wallet-footer">
-              <div className="item">
-                <a
-                  href="javascript:void(0)"
-                  onClick={() => history.push(`${TAB_MENU_ITEM_IN}/1`)}
-                >
-                  <div className="icon-wrapper">
-                    <i className="fa-solid fa-circle-down fa-2x" />
-                  </div>
-                  <h5>ອໍເດີຮັບແລ້ວ</h5>
-                </a>
-              </div>
-              <div className="item">
-                <a
-                  href="javascript:void(0)"
-                  onClick={() => history.push(`${ITEM_DELIVERING}/1`)}
-                >
-                  <div className="icon-wrapper">
-                  {totalItem !== 0 ? (
-                  <span
-                    className="badge badge-success ms-2"
-                    style={{
-                      position: "absolute",
-                      marginTop: -60,
-                      marginRight: -50,
-                      padding: 0,
-                      zIndex: 1000,
-                    }}
-                  >
-                    <small className="p-1">{totalItem || 0}</small>
-                  </span>
-                ) : null}
-                    <i className="fa-solid fa-truck fa-2x" />
-                  </div>
-                  <h5>ກຳລັງຈັດສົ່ງ</h5>
-                </a>
-              </div>
-              <div className="item">
-                <a onClick={(e) => history.push(`${TAB_MENU_COMPLETED}/1`)}>
-                  <div className="icon-wrapper">
-                    <i className="fas fa-circle-check fa-2x" />
-                  </div>
-                  <h5>ສົ່ງສຳເລັດ</h5>
-                </a>
-              </div>
+        <div
+          className="wallet-card mt-5"
+          style={{
+            borderBottom: "1px solid red",
+          }}
+        >
+          <div className="wallet-footer">
+            <div className="item">
+              <a
+                href="javascript:void(0)"
+                onClick={() => history.push(`${TAB_MENU_ITEM_IN}/1`)}
+              >
+                <div className="icon-wrapper">
+                  <i className="fa-solid fa-circle-down fa-2x" />
+                </div>
+                <h5>ອໍເດີຮັບແລ້ວ</h5>
+              </a>
             </div>
-            <div className="wallet-footer">
-              <div className="item">
-                <a
-                  href="javascript:void(0)"
-                  onClick={() => history.push(`${COMMITION_SHIPER}/1`)}
-                >
-                  <div className="icon-wrapper">
-                    <i className="fa-solid fa-money-bill-wave fa-2x" />
-                  </div>
-                  <h5>ສ່ວນແບ່ງ</h5>
-                </a>
-              </div>
+            <div className="item">
+              <a
+                href="javascript:void(0)"
+                onClick={() => history.push(`${ITEM_DELIVERING}/1`)}
+              >
+                <div className="icon-wrapper">
+                  {totalItem !== 0 ? (
+                    <span
+                      className="badge badge-success ms-2"
+                      style={{
+                        position: "absolute",
+                        marginTop: -60,
+                        marginRight: -50,
+                        padding: 0,
+                        zIndex: 1000,
+                      }}
+                    >
+                      <small className="p-1">{totalItem || 0}</small>
+                    </span>
+                  ) : null}
+                  <i className="fa-solid fa-truck fa-2x" />
+                </div>
+                <h5>ກຳລັງຈັດສົ່ງ</h5>
+              </a>
+            </div>
+            <div className="item">
+              <a onClick={(e) => history.push(`${TAB_MENU_COMPLETED}/1`)}>
+                <div className="icon-wrapper">
+                  <i className="fas fa-circle-check fa-2x" />
+                </div>
+                <h5>ສົ່ງສຳເລັດ</h5>
+              </a>
             </div>
           </div>
-          <div className="col-md-12 col-lg-3">
-            <div
-              className="rounded facebook-page mt-2"
-              style={{ borderRadius: 5, zIndex: 0 }}
-            >
-              <div
-                className="fb-page mt-3"
-                data-href="https://www.facebook.com/AnousithExpress"
-                data-tabs="timeline"
-                data-width=""
-                data-height=""
-                data-small-header="true"
-                data-adapt-container-width="true"
-                data-hide-cover="true"
-                data-show-facepile="true"
+          <div className="wallet-footer">
+            <div className="item">
+              <a
+                href="javascript:void(0)"
+                onClick={() => history.push(`${COMMITION_SHIPER}/1`)}
               >
-                <blockquote
-                  cite="https://www.facebook.com/AnousithExpress"
-                  class="fb-xfbml-parse-ignore"
-                >
-                  <a
-                    href="https://www.facebook.com/AnousithExpress"
-                    target="_blank"
-                    className="p-2"
-                  >
-                    ANS EXPRESS ອານຸສິດ ຂົນສົ່ງດ່ວນ{" "}
-                    <i className="icon-arrow-right my-1 float-right" />
-                  </a>
-                  <br />
-                  <center className="mt-3 mb-3">
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => window.location.reload()}
-                      className="mt-5"
-                    >
-                      <i className="icon-refresh fs-1" />
-                      <br />
-                      ...
-                    </a>
-                  </center>
-                </blockquote>
-              </div>
+                <div className="icon-wrapper">
+                  <i className="fa-solid fa-money-bill-wave fa-2x" />
+                </div>
+                <h5>ສ່ວນແບ່ງ</h5>
+              </a>
             </div>
+          </div>
+        </div>
+        <div className="col-md-12 col-lg-3">
+          <div
+            className="rounded facebook-page mt-2"
+            style={{ borderRadius: 5, zIndex: 0 }}
+          >
+            <div
+              className="fb-page mt-3"
+              data-href="https://www.facebook.com/AnousithExpress"
+              data-tabs="timeline"
+              data-width=""
+              data-height=""
+              data-small-header="true"
+              data-adapt-container-width="true"
+              data-hide-cover="true"
+              data-show-facepile="true"
+            >
+              <blockquote
+                cite="https://www.facebook.com/AnousithExpress"
+                class="fb-xfbml-parse-ignore"
+              >
+                <a
+                  href="https://www.facebook.com/AnousithExpress"
+                  target="_blank"
+                  className="p-2"
+                >
+                  ANS EXPRESS ອານຸສິດ ຂົນສົ່ງດ່ວນ{" "}
+                  <i className="icon-arrow-right my-1 float-right" />
+                </a>
+                <br />
+                <center className="mt-3 mb-3">
+                  <a
+                    href="javascript:void(0)"
+                    onClick={() => window.location.reload()}
+                    className="mt-5"
+                  >
+                    <i className="icon-refresh fs-1" />
+                    <br />
+                    ...
+                  </a>
+                </center>
+              </blockquote>
+            </div>
+          </div>
         </div>
         <BottomNav />
       </div>

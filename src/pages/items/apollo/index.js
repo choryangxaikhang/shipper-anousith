@@ -34,7 +34,6 @@ query Query($where: ItemWhereInput, $orderBy: OrderByItem, $limit: Int, $skip: I
       category
       trackingId
       itemName
-      deliveryPrice
       itemValueKIP
       itemValueTHB
       itemValueUSD
