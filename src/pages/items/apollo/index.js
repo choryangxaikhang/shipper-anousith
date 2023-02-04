@@ -146,14 +146,14 @@ query PickupOfItems($where: PickupOfItemWhereInput, $orderBy: OrderByPickupOfIte
 export const UPDATE_LIST_ITEM = gql`
 mutation UpdatePickupOfItem($data: PickupOfItemInput!, $where: WhereById!) {
   updatePickupOfItem(data: $data, where: $where) {
-    _id
+    status
   }
 }
 `;
 export const UPDATE_ITEMS = gql`
 mutation UpdateItem($data: ItemInput!, $where: WhereById!) {
   updateItem(data: $data, where: $where) {
-    _id
+    status
   }
 }
 `;

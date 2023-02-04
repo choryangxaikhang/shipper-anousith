@@ -61,6 +61,7 @@ export default function ItemDelivering() {
             variables: {
               data: {
                 sentStatus: _sentStatus?.value,
+                shipper: parseInt(userState?._id),
               },
               where: {
                 _id: parseInt(id),
@@ -158,7 +159,7 @@ export default function ItemDelivering() {
                             " "
                           )} trackingID:${item?.trackingId}`}
                         >
-                          <img style={{ width: 20 }} src={whatsapp} alt="" />
+                          <img style={{ width: 20 }} src={whatsapp} alt="" className="me-2"/>
                           {item?.receiverPhone}
                         </a>
                       </p>
