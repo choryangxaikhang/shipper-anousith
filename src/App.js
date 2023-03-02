@@ -18,7 +18,7 @@ import { LOGIN } from "./routes/app";
 import Notiflix from "notiflix";
 const api = "https://api.dev.sameday.anousith.express/graphql";
 
-// const api = "http://localhost:4000/";
+// const api = "http://localhost:4001/graphql";
 const AppContext = React.createContext();
 export default function App() {
   const [userState, userDispatch] = useReducer(userReducer, null);

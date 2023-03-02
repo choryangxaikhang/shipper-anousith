@@ -96,7 +96,7 @@ export default function ItemCancel() {
       <div className="mt-2">
         <div className="section">
           <div className="transactions ">
-            {_item && _item?.map((item) => (
+            {_item?.map((item) => (
               <a href="#" className="item">
                 <div className="detail">
                   <div className="align-top"
