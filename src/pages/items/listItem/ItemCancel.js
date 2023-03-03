@@ -32,7 +32,7 @@ export default function ItemCancel() {
     fetchPolicy: "cache-and-network",
   });
 
-  const [fetchDelyverylog, { data: resultDelyverylog, }] = useLazyQuery(LIST_ITEM_DELIVERY, {
+  const [fetchDeliVery, { data: resultDelivery, }] = useLazyQuery(LIST_ITEM_DELIVERY, {
     fetchPolicy: "cache-and-network",
   });
 
@@ -45,10 +45,11 @@ export default function ItemCancel() {
           canceledDateBetween: [startDateValue, endDateValue],
           status: "CANCELED"
         },
+        orderBy: "DESC",
       },
     });
 
-    fetchDelyverylog({
+    fetchDeliVery({
       variables: {
         where: {
           shipper: userState?._id,
@@ -64,11 +65,11 @@ export default function ItemCancel() {
   }, [result]);
 
   useEffect(() => {
-    setResultItem(resultDelyverylog?.itemDeliveryLogs?.data);
-  }, [resultDelyverylog]);
+    setResultItem(resultDelivery?.itemDeliveryLogs?.data);
+  }, [resultDelivery]);
 
   const total = result?.pickupOfItems?.total || 0;
-  const totalItem = resultDelyverylog?.itemDeliveryLogs?.total || 0;
+  const totalItem = resultDelivery?.itemDeliveryLogs?.total || 0;
   const message = "ສະບາຍດີ"
 
   return (
@@ -164,13 +165,13 @@ export default function ItemCancel() {
               </a>
             ))}
 
-            {dataItem && dataItem?.map((item) => (
+            {dataItem?.map((item) => (
               <a href="#" className="item">
                 <div className="detail">
                   <div className="align-top"
                   >
                     <i className="fa-solid fa-cart-arrow-down fa-2x mr-1"
-                      onClick={() => history.push(`${DETAIL_DATA_LIST}/${item?._id} `)}
+                      onClick={() => history.push(`${DETAIL_DATA_LIST}/${item?.item?._id} `)}
                     />
                   </div>
                   <div className="text-nowrap">

@@ -220,8 +220,8 @@ export const age = (age) => {
 // ກຳນົດ ຟໍແມັດເງິນ
 export const currency = (value) => {
   let currencys = new Intl.NumberFormat("en-CA").format(value);
-  if (value != 0) return currencys;
-  else if (value == 0) return "0";
+  if (value !== 0) return currencys;
+  else if (value === 0) return "0";
   else return "";
 };
 

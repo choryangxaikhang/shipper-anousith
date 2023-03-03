@@ -82,6 +82,7 @@ query Query($where: ItemWhereInput, $orderBy: OrderByItem, $limit: Int, $skip: I
       realValueTHB
       realValueUSD
       sentStatus
+      realDeliveryPrice
       shipper {
         _id
         firstName

@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
-import useReactRouter from "use-react-router";
 import {
   detectPhoneNumber,
   formatDateDash,
@@ -11,18 +10,17 @@ import {
 import BottomNav from "../../../layouts/BottomNav";
 import { useLazyQuery } from "@apollo/client";
 import { QUERY_LIST_ITEM } from "../apollo";
-import image from "../../../img/Nodata.png"
+import image from "../../../img/Nodata.png";
 
 export default function ItemPickupReceive() {
-  const { history, location, match } = useReactRouter();
   const userState = getStaffLogin();
   const [reloadData, setReloadData] = useState(false);
   const [startDateValue, setStartDateValue] = useState(startMonth());
   const [endDateValue, setEndDateValue] = useState(new Date());
-  const [searchValue, setValue] = useState()
+  const [searchValue, setValue] = useState();
   const [_item, setResult] = useState();
 
-  const [fetchData, { data: result, }] = useLazyQuery(QUERY_LIST_ITEM, {
+  const [fetchData, { data: result }] = useLazyQuery(QUERY_LIST_ITEM, {
     fetchPolicy: "cache-and-network",
   });
 
@@ -31,20 +29,20 @@ export default function ItemPickupReceive() {
       variables: {
         where: {
           status: "RECEIVED",
-					customer: searchValue ? parseInt(searchValue) : undefined,
-					shipper: userState?._id,
-          receivedDateBetween: [startDateValue, endDateValue]
+          customer: searchValue ? parseInt(searchValue) : undefined,
+          shipper: userState?._id,
+          receivedDateBetween: [startDateValue, endDateValue],
         },
       },
-    })
+    });
   }, [searchValue, startDateValue, endDateValue, reloadData]);
 
   useEffect(() => {
     setResult(result?.pickupOfItems?.data);
-  }, [result])
+  }, [result]);
 
   const total = result?.pickupOfItems?.total;
-  const message = "ສະບາຍດີ"
+  const message = "ສະບາຍດີ";
 
   return (
     <>
@@ -85,7 +83,8 @@ export default function ItemPickupReceive() {
                 onChange={(e) => {
                   setValue(e.target.value);
                 }}
-                placeholder="tracking" />
+                placeholder="tracking"
+              />
             </div>
 
             <p className="title mt-1">ຈຳນວນ {total || 0} ລາຍການ</p>
@@ -95,50 +94,55 @@ export default function ItemPickupReceive() {
       <div className="mt-2">
         <div className="section">
           <div className="transactions ">
-            {_item && _item?.map((item) => (
-              <a href="#" className="item">
-                <div className="detail">
-                  <div className="align-top">
-                    <i className="fa-solid fa-cart-arrow-down fa-2x mr-1" />
+            {_item &&
+              _item?.map((item) => (
+                <a href="#" className="item">
+                  <div className="detail">
+                    <div className="align-top">
+                      <i className="fa-solid fa-cart-arrow-down fa-2x mr-1" />
+                    </div>
+                    <div>
+                      <strong>ID: {item?.customer?.id_list}</strong>
+                      <p>ຊື່: {item?.customer?.full_name}</p>
+                      <p>
+                        <a
+                          className="text-link"
+                          target="_blank"
+                          href={`https://wa.me/${detectPhoneNumber(
+                            item?.customer?.contact_info
+                          )}?text=${message?.replace(/<br\s*[\/]?>/gi, " ")}`}
+                        >
+                          <i className="fas fa-phone" />
+                          {item?.customer?.contact_info}
+                        </a>
+                      </p>
+                      <p>ຈຳນວນ: {item?.amount}</p>
+                      <p>ວັນທີ່: {formatDateDash(item?.receivedDate || " ")}</p>
+                      <>
+                        <small className="text-success">
+                          {ShipperStatus(item?.status)}
+                        </small>
+                      </>
+                    </div>
                   </div>
-                  <div >
-                    <strong>ID: {item?.customer?.id_list}</strong>
-                    <p>ຊື່: {item?.customer?.full_name}</p>
-                    <p>
-                      <a className="text-link" target="_blank"
-                        href={`https://wa.me/${detectPhoneNumber(item?.customer?.contact_info
-                        )}?text=${message?.replace(/<br\s*[\/]?>/gi, " ")}`}>
-                        <i className="fas fa-phone" />
-                        {item?.customer?.contact_info}
-                      </a>
-                    </p>
-                    <p>ຈຳນວນ: {item?.amount}</p>
-                    <p>ວັນທີ່: {formatDateDash(item?.receivedDate || " ")}</p>
-                    <>
-                      <small className="text-success">
-                        {ShipperStatus(item?.status)}
-                      </small>
-                    </>
+                  <div className="right border">
+                    <img
+                      className="img-xl rounded-circle"
+                      src={
+                        item?.signature?.length
+                          ? item?.signature[item?.signature?.length - 1]?.image
+                          : image
+                      }
+                      style={{
+                        width: 100,
+                        height: 100,
+                        borderRadius: "40%",
+                        border: "2px solid de0a0af2",
+                      }}
+                    />
                   </div>
-                </div>
-                <div className="right border">
-                  <img
-                    className="img-xl rounded-circle"
-                    src={
-                      item?.signature?.length
-                        ? item?.signature[item?.signature?.length - 1]?.image
-                        : image
-                    }
-                    style={{
-                      width: 100,
-                      height: 100,
-                      borderRadius: "40%",
-                      border: "2px solid de0a0af2",
-                    }}
-                  />
-                </div>
-              </a>            
-            ))}
+                </a>
+              ))}
           </div>
         </div>
       </div>

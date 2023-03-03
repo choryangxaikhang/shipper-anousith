@@ -36,6 +36,7 @@ export default function ItemAll() {
           deliveryCompletedDateBetween: [startDateValue, endDateValue],
           itemStatus: "COMPLETED"
         },
+        orderBy: "DESC",
       },
     })
   }, [searchValue, startDateValue, endDateValue, reloadData]);

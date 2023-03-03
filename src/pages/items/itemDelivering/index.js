@@ -36,6 +36,7 @@ export default function ItemDelivering() {
           shipper: userState?._id,
           itemStatus: "ASSIGNED_SHIPPER",
         },
+        orderBy: "DESC",
       },
     });
   }, [searchValue, reloadData]);

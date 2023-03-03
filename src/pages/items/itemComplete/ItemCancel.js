@@ -16,7 +16,7 @@ import { LIST_ITEM_DELIVERY } from "../apollo";
 import { DETAIL_ITEMS_COMPLETED } from "../../../routes/app";
 
 export default function ItemCancel() {
-  const { history, location, match } = useReactRouter();
+  const { history } = useReactRouter();
   const [reloadData, setReloadData] = useState(false);
   const [startDateValue, setStartDateValue] = useState(startMonth());
   const [endDateValue, setEndDateValue] = useState(new Date());
@@ -36,6 +36,7 @@ export default function ItemCancel() {
           trackingId: searchValue ? searchValue : undefined,
           dateBetween: [startDateValue, endDateValue],
         },
+        orderBy: "DESC",
       },
     })
   }, [searchValue, startDateValue, endDateValue, reloadData]);
@@ -102,7 +103,7 @@ export default function ItemCancel() {
                   <div className="align-top"
                   >
                     <i className="fa-solid fa-cart-arrow-down fa-2x mr-1"
-                      onClick={() => history.push(`${DETAIL_ITEMS_COMPLETED}/${item?._id} `)}
+                      onClick={() => history.push(`${DETAIL_ITEMS_COMPLETED}/${item?.item?._id} `)}
                     />
                   </div>
                   <div className="text-nowrap">

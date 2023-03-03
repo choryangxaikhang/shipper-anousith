@@ -118,7 +118,7 @@ export default function ItemMiddles() {
 											</a>
 										</p>
 										<p>ຈຳນວນ: {item?.amount}</p>
-										<p>ວັນທີ່: {formatDateDash(item?.receivedDate || " ")}</p>
+										<p>ວັນທີ່: {item?.canceledDate ? formatDateDash(item?.canceledDate) : "--"}</p>
 										<>
 											<small >
 												{ShipperStatus(item?.status)}

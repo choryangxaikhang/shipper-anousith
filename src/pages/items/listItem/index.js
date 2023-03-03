@@ -6,18 +6,16 @@ import {
   formatDateDash,
   ItemStatus,
   startMonth,
-  ShipperStatus,
   getStaffLogin,
 } from "../../../helper";
 import BottomNav from "../../../layouts/BottomNav";
 import whatsapp from "../../../icon/whatsapp.svg";
 import { useLazyQuery } from "@apollo/client";
-import { LIST_SHIPPER_ITEM, QUERY_LIST_ITEM } from "../apollo";
+import { LIST_SHIPPER_ITEM } from "../apollo";
 import { DETAIL_DATA_LIST } from "../../../routes/app";
-import image from "../../../img/Nodata.png"
 
 export default function ItemCompleted() {
-  const { history, location, match } = useReactRouter();
+  const { history} = useReactRouter();
   const [reloadData, setReloadData] = useState(false);
   const [startDateValue, setStartDateValue] = useState(startMonth());
   const [endDateValue, setEndDateValue] = useState(new Date());
@@ -35,8 +33,9 @@ export default function ItemCompleted() {
           shipper: userState?._id,
           trackingId: searchValue ? searchValue : undefined,
           deliveryCompletedDateBetween: [startDateValue, endDateValue],
-          // itemStatus: "COMPLETED"
+          itemStatus: "COMPLETED"
         },
+        orderBy: "DESC",
       },
     });
     

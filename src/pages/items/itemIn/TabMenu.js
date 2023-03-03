@@ -68,7 +68,7 @@ export default function TabMenuItems() {
             variant=""
             onClick={() => history.push({ search: "?item=ItemCancel" })}
           >
-            ອໍເດີຫຼົ້ມແຫຼວ
+            ອໍເດີລົ້ມເຫຼວ
           </Button>       
         </div>
       </div>
