@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import _ from "lodash";
 import { useMutation } from "@apollo/client";
-import { getStaffLogin, messageError, messageSuccess } from "../../../helper";
+import { getStaffLogin, messageError, messageSuccess, messageWarning } from "../../../helper";
 import { CREATE_SIGNATURE, UPDATE_LIST_ITEM } from "../apollo";
 import { useFormik } from "formik";
 import "../index.css";
@@ -12,25 +12,27 @@ export default function InsertAmount({ getData, loadData, data }) {
   //form state
   const [show, setShow] = useState(false);
   const [sigCanvas, setSigCanvas] = useState(null);
-
+  const [totalAmount, setTotalAmount] = useState(data?.amount);
   const [updateListItem] = useMutation(UPDATE_LIST_ITEM);
   const [createSignature] = useMutation(CREATE_SIGNATURE);
+  console.log(totalAmount);
+
   const { handleChange, errors, values, handleSubmit, resetForm } = useFormik({
     initialValues: {
-      amount: "",
+      amount: 0,
     },
     enableReinitialize: false,
     validate: (values) => {
       const errors = {};
-      if (!values.amount) {
-        errors.amount = "ປ້ອນຈຳນວນ";
+      if (totalAmount <= 0) {
+        errors.amount = "ຈຳນວນຕ້ອງຫຼາຍກວ່າ 0";
       }
-      if (sigCanvas?.isEmpty()) {
-        errors.sigCanvas = "ເຊັນເພື່ອເປັນຫຼັກຖານ";
-      }
+      if(sigCanvas?.isEmpty()) errors.sigCanvas = messageWarning("ເຊັນເພື່ອເປັນຫຼັກຖານ");
+
       return errors;
     },
     onSubmit: async (values) => {
+    
       try {
         const { data: inputData } = await createSignature({
           variables: {
@@ -44,7 +46,7 @@ export default function InsertAmount({ getData, loadData, data }) {
         await updateListItem({
           variables: {
             data: {
-              amount: values.amount,
+              amount: totalAmount,
               status: "RECEIVED",
               isSignature: 1,
             },
@@ -67,7 +69,7 @@ export default function InsertAmount({ getData, loadData, data }) {
           messageError("ດຳເນີນບໍ່ສຳເລັດ");
         }
       } catch (error) {
-		console.log(error)
+        console.log(error);
         messageError("ດຳເນີນບໍ່ສຳເລັດ");
       }
     },
@@ -103,8 +105,8 @@ export default function InsertAmount({ getData, loadData, data }) {
               <input
                 type="number"
                 name="amount"
-                value={values.amount}
-                onChange={handleChange}
+                value={totalAmount}
+                onChange={(e) => setTotalAmount(e.target.value)}
                 className={
                   errors.amount
                     ? "form-control mb-3 is-invalid"
@@ -120,13 +122,14 @@ export default function InsertAmount({ getData, loadData, data }) {
                 canvasProps={{
                   width: 300,
                   height: 200,
-                  className: "sigCanvas border w-100",
+                  className: errors.sigCanvas
+                    ? "sigCanvas border w-100 is-invalid"
+                    : "sigCanvas border w-100 invalid",
                 }}
                 ref={(ref) => setSigCanvas(ref)}
                 penColor="blue"
               />
             </div>
-            <i className="text-danger">{errors?.sigCanvas}</i>
           </form>
         </Modal.Body>
         <Modal.Footer>
