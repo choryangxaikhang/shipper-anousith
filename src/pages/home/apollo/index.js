@@ -33,8 +33,18 @@ export const QUERY_COMMISSION = gql`
         commission
       }
       sent {
-        total
-        commission
+        general {
+          total
+          commission
+        }
+        near {
+          total
+          commission
+        }
+        farAway {
+          total
+          commission
+        }
       }
     }
   }
@@ -102,64 +112,64 @@ export const QUERY_PAYROLL_SUMMARY = gql`
 `;
 
 export const LIST_SHIPPER_ITEM = gql`
-query Query(
-  $where: ItemWhereInput
-  $orderBy: OrderByItem
-  $limit: Int
-  $skip: Int
-) {
-  items(where: $where, orderBy: $orderBy, limit: $limit, skip: $skip) {
-    total
-    data {
-      _id
-      category
-      trackingId
-      itemName
-      itemValueKIP
-      itemValueTHB
-      itemValueUSD
-      width
-      height
-      itemStatus
-      receiverName
-      receiverPhone
-      customer {
-        id_list
-        full_name
-      }
-      isSummary
-      chargeOnShop
-      isDeposit
-      receiverVillage {
+  query Query(
+    $where: ItemWhereInput
+    $orderBy: OrderByItem
+    $limit: Int
+    $skip: Int
+  ) {
+    items(where: $where, orderBy: $orderBy, limit: $limit, skip: $skip) {
+      total
+      data {
         _id
-        title
-      }
-      isCustomerCreated
-      createdDate
-      description
-      originBranch {
-        _id
-        title
-      }
-      destBranch {
-        _id
-        title
-      }
-      moreExpense
-      originReceiveDate
-      createdBy {
-        _id
-        firstName
-        lastName
-      }
-      shipper {
-        _id
-        firstName
-        lastName
+        category
+        trackingId
+        itemName
+        itemValueKIP
+        itemValueTHB
+        itemValueUSD
+        width
+        height
+        itemStatus
+        receiverName
+        receiverPhone
+        customer {
+          id_list
+          full_name
+        }
+        isSummary
+        chargeOnShop
+        isDeposit
+        receiverVillage {
+          _id
+          title
+        }
+        isCustomerCreated
+        createdDate
+        description
+        originBranch {
+          _id
+          title
+        }
+        destBranch {
+          _id
+          title
+        }
+        moreExpense
+        originReceiveDate
+        createdBy {
+          _id
+          firstName
+          lastName
+        }
+        shipper {
+          _id
+          firstName
+          lastName
+        }
       }
     }
   }
-}
 `;
 
 export const LIST_SHIPPER_CONFIRMED = gql`
