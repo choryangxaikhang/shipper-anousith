@@ -74,7 +74,7 @@ export default function Commission_ShiPer() {
 
   const _receive = parseInt(dataSummary?.receive?.total || 0);
   const _receiveCommission = parseInt(dataSummary?.receive?.commission || 0);
-  
+
   let _sent = parseInt(dataSummary?.sent?.general?.total || 0);
   let _sentCommission = parseInt(dataSummary?.sent?.general?.commission || 0);
 
@@ -87,13 +87,15 @@ export default function Commission_ShiPer() {
   );
 
   let _total = parseInt(_sent + _sentNear + _sentFar);
-  const amountCommission = parseInt(_sentCommission + _sentNearCommission + _sentFarCommission);
-
+  const amountCommission = parseInt(
+    _sentCommission + _sentNearCommission + _sentFarCommission
+  );
 
   const totalCommission = _total >= (200 || 240) ? 100000 : 0;
   const totalCommission1 = _total >= 250 ? 150000 : 0;
 
   const _updateConfirmStatus = (id) => {
+    console.log("id", id);
     Notiflix.Confirm.show(
       "ແຈ້ງເຕືອນ",
       "ທ່ານຕ້ອງການຢືນຢັນແທ້ ຫຼື ບໍ່?",
@@ -111,11 +113,13 @@ export default function Commission_ShiPer() {
               },
             },
           });
+
           if (_updatePayroll) {
             messageSuccess("ດຳເນີນການສຳເລັດ");
             setReloadData(!reloadData);
           }
         } catch (error) {
+          console.log(error);
           messageError("ດຳເນີນການບໍ່ສຳເລັດ");
         }
       },
@@ -227,45 +231,36 @@ export default function Commission_ShiPer() {
                     </li>
                   ) : null}
 
-
-
-				   <li>
+                  <li>
                     <strong>ອໍເດີໄລຍະໃກ້</strong>
                     <span>
-                      {_sentNear || 0} /{" "}
-                      {currency(_sentNearCommission || 0)} ກີບ
+                      {_sentNear || 0} / {currency(_sentNearCommission || 0)}{" "}
+                      ກີບ
                     </span>
                   </li>
-				  <li>
+                  <li>
                     <strong>ອໍເດີໄລຍະທົ່ວໄປ</strong>
                     <span>
-                      {_sent || 0} /{" "}
-                      {currency(_sentCommission || 0)} ກີບ
+                      {_sent || 0} / {currency(_sentCommission || 0)} ກີບ
                     </span>
                   </li>
-				  <li>
+                  <li>
                     <strong>ອໍເດີໄລຍະໄກ</strong>
                     <span>
-                      {_sentFar || 0} /{" "}
-                      {currency(_sentFarCommission || 0)} ກີບ
+                      {_sentFar || 0} / {currency(_sentFarCommission || 0)} ກີບ
                     </span>
                   </li>
-
-
-
 
                   <li>
                     <strong>ອໍເດີສົ່ງສຳເລັດທັງໝົດ</strong>
                     <span>
-                      {_total || 0} /{" "}
-                      {currency(amountCommission || 0)} ກີບ
+                      {_total || 0} / {currency(amountCommission || 0)} ກີບ
                     </span>
                   </li>
                   <li>
                     <strong>ອໍເດີຮັບເຂົ້າທັງໝົດ</strong>
                     <span>
-                      {_receive || 0} /{" "}
-                      {currency(_receiveCommission || 0)} ກີບ
+                      {_receive || 0} / {currency(_receiveCommission || 0)} ກີບ
                     </span>
                   </li>
                   {_total >= 250 ? (

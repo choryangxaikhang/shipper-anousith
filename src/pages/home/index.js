@@ -11,13 +11,24 @@ import {
   TAB_MENU_COMPLETED,
   TAB_MENU_ITEM_IN,
 } from "../../routes/app";
-import { LIST_SHIPPER_CONFIRMED, LIST_SHIPPER_ITEM } from "./apollo";
+import {
+  LIST_SHIPPER_CONFIRMED,
+  LIST_SHIPPER_ITEM,
+  QUERY_PAYROLL_SUMMARY,
+} from "./apollo";
 import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
 export default function Home() {
   const { history } = useReactRouter();
   const [reloadData, setReLoadData] = useState(false);
   const userInfo = getStaffLogin();
+
+  const [fetchPayroll, { data: resultPayroll }] = useLazyQuery(
+    QUERY_PAYROLL_SUMMARY,
+    {
+      fetchPolicy: "cache-and-network",
+    }
+  );
 
   const [fetchData, { data: result }] = useLazyQuery(LIST_SHIPPER_CONFIRMED, {
     fetchPolicy: "cache-and-network",
@@ -44,9 +55,21 @@ export default function Home() {
         },
       },
     });
+
+    fetchPayroll({
+      variables: {
+        where: {
+          empID: parseInt(userInfo?._id),
+          confirmStatus: "UNCONFIRMED",
+        },
+        orderBy: "DESC",
+        limit: 1,
+      },
+    });
   }, [result, reloadData, DataItem]);
   const totalPickup = result?.pickupOfItems?.total;
   const totalItem = DataItem?.items?.total;
+  const totalPayroll = resultPayroll?.summaryPayroll?.total;
 
   return (
     <>
@@ -136,6 +159,20 @@ export default function Home() {
                 onClick={() => history.push(`${COMMITION_SHIPER}/1`)}
               >
                 <div className="icon-wrapper">
+                  {totalPayroll !== 0 ? (
+                    <span
+                      className="badge badge-success ms-2"
+                      style={{
+                        position: "absolute",
+                        marginTop: -60,
+                        marginRight: -50,
+                        padding: 0,
+                        zIndex: 1000,
+                      }}
+                    >
+                      <small className="p-1">{totalPayroll || 0}</small>
+                    </span>
+                  ) : null}
                   <i className="fa-solid fa-money-bill-wave fa-2x" />
                 </div>
                 <h5>ສ່ວນແບ່ງ</h5>

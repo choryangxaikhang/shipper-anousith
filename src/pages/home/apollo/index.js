@@ -56,7 +56,7 @@ export const UPDATE_PAYROLL = gql`
     $where: WhereById!
   ) {
     updateSummaryPayroll(data: $data, where: $where) {
-      status
+      _id
     }
   }
 `;
