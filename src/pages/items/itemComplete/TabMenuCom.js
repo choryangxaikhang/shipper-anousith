@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
 import { Button } from "react-bootstrap";
-import { getLocalHouse } from "../../../helper";
 import { HOME_PAGE } from "../../../routes/app";
 import ItemCompleted from "./ItemCompleted";
-import ItemAll from ".";
 import ItemCancel from "./ItemCancel";
 
 export default function TabMenuCompleted() {
   const { history, location } = useReactRouter();
   const params = new URLSearchParams(location?.search);
-  const [tabActive, setTabActive] = useState("itemAll");
-  const [houseId, setLocalHouse] = useState("");
-
-  useEffect(() => {
-    setLocalHouse(getLocalHouse());
-  }, []);
+  const [tabActive, setTabActive] = useState("completed");
 
   useEffect(() => {
     const tab = params.get("item");
@@ -54,15 +47,7 @@ export default function TabMenuCompleted() {
       </div>
       <div className="extraHeaders">
         <div className="extraHeader pr-0 pl-0 nav-tabs-item">
-          <Button
-            className={`item-tab text-nowrap ${
-              tabActive === "itemAll" ? "clickActive" : "actives"
-            }`}
-            variant=""
-            onClick={() => history.push({ search: "?item=itemAll" })}
-          >
-            ທັງໝົດ
-          </Button>
+        
           <Button
             className={`item-tab text-nowrap ${
               tabActive === "completed" ? "clickActive" : "Actives"
@@ -85,7 +70,6 @@ export default function TabMenuCompleted() {
       </div>
       <div id="appCapsule" className="extra-header-activeClick">
         {tabActive === "completed" && <ItemCompleted />}
-        {tabActive === "itemAll" && <ItemAll />}   
         {tabActive === "itemCancel" && <ItemCancel />}
       </div>
     </>

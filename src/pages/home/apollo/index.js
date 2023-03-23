@@ -1,5 +1,81 @@
 import { gql } from "@apollo/client";
 
+export const QUERY_OT = gql`
+query OtPayroll($where: OTPayrollWhereInput, $orderBy: OTPayrollOrderBy) {
+  otPayroll(where: $where, orderBy: $orderBy) {
+    data {
+      _id
+      note
+      amountOf
+    }
+  }
+}
+`;
+
+export const QUERY_DEDUCTION = gql`
+query DeductionPayroll($where: DeductionPayrollWhereInput, $orderBy: DeductionPayrollOrderBy) {
+  deductionPayroll(where: $where, orderBy: $orderBy) {
+    data {
+      _id
+      note
+      amountOf
+    }
+  }
+}
+`;
+
+export const QUERY_BORROW = gql`
+query BorrowPayroll($where: BorrowPayrollWhereInput, $orderBy: BorrowPayrollOrderBy) {
+  borrowPayroll(where: $where, orderBy: $orderBy) {
+    data {
+      _id
+      note
+      amountOf
+    }
+  }
+}
+`;
+
+export const QUERY_DILiGENT = gql`
+query DiligentPayroll($where: DiligentPayrollWhereInput, $orderBy: DiligentPayrollOrderBy) {
+  diligentPayroll(where: $where, orderBy: $orderBy) {
+    data {
+      _id
+      note
+      amountOf
+    }
+  }
+}
+`;
+
+export const QUERY_EXTRA = gql`
+query ExtraIncomePayroll($where: ExtraIncomePayrollWhereInput, $orderBy: ExtraIncomePayrollOrderBy) {
+  extraIncomePayroll(where: $where, orderBy: $orderBy) {
+    data {
+      note
+      _id
+      amountOf
+      total_extra
+    }
+  }
+}
+`;
+
+export const QUERY_BONUS = gql`
+  query BonusPayroll(
+    $where: BonusPayrollWhereInput
+    $orderBy: BonusPayrollOrderBy
+  ) {
+    bonusPayroll(where: $where, orderBy: $orderBy) {
+      data {
+        _id
+        note
+        amountOf
+      }
+    }
+  }
+`;
+
 export const LIST_ITEM_DELIVERYS = gql`
   query Query($where: ItemDeliveryLogWhereInput, $skip: Int, $limit: Int) {
     itemDeliveryLogs(where: $where, skip: $skip, limit: $limit) {
@@ -82,6 +158,7 @@ export const QUERY_PAYROLL_SUMMARY = gql`
           cvID
           firstName
           lastName
+          basicSalary
         }
         consolidatedAt
         basicSalary
@@ -101,11 +178,37 @@ export const QUERY_PAYROLL_SUMMARY = gql`
         paidStatus
         paidDate
         note
+        forMonth
+        forYear
         position {
           _id
           title_lao
           title_eng
         }
+      }
+    }
+  }
+`;
+
+export const LIST_USERS = gql`
+  query Users($where: UserWhereInput, $limit: Int, $skip: Int) {
+    users(where: $where, limit: $limit, skip: $skip) {
+      total
+      data {
+        _id
+        cvID
+        profileImage
+        firstName
+        lastName
+        gender
+        fullNameEng
+        phoneNumber
+        basicSalary
+        positionSalary
+        livingIncome
+        taxIncome
+        InsuranceExpense
+        role
       }
     }
   }

@@ -21,13 +21,15 @@ import DetailItems from "../pages/items/itemIn/DetailItem";
 import DetailListDelivering from "../pages/items/itemDelivering/DetailItem";
 import DetailICompleted from "../pages/items/itemComplete/DetailItem";
 import DetailDataList from "../pages/items/listItem/DetailItem";
-import Commition_ShiPer from "../pages/commition";
 import TabMenuItems from "../pages/items/itemIn/TabMenu";
 import TabMenuCompleted from "../pages/items/itemComplete/TabMenuCom";
 import TabMenuList from "../pages/items/listItem/TabMenuList";
 import ShipperConFirm from "../pages/home/shipperconfirm/confirm";
 import DetailConfirm from "../pages/home/shipperconfirm/DetailConfirm";
 import { gql, useMutation } from "@apollo/client";
+import CommissionHistory from "../pages/commition/commissionHistory";
+import Commission_ShiPer from "../pages/commition";
+import DetailHistory from "../pages/commition/DetailHistory";
 export default function Routes() {
   const _local = localStorage.getItem(TOKEN);
 
@@ -113,11 +115,23 @@ export default function Routes() {
                   path={`${ROUTES.DETAIL_DATA_LIST}/:_id`}
                   component={(props) => <DetailDataList {...props} />}
                 />
+
                 <Route
                   exact
-                  path={`${ROUTES.COMMITION_SHIPER}/:_id`}
-                  component={(props) => <Commition_ShiPer {...props} />}
+                  path={`${ROUTES.COMMISSION_SHIPER}/:_id`}
+                  component={(props) => <Commission_ShiPer {...props} />}
                 />
+                <Route
+                  exact
+                  path={`${ROUTES.HISTORY_COMMISSION}/:_id`}
+                  component={(props) => <CommissionHistory {...props} />}
+                />
+                <Route
+                  exact
+                  path={`${ROUTES.DETAIL_HISTORY}/:_id`}
+                  component={(props) => <DetailHistory {...props} />}
+                />
+
                 <Route
                   exact
                   path={`${ROUTES.TAB_MENU_ITEM_IN}/:_id`}

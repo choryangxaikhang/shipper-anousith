@@ -6,7 +6,7 @@ import {
   formatDateDash,
   getStaffLogin,
   ItemStatus,
-  startMonth,
+  toDayDash,
 } from "../../../helper";
 import BottomNav from "../../../layouts/BottomNav";
 import whatsapp from "../../../icon/whatsapp.svg";
@@ -17,7 +17,7 @@ import { LIST_SHIPPER_ITEM } from "../../home/apollo";
 export default function ItemCompleted() {
   const { history, location, match } = useReactRouter();
   const [reloadData, setReloadData] = useState(false);
-  const [startDateValue, setStartDateValue] = useState(startMonth());
+  const [startDateValue, setStartDateValue] = useState(toDayDash());
   const [endDateValue, setEndDateValue] = useState(new Date());
   const [searchValue, setValue] = useState()
   const [_item, setResult] = useState();

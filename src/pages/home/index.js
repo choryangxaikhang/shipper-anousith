@@ -5,7 +5,7 @@ import BottomNav from "../../layouts/BottomNav";
 import Imglogo from "../../img/logo.png";
 import { getStaffLogin, loadingData } from "../../helper";
 import {
-  COMMITION_SHIPER,
+  COMMISSION_SHIPER,
   ITEM_DELIVERING,
   SHIPPER_CONFIRM,
   TAB_MENU_COMPLETED,
@@ -156,7 +156,7 @@ export default function Home() {
             <div className="item">
               <a
                 href="javascript:void(0)"
-                onClick={() => history.push(`${COMMITION_SHIPER}/1`)}
+                onClick={() => history.push(`${COMMISSION_SHIPER}/1`)}
               >
                 <div className="icon-wrapper">
                   {totalPayroll !== 0 ? (

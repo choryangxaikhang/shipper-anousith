@@ -17,7 +17,9 @@ export const DETAIL_ITEMS_COMPLETED = "/item/list_Completed/Detail"
 export const DETAIL_DATA_LIST = "/item/listItem/Detail"
 
 //commition
-export const COMMITION_SHIPER = "/commition"
+export const COMMISSION_SHIPER = "/commission"
+export const HISTORY_COMMISSION = "/commission/history"
+export const DETAIL_HISTORY = "/commission/history/detail"
 
 //TabMenuitemIN
 export const TAB_MENU_ITEM_IN = "/item/itemIn/tabMenu"

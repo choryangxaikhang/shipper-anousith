@@ -4,10 +4,9 @@ import useReactRouter from "use-react-router";
 import {
   detectPhoneNumber,
   formatDateDash,
-  ItemStatus,
-  startMonth,
   getStaffLogin,
   StatusDelivery,
+  toDayDash,
 } from "../../../helper";
 import BottomNav from "../../../layouts/BottomNav";
 import whatsapp from "../../../icon/whatsapp.svg";
@@ -18,7 +17,7 @@ import { DETAIL_ITEMS_COMPLETED } from "../../../routes/app";
 export default function ItemCancel() {
   const { history } = useReactRouter();
   const [reloadData, setReloadData] = useState(false);
-  const [startDateValue, setStartDateValue] = useState(startMonth());
+  const [startDateValue, setStartDateValue] = useState(toDayDash());
   const [endDateValue, setEndDateValue] = useState(new Date());
   const [searchValue, setValue] = useState()
   const [_item, setResult] = useState();
