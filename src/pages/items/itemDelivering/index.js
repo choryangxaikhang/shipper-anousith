@@ -130,7 +130,7 @@ export default function ItemDelivering() {
         </div>
       </div>
       <div className="mt-2">
-        <div className="">
+        {/* <div className=""> */}
           <div className="transactions text-nowrap">
             {_item?.map((item) => (
               <a href="#" className="item text-nowrap">
@@ -271,7 +271,7 @@ export default function ItemDelivering() {
               </a>
             ))}
           </div>
-        </div>
+        {/* </div> */}
       </div>
       <BottomNav />
     </>
