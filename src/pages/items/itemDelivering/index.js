@@ -270,7 +270,7 @@ export default function ItemDelivering() {
                       onClick={() => _updateItems(item?._id)}
                     >
                       <i class="fa-solid fa-circle-exclamation me-1" />
-                      ອັບເດດການສົ່ງ
+                      ລົ້ມເຫຼວ
                     </button>
                   </div>
                 </a>
