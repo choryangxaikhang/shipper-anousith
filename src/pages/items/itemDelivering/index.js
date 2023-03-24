@@ -18,7 +18,7 @@ import CODCompleted from "../codCompleted";
 import { LIST_SHIPPER_ITEM, UPDATE_ITEMS } from "../apollo";
 
 export default function ItemDelivering() {
-  const { history} = useReactRouter();
+  const { history } = useReactRouter();
   const [reloadData, setReloadData] = useState(false);
   const [_item, setResult] = useState();
   const [searchValue, setValue] = useState();
@@ -130,151 +130,146 @@ export default function ItemDelivering() {
         </div>
       </div>
       <div className="mt-2">
-        <div className="section">
-          <div className="transactions ">
-            {_item &&
-              _item?.map((item) => (
-                <a href="#" className="item">
-                  <div className="detail">
-                    <div className="align-top">
-                      <i
-                        className="fa-solid fa-cart-arrow-down fa-2x mr-1"
-                        onClick={() =>
-                          history.push(
-                            `${DETAIL_ITEMS_DELIVERING}/${item?._id} `
-                          )
+        <div className="">
+          <div className="transactions text-nowrap">
+            {_item?.map((item) => (
+              <a href="#" className="item text-nowrap">
+                <div className="detail text-nowrap">
+                  <div className="align-top">
+                    <i
+                      className="fa-solid fa-cart-arrow-down fa-2x mr-1"
+                      onClick={() =>
+                        history.push(`${DETAIL_ITEMS_DELIVERING}/${item?._id} `)
+                      }
+                    />
+                  </div>
+
+                  <div className="text-nowrap">
+                    <strong>TK: {item?.trackingId}</strong>
+                    <strong>ຈາກ ID: {item?.customer?.id_list}</strong>
+                    <strong>{item?.customer?.full_name}</strong>
+                    <strong>ຜູ້ຮັບ: {item?.receiverName}</strong>
+                    <p>
+                      <a
+                        className="text-link"
+                        target="_blank"
+                        href={`https://wa.me/${detectPhoneNumber(
+                          item?.receiverPhone
+                        )}?text=${message?.replace(
+                          /<br\s*[\/]?>/gi,
+                          " "
+                        )} trackingID:${item?.trackingId}`}
+                      >
+                        <img
+                          style={{ width: 20 }}
+                          src={whatsapp}
+                          alt=""
+                          className="me-2"
+                        />
+                        {item?.receiverPhone}
+                      </a>
+                    </p>
+                    <p>ວັນທີຮັບ: {formatDateDash(item?.shipperConfirmDate)}</p>
+                    <p className="mb-1">
+                      {item?.itemStatus === "COMPLETED" ? (
+                        <small className="text-success">
+                          {ItemStatus(item?.itemStatus)}
+                        </small>
+                      ) : (
+                        <small className="text-danger">
+                          {ItemStatus(item?.itemStatus)}
+                        </small>
+                      )}
+                    </p>
+                    <p>
+                      <input
+                        type="radio"
+                        className=" mr-2 mb-1"
+                        value="NOT_ANSWER_CALL"
+                        name="sentStatus"
+                        onClick={(e) =>
+                          setSentStatus({
+                            value: e.target.value,
+                            itemID: item?._id,
+                          })
                         }
                       />
-                    </div>
-
-                    <div className="text-nowrap">
-                    <strong>TK: {item?.trackingId}</strong>
-                      <strong>
-                        ຈາກ ID: {item?.customer?.id_list}
-                        
-                      </strong>
-                      <strong>
-                      {item?.customer?.full_name}
-                      </strong>
-                      <strong>ຜູ້ຮັບ: {item?.receiverName}</strong>
-                      <p>
-                        <a
-                          className="text-link"
-                          target="_blank"
-                          href={`https://wa.me/${detectPhoneNumber(
-                            item?.receiverPhone
-                          )}?text=${message?.replace(
-                            /<br\s*[\/]?>/gi,
-                            " "
-                          )} trackingID:${item?.trackingId}`}
-                        >
-                          <img style={{ width: 20 }} src={whatsapp} alt="" className="me-2"/>
-                          {item?.receiverPhone}
-                        </a>
-                      </p>
-                      <p>
-                        ວັນທີຮັບ: {formatDateDash(item?.shipperConfirmDate)}
-                      </p>
-                      <p className="mb-1">
-                        {item?.itemStatus === "COMPLETED" ? (
-                          <small className="text-success">
-                            {ItemStatus(item?.itemStatus)}
-                          </small>
-                        ) : (
-                          <small className="text-danger">
-                            {ItemStatus(item?.itemStatus)}
-                          </small>
-                        )}
-                      </p>
-                      <p>
-                        <input
-                          type="radio"
-                          className=" mr-2 mb-1"
-                          value="NOT_ANSWER_CALL"
-                          name="sentStatus"
-                          onClick={(e) =>
-                            setSentStatus({
-                              value: e.target.value,
-                              itemID: item?._id,
-                            })
-                          }
-                        />
-                        <i className="fas fa-phone text-info " />{" "}
-                        <small>ໂທບໍ່ຮັບສາຍ</small>
-                      </p>
-                      <p>
-                        <input
-                          type="radio"
-                          value="CAN_NOT_CONTACT"
-                          name="sentStatus"
-                          onClick={(e) =>
-                            setSentStatus({
-                              value: e.target.value,
-                              itemID: item?._id,
-                            })
-                          }
-                          className=" mr-2 mb-1"
-                        />
-                        <i className="fas fa-phone text-info " />{" "}
-                        <small>ບໍ່ສາມາດຕິດຕໍ່ໄດ້</small>
-                      </p>
-                      <p>
-                        <input
-                          type="radio"
-                          value="CAN_NOT_SENT"
-                          name="sentStatus"
-                          onClick={(e) =>
-                            setSentStatus({
-                              value: e.target.value,
-                              itemID: item?._id,
-                            })
-                          }
-                          className=" mr-2"
-                        />
-                        <i class="fa-solid fa-exclamation text-danger" />{" "}
-                        <small>ບໍ່ສາມາດສົ່ງໄດ້</small>
-                      </p>
-                      <p>
-                        <input
-                          type="radio"
-                          value={null}
-                          name="sentStatus"
-                          onClick={(e) =>
-                            setSentStatus({
-                              value: e.target.value,
-                              itemID: null,
-                            })
-                          }
-                          className=" mr-2"
-                        />
-                        <i class="fa-solid fa-circle-xmark text-danger" />{" "}
-                        <small>ຍົກເລີກ</small>
-                      </p>
-                    </div>
+                      <i className="fas fa-phone text-info " />{" "}
+                      <small>ໂທບໍ່ຮັບສາຍ</small>
+                    </p>
+                    <p>
+                      <input
+                        type="radio"
+                        value="CAN_NOT_CONTACT"
+                        name="sentStatus"
+                        onClick={(e) =>
+                          setSentStatus({
+                            value: e.target.value,
+                            itemID: item?._id,
+                          })
+                        }
+                        className=" mr-2 mb-1"
+                      />
+                      <i className="fas fa-phone text-info " />{" "}
+                      <small>ບໍ່ສາມາດຕິດຕໍ່ໄດ້</small>
+                    </p>
+                    <p>
+                      <input
+                        type="radio"
+                        value="CAN_NOT_SENT"
+                        name="sentStatus"
+                        onClick={(e) =>
+                          setSentStatus({
+                            value: e.target.value,
+                            itemID: item?._id,
+                          })
+                        }
+                        className=" mr-2"
+                      />
+                      <i class="fa-solid fa-exclamation text-danger" />{" "}
+                      <small>ບໍ່ສາມາດສົ່ງໄດ້</small>
+                    </p>
+                    <p>
+                      <input
+                        type="radio"
+                        value={null}
+                        name="sentStatus"
+                        onClick={(e) =>
+                          setSentStatus({
+                            value: e.target.value,
+                            itemID: null,
+                          })
+                        }
+                        className=" mr-2"
+                      />
+                      <i class="fa-solid fa-circle-xmark text-danger" />{" "}
+                      <small>ຍົກເລີກ</small>
+                    </p>
                   </div>
-                  <div className="right">
-                    <CODCompleted
-                      disabled={_sentStatus?.itemID === item?._id}
-                      data={item}
-                      loadData={reloadData}
-                      getData={(data) => {
-                        setReloadData(data);
-                      }}
-                    />
+                </div>
+                <div className="right">
+                  <CODCompleted
+                    disabled={_sentStatus?.itemID === item?._id}
+                    data={item}
+                    loadData={reloadData}
+                    getData={(data) => {
+                      setReloadData(data);
+                    }}
+                  />
 
-                    <br />
-                    <button
-                      disabled={_sentStatus?.itemID !== item?._id}
-                      type="button"
-                      className="btn btn-secondary w-100 right rounded btn-xs text-nowrap mt-2"
-                      onClick={() => _updateItems(item?._id)}
-                    >
-                      <i class="fa-solid fa-circle-exclamation me-1" />
-                      ລົ້ມເຫຼວ
-                    </button>
-                  </div>
-                </a>
-              ))}
+                  <br />
+                  <button
+                    disabled={_sentStatus?.itemID !== item?._id}
+                    type="button"
+                    className="btn btn-secondary w-100 right rounded btn-xs text-nowrap mt-2"
+                    onClick={() => _updateItems(item?._id)}
+                  >
+                    <i class="fa-solid fa-circle-exclamation me-1" />
+                    ລົ້ມເຫຼວ
+                  </button>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
       </div>
