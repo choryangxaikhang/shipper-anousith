@@ -14469,7 +14469,7 @@ a.text-dark {
   border-radius: 10px;
   padding: 20px 15px;
   margin-bottom: 10px;
-  display: flex;
+  display: block;
   align-items: right;
   justify-content: space-between;
 }

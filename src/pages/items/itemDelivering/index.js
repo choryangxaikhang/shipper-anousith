@@ -130,8 +130,8 @@ export default function ItemDelivering() {
         </div>
       </div>
       <div className="mt-2">
-        {/* <div className=""> */}
-          <div className="transactions text-nowrap">
+        <div className="section">
+          <div className="transactions">
             {_item?.map((item) => (
               <a href="#" className="item text-nowrap">
                 <div className="detail text-nowrap">
@@ -247,7 +247,8 @@ export default function ItemDelivering() {
                     </p>
                   </div>
                 </div>
-                <div className="right">
+                <div className="row mt-2">
+                  <div className="col-6">
                   <CODCompleted
                     disabled={_sentStatus?.itemID === item?._id}
                     data={item}
@@ -256,22 +257,24 @@ export default function ItemDelivering() {
                       setReloadData(data);
                     }}
                   />
-
-                  <br />
+                  </div>
+                  {/* <br /> */}
+                  <div className="col-6">
                   <button
                     disabled={_sentStatus?.itemID !== item?._id}
                     type="button"
-                    className="btn btn-secondary w-100 right rounded btn-xs text-nowrap mt-2"
+                    className="btn btn-secondary w-100 right rounded btn-xs text-nowrap"
                     onClick={() => _updateItems(item?._id)}
                   >
                     <i class="fa-solid fa-circle-exclamation me-1" />
-                    ລົ້ມເຫຼວ
+                    ອັບເດດການສົ່ງ
                   </button>
+                  </div>
                 </div>
               </a>
             ))}
           </div>
-        {/* </div> */}
+        </div>
       </div>
       <BottomNav />
     </>
