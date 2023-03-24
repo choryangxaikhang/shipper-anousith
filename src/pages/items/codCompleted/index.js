@@ -60,7 +60,7 @@ export default function CODCompleted({ getData, loadData, data, disabled }) {
       <button
         disabled={disabled}
         type="button"
-        className="btn btn-success right btn-block rounded btn-xs"
+        className="btn btn-success text-nowrap right btn-block rounded btn-xs"
         onClick={() => setShow(true)}
       >
         <i className="fa-solid fa-circle-check me-1 left" />ສົ່ງສຳເລັດ
