@@ -124,7 +124,8 @@ export default function ItemCompleted() {
                       <strong>TK: {item?.trackingId}</strong>
                       <strong>
                         ຈາກ ID: {item?.customer?.id_list}
-                        {" /"}
+                      </strong>
+                      <strong>
                         {item?.customer?.full_name}
                       </strong>
                       <strong>ຜູ້ຮັບ: {item?.receiverName}</strong>

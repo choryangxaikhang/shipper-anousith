@@ -151,8 +151,10 @@ export default function ItemDelivering() {
                     <strong>TK: {item?.trackingId}</strong>
                       <strong>
                         ຈາກ ID: {item?.customer?.id_list}
-                        {" /"}
-                        {item?.customer?.full_name}
+                        
+                      </strong>
+                      <strong>
+                      {item?.customer?.full_name}
                       </strong>
                       <strong>ຜູ້ຮັບ: {item?.receiverName}</strong>
                       <p>
