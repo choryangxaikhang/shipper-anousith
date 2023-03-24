@@ -148,8 +148,13 @@ export default function ItemDelivering() {
                     </div>
 
                     <div className="text-nowrap">
-                      <strong>TK: {item?.trackingId}</strong>
-                      <p>ຊື່: {item?.receiverName}</p>
+                    <strong>TK: {item?.trackingId}</strong>
+                      <strong>
+                        ຈາກ ID: {item?.customer?.id_list}
+                        {" /"}
+                        {item?.customer?.full_name}
+                      </strong>
+                      <strong>ຜູ້ຮັບ: {item?.receiverName}</strong>
                       <p>
                         <a
                           className="text-link"

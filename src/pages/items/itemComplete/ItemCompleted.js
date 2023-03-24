@@ -51,7 +51,7 @@ export default function ItemCompleted() {
 
   const total = result?.items?.total;
   const message = "ສະບາຍດີ";
-  
+
   const _itemValueKIP = _.sumBy(_item, "itemValueKIP");
   const _itemValueTHB = _.sumBy(_item, "itemValueTHB");
   const _itemValueUSD = _.sumBy(_item, "itemValueUSD");
@@ -121,9 +121,13 @@ export default function ItemCompleted() {
                       />
                     </div>
                     <div className="text-nowrap">
-                      <strong>ID: {item?.customer?.id_list}</strong>
                       <strong>TK: {item?.trackingId}</strong>
-                      <p>ຊື່: {item?.receiverName}</p>
+                      <strong>
+                        ຈາກ ID: {item?.customer?.id_list}
+                        {" /"}
+                        {item?.customer?.full_name}
+                      </strong>
+                      <strong>ຜູ້ຮັບ: {item?.receiverName}</strong>
                       <p>
                         <a
                           className="text-link"
@@ -155,21 +159,13 @@ export default function ItemCompleted() {
                 </a>
               ))}
           </div>
-          <h3 className="mt-2">ຜົນການສະຫຼຸບຂໍ້ມູນ</h3>
-          <div>
-            ເງິນເກັບໄດ້ຈິງ​ KIP:  {currency(_itemValueKIP || 0)}
-          </div>
-          <div>
-            ເງິນເກັບໄດ້ຈິງ THB: {currency(_itemValueTHB || 0)}
-          </div>
-          <div>
-            ເງິນເກັບໄດ້ຈິງ USD: {currency(_itemValueUSD || 0)}
-          </div>
-          <div>
-            ຄ່າບໍລິການ: {currency(_deliveryPrice || 0)}
-          </div>
-          <hr className="m-1"/>
-          <SumCommission startDate={startDateValue} endDate={endDateValue}/>
+          <h3 className="mt-2">ລາຍງານລວມ</h3>
+          <div>ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueKIP || 0)} ​ KIP</div>
+          <div>ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueTHB || 0)} THB</div>
+          <div>ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueUSD || 0)} USD</div>
+          <div>ຄ່າບໍລິການ: {currency(_deliveryPrice || 0)}</div>
+          <hr className="m-1" />
+          <SumCommission startDate={startDateValue} endDate={endDateValue} />
         </div>
       </div>
       <BottomNav />

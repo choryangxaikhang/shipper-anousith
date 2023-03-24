@@ -42,16 +42,16 @@ export default function SumCommission({ startDate, endDate }) {
     <>
       <div className="container-min">
           <div>
-            ໄລຍະໃກ້:  {currency(totalNear) || 0}/ {currency(_near || 0)}
+            ໄລຍະໃກ້:  {currency(totalNear) || 0}/ {currency(_near || 0)} KIP
           </div>
           <div>
-            ໄລຍະທົ່ວໄປ: {currency(totalGeneral) || 0}/{currency(_general || 0)}
+            ໄລຍະທົ່ວໄປ: {currency(totalGeneral) || 0}/{currency(_general || 0)} KIP
           </div>
           <div>
-            ໄລຍະໄກ: {currency(totalFar || 0)}/{currency(farAway|| 0)}
+            ໄລຍະໄກ: {currency(totalFar || 0)}/{currency(farAway|| 0)} KIP
           </div>
           <div>
-            ລວມ: {currency(amount || 0)}
+            ລວມ: {currency(amount || 0)} KIP
           </div>
       </div>
     </>
