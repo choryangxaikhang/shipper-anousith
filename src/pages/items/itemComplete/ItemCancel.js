@@ -36,6 +36,7 @@ export default function ItemCancel() {
           dateBetween: [startDateValue, endDateValue],
         },
         orderBy: "DESC",
+        limit: 0,
       },
     })
   }, [searchValue, startDateValue, endDateValue, reloadData]);

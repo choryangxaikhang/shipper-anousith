@@ -368,7 +368,7 @@ export default function Commission_ShiPer() {
                         {currency(_dataSummary?.finalIncome || 0)} ກີບ
                       </span>
                     ) : (
-                      <span className="text-danger">ຍັງບໍ່ສະຫຼຸບເງິນເດືອນ</span>
+                      <span className="text-danger">ຍັງບໍ່ສະຫຼຸບ</span>
                     )}
                   </li>
                   <div className="mb-3 mt-3">

@@ -4,15 +4,22 @@ import { useApolloClient } from "@apollo/client";
 import { messageError, messageSuccess } from "../../../helper";
 import { UPDATE_ITEMS } from "../apollo";
 import { useFormik } from "formik";
+import { useEffect } from "react";
 
 export default function CODCompleted({ getData, loadData, data, disabled }) {
   //form state
   const client = useApolloClient();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const [valueKIP, setValueKIP] = useState(data?.itemValueKIP);
-  const [valueTHB, setValueTHB] = useState(data?.itemValueTHB);
-  const [valueUSD, setValueUSD] = useState(data?.itemValueUSD);
+  const [valueKIP, setValueKIP] = useState();
+  const [valueTHB, setValueTHB] = useState();
+  const [valueUSD, setValueUSD] = useState();
+
+  useEffect(() => {
+    setValueKIP(data?.itemValueKIP);
+    setValueTHB(data?.itemValueTHB);
+    setValueUSD(data?.itemValueUSD);
+  }, [data]);
 
   const { handleChange, handleSubmit, values } = useFormik({
     initialValues: {

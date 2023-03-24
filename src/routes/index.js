@@ -16,7 +16,7 @@ import SettingsScreen from "../pages/settings";
 import ItemIn from "../pages/items/itemIn";
 import ItemDelivering from "../pages/items/itemDelivering";
 import DataListItem from "../pages/items/listItem";
-import ItemCompleted from "../pages/items/itemComplete";
+import ItemCompleted from "../pages/items/itemComplete/SumCommission";
 import DetailItems from "../pages/items/itemIn/DetailItem";
 import DetailListDelivering from "../pages/items/itemDelivering/DetailItem";
 import DetailICompleted from "../pages/items/itemComplete/DetailItem";

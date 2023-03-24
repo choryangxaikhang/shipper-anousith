@@ -36,6 +36,7 @@ export default function ItemCompleted() {
           itemStatus: "COMPLETED"
         },
         orderBy: "DESC",
+        limit: 0,
       },
     });
     

@@ -231,6 +231,7 @@ export const LIST_SHIPPER_ITEM = gql`
         itemValueKIP
         itemValueTHB
         itemValueUSD
+        realDeliveryPrice
         width
         height
         itemStatus

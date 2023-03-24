@@ -46,6 +46,7 @@ export default function ItemCancel() {
           status: "CANCELED"
         },
         orderBy: "DESC",
+        limit: 0,
       },
     });
 
@@ -56,6 +57,8 @@ export default function ItemCancel() {
           trackingId: searchValue ? searchValue : undefined,
           dateBetween: [startDateValue, endDateValue],
         },
+        orderBy: "DESC",
+        limit: 0,
       },
     });
   }, [searchValue, startDateValue, endDateValue, reloadData]);

@@ -33,6 +33,8 @@ export default function ItemPickupReceive() {
           shipper: userState?._id,
           receivedDateBetween: [startDateValue, endDateValue],
         },
+        orderBy: "DESC",
+        limit: 0,
       },
     });
   }, [searchValue, startDateValue, endDateValue, reloadData]);

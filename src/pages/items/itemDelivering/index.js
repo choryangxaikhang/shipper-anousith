@@ -18,7 +18,7 @@ import CODCompleted from "../codCompleted";
 import { LIST_SHIPPER_ITEM, UPDATE_ITEMS } from "../apollo";
 
 export default function ItemDelivering() {
-  const { history, location, match } = useReactRouter();
+  const { history} = useReactRouter();
   const [reloadData, setReloadData] = useState(false);
   const [_item, setResult] = useState();
   const [searchValue, setValue] = useState();
@@ -37,6 +37,7 @@ export default function ItemDelivering() {
           itemStatus: "ASSIGNED_SHIPPER",
         },
         orderBy: "DESC",
+        limit: 0,
       },
     });
   }, [searchValue, reloadData]);
