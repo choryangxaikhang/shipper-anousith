@@ -14469,7 +14469,7 @@ a.text-dark {
   border-radius: 10px;
   padding: 20px 15px;
   margin-bottom: 10px;
-  display: block;
+  display: flex;
   align-items: right;
   justify-content: space-between;
 }
@@ -14505,6 +14505,54 @@ a.text-dark {
   color: #27173e;
   letter-spacing: -0.03em;
 }
+
+
+/* */
+
+.transactions_item .item {
+  background: #ffffff;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.09);
+  border-radius: 10px;
+  padding: 20px 15px;
+  margin-bottom: 10px;
+  display: block;
+  align-items: right;
+  justify-content: space-between;
+}
+.transactions_item .item:last-child {
+  margin-bottom: 0;
+}
+.transactions_item .item p {
+  font-size: 11px;
+  margin: 0;
+  color: #958d9e;
+  font-weight: 500;
+}
+.transactions_item .item .detail {
+  display: flex;
+  /* align-items: center; */
+  justify-content: flex-start;
+  line-height: 1.2em;
+}
+.transactions_item .item .detail .image-block {
+  margin-right: 16px;
+}
+.transactions_item .item .detail strong {
+  display: block;
+  font-weight: 500;
+  color: #27173e;
+  margin-bottom: 3px;
+}
+.transactions_item .item .right {
+  padding-left: 10px;
+}
+.transactions_item .item .right .price {
+  font-weight: 700;
+  color: #27173e;
+  letter-spacing: -0.03em;
+}
+
+/* */
 
 .shadowfix .owl-stage {
   padding-bottom: 5px;

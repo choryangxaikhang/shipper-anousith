@@ -54,22 +54,31 @@ export default function ItemCancel() {
       variables: {
         where: {
           shipper: userState?._id,
-          trackingId: searchValue ? searchValue : undefined,
           dateBetween: [startDateValue, endDateValue],
         },
         orderBy: "DESC",
         limit: 0,
       },
     });
-  }, [searchValue, startDateValue, endDateValue, reloadData]);
+  }, [ startDateValue, endDateValue, reloadData]);
+
+  useEffect(() => {
+    const _results = resultDelivery?.itemDeliveryLogs?.data;
+    if (searchValue) {
+      const filter = _results?.filter((obj) => {
+        if (obj?.item?.trackingId?.includes(searchValue)) {
+          return obj;
+        }
+      });
+      setResultItem(filter);
+    } else {
+      setResultItem(_results);
+    }
+  }, [result, searchValue]);
 
   useEffect(() => {
     setResult(result?.pickupOfItems?.data);
   }, [result]);
-
-  useEffect(() => {
-    setResultItem(resultDelivery?.itemDeliveryLogs?.data);
-  }, [resultDelivery]);
 
   const total = result?.pickupOfItems?.total || 0;
   const totalItem = resultDelivery?.itemDeliveryLogs?.total || 0;

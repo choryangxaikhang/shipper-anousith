@@ -21,7 +21,7 @@ export default function ItemDelivering() {
   const { history } = useReactRouter();
   const [reloadData, setReloadData] = useState(false);
   const [_item, setResult] = useState();
-  const [searchValue, setValue] = useState();
+  const [searchValue, setValue] = useState("");
   const [_sentStatus, setSentStatus] = useState(null);
   const userState = getStaffLogin();
   const [updateItems] = useMutation(UPDATE_ITEMS);
@@ -35,9 +35,10 @@ export default function ItemDelivering() {
         where: {
           shipper: userState?._id,
           itemStatus: "ASSIGNED_SHIPPER",
+          trackingId: searchValue ? searchValue : undefined,
         },
         orderBy: "DESC",
-        limit: 0,
+        limit: searchValue ? 0 : 0,
       },
     });
   }, [searchValue, reloadData]);
@@ -111,15 +112,14 @@ export default function ItemDelivering() {
             <div className="input-group">
               <button
                 type="button"
-                className="btn btn-dark"
-                // onClick={() => onSearch()}
+                className="btn btn-dark"    
               >
                 <i className="icon-search1" />
               </button>
               <input
                 type="search"
                 className="form-control form-control-sm"
-                onClick={(e) => {
+                onChange={(e) => {
                   setValue(e.target.value);
                 }}
                 placeholder="tracking"
@@ -131,7 +131,7 @@ export default function ItemDelivering() {
       </div>
       <div className="mt-2">
         <div className="section">
-          <div className="transactions">
+          <div className="transactions_item">
             {_item?.map((item) => (
               <a href="#" className="item text-nowrap">
                 <div className="detail text-nowrap">
@@ -145,9 +145,13 @@ export default function ItemDelivering() {
                   </div>
 
                   <div className="text-nowrap">
-                    <strong>TK: {item?.trackingId}</strong>
-                    <strong>ຈາກ ID: {item?.customer?.id_list}</strong>
-                    <strong>{item?.customer?.full_name}</strong>
+                    <h4>TK: {item?.trackingId}</h4>
+                    <strong>
+                      ຈາກ ID: {item?.customer?.id_list}/{" "}
+                      
+                    </strong>
+                    <p>ຊື່: {item?.customer?.full_name}</p>
+                    {/* <strong>{item?.customer?.full_name}</strong> */}
                     <strong>ຜູ້ຮັບ: {item?.receiverName}</strong>
                     <p>
                       <a
@@ -249,26 +253,26 @@ export default function ItemDelivering() {
                 </div>
                 <div className="row mt-2">
                   <div className="col-6">
-                  <CODCompleted
-                    disabled={_sentStatus?.itemID === item?._id}
-                    data={item}
-                    loadData={reloadData}
-                    getData={(data) => {
-                      setReloadData(data);
-                    }}
-                  />
+                    <CODCompleted
+                      disabled={_sentStatus?.itemID === item?._id}
+                      data={item}
+                      loadData={reloadData}
+                      getData={(data) => {
+                        setReloadData(data);
+                      }}
+                    />
                   </div>
                   {/* <br /> */}
                   <div className="col-6">
-                  <button
-                    disabled={_sentStatus?.itemID !== item?._id}
-                    type="button"
-                    className="btn btn-secondary w-100 right rounded btn-xs text-nowrap"
-                    onClick={() => _updateItems(item?._id)}
-                  >
-                    <i class="fa-solid fa-circle-exclamation me-1" />
-                    ອັບເດດການສົ່ງ
-                  </button>
+                    <button
+                      disabled={_sentStatus?.itemID !== item?._id}
+                      type="button"
+                      className="btn btn-secondary w-100 right rounded btn-xs text-nowrap"
+                      onClick={() => _updateItems(item?._id)}
+                    >
+                      <i class="fa-solid fa-circle-exclamation me-1" />
+                      ອັບເດດການສົ່ງ
+                    </button>
                   </div>
                 </div>
               </a>

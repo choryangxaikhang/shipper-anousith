@@ -22,7 +22,7 @@ export default function ItemCompleted() {
   const [reloadData, setReloadData] = useState(false);
   const [startDateValue, setStartDateValue] = useState(toDayDash());
   const [endDateValue, setEndDateValue] = useState(new Date());
-  const [searchValue, setValue] = useState();
+  const [searchValue, setValue] = useState("");
   const [_item, setResult] = useState();
   const userState = getStaffLogin();
 
