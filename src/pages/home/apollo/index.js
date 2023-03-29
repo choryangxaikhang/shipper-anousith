@@ -1,64 +1,92 @@
 import { gql } from "@apollo/client";
 
-export const QUERY_OT = gql`
-query OtPayroll($where: OTPayrollWhereInput, $orderBy: OTPayrollOrderBy) {
-  otPayroll(where: $where, orderBy: $orderBy) {
-    data {
-      _id
-      note
-      amountOf
+export const ITEM_DELIVERY_LOG = gql`
+  query ItemDeliveryLogs($where: ItemDeliveryLogWhereInput) {
+    itemDeliveryLogs(where: $where) {
+      total
     }
   }
-}
+`;
+
+export const QUERY_ITEM = gql`
+  query Items($where: ItemWhereInput) {
+    items(where: $where) {
+      total
+    }
+  }
+`;
+
+export const QUERY_OT = gql`
+  query OtPayroll($where: OTPayrollWhereInput, $orderBy: OTPayrollOrderBy) {
+    otPayroll(where: $where, orderBy: $orderBy) {
+      data {
+        _id
+        note
+        amountOf
+      }
+    }
+  }
 `;
 
 export const QUERY_DEDUCTION = gql`
-query DeductionPayroll($where: DeductionPayrollWhereInput, $orderBy: DeductionPayrollOrderBy) {
-  deductionPayroll(where: $where, orderBy: $orderBy) {
-    data {
-      _id
-      note
-      amountOf
+  query DeductionPayroll(
+    $where: DeductionPayrollWhereInput
+    $orderBy: DeductionPayrollOrderBy
+  ) {
+    deductionPayroll(where: $where, orderBy: $orderBy) {
+      data {
+        _id
+        note
+        amountOf
+      }
     }
   }
-}
 `;
 
 export const QUERY_BORROW = gql`
-query BorrowPayroll($where: BorrowPayrollWhereInput, $orderBy: BorrowPayrollOrderBy) {
-  borrowPayroll(where: $where, orderBy: $orderBy) {
-    data {
-      _id
-      note
-      amountOf
+  query BorrowPayroll(
+    $where: BorrowPayrollWhereInput
+    $orderBy: BorrowPayrollOrderBy
+  ) {
+    borrowPayroll(where: $where, orderBy: $orderBy) {
+      data {
+        _id
+        note
+        amountOf
+      }
     }
   }
-}
 `;
 
 export const QUERY_DILiGENT = gql`
-query DiligentPayroll($where: DiligentPayrollWhereInput, $orderBy: DiligentPayrollOrderBy) {
-  diligentPayroll(where: $where, orderBy: $orderBy) {
-    data {
-      _id
-      note
-      amountOf
+  query DiligentPayroll(
+    $where: DiligentPayrollWhereInput
+    $orderBy: DiligentPayrollOrderBy
+  ) {
+    diligentPayroll(where: $where, orderBy: $orderBy) {
+      data {
+        _id
+        note
+        amountOf
+      }
     }
   }
-}
 `;
 
 export const QUERY_EXTRA = gql`
-query ExtraIncomePayroll($where: ExtraIncomePayrollWhereInput, $orderBy: ExtraIncomePayrollOrderBy) {
-  extraIncomePayroll(where: $where, orderBy: $orderBy) {
-    data {
-      note
-      _id
-      amountOf
-      total_extra
+  query ExtraIncomePayroll(
+    $where: ExtraIncomePayrollWhereInput
+    $orderBy: ExtraIncomePayrollOrderBy
+  ) {
+    extraIncomePayroll(where: $where, orderBy: $orderBy) {
+      data {
+        note
+        _id
+        amountOf
+        total_extra
+      }
     }
   }
-}
 `;
 
 export const QUERY_BONUS = gql`
