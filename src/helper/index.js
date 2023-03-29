@@ -165,13 +165,13 @@ export const paiStatus = (status) => {
 
 export const chargeOnShop = (chargeOnShop) => {
   if (chargeOnShop === 1) {
-    return <span className="text-success">
+    return <small className="text-success">
       <i className="fas fa-circle-check mr-1"/>
-      ຈ່າຍຕົ້ນທາງ</span>;
+      ຈ່າຍຕົ້ນທາງແລ້ວ</small>;
   } else if (chargeOnShop === 0) {
-    return <span className="text-danger">
+    return <small className="text-danger">
       <i className="fas fa-exclamation mr-1" />
-      ຈ່າຍປາຍທາງ</span>;
+      ເກັບປາຍທາງ</small>;
   } else {
     return "-";
   }

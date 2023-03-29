@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import useReactRouter from "use-react-router";
 import {
+  chargeOnShop,
   detectPhoneNumber,
   formatDateDash,
   getStaffLogin,
@@ -175,15 +176,7 @@ export default function ItemDelivering() {
                     </p>
                     <p>ວັນທີຮັບ: {formatDateDash(item?.shipperConfirmDate)}</p>
                     <p className="mb-1">
-                      {item?.itemStatus === "COMPLETED" ? (
-                        <small className="text-success">
-                          {ItemStatus(item?.itemStatus)}
-                        </small>
-                      ) : (
-                        <small className="text-danger">
-                          {ItemStatus(item?.itemStatus)}
-                        </small>
-                      )}
+                    <span>{chargeOnShop(item?.chargeOnShop)}</span>
                     </p>
                     <p>
                       <input
