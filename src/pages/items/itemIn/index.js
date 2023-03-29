@@ -98,8 +98,8 @@ export default function ItemIn() {
         <div className="section">
           <div className="transactions ">
             {_item &&
-              _item?.map((item) => (
-                <a href="#" className="item">
+              _item?.map((item,index) => (
+                <a href="#" className="item" key={index}>
                   <div className="detail">
                     <div className="align-top">
                       <i className="fa-solid fa-cart-arrow-down fa-2x mr-1" />
@@ -107,6 +107,9 @@ export default function ItemIn() {
                     <div>
                       <strong>ID: {item?.customer?.id_list}</strong>
                       <p>ຊື່: {item?.customer?.full_name}</p>
+                      <p>ແຂວງ: {item?.provinceToPickup?.title}</p>
+                      <p>ເມືອງ:{item?.districtToPickup?.title}</p>
+                      <p>ບ້ານ:{item?.villageToPickup?.title}</p>
                       <p>
                         <a
                           className="text-link"
