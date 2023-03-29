@@ -113,6 +113,7 @@ export default function DetailHistory() {
       "ຕົກລົງ",
       "ຍົກເລີກ",
       async () => {
+        
         try {
           const _updatePayroll = await updatePayroll({
             variables: {
@@ -147,7 +148,7 @@ export default function DetailHistory() {
           <button
             className="btn text-white"
             onClick={() => history.push(`${HISTORY_COMMISSION}/1`)}
-          >
+           >
             <i className="fa fa-chevron-left fs-4" />
           </button>
         </div>

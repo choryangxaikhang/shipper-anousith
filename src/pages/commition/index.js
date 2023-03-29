@@ -25,6 +25,7 @@ import DetailDeduct from "./DetailAll/DetailDeduct";
 import DetailDiligent from "./DetailAll/DetailDiligent";
 import DetailOT from "./DetailAll/DetailOT";
 import DetailIBorrow from "./DetailAll/DetailBorow";
+import ReportCommission from "./ReportCommission";
 
 export default function Commission_ShiPer() {
   const useInfo = getStaffLogin();
@@ -334,8 +335,9 @@ export default function Commission_ShiPer() {
                     </li>
                   ) : (
                     <li>
-                      <strong>ເງິນເປົ້າ</strong>
-                      <span> {totalCommission} ກີບ</span>
+                      
+                      <strong>ເງິນປະສິດທິພາບ</strong>
+                      <span> <ReportCommission _startDate={startDate} _endDate={endDate} /> ກີບ</span>
                     </li>
                   )}
                   <li>
@@ -395,7 +397,7 @@ export default function Commission_ShiPer() {
               ))}
           </div>
         </div>
-        <BottomNav />
+        <BottomNav/>
       </div>
       <DetailIBonusMoney _id={detailIBonus} onHide={() => setDetailIBonus()} />
       <DetailExtraIncome
