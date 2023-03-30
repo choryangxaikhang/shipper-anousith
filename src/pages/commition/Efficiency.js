@@ -73,7 +73,7 @@ export default function EfficiencyCommission({ startDate, endDate }) {
   return (
     <>
       <span>
-        {currency(totalAll)}/ {currency(totalItem)}/ {currency(totalCancel)}/ {Y || 0}%/ {currency(money)} ກີບ
+        {currency(totalAll)}/ {currency(totalItem)}/ {currency(totalCancel)}/ {parseInt(Y) || 0}%/ {currency(money)} ກີບ
       </span>
     </>
   );
