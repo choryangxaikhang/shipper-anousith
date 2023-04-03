@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import _ from "lodash";
 import useReactRouter from "use-react-router";
+// import {react-router-dom} from "react-react-dom";
 import Imglogo from "../../../../img/anousith.png";
 import { TAB_MENU_COMPLETED } from "../../../../routes/app";
 import { useLazyQuery } from "@apollo/client";
@@ -36,7 +37,8 @@ export default function DetailICompleted() {
         <div style={{ flex: 1 }} className="text-left">
           <button
             className="btn text-white"
-            onClick={() => history.push(`${TAB_MENU_COMPLETED}/1`)}
+            // onClick={() => history.push(`${TAB_MENU_COMPLETED}/1`)}
+            onClick={() => history.push(`/item/itemCompleted/tabMenu/1`)}
           >
             <i className="fa fa-chevron-left fs-4" />
           </button>
@@ -62,7 +64,7 @@ export default function DetailICompleted() {
                 }}
               />
             </div>
-            <ul className="listview flush transparent simple-listview no-space mt-1">
+            <ul className="listView flush transparent simple-listView no-space mt-1">
               {_item &&
                 _item?.map((item) => (
                   <>

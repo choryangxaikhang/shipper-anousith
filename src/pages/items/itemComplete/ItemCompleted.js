@@ -32,7 +32,7 @@ export default function ItemCompleted() {
 
   useEffect(() => {
     fetchData({
-      variables: {
+      variables:{
         where: {
           shipper: userState?._id,
           trackingId: searchValue ? searchValue : undefined,
@@ -166,7 +166,7 @@ export default function ItemCompleted() {
           <div>ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueUSD || 0)} USD</div>
           <div>ຄ່າບໍລິການ: {currency(_deliveryPrice || 0)}</div>
           <hr className="m-1" />
-          <SumCommission startDate={startDateValue} endDate={endDateValue} />
+          <SumCommission startDate={startDateValue} endDate={endDateValue}/>
         </div>
       </div>
       <BottomNav />

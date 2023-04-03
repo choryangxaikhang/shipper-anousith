@@ -4,7 +4,7 @@ import { currency, getStaffLogin } from "../../../helper";
 import { useLazyQuery } from "@apollo/client";
 import { QUERY_COMMISSION } from "../../home/apollo";
 
-export default function SumCommission({ startDate, endDate }) {
+export default function ReportItemIn({ startDate, endDate }) {
   const [_item, setResult] = useState({});
   const userInfo = getStaffLogin();
 
