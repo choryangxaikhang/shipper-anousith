@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import {
-  currency,
   detectPhoneNumber,
   formatDateDash,
   getStaffLogin,
@@ -12,8 +11,6 @@ import BottomNav from "../../../layouts/BottomNav";
 import image from "../../../img/Nodata.png";
 import { useLazyQuery } from "@apollo/client";
 import { QUERY_LIST_ITEM } from "../apollo";
-import ReportItemIn from "./summarycommission";
-import _ from "lodash";
 import { query_item_shipper } from "./apollo";
 
 export default function ItemIn() {
@@ -23,15 +20,12 @@ export default function ItemIn() {
   const userState = getStaffLogin();
   const [startDateValue, setStartDateValue] = useState(toDayDash());
   const [endDateValue, setEndDateValue] = useState(new Date());
-  const [_items, setItems] = useState({});
   const [search, setSearch] = useState();
 
   const [fetchData, { data: result }] = useLazyQuery(QUERY_LIST_ITEM, {
     fetchPolicy: "cache-and-network",
   });
-  const [QueryItem, { data }] = useLazyQuery(query_item_shipper, {
-    fetchPolicy: "cache-and-network",
-  }); 
+
 
   useEffect(() => {
     fetchData({
@@ -48,39 +42,14 @@ export default function ItemIn() {
     });
   }, [searchValue, startDateValue, endDateValue, reloadData]);
 
-  console.log(searchValue);
-
   useEffect(() => {
     if (result) {
       setResult(result?.pickupOfItems?.data);
     }
   }, [result]);
 
-  useEffect(() => {
-    QueryItem({
-      variables: {
-        where: {
-          shipper: userState?._id,
-          trackingId: search ? search : undefined,
-          deliveryCompletedDateBetween: [startDateValue, endDateValue],
-          itemStatus: "COMPLETED",
-        },
-      },
-    });
-    setItems(data?.items?.data);
-  }, [search, startDateValue, endDateValue, reloadData,data]);
-
-  // useEffect(() => {
-  //   setItems(data?.items?.data);
-  // }, [data]);
-
   const total = result?.pickupOfItems?.total;
   const message = "ສະບາຍດີ";
-
-  const _itemValueKIP = _.sumBy(_items, "itemValueKIP");
-  const _itemValueTHB = _.sumBy(_items, "itemValueTHB");
-  const _itemValueUSD = _.sumBy(_items, "itemValueUSD");
-  const _deliveryPrice = _.sumBy(_items, "realDeliveryPrice");
 
   return (
     <>
@@ -129,13 +98,6 @@ export default function ItemIn() {
       </div>
       <div className="mt-2">
         <div className="section">
-          <h3 className="mt-2">ລາຍງານລວມ</h3>
-          <div>ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueKIP || 0)} KIP</div>
-          <div>ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueTHB || 0)} THB</div>
-          <div>ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueUSD || 0)} USD</div>
-          <div>ຄ່າບໍລິການ: {currency(_deliveryPrice || 0)}</div>
-          <hr className="mt-3" />
-          <ReportItemIn startDate={startDateValue} endDate={endDateValue}/>
           <hr className="mt-3" />
           <p className="title mt-1">ຈຳນວນ {total || 0} ລາຍການ</p>
           <div className="transactions ">

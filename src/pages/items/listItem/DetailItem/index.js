@@ -5,7 +5,12 @@ import Imglogo from "../../../../img/anousith.png";
 import { TAB_MENU_LIST } from "../../../../routes/app";
 import { useLazyQuery } from "@apollo/client";
 import { useEffect } from "react";
-import { chargeOnShop, formatDateTime, currency } from "../../../../helper";
+import {
+  chargeOnShop,
+  formatDateTime,
+  currency,
+  detectPhoneNumber,
+} from "../../../../helper";
 import { LIST_SHIPPER_ITEM } from "../../apollo";
 
 export default function DetailDataList() {
@@ -26,6 +31,8 @@ export default function DetailDataList() {
     });
     setResult(result?.items?.data);
   }, [result]);
+
+  const message = "ສະບາຍດີ";
 
   return (
     <>
@@ -92,8 +99,19 @@ export default function DetailDataList() {
                       </span>{" "}
                       |
                       <span>
-                        <i className="fas fa-phone" />{" "}
-                        {item?.customer?.contact_info || " "}
+                        <a
+                          className="text-link"
+                          target="_blank"
+                          href={`https://wa.me/${detectPhoneNumber(
+                            item?.customer?.contact_info
+                          )}?text=${message?.replace(
+                            /<br\s*[\/]?>/gi,
+                            " "
+                          )} trackingID:${item?.trackingId}`}
+                        >
+                          <i className="fas fa-phone" />{" "}
+                          {item?.customer?.contact_info || " "}
+                        </a>
                       </span>
                     </li>
                     <li>
@@ -103,8 +121,19 @@ export default function DetailDataList() {
                       </span>{" "}
                       |
                       <span>
-                        <i className="fas fa-phone" />{" "}
-                        {item?.receiverPhone || " "}
+                        <a
+                          className="text-link"
+                          target="_blank"
+                          href={`https://wa.me/${detectPhoneNumber(
+                            item?.receiverPhone
+                          )}?text=${message?.replace(
+                            /<br\s*[\/]?>/gi,
+                            " "
+                          )} trackingID:${item?.trackingId}`}
+                        >
+                          <i className="fas fa-phone" />{" "}
+                          {item?.receiverPhone || " "}
+                        </a>
                       </span>
                     </li>
                     <li>

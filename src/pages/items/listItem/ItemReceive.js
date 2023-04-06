@@ -85,9 +85,13 @@ export default function ItemPickupReceive() {
                 onChange={(e) => {
                   setValue(e.target.value);
                 }}
-                placeholder="tracking"
+                placeholder="customerID"
               />
             </div>
+
+
+            {/* <Summarycommission/> */}
+            {/* <h1>welcome to report order in</h1> */}
 
             <p className="title mt-1">ຈຳນວນ {total || 0} ລາຍການ</p>
           </div>
@@ -104,7 +108,7 @@ export default function ItemPickupReceive() {
                       <i className="fa-solid fa-cart-arrow-down fa-2x mr-1" />
                     </div>
                     <div>
-                      <strong>ID: {item?.customer?.id_list}</strong>
+                      <strong>ຈາກID: {item?.customer?.id_list}</strong>
                       <p>ຊື່: {item?.customer?.full_name}</p>
                       <p>
                         <a

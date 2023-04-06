@@ -25,7 +25,7 @@ import DetailDeduct from "./DetailAll/DetailDeduct";
 import DetailDiligent from "./DetailAll/DetailDiligent";
 import DetailOT from "./DetailAll/DetailOT";
 import DetailIBorrow from "./DetailAll/DetailBorow";
-import ReportCommission from "./ReportCommission";
+import EfficiencyCommission from "./Efficiency";
 
 export default function Commission_ShiPer() {
   const useInfo = getStaffLogin();
@@ -119,8 +119,8 @@ export default function Commission_ShiPer() {
     _sentCommission + _sentNearCommission + _sentFarCommission
   );
 
-  const totalCommission = _total >= (200 || 240) ? 100000 : 0;
-  const totalCommission1 = _total >= 250 ? 150000 : 0;
+  const totalCommission = _total >= (350 || 399) ? 100000 : 0;
+  const totalCommission1 = _total >= 400 ? 150000 : 0;
 
   const _totalCommission = parseInt(
     _receiveCommission + amountCommission + totalCommission + totalCommission1
@@ -328,18 +328,21 @@ export default function Commission_ShiPer() {
                       {_receive || 0} / {currency(_receiveCommission || 0)} ກີບ
                     </span>
                   </li>
-                  {_total >= 250 ? (
+                  {_total >= 400 ? (
                     <li>
-                      <strong>ເງິນເປົ້້າ</strong>
-                      <span> {totalCommission1} ກີບ</span>
+                      <strong>ເງິນເປົ້າ</strong>
+                      <span> {currency(totalCommission1)} ກີບ</span>
                     </li>
                   ) : (
                     <li>
-                      
-                      <strong>ເງິນປະສິດທິພາບ</strong>
-                      <span> <ReportCommission _startDate={startDate} _endDate={endDate} /> ກີບ</span>
+                      <strong>ເງິນເປົ້າ</strong>
+                      <span> {currency(totalCommission)} ກີບ</span>
                     </li>
                   )}
+                  <li>
+                    <strong>ເງິນປະສິດທິພາບ</strong>
+                    <EfficiencyCommission startDate={startDate} endDate={endDate}/>
+                  </li>
                   <li>
                     <strong>ຄ່າອາກອນ</strong>
                     <span>{currency(item?.taxIncome || 0)} ກີບ</span>

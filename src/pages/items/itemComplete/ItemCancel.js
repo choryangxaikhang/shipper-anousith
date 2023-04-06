@@ -19,7 +19,7 @@ export default function ItemCancel() {
   const [reloadData, setReloadData] = useState(false);
   const [startDateValue, setStartDateValue] = useState(toDayDash());
   const [endDateValue, setEndDateValue] = useState(new Date());
-  const [searchValue, setValue] = useState()
+  const [searchValue, setValue] = useState("")
   const [_item, setResult] = useState();
   const userState = getStaffLogin();
 
@@ -32,18 +32,28 @@ export default function ItemCancel() {
       variables: {
         where: {
           shipper: userState?._id,
-          trackingId: searchValue ? searchValue : undefined,
+          // trackingId: searchValue ? searchValue : undefined,
           dateBetween: [startDateValue, endDateValue],
         },
         orderBy: "DESC",
         limit: 0,
       },
     })
-  }, [searchValue, startDateValue, endDateValue, reloadData]);
+  }, [ startDateValue, endDateValue, reloadData]);
 
   useEffect(() => {
-    setResult(result?.itemDeliveryLogs?.data);
-  }, [result])
+    const _results = result?.itemDeliveryLogs?.data;
+    if (searchValue) {
+      const filter = _results?.filter((obj) => {
+        if (obj?.item?.trackingId?.includes(searchValue)) {
+          return obj;
+        }
+      });
+      setResult(filter);
+    } else {
+      setResult(_results);
+    }
+  }, [result, searchValue]);
 
   const total = result?.itemDeliveryLogs?.total;
   const message = "ສະບາຍດີ"
