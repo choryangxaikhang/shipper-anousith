@@ -161,10 +161,10 @@ export default function ItemCompleted() {
               ))}
           </div>
           <h3 className="mt-2">ລາຍງານລວມ</h3>
-          <div>ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueKIP || 0)} ​ KIP</div>
-          <div>ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueTHB || 0)} THB</div>
-          <div>ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueUSD || 0)} USD</div>
-          <div>ຄ່າບໍລິການ: {currency(_deliveryPrice || 0)}</div>
+          <div className="text-black">ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueKIP || 0)} ​ KIP</div>
+          <div className="text-black">ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueTHB || 0)} THB</div>
+          <div className="text-black">ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueUSD || 0)} USD</div>
+          <div className="text-black">ຄ່າບໍລິການ: {currency(_deliveryPrice || 0)}</div>
           <hr className="m-1" />
           <SumCommission startDate={startDateValue} endDate={endDateValue} />
         </div>
