@@ -89,6 +89,10 @@ export default function ItemPickupReceive() {
               />
             </div>
 
+
+            {/* <Summarycommission/> */}
+            {/* <h1>welcome to report order in</h1> */}
+
             <p className="title mt-1">ຈຳນວນ {total || 0} ລາຍການ</p>
           </div>
         </div>

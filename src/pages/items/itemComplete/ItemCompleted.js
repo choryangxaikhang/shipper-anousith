@@ -32,7 +32,7 @@ export default function ItemCompleted() {
 
   useEffect(() => {
     fetchData({
-      variables: {
+      variables:{
         where: {
           shipper: userState?._id,
           trackingId: searchValue ? searchValue : undefined,
@@ -99,7 +99,17 @@ export default function ItemCompleted() {
                 placeholder="tracking"
               />
             </div>
-            <p className="title mt-1">ຈຳນວນ {total || 0} ລາຍການ</p>
+            <h3 className="mt-2" style={{marginLeft:"20px"}}>ລາຍງານລວມ</h3>
+           <div style={{marginLeft:"20px",color:"black"}}>
+          <div>ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueKIP || 0)} ​ KIP</div>
+          <div>ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueTHB || 0)} THB</div>
+          <div>ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueUSD || 0)} USD</div>
+          <div>ຄ່າບໍລິການ: {currency(_deliveryPrice || 0)}</div>
+          <hr className="m-1" />
+          <SumCommission startDate={startDateValue} endDate={endDateValue}/>
+          <hr className="m-1" />
+            <p className="title mt-1 text-dark">ຈຳນວນ {total || 0} ລາຍການ</p>
+            </div>
           </div>
         </div>
       </div>

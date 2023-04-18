@@ -11,6 +11,7 @@ import BottomNav from "../../../layouts/BottomNav";
 import image from "../../../img/Nodata.png";
 import { useLazyQuery } from "@apollo/client";
 import { QUERY_LIST_ITEM } from "../apollo";
+import { query_item_shipper } from "./apollo";
 
 export default function ItemIn() {
   const [reloadData, setReloadData] = useState(false);
@@ -19,10 +20,12 @@ export default function ItemIn() {
   const userState = getStaffLogin();
   const [startDateValue, setStartDateValue] = useState(toDayDash());
   const [endDateValue, setEndDateValue] = useState(new Date());
+  const [search, setSearch] = useState();
 
   const [fetchData, { data: result }] = useLazyQuery(QUERY_LIST_ITEM, {
     fetchPolicy: "cache-and-network",
   });
+
 
   useEffect(() => {
     fetchData({
@@ -90,16 +93,17 @@ export default function ItemIn() {
                 placeholder="ID..."
               />
             </div>
-            <p className="title mt-1">ຈຳນວນ {total || 0} ລາຍການ</p>
           </div>
         </div>
       </div>
       <div className="mt-2">
         <div className="section">
+          <hr className="mt-3" />
+          <p className="title mt-1">ຈຳນວນ {total || 0} ລາຍການ</p>
           <div className="transactions ">
             {_item &&
-              _item?.map((item) => (
-                <a href="#" className="item">
+              _item?.map((item, index) => (
+                <a href="#" className="item" key={index}>
                   <div className="detail">
                     <div className="align-top">
                       <i className="fa-solid fa-cart-arrow-down fa-2x mr-1" />
@@ -107,6 +111,9 @@ export default function ItemIn() {
                     <div>
                       <strong>ID: {item?.customer?.id_list}</strong>
                       <p>ຊື່: {item?.customer?.full_name}</p>
+                      <p>ແຂວງ: {item?.provinceToPickup?.title}</p>
+                      <p>ເມືອງ:{item?.districtToPickup?.title}</p>
+                      <p>ບ້ານ:{item?.villageToPickup?.title}</p>
                       <p>
                         <a
                           className="text-link"

@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import { currency, getStaffLogin } from "../../../helper";
-import BottomNav from "../../../layouts/BottomNav";
 import { useLazyQuery } from "@apollo/client";
 import { QUERY_COMMISSION } from "../../home/apollo";
 

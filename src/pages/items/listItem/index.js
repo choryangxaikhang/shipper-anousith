@@ -7,12 +7,15 @@ import {
   ItemStatus,
   startMonth,
   getStaffLogin,
+  currency,
 } from "../../../helper";
 import BottomNav from "../../../layouts/BottomNav";
 import whatsapp from "../../../icon/whatsapp.svg";
 import { useLazyQuery } from "@apollo/client";
 import { LIST_SHIPPER_ITEM } from "../apollo";
 import { DETAIL_DATA_LIST } from "../../../routes/app";
+import _ from "lodash";
+import SumCommission from "../itemComplete/SumCommission";
 
 export default function ItemCompleted() {
   const { history } = useReactRouter();
@@ -47,6 +50,11 @@ export default function ItemCompleted() {
 
   const total = result?.items?.total;
   const message = "ສະບາຍດີ";
+
+  const _itemValueKIP = _.sumBy(_item, "itemValueKIP");
+  const _itemValueTHB = _.sumBy(_item, "itemValueTHB");
+  const _itemValueUSD = _.sumBy(_item, "itemValueUSD");
+  const _deliveryPrice = _.sumBy(_item, "realDeliveryPrice");
 
   return (
     <>
@@ -90,7 +98,17 @@ export default function ItemCompleted() {
                 placeholder="tracking"
               />
             </div>
-            <p className="title mt-1">ຈຳນວນ {total || 0} ລາຍການ</p>
+            <div style={{marginLeft:"35px",color:"black"}}>
+            <h3 className="mt-2">ລາຍງານລວມ</h3>
+          <div>ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueKIP || 0)} ​ KIP</div>
+          <div>ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueTHB || 0)} THB</div>
+          <div>ເງິນເກັບໄດ້ຈິງ: {currency(_itemValueUSD || 0)} USD</div>
+          <div>ຄ່າບໍລິການ: {currency(_deliveryPrice || 0)}</div>
+          <hr />
+          <SumCommission startDate={startDateValue} endDate={endDateValue}/>
+          </div>
+          <hr style={{marginLeft:"35px"}}/>
+            <p className="title mt-1" style={{marginLeft:"35px"}}>ຈຳນວນ {total || 0} ລາຍການ</p>
           </div>
         </div>
       </div>

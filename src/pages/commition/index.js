@@ -400,7 +400,7 @@ export default function Commission_ShiPer() {
               ))}
           </div>
         </div>
-        <BottomNav />
+        <BottomNav/>
       </div>
       <DetailIBonusMoney _id={detailIBonus} onHide={() => setDetailIBonus()} />
       <DetailExtraIncome

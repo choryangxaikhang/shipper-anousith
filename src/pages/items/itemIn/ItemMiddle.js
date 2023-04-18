@@ -36,7 +36,10 @@ export default function ItemMiddles() {
         limit: 0,
       },
     });
+   
   }, [reloadData, startDateValue, searchValue, endDateValue]);
+
+  console.log(userState);
 
   useEffect(() => {
     if (result) {
@@ -46,6 +49,7 @@ export default function ItemMiddles() {
 
   const total = result?.pickupOfItems?.total;
   const message = "ສະບາຍດີ";
+
 
   return (
     <>
@@ -101,8 +105,8 @@ export default function ItemMiddles() {
         <div className="section">
           <div className="transactions ">
             {_item &&
-              _item?.map((item) => (
-                <a href="#" className="item">
+              _item?.map((item,index) => (
+                <a href="#" className="item" key={index}>
                   <div className="detail">
                     <div className="align-top">
                       <i className="fa-solid fa-cart-arrow-down fa-2x mr-1" />
@@ -111,6 +115,9 @@ export default function ItemMiddles() {
                     <div>
                       <strong>ID: {item?.customer?.id_list}</strong>
                       <p>ຊື່: {item?.customer?.full_name}</p>
+                      <p>ແຂວງ: {item?.provinceToPickup?.title}</p>
+                      <p>ເມືອງ:{item?.districtToPickup?.title}</p>
+                      <p>ບ້ານ:{item?.villageToPickup?.title}</p>
                       <p>
                         <a
                           className="text-link"
@@ -130,9 +137,11 @@ export default function ItemMiddles() {
                           ? formatDateDash(item?.canceledDate)
                           : "--"}
                       </p>
+                      
                       <>
                         <small>{ShipperStatus(item?.status)}</small>
                       </>
+                      
                     </div>
                   </div>
                   <div className="right border">
